@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace Designer_Offer.ViewModels.Base
 {
-    internal abstract class ViewModel : INotifyPropertyChanged
+    internal abstract class ViewModel : INotifyPropertyChanged, IDisposable
     {
+        private bool _Disposed;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string PropertyName = null)
@@ -23,6 +25,23 @@ namespace Designer_Offer.ViewModels.Base
             field = value;
             OnPropertyChanged(PropertyName);
             return true;
+        }
+
+        //~ViewModel()
+        //{
+        //    Dispose(false);
+        //}
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        protected virtual void Dispose(bool Disposing)
+        {
+            if (!Disposing || _Disposed) return;
+            _Disposed = true;
+            // Освобождение управляемых ресурсов
         }
     }
 }
