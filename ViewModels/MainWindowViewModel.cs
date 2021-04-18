@@ -10,7 +10,7 @@ namespace Designer_Offer.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
-        private string _Title = "Designer Offer";
+        private string _Title = "Конструктор КП";
         /// <summary>
         /// Заголовок Окна
         /// </summary>

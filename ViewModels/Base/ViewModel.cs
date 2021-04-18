@@ -11,16 +11,9 @@ namespace Designer_Offer.ViewModels.Base
 {
     internal abstract class ViewModel : INotifyPropertyChanged, IDisposable
     {
-        protected static readonly PrimeContext ContextDb;
-
         private bool _Disposed;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        static ViewModel()
-        {
-            ContextDb = new PrimeContext();
-        }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string PropertyName = null)
         {
