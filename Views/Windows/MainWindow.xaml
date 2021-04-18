@@ -20,7 +20,60 @@
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
+    <Window.Resources>
+        <Image x:Key="Logo" Source="/Resources/logo.png"/>
+        <Style TargetType="Polyline">
+            <Setter Property="Stroke" Value="Gray"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="StrokeDashArray" Value="4 6"/>
+        </Style>
+        <Style TargetType="Frame">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Width" Value="276"/>
+            <Setter Property="Height" Value="436"/>
+        </Style>
+        <Style TargetType="StatusBar">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Width" Value="594"/>
+        </Style>
+        <Style TargetType="ProgressBar" BasedOn="{StaticResource MaterialDesignLinearProgressBar}">
+            <Setter Property="Background" Value="#FF436EB1"/>
+            <Setter Property="Foreground" Value="#FF2D4E81"/>
+            <Setter Property="BorderBrush" Value="#FFABACAC"/>
+            <Setter Property="Margin" Value="0,0,15,0"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="5"/>
+        </Style>
+    </Window.Resources>
     <Grid>
-       
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Image x:Name="ImageLogo" 
+               Grid.Column="0"       
+               Source="{Binding Source, Source={StaticResource Logo}}" 
+               Opacity="0.85" 
+               Height="230" 
+               Width="230" 
+               Margin="23,70,23,150"/>
+        <Polyline Grid.Column="1" 
+                  Points="0, 5, 0, 435"/>
+        <Frame x:Name="PageFrame" 
+               Grid.Column="1"  
+               Margin="10,10,0,0"  
+               NavigationUIVisibility="Hidden" />
+        <StatusBar x:Name="Status" 
+                   Grid.ColumnSpan="2" Width="594">
+            <StatusBarItem Width="Auto">
+                <TextBlock Text="{Binding Path=Status}"/>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right">
+                <ProgressBar Value="30"/>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>

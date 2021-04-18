@@ -1,4 +1,5 @@
 ﻿using Designer_Offer.ViewModels.Base;
+using Designer_Offer.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace Designer_Offer.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
-        #region Заголовок окна
         private string _Title = "Designer Offer";
+        private string _Status = "Готов!";
 
         /// <summary>
         /// Заголовок Окна
@@ -18,9 +19,13 @@ namespace Designer_Offer.ViewModels
         public string Title
         {
             get => _Title;
-
             set => Set(ref _Title, value);
         }
-        #endregion
+
+        public string Status
+        {
+            get => _Status;
+            set => Set(ref _Status, value);
+        }
     }
 }
