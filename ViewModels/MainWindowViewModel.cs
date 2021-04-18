@@ -11,16 +11,6 @@ namespace Designer_Offer.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
-        private static Login _LoginPage = null;
-        /// <summary>
-        /// Страница Логина
-        /// </summary>
-        public Login LoginPage
-        {
-            get => _LoginPage;
-            set => Set(ref _LoginPage, value);
-        }
-
         private string _Title = "Designer Offer";
         /// <summary>
         /// Заголовок Окна
@@ -41,9 +31,30 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Status, value);
         }
 
+        private static Page _Page;
+        /// <summary>
+        /// Любая страница для Frame
+        /// </summary>
+        public Page Page
+        {
+            get => _Page;
+            set => Set(ref _Page, value);
+        }
+
+        private static Login _LoginPage = null;
+        /// <summary>
+        /// Страница Логина
+        /// </summary>
+        public Login LoginPage
+        {
+            get => _LoginPage;
+            set => Set(ref _LoginPage, value);
+        }
+
         public MainWindowViewModel()
         {
-            _LoginPage = new Login();
+            LoginPage = new Login();
+            Page = LoginPage;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Designer_Offer.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,7 @@ namespace Designer_Offer.Views.Pages
         public Login()
         {
             InitializeComponent();
+            //LoginViewModel.PasswordHandler = () => PasswordBox.Password;
         }
     }
 }

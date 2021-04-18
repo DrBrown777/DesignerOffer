@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Designer_Offer.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace Designer_Offer.ViewModels.Base
 {
     internal abstract class ViewModel : INotifyPropertyChanged, IDisposable
     {
+        protected static PrimeContext contextDB;
+
         private bool _Disposed;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -25,6 +28,11 @@ namespace Designer_Offer.ViewModels.Base
             field = value;
             OnPropertyChanged(PropertyName);
             return true;
+        }
+
+        static ViewModel()
+        {
+            contextDB = new PrimeContext();
         }
 
         //~ViewModel()

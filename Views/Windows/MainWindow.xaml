@@ -53,21 +53,27 @@
             <ColumnDefinition/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Image x:Name="ImageLogo" 
-               Grid.Column="0"       
-               Source="{Binding Source, Source={StaticResource Logo}}" 
-               Opacity="0.85" 
-               Height="230" 
-               Width="230" 
-               Margin="23,70,23,150"/>
-        <Polyline Grid.Column="1" 
-                  Points="0, 5, 0, 435"/>
-        <Frame x:Name="PageFrame" Content="{Binding Path=LoginPage}"
-               Grid.Column="1"  
-               Margin="10,10,0,0"  
-               NavigationUIVisibility="Hidden" />
-        <StatusBar x:Name="Status" 
-                   Grid.ColumnSpan="2" Width="594">
+        <Image 
+            x:Name="ImageLogo" 
+            Grid.Column="0"       
+            Source="{Binding Source, Source={StaticResource Logo}}" 
+            Opacity="0.85" 
+            Height="230" 
+            Width="230" 
+            Margin="23,70,23,150"/>
+        <Polyline 
+            Grid.Column="1" 
+            Points="0, 5, 0, 435"/>
+        <Frame 
+            x:Name="PageFrame" 
+            Content="{Binding Path=Page}"
+            Grid.Column="1"  
+            Margin="10,10,0,0"  
+            NavigationUIVisibility="Hidden" />
+        <StatusBar 
+            x:Name="Status" 
+            Grid.ColumnSpan="2" 
+            Width="594">
             <StatusBarItem Width="Auto">
                 <TextBlock Text="{Binding Path=Status}"/>
             </StatusBarItem>
