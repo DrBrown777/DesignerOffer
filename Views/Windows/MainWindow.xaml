@@ -62,7 +62,7 @@
                Margin="23,70,23,150"/>
         <Polyline Grid.Column="1" 
                   Points="0, 5, 0, 435"/>
-        <Frame x:Name="PageFrame" 
+        <Frame x:Name="PageFrame" Content="{Binding Path=LoginPage}"
                Grid.Column="1"  
                Margin="10,10,0,0"  
                NavigationUIVisibility="Hidden" />
