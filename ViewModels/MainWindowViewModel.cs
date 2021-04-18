@@ -11,8 +11,6 @@ namespace Designer_Offer.ViewModels
     internal class MainWindowViewModel : ViewModel
     {
         private string _Title = "Designer Offer";
-        private string _Status = "Готов!";
-
         /// <summary>
         /// Заголовок Окна
         /// </summary>
@@ -22,6 +20,10 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Title, value);
         }
 
+        private string _Status = "Для входа в систему введите Логин и Пароль";
+        /// <summary>
+        /// Статус программы
+        /// </summary>
         public string Status
         {
             get => _Status;
