@@ -72,7 +72,7 @@
         <TextBox 
             Style="{Binding Source={StaticResource TextBox}}" 
             x:Name="LoginBox"
-            Text="{Binding Path=Login}"
+            Text="{Binding Path=Login, UpdateSourceTrigger=PropertyChanged}"
             materialDesign:HintAssist.Hint="Логин"
             materialDesign:HintAssist.HelperText="введите логин"
             Grid.Column="1" 
@@ -118,7 +118,7 @@
             Margin="10,104,0,0"/>
         <ComboBox 
             Style="{Binding Source={StaticResource ComboBox}}"
-            ItemsSource="{Binding Path=Companies}" 
+            ItemsSource="{Binding Path=Companies, UpdateSourceTrigger=PropertyChanged}" 
             SelectedValuePath="Id"
             DisplayMemberPath="Name"
             x:Name="CompanyBox"
