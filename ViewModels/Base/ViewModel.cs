@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using Designer_Offer.Data;
 
 namespace Designer_Offer.ViewModels.Base
 {

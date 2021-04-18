@@ -1,5 +1,4 @@
 ﻿using Designer_Offer.ViewModels.Base;
-using Designer_Offer.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +9,7 @@ namespace Designer_Offer.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
-        private string _Title = "Конструктор КП";
+        private string _Title = "Designer Offer";
         /// <summary>
         /// Заголовок Окна
         /// </summary>

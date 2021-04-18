@@ -103,6 +103,7 @@
     <Compile Include="Data\Unit.cs" />
     <Compile Include="Data\UserData.cs" />
     <Compile Include="Infrastructure\Commands\Base\Command.cs" />
+    <Compile Include="Infrastructure\Commands\LambdaCommand.cs" />
     <Compile Include="ViewModels\Base\ViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\Windows\MainWindow.xaml.cs">
