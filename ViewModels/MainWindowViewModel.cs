@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Designer_Offer.ViewModels
 {
@@ -31,15 +32,15 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Status, value);
         }
 
-        private static Page _Page;
-        /// <summary>
-        /// Любая страница для Frame
-        /// </summary>
-        public Page Page
-        {
-            get => _Page;
-            set => Set(ref _Page, value);
-        }
+        //private Page _Page;
+        ///// <summary>
+        ///// Любая страница для Frame
+        ///// </summary>
+        //public Page Page
+        //{
+        //    get => _Page;
+        //    set => Set(ref _Page, value);
+        //}
 
         private static Login _LoginPage = null;
         /// <summary>

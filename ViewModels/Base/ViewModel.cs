@@ -6,12 +6,15 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Designer_Offer.ViewModels.Base
 {
     internal abstract class ViewModel : INotifyPropertyChanged, IDisposable
     {
         protected static PrimeContext contextDB;
+
+        public static Page Page { get; set; }
 
         private bool _Disposed;
 

@@ -1,10 +1,13 @@
 ﻿using Designer_Offer.Data;
+using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Designer_Offer.ViewModels
 {
@@ -52,9 +55,19 @@ namespace Designer_Offer.ViewModels
 
         //public static Func<string> PasswordHandler { get; set; }
 
+        public ICommand Command { get; }
+
+        private void OnCommandExecuted(object p)
+        {
+            Page.Content = null;
+        }
+
+        private bool CanOnCommandExecute(object p) => true;
+
         public LoginViewModel()
         {
             Companies = contextDB.Company.ToList();
+            Command = new LambdaCommand(OnCommandExecuted, CanOnCommandExecute);
         }
 
     }

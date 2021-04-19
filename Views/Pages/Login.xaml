@@ -101,6 +101,7 @@
             Margin="45,212,0,0"/>
         <Button 
             Style="{Binding Source={StaticResource Button}}"
+            Command="{Binding Path=Command}"
             x:Name="ButtonRegistration" 
             Content="Регистрация" 
             Grid.Column="1" 
