@@ -1,4 +1,5 @@
-﻿using Designer_Offer.ViewModels.Base;
+﻿using Designer_Offer.Infrastructure.Commands;
+using Designer_Offer.ViewModels.Base;
 using Designer_Offer.Views.Pages;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,13 @@ namespace Designer_Offer.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
+        //private static ViewModel _ViewModel;
+
+        public static ViewModel ViewModel 
+        {
+            get; set;
+        }
+
         private string _Title = "Designer Offer";
         /// <summary>
         /// Заголовок Окна
@@ -52,10 +60,20 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _LoginPage, value);
         }
 
+        public ICommand DisplayLoginView
+        {
+            get
+            {
+                return new LambdaCommand(action => ViewModel = new LoginViewModel(),
+                canExecute => true);
+            }
+        }
+
         public MainWindowViewModel()
         {
-            LoginPage = new Login();
-            Page = LoginPage;
+            //LoginPage = new Login();
+            //Page = LoginPage;
+            ViewModel = new LoginViewModel();
         }
     }
 }

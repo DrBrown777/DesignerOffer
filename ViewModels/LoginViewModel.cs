@@ -53,16 +53,26 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Login, value);
         }
 
+
         //public static Func<string> PasswordHandler { get; set; }
 
         public ICommand Command { get; }
 
         private void OnCommandExecuted(object p)
         {
-            Page.Content = null;
+            
         }
 
         private bool CanOnCommandExecute(object p) => true;
+
+        public ICommand DisplayLoginView
+        {
+            get
+            {
+                return new LambdaCommand(action => MainWindowViewModel.ViewModel = new LoginViewModel(),
+                canExecute => true);
+            }
+        }
 
         public LoginViewModel()
         {
