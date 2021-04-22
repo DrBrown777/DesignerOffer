@@ -1,5 +1,4 @@
-﻿using Designer_Offer.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,9 +15,9 @@ using System.Windows.Shapes;
 
 namespace Designer_Offer.Views.Pages
 {
-    public partial class Login : Page
+    public partial class Registration : Page
     {
-        public Login()
+        public Registration()
         {
             InitializeComponent();
         }

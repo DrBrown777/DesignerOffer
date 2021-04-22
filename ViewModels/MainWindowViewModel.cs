@@ -13,12 +13,7 @@ namespace Designer_Offer.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
-        //private static ViewModel _ViewModel;
-
-        public static ViewModel ViewModel 
-        {
-            get; set;
-        }
+        public static ViewModel ViewModel { get; set; }
 
         private string _Title = "Designer Offer";
         /// <summary>

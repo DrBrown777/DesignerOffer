@@ -1,0 +1,166 @@
+﻿<Page x:Class="Designer_Offer.Views.Pages.Registration"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:local="clr-namespace:Designer_Offer.Views.Pages"
+      xmlns:vm="clr-namespace:Designer_Offer.ViewModels"
+      mc:Ignorable="d" 
+      d:DesignHeight="436" d:DesignWidth="276"
+      Title="{Binding Path=Title}"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextElement.FontWeight="Regular"
+      TextElement.FontSize="12"
+      TextOptions.TextFormattingMode="Ideal" 
+      TextOptions.TextRenderingMode="Auto"
+      Background="#FFFAFAFA"
+      FontFamily="{DynamicResource MaterialDesignFont}">
+    <Page.DataContext>
+        <vm:RegistrationViewModel/>
+    </Page.DataContext>
+    <Page.Resources>
+        <Style x:Key="ComboBox" TargetType="ComboBox" 
+               BasedOn="{StaticResource MaterialDesignComboBox}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Width" Value="205"/>
+        </Style>
+        <Style x:Key="TextBox" TargetType="TextBox" 
+               BasedOn="{StaticResource MaterialDesignTextBox}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="205"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+        <Style x:Key="PasswordBox" TargetType="PasswordBox" 
+               BasedOn="{StaticResource MaterialDesignPasswordBox}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="205"/>
+        </Style>
+        <Style TargetType="materialDesign:PackIcon">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Foreground" Value="#FF2A73B4"/>
+            <Setter Property="Margin" Value="7"/>
+        </Style>
+        <Style TargetType="WrapPanel">
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style x:Key="Button" TargetType="Button" 
+               BasedOn="{StaticResource MaterialDesignFlatMidBgButton}">
+            <Setter Property="Background" Value="#FF2A73B4"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#FF2A73B4"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Width" Value="90"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontFamily" Value="Arial Narrow"/>
+            <Setter Property="Margin" Value="20"/>
+        </Style>
+    </Page.Resources>
+    <StackPanel>
+        <WrapPanel>
+            <materialDesign:PackIcon 
+                Kind="Account" 
+                x:Name="IconAccount"/>
+            <TextBox 
+                Style="{Binding Source={StaticResource TextBox}}" 
+                x:Name="Login"
+                materialDesign:HintAssist.Hint="Логин"
+                materialDesign:HintAssist.HelperText="введите логин"/>
+        </WrapPanel>
+        <WrapPanel>
+            <materialDesign:PackIcon 
+                Kind="Key" 
+                x:Name="IconPass"/>
+            <PasswordBox 
+                Style="{Binding Source={StaticResource PasswordBox}}" 
+                x:Name="Password" 
+                materialDesign:HintAssist.Hint="Пароль"
+                materialDesign:HintAssist.HelperText="введите пароль"/>
+        </WrapPanel>
+        <WrapPanel>
+            <materialDesign:PackIcon 
+                Kind="CardAccountDetailsOutline" 
+                x:Name="IconName"/>
+            <TextBox 
+                Style="{Binding Source={StaticResource TextBox}}" 
+                x:Name="Name" 
+                materialDesign:HintAssist.Hint="Имя"
+                materialDesign:HintAssist.HelperText="введите имя"/>
+        </WrapPanel>
+        <WrapPanel>
+            <materialDesign:PackIcon 
+                Kind="CardAccountDetails" 
+                x:Name="IconSurName"/>
+            <TextBox 
+                Style="{Binding Source={StaticResource TextBox}}" 
+                x:Name="Surname" 
+                materialDesign:HintAssist.Hint="Фамилия"
+                materialDesign:HintAssist.HelperText="введите фамилию"/>
+        </WrapPanel>
+        <WrapPanel>
+            <materialDesign:PackIcon 
+                Kind="Email" 
+                x:Name="IconEmail"/>
+            <TextBox 
+                Style="{Binding Source={StaticResource TextBox}}" 
+                x:Name="Email" 
+                materialDesign:HintAssist.Hint="Email"
+                materialDesign:HintAssist.HelperText="введите e-mail"/>
+        </WrapPanel>
+        <WrapPanel>
+            <materialDesign:PackIcon 
+                Kind="Phone" 
+                x:Name="IconPhone"/>
+            <TextBox 
+                Style="{Binding Source={StaticResource TextBox}}" 
+                x:Name="Phone" 
+                materialDesign:HintAssist.Hint="+38"
+                materialDesign:HintAssist.HelperText="введите телефон"/>
+        </WrapPanel>
+        <WrapPanel>
+            <materialDesign:PackIcon 
+                Kind="Domain" 
+                x:Name="IconDomain"/>
+            <ComboBox 
+                Style="{Binding Source={StaticResource ComboBox}}"
+                x:Name="Company"
+                materialDesign:HintAssist.Hint="Выберите компанию"
+                materialDesign:HintAssist.HelperText="подразделение"
+                IsSynchronizedWithCurrentItem="True"
+                SelectedIndex="1"/>
+        </WrapPanel>
+        <WrapPanel>
+            <materialDesign:PackIcon 
+                Kind="AccountHardHat" 
+                x:Name="IconPosition"/>
+            <ComboBox 
+                Style="{Binding Source={StaticResource ComboBox}}"
+                x:Name="Position"
+                materialDesign:HintAssist.Hint="Выберите должность"
+                materialDesign:HintAssist.HelperText="специальность"
+                IsSynchronizedWithCurrentItem="True"
+                SelectedIndex="0"/>
+        </WrapPanel>
+        <WrapPanel>
+            <Button 
+                Style="{Binding Source={StaticResource Button}}" 
+                x:Name="ButtonCancel" 
+                Content="Назад"/>
+            <Button 
+                Style="{Binding Source={StaticResource Button}}" 
+                x:Name="ButtonRegistration" 
+                Content="Регистрация"/>
+        </WrapPanel>
+    </StackPanel>
+</Page>

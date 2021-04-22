@@ -69,7 +69,7 @@ namespace Designer_Offer.ViewModels
         {
             get
             {
-                return new LambdaCommand(action => MainWindowViewModel.ViewModel = new LoginViewModel(),
+                return new LambdaCommand(action => MainWindowViewModel.ViewModel = new RegistrationViewModel(),
                 canExecute => true);
             }
         }
