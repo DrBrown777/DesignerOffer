@@ -1,9 +1,5 @@
 ﻿using Designer_Offer.ViewModels.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Designer_Offer.ViewModels
 {
@@ -17,6 +13,15 @@ namespace Designer_Offer.ViewModels
         {
             get => _Title;
             set => Set(ref _Title, value);
+        }
+        /// <summary>
+        /// Команда загрузки страницы Логина
+        /// </summary>
+        public ICommand LoadLoginPage { get; }
+
+        public RegistrationViewModel(ICommand loadlogin)
+        {
+            LoadLoginPage = loadlogin;
         }
     }
 }

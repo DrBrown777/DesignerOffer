@@ -4,8 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-      xmlns:local="clr-namespace:Designer_Offer.Views.Pages"
-      xmlns:vm="clr-namespace:Designer_Offer.ViewModels"
+      xmlns:vm="clr-namespace:Designer_Offer.ViewModels" 
+      d:DataContext="{d:DesignInstance Type=vm:RegistrationViewModel}"
       mc:Ignorable="d" 
       d:DesignHeight="436" d:DesignWidth="276"
       Title="{Binding Path=Title}"
@@ -16,15 +16,16 @@
       TextOptions.TextRenderingMode="Auto"
       Background="#FFFAFAFA"
       FontFamily="{DynamicResource MaterialDesignFont}">
-    <Page.DataContext>
+    <!--<Page.DataContext>
         <vm:RegistrationViewModel/>
-    </Page.DataContext>
+    </Page.DataContext>-->
     <Page.Resources>
         <Style x:Key="ComboBox" TargetType="ComboBox" 
                BasedOn="{StaticResource MaterialDesignComboBox}">
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="Width" Value="205"/>
+            <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="#FF436EB1"/>
         </Style>
         <Style x:Key="TextBox" TargetType="TextBox" 
                BasedOn="{StaticResource MaterialDesignTextBox}">
@@ -33,6 +34,7 @@
             <Setter Property="Height" Value="25"/>
             <Setter Property="Width" Value="205"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="#FF436EB1"/>
         </Style>
         <Style x:Key="PasswordBox" TargetType="PasswordBox" 
                BasedOn="{StaticResource MaterialDesignPasswordBox}">
@@ -40,6 +42,7 @@
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="Height" Value="25"/>
             <Setter Property="Width" Value="205"/>
+            <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="#FF436EB1"/>
         </Style>
         <Style TargetType="materialDesign:PackIcon">
             <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -155,7 +158,8 @@
         <WrapPanel>
             <Button 
                 Style="{Binding Source={StaticResource Button}}" 
-                x:Name="ButtonCancel" 
+                x:Name="ButtonCancel"
+                Command="{Binding Path=LoadLoginPage}"
                 Content="Назад"/>
             <Button 
                 Style="{Binding Source={StaticResource Button}}" 

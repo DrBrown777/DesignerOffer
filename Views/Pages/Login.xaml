@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:vm="clr-namespace:Designer_Offer.ViewModels"
-      xmlns:local="clr-namespace:Designer_Offer.Views.Pages"
+      d:DataContext="{d:DesignInstance Type=vm:LoginViewModel}"
       mc:Ignorable="d" 
       d:DesignHeight="436" d:DesignWidth="276"
       Title="{Binding Path=Title}"
@@ -16,9 +16,9 @@
       TextOptions.TextRenderingMode="Auto"
       Background="{DynamicResource MaterialDesignPaper}"
       FontFamily="{DynamicResource MaterialDesignFont}">
-    <Page.DataContext>
-        <vm:LoginViewModel/>
-    </Page.DataContext>
+    <!--<Page.DataContext>
+        <vm:LoginViewModel />
+    </Page.DataContext>-->
     <Page.Resources>
         <!--<local:UserData x:Key="dataUser"/>-->
         <Style x:Key="TextBox" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
@@ -101,11 +101,11 @@
             Margin="45,212,0,0"/>
         <Button 
             Style="{Binding Source={StaticResource Button}}"
-            Command="{Binding Path=DisplayLoginView}"
-            x:Name="ButtonRegistration" 
+            x:Name="ButtonRegistration"
+            Command="{Binding Path=LoadRegistarationPage}"
             Content="Регистрация" 
             Grid.Column="1" 
-             Margin="25,300,0,0"/>
+            Margin="25,300,0,0"/>
         <Button 
             Style="{Binding Source={StaticResource Button}}"
             x:Name="ButtonLogin" 

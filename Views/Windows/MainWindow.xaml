@@ -3,9 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:vm="clr-namespace:Designer_Offer.ViewModels"
-        xmlns:local="clr-namespace:Designer_Offer"
         mc:Ignorable="d"
         Title="{Binding Path=Title}" 
         Height="500" Width="600"
@@ -66,7 +64,7 @@
             Points="0, 5, 0, 435"/>
         <Frame 
             x:Name="PageFrame" 
-            Content="{Binding Path=ViewModel, UpdateSourceTrigger=PropertyChanged}"
+            Content="{Binding Path=AnyViewModel, UpdateSourceTrigger=PropertyChanged}"
             Grid.Column="1"  
             Margin="10,10,0,0"  
             NavigationUIVisibility="Hidden" />
@@ -82,4 +80,5 @@
             </StatusBarItem>
         </StatusBar>
     </Grid>
+    
 </Window>

@@ -1,19 +1,30 @@
 ﻿using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.ViewModels.Base;
-using Designer_Offer.Views.Pages;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Designer_Offer.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
-        public static ViewModel ViewModel { get; set; }
+        /// <summary>
+        /// ViewModel страницы Логина
+        /// </summary>
+        private readonly ViewModel LoginPage;
+
+        /// <summary>
+        /// ViewModel страницы Регистрации
+        /// </summary>
+        private readonly ViewModel RegistrationPage;
+
+        private ViewModel _AnyViewModel;
+        /// <summary>
+        /// Любая страница во Frame
+        /// </summary>
+        public ViewModel AnyViewModel
+        {
+            get => _AnyViewModel;
+            set => Set(ref _AnyViewModel, value);
+        }
 
         private string _Title = "Designer Offer";
         /// <summary>
@@ -35,40 +46,45 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Status, value);
         }
 
-        //private Page _Page;
-        ///// <summary>
-        ///// Любая страница для Frame
-        ///// </summary>
-        //public Page Page
-        //{
-        //    get => _Page;
-        //    set => Set(ref _Page, value);
-        //}
-
-        private static Login _LoginPage = null;
         /// <summary>
-        /// Страница Логина
+        /// Команда загрузки страницы Логина
         /// </summary>
-        public Login LoginPage
+        public ICommand LoadLoginPage { get; }
+
+        private void OnLoadLoginPage(object p) => AnyViewModel = LoginPage;
+
+        private bool CanLoadLoginPage(object p)
         {
-            get => _LoginPage;
-            set => Set(ref _LoginPage, value);
+            if (LoginPage != null || AnyViewModel != null)
+                return true;
+            else
+                return false;
         }
 
-        public ICommand DisplayLoginView
+        /// <summary>
+        /// Команда загрузки страницы Регистрации
+        /// </summary>
+        public ICommand LoadRegistarationPage { get; }
+
+        private void OnLoadRegistarationPage(object p) => AnyViewModel = RegistrationPage;
+
+        private bool CanLoadRegistarationPage(object p)
         {
-            get
-            {
-                return new LambdaCommand(action => ViewModel = new LoginViewModel(),
-                canExecute => true);
-            }
+            if (RegistrationPage != null || AnyViewModel != null)
+                return true;
+            else
+                return false;
         }
 
         public MainWindowViewModel()
         {
-            //LoginPage = new Login();
-            //Page = LoginPage;
-            ViewModel = new LoginViewModel();
+            LoadLoginPage = new LambdaCommand(OnLoadLoginPage, CanLoadLoginPage);
+            LoadRegistarationPage = new LambdaCommand(OnLoadRegistarationPage, CanLoadRegistarationPage);
+
+            LoginPage = new LoginViewModel(LoadRegistarationPage);
+            RegistrationPage = new RegistrationViewModel(LoadLoginPage);
+
+            AnyViewModel = LoginPage;
         }
     }
 }
