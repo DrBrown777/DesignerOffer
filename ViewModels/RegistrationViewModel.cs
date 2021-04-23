@@ -1,5 +1,7 @@
 ﻿using Designer_Offer.Data;
+using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.ViewModels.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
@@ -37,6 +39,7 @@ namespace Designer_Offer.ViewModels
             get => _UserSurName;
             set => Set(ref _UserSurName, value);
         }
+
         private string _UserEmail;
         /// <summary>
         /// E-mail пользователя
@@ -46,6 +49,7 @@ namespace Designer_Offer.ViewModels
             get => _UserEmail;
             set => Set(ref _UserEmail, value);
         }
+
         private string _UserPhone;
         /// <summary>
         /// Телефон пользователя
@@ -55,6 +59,7 @@ namespace Designer_Offer.ViewModels
             get => _UserPhone;
             set => Set(ref _UserPhone, value);
         }
+
         private List<Company> _Companies;
         /// <summary>
         /// Список компаний
@@ -64,16 +69,72 @@ namespace Designer_Offer.ViewModels
             get => _Companies;
             set => Set(ref _Companies, value);
         }
+
+        private List<Position> _Positions;
+        /// <summary>
+        /// Список должностей
+        /// </summary>
+        public List<Position> Positions
+        {
+            get => _Positions;
+            set => Set(ref _Positions, value);
+        }
+
+        private string _SelectedComapany;
+        /// <summary>
+        /// Выбранная компания
+        /// </summary>
+        public string SelectedCompany
+        {
+            get => _SelectedComapany;
+            set => Set(ref _SelectedComapany, value);
+        }
+
+        private string _SelectedPosition;
+        /// <summary>
+        /// Выбранная должность
+        /// </summary>
+        public string SelectedPosition
+        {
+            get => _SelectedPosition;
+            set => Set(ref _SelectedPosition, value);
+        }
+
         /// <summary>
         /// Команда загрузки страницы Логина
         /// </summary>
         public ICommand LoadLoginPage { get; }
 
+        public ICommand LoadPosition { get; }
+        /// <summary>
+        /// Команда заполняет должности выбранной компании
+        /// </summary>
+        private void OnLoadPosition(object p)
+        {
+            int IdSelectedCompany = Convert.ToInt32(SelectedCompany);
+
+            Positions = (from pos in contextDB.Position
+                   join cpPos in contextDB.CompanyPosition on pos.Id equals cpPos.Position_Id
+                   where cpPos.Company_Id.Equals(IdSelectedCompany)
+                   select pos).ToList();
+        }
+
+        private bool CanLoadPosition(object p)
+        {
+            if (Positions != null)
+                return false;
+            else
+                return true && contextDB != null || SelectedCompany != null;
+        }
+
         public RegistrationViewModel(ICommand loadlogin)
         {
             LoadLoginPage = loadlogin;
+            LoadPosition = new LambdaCommand(OnLoadPosition, CanLoadPosition);
+
             if (contextDB != null)
                 Companies = contextDB.Company.ToList();
+
             Status = "Для регистрации заполните все поля";
             Title = "Designer Offer :: Регистрация в системе";
         }

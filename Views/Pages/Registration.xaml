@@ -4,7 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-      xmlns:vm="clr-namespace:Designer_Offer.ViewModels" 
+      xmlns:vm="clr-namespace:Designer_Offer.ViewModels"
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
       d:DataContext="{d:DesignInstance Type=vm:RegistrationViewModel}"
       mc:Ignorable="d" 
       d:DesignHeight="436" d:DesignWidth="276"
@@ -133,22 +134,33 @@
             <ComboBox 
                 Style="{Binding Source={StaticResource ComboBox}}"
                 ItemsSource="{Binding Path=Companies, UpdateSourceTrigger=PropertyChanged}"
-                SelectedValuePath="Id"
-                DisplayMemberPath="Name"
                 materialDesign:HintAssist.Hint="Выберите компанию"
                 materialDesign:HintAssist.HelperText="подразделение"
+                SelectedValue="{Binding Path=SelectedCompany, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                SelectedValuePath="Id"
+                DisplayMemberPath="Name"
                 IsSynchronizedWithCurrentItem="False"
-                SelectedIndex="-1"/>
+                SelectedIndex="-1">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="DropDownClosed">
+                        <i:InvokeCommandAction Command="{Binding Path=LoadPosition}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
         </WrapPanel>
         <WrapPanel>
             <materialDesign:PackIcon 
                 Kind="AccountHardHat"/>
             <ComboBox 
                 Style="{Binding Source={StaticResource ComboBox}}"
+                ItemsSource="{Binding Path=Positions}"
                 materialDesign:HintAssist.Hint="Выберите должность"
                 materialDesign:HintAssist.HelperText="специальность"
-                IsSynchronizedWithCurrentItem="True"
-                SelectedIndex="0"/>
+                SelectedValue="{Binding Path=SelectedPosition, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                DisplayMemberPath="Name"
+                SelectedValuePath="Id"
+                IsSynchronizedWithCurrentItem="False"
+                SelectedIndex="-1"/>
         </WrapPanel>
         <WrapPanel>
             <Button 

@@ -40,10 +40,7 @@ namespace Designer_Offer.ViewModels
 
         private bool CanLoadLoginPage(object p)
         {
-            if (LoginPage != null || AnyViewModel != null)
-                return true;
-            else
-                return false;
+            return true && LoginPage != null || AnyViewModel != null;
         }
 
         /// <summary>
@@ -60,10 +57,7 @@ namespace Designer_Offer.ViewModels
 
         private bool CanLoadRegistarationPage(object p)
         {
-            if (RegistrationPage != null || AnyViewModel != null)
-                return true;
-            else
-                return false;
+            return true && RegistrationPage != null || AnyViewModel != null;
         }
 
         public MainWindowViewModel()

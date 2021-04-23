@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:vm="clr-namespace:Designer_Offer.ViewModels"
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       d:DataContext="{d:DesignInstance Type=vm:LoginViewModel}"
       mc:Ignorable="d" 
       d:DesignHeight="436" d:DesignWidth="276"
@@ -101,6 +102,7 @@
             Margin="25,300,0,0"/>
         <Button 
             Style="{Binding Source={StaticResource Button}}"
+            Command="{Binding Path=LoginCommand}"
             Content="Вход"
             Grid.Column="1" 
             Margin="165,300,0,0"/>
@@ -113,8 +115,9 @@
             ItemsSource="{Binding Path=Companies, UpdateSourceTrigger=PropertyChanged}"
             materialDesign:HintAssist.Hint="Выберите компанию"
             materialDesign:HintAssist.HelperText="подразделение"
-            SelectedValuePath="Id"
+            SelectedValue="{Binding Path=SelectedCompany, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
             DisplayMemberPath="Name"
+            SelectedValuePath="Id"
             Grid.Column="1"
             IsSynchronizedWithCurrentItem="False"
             Margin="45,104,0,0"
