@@ -26,32 +26,17 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _AnyViewModel, value);
         }
 
-        private string _Title = "Designer Offer";
-        /// <summary>
-        /// Заголовок Окна
-        /// </summary>
-        public string Title
-        {
-            get => _Title;
-            set => Set(ref _Title, value);
-        }
-
-        private string _Status = "Для входа в систему введите Логин и Пароль";
-        /// <summary>
-        /// Статус программы
-        /// </summary>
-        public string Status
-        {
-            get => _Status;
-            set => Set(ref _Status, value);
-        }
-
         /// <summary>
         /// Команда загрузки страницы Логина
         /// </summary>
         public ICommand LoadLoginPage { get; }
 
-        private void OnLoadLoginPage(object p) => AnyViewModel = LoginPage;
+        private void OnLoadLoginPage(object p)
+        {
+            AnyViewModel = LoginPage;
+            Title = AnyViewModel.Title;
+            Status = AnyViewModel.Status;
+        }
 
         private bool CanLoadLoginPage(object p)
         {
@@ -66,7 +51,12 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         public ICommand LoadRegistarationPage { get; }
 
-        private void OnLoadRegistarationPage(object p) => AnyViewModel = RegistrationPage;
+        private void OnLoadRegistarationPage(object p)
+        {
+            AnyViewModel = RegistrationPage;
+            Title = AnyViewModel.Title;
+            Status = AnyViewModel.Status;
+        }
 
         private bool CanLoadRegistarationPage(object p)
         {

@@ -25,7 +25,8 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="Width" Value="205"/>
-            <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="#FF436EB1"/>
+            <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" 
+                    Value="#FF436EB1"/>
         </Style>
         <Style x:Key="TextBox" TargetType="TextBox" 
                BasedOn="{StaticResource MaterialDesignTextBox}">
@@ -34,7 +35,8 @@
             <Setter Property="Height" Value="25"/>
             <Setter Property="Width" Value="205"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
-            <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="#FF436EB1"/>
+            <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" 
+                    Value="#FF436EB1"/>
         </Style>
         <Style x:Key="PasswordBox" TargetType="PasswordBox" 
                BasedOn="{StaticResource MaterialDesignPasswordBox}">
@@ -42,7 +44,8 @@
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="Height" Value="25"/>
             <Setter Property="Width" Value="205"/>
-            <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="#FF436EB1"/>
+            <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" 
+                    Value="#FF436EB1"/>
         </Style>
         <Style TargetType="materialDesign:PackIcon">
             <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -73,83 +76,75 @@
     <StackPanel>
         <WrapPanel>
             <materialDesign:PackIcon 
-                Kind="Account" 
-                x:Name="IconAccount"/>
+                Kind="Account"/>
             <TextBox 
-                Style="{Binding Source={StaticResource TextBox}}" 
-                x:Name="Login"
+                Style="{Binding Source={StaticResource TextBox}}"
+                Text="{Binding Path=Login, UpdateSourceTrigger=PropertyChanged}"
                 materialDesign:HintAssist.Hint="Логин"
                 materialDesign:HintAssist.HelperText="введите логин"/>
         </WrapPanel>
         <WrapPanel>
             <materialDesign:PackIcon 
-                Kind="Key" 
-                x:Name="IconPass"/>
+                Kind="Key"/>
             <PasswordBox 
                 Style="{Binding Source={StaticResource PasswordBox}}" 
-                x:Name="Password" 
                 materialDesign:HintAssist.Hint="Пароль"
                 materialDesign:HintAssist.HelperText="введите пароль"/>
         </WrapPanel>
         <WrapPanel>
             <materialDesign:PackIcon 
-                Kind="CardAccountDetailsOutline" 
-                x:Name="IconName"/>
+                Kind="CardAccountDetailsOutline"/>
             <TextBox 
-                Style="{Binding Source={StaticResource TextBox}}" 
-                x:Name="Name" 
+                Style="{Binding Source={StaticResource TextBox}}"
+                Text="{Binding Path=UserName, UpdateSourceTrigger=PropertyChanged}"
                 materialDesign:HintAssist.Hint="Имя"
                 materialDesign:HintAssist.HelperText="введите имя"/>
         </WrapPanel>
         <WrapPanel>
             <materialDesign:PackIcon 
-                Kind="CardAccountDetails" 
-                x:Name="IconSurName"/>
+                Kind="CardAccountDetails"/>
             <TextBox 
-                Style="{Binding Source={StaticResource TextBox}}" 
-                x:Name="Surname" 
+                Style="{Binding Source={StaticResource TextBox}}"
+                Text="{Binding Path=UserSurName, UpdateSourceTrigger=PropertyChanged}"
                 materialDesign:HintAssist.Hint="Фамилия"
                 materialDesign:HintAssist.HelperText="введите фамилию"/>
         </WrapPanel>
         <WrapPanel>
             <materialDesign:PackIcon 
-                Kind="Email" 
-                x:Name="IconEmail"/>
+                Kind="Email"/>
             <TextBox 
-                Style="{Binding Source={StaticResource TextBox}}" 
-                x:Name="Email" 
+                Style="{Binding Source={StaticResource TextBox}}"
+                Text="{Binding Path=UserEmail, UpdateSourceTrigger=PropertyChanged}"
                 materialDesign:HintAssist.Hint="Email"
                 materialDesign:HintAssist.HelperText="введите e-mail"/>
         </WrapPanel>
         <WrapPanel>
             <materialDesign:PackIcon 
-                Kind="Phone" 
-                x:Name="IconPhone"/>
+                Kind="Phone"/>
             <TextBox 
-                Style="{Binding Source={StaticResource TextBox}}" 
-                x:Name="Phone" 
+                Style="{Binding Source={StaticResource TextBox}}"
+                Text="{Binding Path=UserPhone, UpdateSourceTrigger=PropertyChanged}"
                 materialDesign:HintAssist.Hint="+38"
                 materialDesign:HintAssist.HelperText="введите телефон"/>
         </WrapPanel>
         <WrapPanel>
             <materialDesign:PackIcon 
-                Kind="Domain" 
-                x:Name="IconDomain"/>
+                Kind="Domain"/>
             <ComboBox 
                 Style="{Binding Source={StaticResource ComboBox}}"
-                x:Name="Company"
+                ItemsSource="{Binding Path=Companies, UpdateSourceTrigger=PropertyChanged}"
+                SelectedValuePath="Id"
+                DisplayMemberPath="Name"
                 materialDesign:HintAssist.Hint="Выберите компанию"
                 materialDesign:HintAssist.HelperText="подразделение"
-                IsSynchronizedWithCurrentItem="True"
-                SelectedIndex="1"/>
+                IsSynchronizedWithCurrentItem="False"
+                SelectedIndex="-1"/>
         </WrapPanel>
         <WrapPanel>
             <materialDesign:PackIcon 
-                Kind="AccountHardHat" 
-                x:Name="IconPosition"/>
+                Kind="AccountHardHat"/>
             <ComboBox 
                 Style="{Binding Source={StaticResource ComboBox}}"
-                x:Name="Position"
                 materialDesign:HintAssist.Hint="Выберите должность"
                 materialDesign:HintAssist.HelperText="специальность"
                 IsSynchronizedWithCurrentItem="True"
@@ -157,13 +152,11 @@
         </WrapPanel>
         <WrapPanel>
             <Button 
-                Style="{Binding Source={StaticResource Button}}" 
-                x:Name="ButtonCancel"
+                Style="{Binding Source={StaticResource Button}}"
                 Command="{Binding Path=LoadLoginPage}"
                 Content="Назад"/>
             <Button 
-                Style="{Binding Source={StaticResource Button}}" 
-                x:Name="ButtonRegistration" 
+                Style="{Binding Source={StaticResource Button}}"
                 Content="Регистрация"/>
         </WrapPanel>
     </StackPanel>

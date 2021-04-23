@@ -52,7 +52,6 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Image 
-            x:Name="ImageLogo" 
             Grid.Column="0"       
             Source="{Binding Source, Source={StaticResource Logo}}" 
             Opacity="0.85" 
@@ -62,14 +61,12 @@
         <Polyline 
             Grid.Column="1" 
             Points="0, 5, 0, 435"/>
-        <Frame 
-            x:Name="PageFrame" 
+        <Frame
             Content="{Binding Path=AnyViewModel, UpdateSourceTrigger=PropertyChanged}"
             Grid.Column="1"  
             Margin="10,10,0,0"  
             NavigationUIVisibility="Hidden" />
-        <StatusBar 
-            x:Name="Status" 
+        <StatusBar
             Grid.ColumnSpan="2" 
             Width="594">
             <StatusBarItem Width="Auto">

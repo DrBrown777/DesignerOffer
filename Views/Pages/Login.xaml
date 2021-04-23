@@ -8,7 +8,7 @@
       d:DataContext="{d:DesignInstance Type=vm:LoginViewModel}"
       mc:Ignorable="d" 
       d:DesignHeight="436" d:DesignWidth="276"
-      Title="{Binding Path=Title}"
+      Title="Login"
       TextElement.Foreground="{DynamicResource MaterialDesignBody}"
       TextElement.FontWeight="Regular"
       TextElement.FontSize="13"
@@ -52,8 +52,6 @@
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="Width" Value="205"/>
             <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="#FF436EB1"/>
-            <Setter Property="materialDesign:HintAssist.Hint" Value="Выберите компанию"/>
-            <Setter Property="materialDesign:HintAssist.HelperText" Value="подразделение"/>
         </Style>
         <Style TargetType="materialDesign:PackIcon">
             <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -65,13 +63,11 @@
     </Page.Resources>
     <Grid>
         <materialDesign:PackIcon 
-            Kind="Account" 
-            x:Name="IconAccount"
+            Kind="Account"
             Grid.Column="1" 
             Margin="10,164,0,0"/>
         <TextBox 
-            Style="{Binding Source={StaticResource TextBox}}" 
-            x:Name="LoginBox"
+            Style="{Binding Source={StaticResource TextBox}}"
             Text="{Binding Path=Login, UpdateSourceTrigger=PropertyChanged}"
             materialDesign:HintAssist.Hint="Логин"
             materialDesign:HintAssist.HelperText="введите логин"
@@ -88,41 +84,37 @@
             -->
         </TextBox>
         <materialDesign:PackIcon 
-            Kind="Key" 
-            x:Name="IconPassword"
+            Kind="Key"
             Grid.Column="1" 
             Margin="10,214,0,0"/>
         <PasswordBox 
             Style="{Binding Source={StaticResource PasswordBox}}"
-            x:Name="PasswordBox"
             materialDesign:HintAssist.Hint="Пароль"
             materialDesign:HintAssist.HelperText="введите пароль"
             Grid.Column="1" 
             Margin="45,212,0,0"/>
         <Button 
             Style="{Binding Source={StaticResource Button}}"
-            x:Name="ButtonRegistration"
             Command="{Binding Path=LoadRegistarationPage}"
             Content="Регистрация" 
             Grid.Column="1" 
             Margin="25,300,0,0"/>
         <Button 
             Style="{Binding Source={StaticResource Button}}"
-            x:Name="ButtonLogin" 
             Content="Вход"
             Grid.Column="1" 
             Margin="165,300,0,0"/>
         <materialDesign:PackIcon 
-            Kind="Domain" 
-            x:Name="IconDomain"
+            Kind="Domain"
             Grid.Column="1" 
             Margin="10,104,0,0"/>
         <ComboBox 
             Style="{Binding Source={StaticResource ComboBox}}"
-            ItemsSource="{Binding Path=Companies, UpdateSourceTrigger=PropertyChanged}" 
+            ItemsSource="{Binding Path=Companies, UpdateSourceTrigger=PropertyChanged}"
+            materialDesign:HintAssist.Hint="Выберите компанию"
+            materialDesign:HintAssist.HelperText="подразделение"
             SelectedValuePath="Id"
             DisplayMemberPath="Name"
-            x:Name="CompanyBox"
             Grid.Column="1"
             IsSynchronizedWithCurrentItem="False"
             Margin="45,104,0,0"
