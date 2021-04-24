@@ -4,20 +4,22 @@ using Designer_Offer.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Designer_Offer.ViewModels
 {
     internal class RegistrationViewModel : ViewModel
     {
-        private string _Login;
+        private string _UserLogin;
         /// <summary>
         /// Логин пользователя
         /// </summary>
-        public string Login
+        public string UserLogin
         {
-            get => _Login;
-            set => Set(ref _Login, value);
+            get => _UserLogin;
+            set => Set(ref _UserLogin, value);
         }
 
         private string _UserName;
@@ -103,13 +105,13 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Команда загрузки страницы Логина
         /// </summary>
-        public ICommand LoadLoginPage { get; }
+        public ICommand LoadLoginPageCommand { get; }
 
-        public ICommand LoadPosition { get; }
+        public ICommand LoadPositionCommand { get; }
         /// <summary>
         /// Команда заполняет должности выбранной компании
         /// </summary>
-        private void OnLoadPosition(object p)
+        private void OnLoadPositionCommand(object p)
         {
             int IdSelectedCompany = Convert.ToInt32(SelectedCompany);
 
@@ -119,18 +121,50 @@ namespace Designer_Offer.ViewModels
                    select pos).ToList();
         }
 
-        private bool CanLoadPosition(object p)
+        private bool CanLoadPositionCommand(object p)
         {
-            if (Positions != null)
-                return false;
-            else
-                return true && contextDB != null || SelectedCompany != null;
+            return true && contextDB != null;
+        }
+
+        public ICommand RegistrationCommand { get; }
+
+        private void OnRegistrationCommand(object p)
+        {
+            PasswordBox passBox = (PasswordBox)p;
+
+            UserData user = new UserData()
+            {
+                Login = UserLogin,
+                Password = passBox.Password
+            };
+
+            Employee employee = new Employee()
+            {
+                First_Name = UserName,
+                Last_Name = UserSurName,
+                Mail = UserEmail,
+                Phone = UserPhone,
+                Company_Id = Convert.ToInt32(SelectedCompany),
+                Position_Id = Convert.ToInt32(SelectedPosition)
+            };
+
+            employee.UserData.Add(user);
+
+            contextDB.Employee.Add(employee);
+
+            contextDB.SaveChanges();
+        }
+
+        private bool CanRegistrationCommand(object p)
+        {
+            return true && SelectedCompany != null && SelectedPosition != null;
         }
 
         public RegistrationViewModel(ICommand loadlogin)
         {
-            LoadLoginPage = loadlogin;
-            LoadPosition = new LambdaCommand(OnLoadPosition, CanLoadPosition);
+            LoadLoginPageCommand = loadlogin;
+            LoadPositionCommand = new LambdaCommand(OnLoadPositionCommand, CanLoadPositionCommand);
+            RegistrationCommand = new LambdaCommand(OnRegistrationCommand, CanRegistrationCommand);
 
             if (contextDB != null)
                 Companies = contextDB.Company.ToList();

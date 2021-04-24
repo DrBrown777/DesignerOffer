@@ -88,7 +88,7 @@
             Kind="Key"
             Grid.Column="1" 
             Margin="10,214,0,0"/>
-        <PasswordBox 
+        <PasswordBox x:Name="Password"
             Style="{Binding Source={StaticResource PasswordBox}}"
             materialDesign:HintAssist.Hint="Пароль"
             materialDesign:HintAssist.HelperText="введите пароль"
@@ -96,13 +96,14 @@
             Margin="45,212,0,0"/>
         <Button 
             Style="{Binding Source={StaticResource Button}}"
-            Command="{Binding Path=LoadRegistarationPage}"
+            Command="{Binding Path=LoadRegistarationPageCommand}"
             Content="Регистрация" 
             Grid.Column="1" 
             Margin="25,300,0,0"/>
         <Button 
             Style="{Binding Source={StaticResource Button}}"
-            Command="{Binding Path=LoginCommand}"
+            Command="{Binding Path=LoginCommand}" 
+            CommandParameter="{Binding ElementName=Password}"
             Content="Вход"
             Grid.Column="1" 
             Margin="165,300,0,0"/>

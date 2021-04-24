@@ -80,14 +80,14 @@
                 Kind="Account"/>
             <TextBox 
                 Style="{Binding Source={StaticResource TextBox}}"
-                Text="{Binding Path=Login, UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding Path=UserLogin, UpdateSourceTrigger=PropertyChanged}"
                 materialDesign:HintAssist.Hint="Логин"
                 materialDesign:HintAssist.HelperText="введите логин"/>
         </WrapPanel>
         <WrapPanel>
             <materialDesign:PackIcon 
                 Kind="Key"/>
-            <PasswordBox 
+            <PasswordBox x:Name="Password"
                 Style="{Binding Source={StaticResource PasswordBox}}" 
                 materialDesign:HintAssist.Hint="Пароль"
                 materialDesign:HintAssist.HelperText="введите пароль"/>
@@ -143,7 +143,7 @@
                 SelectedIndex="-1">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DropDownClosed">
-                        <i:InvokeCommandAction Command="{Binding Path=LoadPosition}"/>
+                        <i:InvokeCommandAction Command="{Binding Path=LoadPositionCommand}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>
@@ -165,10 +165,12 @@
         <WrapPanel>
             <Button 
                 Style="{Binding Source={StaticResource Button}}"
-                Command="{Binding Path=LoadLoginPage}"
+                Command="{Binding Path=LoadLoginPageCommand}"
                 Content="Назад"/>
             <Button 
                 Style="{Binding Source={StaticResource Button}}"
+                Command="{Binding Path=RegistrationCommand}"
+                CommandParameter="{Binding ElementName=Password}"
                 Content="Регистрация"/>
         </WrapPanel>
     </StackPanel>

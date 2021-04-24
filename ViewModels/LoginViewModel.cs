@@ -4,6 +4,8 @@ using Designer_Offer.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Designer_Offer.ViewModels
@@ -42,7 +44,7 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Команда загрузки страницы Регистрации
         /// </summary>
-        public ICommand LoadRegistarationPage { get; }
+        public ICommand LoadRegistarationPageCommand { get; }
 
         public ICommand LoginCommand { get; }
         /// <summary>
@@ -51,6 +53,9 @@ namespace Designer_Offer.ViewModels
         private void OnLoginCommand(object p)
         {
             int id = Convert.ToInt32(SelectedCompany);
+            PasswordBox passBox = (PasswordBox)p;
+            string pass = passBox.Password;
+
         }
 
         private bool CanLoginCommand(object p)
@@ -64,7 +69,7 @@ namespace Designer_Offer.ViewModels
                 Companies = contextDB.Company.ToList();
 
             LoginCommand = new LambdaCommand(OnLoginCommand, CanLoginCommand);
-            LoadRegistarationPage = loadregister;
+            LoadRegistarationPageCommand = loadregister;
 
             Status = "Для входа в систему введите Логин и Пароль";
             Title = "Designer Offer :: Вход в систему";
