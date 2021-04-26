@@ -163,7 +163,7 @@ namespace Designer_Offer.ViewModels
 
             if (string.IsNullOrWhiteSpace(pass))
                 return false;
-            else if (SelectedCompany == null && SelectedPosition == null)
+            else if (SelectedCompany == null || SelectedPosition == null)
                 return false;
             else
                 return true;

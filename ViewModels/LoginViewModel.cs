@@ -4,6 +4,7 @@ using Designer_Offer.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -55,6 +56,16 @@ namespace Designer_Offer.ViewModels
             PasswordBox passBox = (PasswordBox)p;
             string pass = passBox.Password;
 
+            UserData userData = contextDB.UserData.FirstOrDefault(u => u.Login == Login);
+
+            if (userData == null || userData.Password != pass)
+            {
+                Status = "Неправильный логин или пароль";
+
+                return;
+            }
+
+            Application.Current.MainWindow.Close();
         }
 
         private bool CanLoginCommand(object p)
