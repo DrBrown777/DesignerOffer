@@ -157,7 +157,16 @@ namespace Designer_Offer.ViewModels
 
         private bool CanRegistrationCommand(object p)
         {
-            return true && SelectedCompany != null && SelectedPosition != null;
+            PasswordBox passBox = (PasswordBox)p;
+
+            string pass = passBox.Password;
+
+            if (string.IsNullOrWhiteSpace(pass))
+                return false;
+            else if (SelectedCompany == null && SelectedPosition == null)
+                return false;
+            else
+                return true;
         }
 
         public RegistrationViewModel(ICommand loadlogin)

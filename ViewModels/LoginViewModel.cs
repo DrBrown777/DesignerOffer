@@ -59,7 +59,17 @@ namespace Designer_Offer.ViewModels
 
         private bool CanLoginCommand(object p)
         {
-            return true && SelectedCompany != null; 
+            PasswordBox passBox = (PasswordBox)p;
+            string pass = passBox.Password;
+
+            if (string.IsNullOrWhiteSpace(pass))
+            {
+                return false;
+            }
+            else if (SelectedCompany == null)
+                return false;
+            else
+                return true;
         }
 
         public LoginViewModel(ICommand loadregister)
