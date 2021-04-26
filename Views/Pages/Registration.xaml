@@ -5,7 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:vm="clr-namespace:Designer_Offer.ViewModels"
-      xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:local="clr-namespace:Designer_Offer.Infrastructure.Validations"
       d:DataContext="{d:DesignInstance Type=vm:RegistrationViewModel}"
       mc:Ignorable="d" 
       d:DesignHeight="436" d:DesignWidth="276"
@@ -73,16 +74,53 @@
             <Setter Property="FontFamily" Value="Arial Narrow"/>
             <Setter Property="Margin" Value="20"/>
         </Style>
+        <Style x:Key="ButtonValid" TargetType="Button" 
+               BasedOn="{StaticResource MaterialDesignFlatMidBgButton}">
+            <Setter Property="Background" Value="#FF2A73B4"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#FF2A73B4"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Width" Value="90"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontFamily" Value="Arial Narrow"/>
+            <Setter Property="Margin" Value="20"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=LoginBox}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=NameBox}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=SurNameBox}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=EmailBox}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=PhoneBox}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Page.Resources>
     <StackPanel>
         <WrapPanel>
             <materialDesign:PackIcon 
                 Kind="Account"/>
-            <TextBox 
+            <TextBox x:Name="LoginBox"
                 Style="{Binding Source={StaticResource TextBox}}"
-                Text="{Binding Path=UserLogin, UpdateSourceTrigger=PropertyChanged}"
                 materialDesign:HintAssist.Hint="Логин"
-                materialDesign:HintAssist.HelperText="введите логин"/>
+                materialDesign:HintAssist.HelperText="введите логин">
+                <TextBox.Text>
+                    <Binding Path="UserLogin" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
         </WrapPanel>
         <WrapPanel>
             <materialDesign:PackIcon 
@@ -95,38 +133,66 @@
         <WrapPanel>
             <materialDesign:PackIcon 
                 Kind="CardAccountDetailsOutline"/>
-            <TextBox 
+            <TextBox x:Name="NameBox"
                 Style="{Binding Source={StaticResource TextBox}}"
-                Text="{Binding Path=UserName, UpdateSourceTrigger=PropertyChanged}"
                 materialDesign:HintAssist.Hint="Имя"
-                materialDesign:HintAssist.HelperText="введите имя"/>
+                materialDesign:HintAssist.HelperText="введите имя">
+                <TextBox.Text>
+                    <Binding Path="UserName" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
         </WrapPanel>
         <WrapPanel>
             <materialDesign:PackIcon 
                 Kind="CardAccountDetails"/>
-            <TextBox 
+            <TextBox x:Name="SurNameBox"
                 Style="{Binding Source={StaticResource TextBox}}"
-                Text="{Binding Path=UserSurName, UpdateSourceTrigger=PropertyChanged}"
                 materialDesign:HintAssist.Hint="Фамилия"
-                materialDesign:HintAssist.HelperText="введите фамилию"/>
+                materialDesign:HintAssist.HelperText="введите фамилию">
+                <TextBox.Text>
+                    <Binding Path="UserSurName" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
         </WrapPanel>
         <WrapPanel>
             <materialDesign:PackIcon 
                 Kind="Email"/>
-            <TextBox 
+            <TextBox x:Name="EmailBox"
                 Style="{Binding Source={StaticResource TextBox}}"
-                Text="{Binding Path=UserEmail, UpdateSourceTrigger=PropertyChanged}"
                 materialDesign:HintAssist.Hint="Email"
-                materialDesign:HintAssist.HelperText="введите e-mail"/>
+                materialDesign:HintAssist.HelperText="введите e-mail">
+                <TextBox.Text>
+                    <Binding Path="UserEmail" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
         </WrapPanel>
         <WrapPanel>
             <materialDesign:PackIcon 
                 Kind="Phone"/>
-            <TextBox 
+            <TextBox x:Name="PhoneBox"
                 Style="{Binding Source={StaticResource TextBox}}"
-                Text="{Binding Path=UserPhone, UpdateSourceTrigger=PropertyChanged}"
                 materialDesign:HintAssist.Hint="+38"
-                materialDesign:HintAssist.HelperText="введите телефон"/>
+                materialDesign:HintAssist.HelperText="введите телефон">
+                <TextBox.Text>
+                    <Binding Path="UserPhone" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
         </WrapPanel>
         <WrapPanel>
             <materialDesign:PackIcon 
@@ -168,7 +234,7 @@
                 Command="{Binding Path=LoadLoginPageCommand}"
                 Content="Назад"/>
             <Button 
-                Style="{Binding Source={StaticResource Button}}"
+                Style="{Binding Source={StaticResource ButtonValid}}"
                 Command="{Binding Path=RegistrationCommand}"
                 CommandParameter="{Binding ElementName=Password}"
                 Content="Регистрация"/>
