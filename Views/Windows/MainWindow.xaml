@@ -8,6 +8,7 @@
         Title="{Binding Path=Title}" 
         Height="500" Width="600"
         ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"

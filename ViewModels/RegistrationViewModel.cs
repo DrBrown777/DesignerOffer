@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -115,10 +116,17 @@ namespace Designer_Offer.ViewModels
         {
             int IdSelectedCompany = Convert.ToInt32(SelectedCompany);
 
-            Positions = (from pos in contextDB.Position
-                   join cpPos in contextDB.CompanyPosition on pos.Id equals cpPos.Position_Id
-                   where cpPos.Company_Id.Equals(IdSelectedCompany)
-                   select pos).ToList();
+            try
+            {
+                Positions = (from pos in contextDB.Position
+                             join cpPos in contextDB.CompanyPosition on pos.Id equals cpPos.Position_Id
+                             where cpPos.Company_Id.Equals(IdSelectedCompany)
+                             select pos).ToList();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Ошибка соединения с базой данных\n" + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private bool CanLoadPositionCommand(object p)
@@ -135,7 +143,7 @@ namespace Designer_Offer.ViewModels
             UserData user = new UserData()
             {
                 Login = UserLogin,
-                Password = passBox.Password
+                Password = passBox.Password.Trim().ToLower()
             };
 
             Employee employee = new Employee()
@@ -150,9 +158,16 @@ namespace Designer_Offer.ViewModels
 
             employee.UserData.Add(user);
 
-            contextDB.Employee.Add(employee);
+            try
+            {
+                contextDB.Employee.Add(employee);
 
-            contextDB.SaveChanges();
+                contextDB.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Ошибка соединения с базой данных\n" + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private bool CanRegistrationCommand(object p)
@@ -171,12 +186,18 @@ namespace Designer_Offer.ViewModels
 
         public RegistrationViewModel(ICommand loadlogin)
         {
+            try
+            {
+                Companies = contextDB.Company.ToList();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Ошибка соединения с базой данных\n" + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
             LoadLoginPageCommand = loadlogin;
             LoadPositionCommand = new LambdaCommand(OnLoadPositionCommand, CanLoadPositionCommand);
             RegistrationCommand = new LambdaCommand(OnRegistrationCommand, CanRegistrationCommand);
-
-            if (contextDB != null)
-                Companies = contextDB.Company.ToList();
 
             Status = "Для регистрации заполните все поля";
             Title = "Designer Offer :: Регистрация в системе";

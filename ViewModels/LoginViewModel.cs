@@ -54,13 +54,13 @@ namespace Designer_Offer.ViewModels
         {
             int id = Convert.ToInt32(SelectedCompany);
             PasswordBox passBox = (PasswordBox)p;
-            string pass = passBox.Password;
+            string pass = passBox.Password.Trim().ToLower();
 
             UserData userData = contextDB.UserData.FirstOrDefault(u => u.Login == Login);
 
             if (userData == null || userData.Password != pass)
             {
-                Status = "Неправильный логин или пароль";
+                MessageBox.Show("Неправильный логин или пароль!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
 
                 return;
             }
@@ -85,8 +85,14 @@ namespace Designer_Offer.ViewModels
 
         public LoginViewModel(ICommand loadregister)
         {
-            if (contextDB != null) 
+            try
+            {
                 Companies = contextDB.Company.ToList();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Ошибка соединения с базой данных\n" + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
             LoginCommand = new LambdaCommand(OnLoginCommand, CanLoginCommand);
             LoadRegistarationPageCommand = loadregister;
