@@ -1,6 +1,7 @@
 ﻿using Designer_Offer.Data;
 using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.ViewModels.Base;
+using Designer_Offer.Views.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,20 +53,14 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         private void OnLoginCommand(object p)
         {
-            int id = Convert.ToInt32(SelectedCompany);
-            PasswordBox passBox = (PasswordBox)p;
-            string pass = passBox.Password.Trim().ToLower();
-
-            UserData userData = contextDB.UserData.FirstOrDefault(u => u.Login == Login);
-
-            if (userData == null || userData.Password != pass)
+            if (LoginSucces((PasswordBox)p))
             {
-                MessageBox.Show("Неправильный логин или пароль!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                WorkWindow work = new WorkWindow();
 
-                return;
+                work.Show();
+
+                Application.Current.MainWindow.Close();
             }
-
-            Application.Current.MainWindow.Close();
         }
 
         private bool CanLoginCommand(object p)
@@ -81,6 +76,23 @@ namespace Designer_Offer.ViewModels
                 return false;
             else
                 return true;
+        }
+
+        private bool LoginSucces(PasswordBox passBox)
+        {
+            int id = Convert.ToInt32(SelectedCompany);
+
+            string pass = passBox.Password.Trim().ToLower();
+
+            UserData userData = contextDB.UserData.FirstOrDefault(u => u.Login == Login);
+
+            if (userData == null || userData.Password != pass)
+            {
+                MessageBox.Show("Неправильный логин или пароль!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                return false;
+            }
+            return true;
         }
 
         public LoginViewModel(ICommand loadregister)

@@ -77,6 +77,12 @@
             <Setter Property="Foreground" Value="#FF436EB1"/>
         </Style>
     </Page.Resources>
+    <Page.InputBindings>
+        <KeyBinding 
+            Command="{Binding LoginCommand}" 
+            CommandParameter="{Binding ElementName=Password}" 
+            Gesture="Enter"/>
+    </Page.InputBindings>
     <Grid>
         <materialDesign:PackIcon 
             Kind="Account"
