@@ -9,7 +9,7 @@ namespace Designer_Offer.ViewModels.Base
     {
         protected static PrimeContext contextDB;
 
-        private string _Title = "Designer Offer";
+        private string _Title;
         /// <summary>
         /// Заголовок Окна
         /// </summary>
@@ -19,7 +19,7 @@ namespace Designer_Offer.ViewModels.Base
             set => Set(ref _Title, value);
         }
 
-        private string _Status = "Для входа в систему введите Логин и Пароль";
+        private string _Status;
         /// <summary>
         /// Статус программы
         /// </summary>

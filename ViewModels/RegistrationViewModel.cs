@@ -161,11 +161,16 @@ namespace Designer_Offer.ViewModels
             {
                 contextDB.Employee.Add(employee);
 
-                contextDB.SaveChanges();
+                contextDB.SaveChangesAsync();
             }
             catch (Exception e)
             {
                 MessageBox.Show("Ошибка соединения с базой данных\n" + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                ResetFiled();
+                MessageBox.Show("Спасибо за регистрацию!\nТеперь вы можете войти", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -183,24 +188,33 @@ namespace Designer_Offer.ViewModels
                 return true;
         }
 
+        private void ResetFiled()
+        {
+            UserLogin = null;
+            UserName = null;
+            UserSurName = null;
+            UserEmail = null;
+            UserPhone = null;
+        }
+
         public RegistrationViewModel(ICommand loadlogin)
         {
-            //try
-            //{
+            try
+            {
                 if (contextDB != null)
                     Companies = contextDB.Company.ToList();
-            //}
-            //catch (Exception e)
-            //{
-            //    MessageBox.Show("Ошибка соединения с базой данных\n" + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-            //}
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Ошибка соединения с базой данных\n" + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
             LoadLoginPageCommand = loadlogin;
             LoadPositionCommand = new LambdaCommand(OnLoadPositionCommand, CanLoadPositionCommand);
             RegistrationCommand = new LambdaCommand(OnRegistrationCommand, CanRegistrationCommand);
 
             Status = "Для регистрации заполните все поля";
-            Title = "Designer Offer :: Регистрация в системе";
+            Title = "Регистрация в системе";
         }
     }
 }

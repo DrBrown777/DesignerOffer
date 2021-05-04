@@ -10,12 +10,12 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// ViewModel страницы Логина
         /// </summary>
-        private readonly ViewModel LoginPage;
+        private static ViewModel LoginPage;
 
         /// <summary>
         /// ViewModel страницы Регистрации
         /// </summary>
-        private readonly ViewModel RegistrationPage;
+        private static ViewModel RegistrationPage;
 
         private ViewModel _AnyViewModel;
         /// <summary>

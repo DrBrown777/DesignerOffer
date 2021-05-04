@@ -6,7 +6,9 @@
         xmlns:vm="clr-namespace:Designer_Offer.ViewModels" 
         d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
         mc:Ignorable="d"
-        Title="{Binding Path=Title}" 
+        Title="{Binding Path=Title, StringFormat='DesignerOffer :: {0}', 
+                TargetNullValue='DesignerOffer', FallbackValue='DesignerOffer',
+                UpdateSourceTrigger=PropertyChanged}"
         Height="500" Width="600"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
@@ -69,7 +71,9 @@
             Grid.ColumnSpan="2" 
             Width="594">
             <StatusBarItem Width="Auto">
-                <TextBlock Text="{Binding Path=Status}"/>
+                <TextBlock Text="{Binding Path=Status, StringFormat=' {0}', 
+                    TargetNullValue='ver.1.0', FallbackValue='ver.1.0', 
+                    UpdateSourceTrigger=PropertyChanged}"/>
             </StatusBarItem>
             <StatusBarItem HorizontalAlignment="Right">
                 <ProgressBar Value="30"/>

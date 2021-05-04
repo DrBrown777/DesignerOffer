@@ -116,6 +116,7 @@
                     <Binding Path="UserLogin" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                            <local:UniqLoginValidationRule ValidatesOnTargetUpdated="False"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
@@ -172,6 +173,7 @@
                     <Binding Path="UserEmail" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                            <local:UniqEmailValidationRule ValidatesOnTargetUpdated="False"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
@@ -188,6 +190,7 @@
                     <Binding Path="UserPhone" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                            <local:UniqPhoneValidationRule ValidatesOnTargetUpdated="False" />
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>

@@ -112,7 +112,7 @@ namespace Designer_Offer.ViewModels
             LoadRegistarationPageCommand = loadregister;
 
             Status = "Для входа в систему введите Логин и Пароль";
-            Title = "Designer Offer :: Вход в систему";
+            Title = "Вход в систему";
         }
     }
 }
