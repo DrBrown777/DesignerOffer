@@ -5,6 +5,7 @@ using Designer_Offer.Views.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,6 +14,26 @@ namespace Designer_Offer.ViewModels
 {
     internal class LoginViewModel : ViewModel
     {
+        private string _Title;
+        /// <summary>
+        /// Заголовок Окна
+        /// </summary>
+        public string Title
+        {
+            get => _Title;
+            set => Set(ref _Title, value);
+        }
+
+        private string _Status;
+        /// <summary>
+        /// Статус программы
+        /// </summary>
+        public string Status
+        {
+            get => _Status;
+            set => Set(ref _Status, value);
+        }
+
         private List<Company> _Companies;
         /// <summary>
         /// Список компаний
@@ -88,12 +109,20 @@ namespace Designer_Offer.ViewModels
 
             if (userData == null || userData.Password != pass)
             {
-                MessageBox.Show("Неправильный логин или пароль!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Status = "Неправильный логин или пароль!";
 
+                TimerCallback callback = new TimerCallback(ChangeStatus);
+                Timer timer = new Timer(callback, "Для входа в систему введите Логин и Пароль", 1000, 0);
+                
                 return false;
             }
 
             return true;
+        }
+
+        private void ChangeStatus(object p)
+        {
+            Status = p.ToString();
         }
 
         public LoginViewModel(ICommand loadregister)

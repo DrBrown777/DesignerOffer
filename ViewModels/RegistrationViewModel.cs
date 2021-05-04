@@ -12,6 +12,26 @@ namespace Designer_Offer.ViewModels
 {
     internal class RegistrationViewModel : ViewModel
     {
+        private string _Title;
+        /// <summary>
+        /// Заголовок Окна
+        /// </summary>
+        public string Title
+        {
+            get => _Title;
+            set => Set(ref _Title, value);
+        }
+
+        private string _Status;
+        /// <summary>
+        /// Статус программы
+        /// </summary>
+        public string Status
+        {
+            get => _Status;
+            set => Set(ref _Status, value);
+        }
+
         private string _UserLogin;
         /// <summary>
         /// Логин пользователя
@@ -107,10 +127,11 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         public ICommand LoadLoginPageCommand { get; }
 
-        public ICommand LoadPositionCommand { get; }
         /// <summary>
         /// Команда заполняет должности выбранной компании
         /// </summary>
+        public ICommand LoadPositionCommand { get; }
+        
         private void OnLoadPositionCommand(object p)
         {
             int IdSelectedCompany = Convert.ToInt32(SelectedCompany);
@@ -124,7 +145,7 @@ namespace Designer_Offer.ViewModels
             }
             catch (Exception e)
             {
-                MessageBox.Show("Ошибка соединения с базой данных\n" + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                Status = e.Message;
             }
         }
 
@@ -132,7 +153,9 @@ namespace Designer_Offer.ViewModels
         {
             return true && contextDB != null;
         }
-
+        /// <summary>
+        /// Команда проводит регистрацию
+        /// </summary>
         public ICommand RegistrationCommand { get; }
 
         private void OnRegistrationCommand(object p)
@@ -165,12 +188,12 @@ namespace Designer_Offer.ViewModels
             }
             catch (Exception e)
             {
-                MessageBox.Show("Ошибка соединения с базой данных\n" + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                Status = e.Message;
             }
             finally
             {
                 ResetFiled();
-                MessageBox.Show("Спасибо за регистрацию!\nТеперь вы можете войти", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                Status = "Спасибо за регистрацию! Теперь вы можете войти.";
             }
         }
 

@@ -35,8 +35,6 @@ namespace Designer_Offer.ViewModels
         private void OnLoadLoginPage(object p)
         {
             AnyViewModel = LoginPage;
-            Title = AnyViewModel.Title;
-            Status = AnyViewModel.Status;
         }
 
         private bool CanLoadLoginPage(object p)
@@ -52,8 +50,6 @@ namespace Designer_Offer.ViewModels
         private void OnLoadRegistarationPage(object p)
         {
             AnyViewModel = RegistrationPage;
-            Title = AnyViewModel.Title;
-            Status = AnyViewModel.Status;
         }
 
         private bool CanLoadRegistarationPage(object p)

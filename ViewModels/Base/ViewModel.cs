@@ -9,25 +9,25 @@ namespace Designer_Offer.ViewModels.Base
     {
         protected static PrimeContext contextDB;
 
-        private string _Title;
-        /// <summary>
-        /// Заголовок Окна
-        /// </summary>
-        public string Title
-        {
-            get => _Title;
-            set => Set(ref _Title, value);
-        }
+        //private string _Title;
+        ///// <summary>
+        ///// Заголовок Окна
+        ///// </summary>
+        //public string Title
+        //{
+        //    get => _Title;
+        //    set => Set(ref _Title, value);
+        //}
 
-        private string _Status;
-        /// <summary>
-        /// Статус программы
-        /// </summary>
-        public string Status
-        {
-            get => _Status;
-            set => Set(ref _Status, value);
-        }
+        //private string _Status;
+        ///// <summary>
+        ///// Статус программы
+        ///// </summary>
+        //public string Status
+        //{
+        //    get => _Status;
+        //    set => Set(ref _Status, value);
+        //}
 
         private bool _Disposed;
 
