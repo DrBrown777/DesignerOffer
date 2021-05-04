@@ -76,6 +76,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Data\PrimeContext.cs" />
     <Compile Include="Views\Windows\WorkWindow.xaml.cs">
       <DependentUpon>WorkWindow.xaml</DependentUpon>
     </Compile>
@@ -107,7 +108,6 @@
     <Compile Include="Data\Offer.cs" />
     <Compile Include="Data\Part.cs" />
     <Compile Include="Data\Position.cs" />
-    <Compile Include="Data\PrimeContext.cs" />
     <Compile Include="Data\Product.cs" />
     <Compile Include="Data\ProductPart.cs" />
     <Compile Include="Data\ProductSupplier.cs" />

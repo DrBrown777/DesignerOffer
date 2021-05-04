@@ -14,10 +14,10 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <DataTemplate DataType="{x:Type vm:LoginViewModel}">
-                <vmp:Login/>
+                <vmp:Login />
             </DataTemplate>
             <DataTemplate DataType="{x:Type vm:RegistrationViewModel}">
-                <vmp:Registration/>
+                <vmp:Registration />
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>

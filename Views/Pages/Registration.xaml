@@ -18,9 +18,6 @@
       TextOptions.TextRenderingMode="Auto"
       Background="#FFFAFAFA"
       FontFamily="{DynamicResource MaterialDesignFont}">
-    <!--<Page.DataContext>
-        <vm:RegistrationViewModel/>
-    </Page.DataContext>-->
     <Page.Resources>
         <Style x:Key="ComboBox" TargetType="ComboBox" 
                BasedOn="{StaticResource MaterialDesignComboBox}">

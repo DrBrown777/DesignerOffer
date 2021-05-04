@@ -83,7 +83,7 @@ namespace Designer_Offer.ViewModels
             int id = Convert.ToInt32(SelectedCompany);
 
             string pass = passBox.Password.Trim().ToLower();
-
+            
             UserData userData = contextDB.UserData.FirstOrDefault(u => u.Login == Login);
 
             if (userData == null || userData.Password != pass)
@@ -92,6 +92,7 @@ namespace Designer_Offer.ViewModels
 
                 return false;
             }
+
             return true;
         }
 
@@ -99,7 +100,8 @@ namespace Designer_Offer.ViewModels
         {
             try
             {
-                Companies = contextDB.Company.ToList();
+                if (contextDB != null)
+                    Companies = contextDB.Company.ToList();
             }
             catch (Exception e)
             {

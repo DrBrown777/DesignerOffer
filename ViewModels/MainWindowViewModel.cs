@@ -1,5 +1,6 @@
 ﻿using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.ViewModels.Base;
+using Designer_Offer.Data;
 using System.Windows.Input;
 
 namespace Designer_Offer.ViewModels

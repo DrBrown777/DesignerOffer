@@ -8,7 +8,7 @@ namespace Designer_Offer.Data
     public partial class PrimeContext : DbContext
     {
         public PrimeContext()
-            : base("name=PrimeContext")
+            : base(nameOrConnectionString: "PrimeContext")
         {
         }
 

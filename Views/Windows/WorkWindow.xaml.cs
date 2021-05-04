@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace Designer_Offer.Views.Windows
 {
-    /// <summary>
-    /// Логика взаимодействия для WorkWindow.xaml
-    /// </summary>
     public partial class WorkWindow : Window
     {
         public WorkWindow()

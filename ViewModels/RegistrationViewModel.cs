@@ -4,7 +4,6 @@ using Designer_Offer.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -186,14 +185,15 @@ namespace Designer_Offer.ViewModels
 
         public RegistrationViewModel(ICommand loadlogin)
         {
-            try
-            {
-                Companies = contextDB.Company.ToList();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Ошибка соединения с базой данных\n" + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            //try
+            //{
+                if (contextDB != null)
+                    Companies = contextDB.Company.ToList();
+            //}
+            //catch (Exception e)
+            //{
+            //    MessageBox.Show("Ошибка соединения с базой данных\n" + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            //}
 
             LoadLoginPageCommand = loadlogin;
             LoadPositionCommand = new LambdaCommand(OnLoadPositionCommand, CanLoadPositionCommand);
