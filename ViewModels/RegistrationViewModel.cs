@@ -193,7 +193,10 @@ namespace Designer_Offer.ViewModels
             finally
             {
                 ResetFiled();
-                Status = "Спасибо за регистрацию! Теперь вы можете войти.";
+                LoadLoginPageCommand.Execute(null);
+
+                MessageBox.Show("Ваш аккаунт зарегистрован!\nТеперь вы можете войти.", 
+                    "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -229,7 +232,8 @@ namespace Designer_Offer.ViewModels
             }
             catch (Exception e)
             {
-                MessageBox.Show("Ошибка соединения с базой данных\n" + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Ошибка соединения с базой данных\n" + e.Message, 
+                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             LoadLoginPageCommand = loadlogin;

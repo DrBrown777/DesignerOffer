@@ -112,7 +112,7 @@ namespace Designer_Offer.ViewModels
                 Status = "Неправильный логин или пароль!";
 
                 TimerCallback callback = new TimerCallback(ChangeStatus);
-                Timer timer = new Timer(callback, "Для входа в систему введите Логин и Пароль", 1000, 0);
+                Timer timer = new Timer(callback, "Для входа в систему введите Логин и Пароль", 1500, 0);
                 
                 return false;
             }
@@ -134,7 +134,8 @@ namespace Designer_Offer.ViewModels
             }
             catch (Exception e)
             {
-                MessageBox.Show("Ошибка соединения с базой данных\n" + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Ошибка соединения с базой данных\n" + e.Message,
+                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             LoginCommand = new LambdaCommand(OnLoginCommand, CanLoginCommand);
