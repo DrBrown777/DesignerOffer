@@ -223,18 +223,9 @@ namespace Designer_Offer.ViewModels
             UserPhone = null;
         }
 
-        public RegistrationViewModel(ICommand loadlogin)
+        public RegistrationViewModel(ICommand loadlogin, List<Company> companies)
         {
-            try
-            {
-                if (contextDB != null)
-                    Companies = contextDB.Company.ToList();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Ошибка соединения с базой данных\n" + e.Message, 
-                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            Companies = companies;
 
             LoadLoginPageCommand = loadlogin;
             LoadPositionCommand = new LambdaCommand(OnLoadPositionCommand, CanLoadPositionCommand);

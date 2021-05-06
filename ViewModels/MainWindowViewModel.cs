@@ -2,11 +2,19 @@
 using Designer_Offer.ViewModels.Base;
 using Designer_Offer.Data;
 using System.Windows.Input;
+using System.Collections.Generic;
+using System.Windows;
+using System.Linq;
+using System;
 
 namespace Designer_Offer.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
+        /// <summary>
+        /// Список компаний
+        /// </summary>
+        private static List<Company> Companies;
         /// <summary>
         /// ViewModel страницы Логина
         /// </summary>
@@ -57,13 +65,27 @@ namespace Designer_Offer.ViewModels
             return true && RegistrationPage != null || AnyViewModel != null;
         }
 
+        static MainWindowViewModel()
+        {
+            try
+            {
+                if (contextDB != null)
+                   Companies = contextDB.Company.ToList();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Ошибка соединения с базой данных\n" + e.Message,
+                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         public MainWindowViewModel()
         {
             LoadLoginPage = new LambdaCommand(OnLoadLoginPage, CanLoadLoginPage);
             LoadRegistarationPage = new LambdaCommand(OnLoadRegistarationPage, CanLoadRegistarationPage);
 
-            LoginPage = new LoginViewModel(LoadRegistarationPage);
-            RegistrationPage = new RegistrationViewModel(LoadLoginPage);
+            LoginPage = new LoginViewModel(LoadRegistarationPage, Companies);
+            RegistrationPage = new RegistrationViewModel(LoadLoginPage, Companies);
 
             AnyViewModel = LoginPage;
         }

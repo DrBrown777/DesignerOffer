@@ -104,7 +104,7 @@ namespace Designer_Offer.ViewModels
             int id = Convert.ToInt32(SelectedCompany);
 
             string pass = passBox.Password.Trim().ToLower();
-            
+
             UserData userData = contextDB.UserData.FirstOrDefault(u => u.Login == Login);
 
             if (userData == null || userData.Password != pass)
@@ -125,19 +125,10 @@ namespace Designer_Offer.ViewModels
             Status = p.ToString();
         }
 
-        public LoginViewModel(ICommand loadregister)
+        public LoginViewModel(ICommand loadregister, List<Company> companies)
         {
-            try
-            {
-                if (contextDB != null)
-                    Companies = contextDB.Company.ToList();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Ошибка соединения с базой данных\n" + e.Message,
-                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
+            Companies = companies;
+           
             LoginCommand = new LambdaCommand(OnLoginCommand, CanLoginCommand);
             LoadRegistarationPageCommand = loadregister;
 
