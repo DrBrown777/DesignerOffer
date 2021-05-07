@@ -14,7 +14,7 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Список компаний
         /// </summary>
-        private static List<Company> Companies;
+        private static readonly List<Company> Companies;
         /// <summary>
         /// ViewModel страницы Логина
         /// </summary>

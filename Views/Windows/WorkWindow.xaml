@@ -3,10 +3,121 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:Designer_Offer.Views.Windows"
         mc:Ignorable="d"
-        Title="WorkWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="WorkWindow" Height="600" Width="1000"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="12"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Aliased"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
+    <Window.Resources>
+        <Style TargetType="GroupBox" BasedOn="{StaticResource MaterialDesignCardGroupBox}">
+            <Setter Property="Margin" Value="3px"/>
+            
+        </Style>
+        <Style TargetType="Menu" BasedOn="{StaticResource MaterialDesignMenu}">
+            <Setter Property="Margin" Value="3px"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+        <Style TargetType="StatusBar">
+            <Setter Property="Margin" Value="3px"/>
+        </Style>
+    </Window.Resources>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" IsMainMenu="True">
+            <Menu.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <DockPanel LastChildFill="False"/>
+                </ItemsPanelTemplate>
+            </Menu.ItemsPanel>
+            <MenuItem Header="_Файл">
+                <MenuItem 
+                    Header="Сохранить"
+                    Icon="{materialDesign:PackIcon Kind=ContentSave}"/>
+                <MenuItem 
+                    Header="Сохранить как.." />
+                <Separator />
+                <MenuItem 
+                    Header="Выход"
+                    InputGestureText="Ctrl+E"
+                    Icon="{materialDesign:PackIcon Kind=ExitToApp}" />
+            </MenuItem>
+            <MenuItem Header="_Правка">
+                <MenuItem
+                    Header="_Вырезать"
+                    Command="Cut"
+                    Icon="{materialDesign:PackIcon Kind=ContentCut}" />
+                <MenuItem
+                    Header="_Копировать"
+                    Command="Copy"
+                    Icon="{materialDesign:PackIcon Kind=ContentCopy}" />
+                <MenuItem
+                    Header="_Вставить"
+                    Command="Paste"
+                    Icon="{materialDesign:PackIcon Kind=ContentPaste}" />
+                <Separator />
+            </MenuItem>
+            <MenuItem Header="_Настройки"/>
+            <MenuItem Header="_Справка"/>
+        </Menu>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem DockPanel.Dock="Right">
+                <ResizeGrip IsHitTestVisible="True"/>
+            </StatusBarItem>
+            <StatusBarItem Content="Статус" FontSize="12" />
+        </StatusBar>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.7*"/>
+                <RowDefinition Height="0.3*"/>
+            </Grid.RowDefinitions>
+            <GroupBox Header="Клинеты" 
+                      Grid.Column="0" 
+                      Grid.Row="0">
+
+            </GroupBox>
+            <GroupBox Header="Обьекты" 
+                      Grid.Column="0" 
+                      Grid.Row="1">
+
+            </GroupBox>
+            <GroupBox Header="Проекты" 
+                      Grid.Column="1" 
+                      Grid.Row="0">
+
+            </GroupBox>
+            <GroupBox  Header="Разделы" 
+                       Grid.Column="1" 
+                       Grid.Row="1">
+
+            </GroupBox>
+            <GroupBox Header="Коммерческие предложения" 
+                      Grid.Column="2" 
+                      Grid.RowSpan="2">
+
+            </GroupBox>
+            <GroupBox  Header="Системы"
+                       Grid.Column="3">
+
+            </GroupBox>
+            <GroupBox  Header="Стоимость" 
+                       Grid.Column="3" 
+                       Grid.Row="1">
+
+            </GroupBox>
+        </Grid>
+    </DockPanel>
+    
 </Window>

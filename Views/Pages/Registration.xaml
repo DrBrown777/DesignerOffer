@@ -34,8 +34,6 @@
             <Setter Property="Height" Value="27"/>
             <Setter Property="Width" Value="205"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
-            <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" 
-                    Value="#FF436EB1"/>
             <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>
         </Style>
         <Style x:Key="PasswordBox" TargetType="PasswordBox" 
@@ -44,8 +42,6 @@
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="Height" Value="27"/>
             <Setter Property="Width" Value="205"/>
-            <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" 
-                    Value="#FF436EB1"/>
             <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>
         </Style>
         <Style TargetType="materialDesign:PackIcon">
@@ -62,9 +58,6 @@
         </Style>
         <Style x:Key="Button" TargetType="Button" 
                BasedOn="{StaticResource MaterialDesignFlatMidBgButton}">
-            <Setter Property="Background" Value="#FF2A73B4"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="#FF2A73B4"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="Width" Value="90"/>
@@ -75,9 +68,6 @@
         </Style>
         <Style x:Key="ButtonValid" TargetType="Button" 
                BasedOn="{StaticResource MaterialDesignFlatMidBgButton}">
-            <Setter Property="Background" Value="#FF2A73B4"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="#FF2A73B4"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="Width" Value="90"/>
