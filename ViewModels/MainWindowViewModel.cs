@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Linq;
 using System;
+using System.Windows.Controls;
 
 namespace Designer_Offer.ViewModels
 {
@@ -17,14 +18,22 @@ namespace Designer_Offer.ViewModels
         private static readonly List<Company> Companies;
 
         /// <summary>
+        /// Страница Логина
+        /// </summary>
+        protected Page LoginPage;
+        /// <summary>
         /// ViewModel страницы Логина
         /// </summary>
-        private static ViewModel LoginPage;
+        private ViewModel LoginPageViewModel;
 
+        /// <summary>
+        /// Cтраница Регистрации
+        /// </summary>
+        protected Page RegistrationPage;
         /// <summary>
         /// ViewModel страницы Регистрации
         /// </summary>
-        private static ViewModel RegistrationPage;
+        private ViewModel RegistrationPageViewModel;
 
         private ViewModel _AnyViewModel;
         /// <summary>
@@ -43,14 +52,18 @@ namespace Designer_Offer.ViewModels
 
         private void OnLoadLoginPage(object p)
         {
-            LoginPage = new LoginViewModel(LoadRegistarationPage, Companies);
-            AnyViewModel = LoginPage;
+            LoginPageViewModel = new LoginViewModel(LoadRegistarationPage, Companies);
+            LoginPage = new Page();
+           
+            AnyViewModel = LoginPageViewModel;
+
+            RegistrationPageViewModel = null;
             RegistrationPage = null;
         }
 
         private bool CanLoadLoginPage(object p)
         {
-            return LoginPage is null;
+            return LoginPageViewModel is null;
         }
 
         /// <summary>
@@ -60,14 +73,18 @@ namespace Designer_Offer.ViewModels
 
         private void OnLoadRegistarationPage(object p)
         {
-            RegistrationPage = new RegistrationViewModel(LoadLoginPage, Companies);
-            AnyViewModel = RegistrationPage;
+            RegistrationPageViewModel = new RegistrationViewModel(LoadLoginPage, Companies);
+            RegistrationPage = new Page();
+
+            AnyViewModel = RegistrationPageViewModel;
+
+            LoginPageViewModel = null;
             LoginPage = null;
         }
 
         private bool CanLoadRegistarationPage(object p)
         {
-            return RegistrationPage is null;
+            return RegistrationPageViewModel is null;
         }
 
         static MainWindowViewModel()

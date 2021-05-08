@@ -78,6 +78,7 @@ namespace Designer_Offer.ViewModels
             {
                 WorkWindow work = new WorkWindow();
 
+                Application.Current.MainWindow.DataContext = null;
                 Application.Current.MainWindow.Close();
                 Application.Current.MainWindow = null;
 
@@ -114,7 +115,7 @@ namespace Designer_Offer.ViewModels
 
                 TimerCallback callback = new TimerCallback(ChangeStatus);
                 Timer timer = new Timer(callback, "Для входа в систему введите Логин и Пароль", 1500, 0);
-                
+
                 return false;
             }
 
@@ -125,6 +126,8 @@ namespace Designer_Offer.ViewModels
         {
             Status = p.ToString();
         }
+
+        public LoginViewModel(){}
 
         public LoginViewModel(ICommand loadregister, List<Company> companies)
         {

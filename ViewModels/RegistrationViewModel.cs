@@ -214,6 +214,8 @@ namespace Designer_Offer.ViewModels
                 return true;
         }
 
+        public RegistrationViewModel() { }
+
         public RegistrationViewModel(ICommand loadlogin, List<Company> companies)
         {
             Companies = companies;
