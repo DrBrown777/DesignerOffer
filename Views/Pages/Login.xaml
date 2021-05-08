@@ -34,26 +34,28 @@
             <Setter Property="Width" Value="205"/>
             <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>
         </Style>
-        <Style x:Key="ButtonValid" TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatMidBgButton}">
+        <Style x:Key="ButtonValid" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedDarkButton}">
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="Width" Value="90"/>
             <Setter Property="Height" Value="25"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="FontFamily" Value="Arial Narrow"/>
+            <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth2"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=LoginBox}" Value="True">
                     <Setter Property="IsEnabled" Value="False"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="Button" TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatMidBgButton}">
+        <Style x:Key="Button" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedDarkButton}">
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="Width" Value="90"/>
             <Setter Property="Height" Value="25"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="FontFamily" Value="Arial Narrow"/>
+            <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth2"/>
         </Style>
         <Style x:Key="ComboBox" TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
             <Setter Property="HorizontalAlignment" Value="Left"/>

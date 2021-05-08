@@ -86,7 +86,6 @@
             <GroupBox Header="Клинеты" 
                       Grid.Column="0" 
                       Grid.Row="0">
-
             </GroupBox>
             <GroupBox Header="Обьекты" 
                       Grid.Column="0" 
