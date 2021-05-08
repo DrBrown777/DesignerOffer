@@ -3,6 +3,7 @@ using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.ViewModels.Base;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -132,16 +133,16 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         public ICommand LoadPositionCommand { get; }
         
-        private void OnLoadPositionCommand(object p)
+        private async void OnLoadPositionCommand(object p)
         {
             int IdSelectedCompany = Convert.ToInt32(SelectedCompany);
 
             try
             {
-                Positions = (from pos in contextDB.Position
-                             join cpPos in contextDB.CompanyPosition on pos.Id equals cpPos.Position_Id
-                             where cpPos.Company_Id.Equals(IdSelectedCompany)
-                             select pos).ToList();
+                Positions = await (from pos in contextDB.Position
+                                   join cpPos in contextDB.CompanyPosition on pos.Id equals cpPos.Position_Id
+                                   where cpPos.Company_Id.Equals(IdSelectedCompany)
+                                   select pos).ToListAsync();
             }
             catch (Exception e)
             {
@@ -158,7 +159,7 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         public ICommand RegistrationCommand { get; }
 
-        private void OnRegistrationCommand(object p)
+        private async void OnRegistrationCommand(object p)
         {
             PasswordBox passBox = (PasswordBox)p;
 
@@ -184,7 +185,7 @@ namespace Designer_Offer.ViewModels
             {
                 contextDB.Employee.Add(employee);
 
-                contextDB.SaveChangesAsync();
+                await contextDB.SaveChangesAsync();
             }
             catch (Exception e)
             {
@@ -192,7 +193,6 @@ namespace Designer_Offer.ViewModels
             }
             finally
             {
-                ResetFiled();
                 LoadLoginPageCommand.Execute(null);
 
                 MessageBox.Show("Ваш аккаунт зарегистрован!\nТеперь вы можете войти.", 
@@ -212,15 +212,6 @@ namespace Designer_Offer.ViewModels
                 return false;
             else
                 return true;
-        }
-
-        private void ResetFiled()
-        {
-            UserLogin = null;
-            UserName = null;
-            UserSurName = null;
-            UserEmail = null;
-            UserPhone = null;
         }
 
         public RegistrationViewModel(ICommand loadlogin, List<Company> companies)

@@ -213,7 +213,7 @@
                 Kind="AccountHardHat"/>
             <ComboBox 
                 Style="{Binding Source={StaticResource ComboBox}}"
-                ItemsSource="{Binding Path=Positions}"
+                ItemsSource="{Binding Path=Positions, UpdateSourceTrigger=PropertyChanged}"
                 materialDesign:HintAssist.Hint="Выберите должность"
                 materialDesign:HintAssist.HelperText="специальность"
                 SelectedValue="{Binding Path=SelectedPosition, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"

@@ -15,6 +15,7 @@ namespace Designer_Offer.ViewModels
         /// Список компаний
         /// </summary>
         private static readonly List<Company> Companies;
+
         /// <summary>
         /// ViewModel страницы Логина
         /// </summary>
@@ -42,12 +43,14 @@ namespace Designer_Offer.ViewModels
 
         private void OnLoadLoginPage(object p)
         {
+            LoginPage = new LoginViewModel(LoadRegistarationPage, Companies);
             AnyViewModel = LoginPage;
+            RegistrationPage = null;
         }
 
         private bool CanLoadLoginPage(object p)
         {
-            return true && LoginPage != null || AnyViewModel != null;
+            return LoginPage is null;
         }
 
         /// <summary>
@@ -57,12 +60,14 @@ namespace Designer_Offer.ViewModels
 
         private void OnLoadRegistarationPage(object p)
         {
+            RegistrationPage = new RegistrationViewModel(LoadLoginPage, Companies);
             AnyViewModel = RegistrationPage;
+            LoginPage = null;
         }
 
         private bool CanLoadRegistarationPage(object p)
         {
-            return true && RegistrationPage != null || AnyViewModel != null;
+            return RegistrationPage is null;
         }
 
         static MainWindowViewModel()
@@ -70,7 +75,7 @@ namespace Designer_Offer.ViewModels
             try
             {
                 if (contextDB != null)
-                   Companies = contextDB.Company.ToList();
+                    Companies = contextDB.Company.ToList();
             }
             catch (Exception e)
             {
@@ -84,10 +89,7 @@ namespace Designer_Offer.ViewModels
             LoadLoginPage = new LambdaCommand(OnLoadLoginPage, CanLoadLoginPage);
             LoadRegistarationPage = new LambdaCommand(OnLoadRegistarationPage, CanLoadRegistarationPage);
 
-            LoginPage = new LoginViewModel(LoadRegistarationPage, Companies);
-            RegistrationPage = new RegistrationViewModel(LoadLoginPage, Companies);
-
-            AnyViewModel = LoginPage;
+            LoadLoginPage.Execute(null);
         }
     }
 }

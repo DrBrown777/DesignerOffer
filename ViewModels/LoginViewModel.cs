@@ -78,9 +78,10 @@ namespace Designer_Offer.ViewModels
             {
                 WorkWindow work = new WorkWindow();
 
-                work.Show();
+                Application.Current.MainWindow.Close();
+                Application.Current.MainWindow = null;
 
-               Application.Current.MainWindow.Close();
+                work.Show();
             }
         }
 

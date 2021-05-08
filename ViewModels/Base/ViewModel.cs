@@ -31,10 +31,10 @@ namespace Designer_Offer.ViewModels.Base
             contextDB = new PrimeContext();
         }
 
-        ~ViewModel()
-        {
-            Dispose(false);
-        }
+        //~ViewModel()
+        //{
+        //    Dispose(false);
+        //}
 
         public void Dispose()
         {
