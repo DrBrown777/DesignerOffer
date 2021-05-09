@@ -34,6 +34,10 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Status, value);
         }
 
+        //private List<Company> _Companies;
+        /// <summary>
+        /// Список компаний
+        /// </summary>
         private List<Company> _Companies;
         /// <summary>
         /// Список компаний
@@ -127,12 +131,16 @@ namespace Designer_Offer.ViewModels
             Status = p.ToString();
         }
 
+        public void Update(List<Company> companies)
+        {
+            if (Equals(companies, Companies)) return;
+            Companies = companies;
+        }
+
         public LoginViewModel(){}
 
-        public LoginViewModel(ICommand loadregister, List<Company> companies)
+        public LoginViewModel(ICommand loadregister)
         {
-            Companies = companies;
-           
             LoginCommand = new LambdaCommand(OnLoginCommand, CanLoginCommand);
             LoadRegistarationPageCommand = loadregister;
 

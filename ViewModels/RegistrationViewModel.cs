@@ -214,12 +214,16 @@ namespace Designer_Offer.ViewModels
                 return true;
         }
 
+        public void Update(List<Company> companies)
+        {
+            if (Equals(companies, Companies)) return;
+            Companies = companies;
+        }
+
         public RegistrationViewModel() { }
 
-        public RegistrationViewModel(ICommand loadlogin, List<Company> companies)
+        public RegistrationViewModel(ICommand loadlogin)
         {
-            Companies = companies;
-
             LoadLoginPageCommand = loadlogin;
             LoadPositionCommand = new LambdaCommand(OnLoadPositionCommand, CanLoadPositionCommand);
             RegistrationCommand = new LambdaCommand(OnRegistrationCommand, CanRegistrationCommand);
