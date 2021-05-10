@@ -104,10 +104,12 @@
     <Compile Include="Data\PrimeContext.cs" />
     <Compile Include="Infrastructure\Commands\CloseApplicationCommand.cs" />
     <Compile Include="Infrastructure\Converters\Base\Converter.cs" />
+    <Compile Include="Infrastructure\Interfaces\IDataService.cs" />
     <Compile Include="Infrastructure\Validations\UniqEmailValidationRule.cs" />
     <Compile Include="Infrastructure\Validations\UniqLoginValidationRule.cs" />
     <Compile Include="Infrastructure\Validations\UniqPhoneValidationRule.cs" />
     <Compile Include="Services\Bootstrapper.cs" />
+    <Compile Include="Services\DataService.cs" />
     <Compile Include="Views\Windows\WorkWindow.xaml.cs">
       <DependentUpon>WorkWindow.xaml</DependentUpon>
     </Compile>
