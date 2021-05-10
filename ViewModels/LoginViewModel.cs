@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace Designer_Offer.ViewModels
 {
-    internal class LoginViewModel : ViewModel
+    public class LoginViewModel : ViewModel
     {
         #region СВОЙСТВА
         private string _Title;
@@ -79,7 +79,7 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Команда загрузки страницы Регистрации
         /// </summary>
-        public ICommand LoadRegistarationPageCommand { get; }
+        public ICommand LoadRegistarationPageCommand { get; set; }
 
         public ICommand LoginCommand { get; }
         /// <summary>
@@ -143,20 +143,18 @@ namespace Designer_Offer.ViewModels
             Status = p.ToString();
         }
 
-        public void Update(List<Company> companies)
+        public void Update(List<Company> companies, ICommand loadregister)
         {
-            if (Equals(companies, Companies)) return;
+            if (Equals(companies, Companies) || Equals(loadregister, LoadRegistarationPageCommand)) return;
             Companies = companies;
+            LoadRegistarationPageCommand = loadregister;
         }
         #endregion
 
         #region КОНСТРУКТОРЫ
-        public LoginViewModel(){}
-
-        public LoginViewModel(ICommand loadregister)
+        public LoginViewModel()
         {
             LoginCommand = new LambdaCommand(OnLoginCommand, CanLoginCommand);
-            LoadRegistarationPageCommand = loadregister;
 
             Status = "Для входа в систему введите Логин и Пароль";
             Title = "Вход в систему";
