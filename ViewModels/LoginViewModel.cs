@@ -14,6 +14,7 @@ namespace Designer_Offer.ViewModels
 {
     internal class LoginViewModel : ViewModel
     {
+        #region СВОЙСТВА
         private string _Title;
         /// <summary>
         /// Заголовок Окна
@@ -67,6 +68,9 @@ namespace Designer_Offer.ViewModels
             get => _SelectedComapany;
             set => Set(ref _SelectedComapany, value);
         }
+        #endregion
+
+        #region КОМАНДЫ
         /// <summary>
         /// Команда загрузки страницы Регистрации
         /// </summary>
@@ -104,14 +108,16 @@ namespace Designer_Offer.ViewModels
             else
                 return true;
         }
+        #endregion
 
+        #region МЕТОДЫ
         private bool LoginSucces(PasswordBox passBox)
         {
             int id = Convert.ToInt32(SelectedCompany);
 
             string pass = passBox.Password.Trim().ToLower();
 
-            UserData userData = contextDB.UserData.FirstOrDefault(u => u.Login == Login);
+            UserData userData = contextDB.UserData.AsNoTracking().FirstOrDefault(u => u.Login == Login);
 
             if (userData == null || userData.Password != pass)
             {
@@ -136,7 +142,9 @@ namespace Designer_Offer.ViewModels
             if (Equals(companies, Companies)) return;
             Companies = companies;
         }
+        #endregion
 
+        #region КОНСТРУКТОРЫ
         public LoginViewModel(){}
 
         public LoginViewModel(ICommand loadregister)
@@ -147,5 +155,6 @@ namespace Designer_Offer.ViewModels
             Status = "Для входа в систему введите Логин и Пароль";
             Title = "Вход в систему";
         }
+        #endregion
     }
 }

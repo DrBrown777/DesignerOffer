@@ -19,7 +19,7 @@ namespace Designer_Offer.Infrastructure.Validations
                 {
                     return new ValidationResult(false, "не валидный email");
                 }
-                else if (context.Employee.Where(e => e.Mail == value.ToString().Trim()).Any())
+                else if (context.Employee.AsNoTracking().Where(e => e.Mail == value.ToString().Trim()).Any())
                 { 
                     return new ValidationResult(false, "email должен быть уникален"); 
                 }

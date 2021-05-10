@@ -11,6 +11,7 @@ namespace Designer_Offer.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
+        #region СВОЙСТВА
         private List<Company> _Companies;
         /// <summary>
         /// Список компаний
@@ -44,7 +45,9 @@ namespace Designer_Offer.ViewModels
             get => _AnyViewModel;
             set => Set(ref _AnyViewModel, value);
         }
+        #endregion
 
+        #region КОМАНДЫ
         /// <summary>
         /// Команда загрузки страницы Логина
         /// </summary>
@@ -84,13 +87,15 @@ namespace Designer_Offer.ViewModels
         {
             return RegistrationPageViewModel is null;
         }
+        #endregion
 
-        private async void GetCompanies()
+        #region МЕТОДЫ
+        private async void GetAllCompanies()
         {
             try
             {
                 if (contextDB != null)
-                    Companies = await contextDB.Company.ToListAsync();
+                    Companies = await contextDB.Company.AsNoTracking().ToListAsync();
             }
             catch (Exception e)
             {
@@ -98,14 +103,17 @@ namespace Designer_Offer.ViewModels
                     "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        #endregion
 
+        #region КОНСТРУКТОРЫ
         public MainWindowViewModel()
         {
             LoadLoginPage = new LambdaCommand(OnLoadLoginPage, CanLoadLoginPage);
             LoadRegistarationPage = new LambdaCommand(OnLoadRegistarationPage, CanLoadRegistarationPage);
             
-            GetCompanies();
+            GetAllCompanies();
             LoadLoginPage.Execute(null);
         }
+        #endregion
     }
 }

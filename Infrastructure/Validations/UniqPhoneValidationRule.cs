@@ -18,7 +18,7 @@ namespace Designer_Offer.Infrastructure.Validations
                 {
                     return new ValidationResult(false, "формат номера +380675552233");
                 }
-                else if (context.Employee.Where(e => e.Phone == value.ToString().Trim()).Any())
+                else if (context.Employee.AsNoTracking().Where(e => e.Phone == value.ToString().Trim()).Any())
                 {
                     return new ValidationResult(false, "телефон должен быть уникален");
                 }

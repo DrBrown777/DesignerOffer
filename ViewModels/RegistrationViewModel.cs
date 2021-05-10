@@ -13,6 +13,7 @@ namespace Designer_Offer.ViewModels
 {
     internal class RegistrationViewModel : ViewModel
     {
+        #region СВОЙСТВА
         private string _Title;
         /// <summary>
         /// Заголовок Окна
@@ -122,7 +123,9 @@ namespace Designer_Offer.ViewModels
             get => _SelectedPosition;
             set => Set(ref _SelectedPosition, value);
         }
+        #endregion
 
+        #region КОМАНДЫ
         /// <summary>
         /// Команда загрузки страницы Логина
         /// </summary>
@@ -142,7 +145,7 @@ namespace Designer_Offer.ViewModels
                 Positions = await (from pos in contextDB.Position
                                    join cpPos in contextDB.CompanyPosition on pos.Id equals cpPos.Position_Id
                                    where cpPos.Company_Id.Equals(IdSelectedCompany)
-                                   select pos).ToListAsync();
+                                   select pos).AsNoTracking().ToListAsync();
             }
             catch (Exception e)
             {
@@ -199,7 +202,9 @@ namespace Designer_Offer.ViewModels
                     "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+        #endregion
 
+        #region МЕТОДЫ
         private bool CanRegistrationCommand(object p)
         {
             PasswordBox passBox = (PasswordBox)p;
@@ -219,7 +224,9 @@ namespace Designer_Offer.ViewModels
             if (Equals(companies, Companies)) return;
             Companies = companies;
         }
+        #endregion
 
+        #region КОНСТРУКТОРЫ
         public RegistrationViewModel() { }
 
         public RegistrationViewModel(ICommand loadlogin)
@@ -231,5 +238,6 @@ namespace Designer_Offer.ViewModels
             Status = "Для регистрации заполните все поля";
             Title = "Регистрация в системе";
         }
+        #endregion
     }
 }
