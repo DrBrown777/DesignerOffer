@@ -194,11 +194,10 @@
             <ComboBox 
                 Style="{Binding Source={StaticResource ComboBox}}"
                 ItemsSource="{Binding Path=Companies, UpdateSourceTrigger=PropertyChanged}"
+                SelectedItem="{Binding Path=SelectedCompany, UpdateSourceTrigger=PropertyChanged}"
+                DisplayMemberPath="Name"
                 materialDesign:HintAssist.Hint="Выберите компанию"
                 materialDesign:HintAssist.HelperText="подразделение"
-                SelectedValue="{Binding Path=SelectedCompany, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
-                SelectedValuePath="Id"
-                DisplayMemberPath="Name"
                 IsSynchronizedWithCurrentItem="False"
                 SelectedIndex="-1">
                 <i:Interaction.Triggers>
@@ -214,11 +213,10 @@
             <ComboBox 
                 Style="{Binding Source={StaticResource ComboBox}}"
                 ItemsSource="{Binding Path=Positions, UpdateSourceTrigger=PropertyChanged}"
+                SelectedItem="{Binding Path=SelectedPosition, UpdateSourceTrigger=PropertyChanged}"
+                DisplayMemberPath="Name"
                 materialDesign:HintAssist.Hint="Выберите должность"
                 materialDesign:HintAssist.HelperText="специальность"
-                SelectedValue="{Binding Path=SelectedPosition, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
-                DisplayMemberPath="Name"
-                SelectedValuePath="Id"
                 IsSynchronizedWithCurrentItem="False"
                 SelectedIndex="-1"/>
         </WrapPanel>

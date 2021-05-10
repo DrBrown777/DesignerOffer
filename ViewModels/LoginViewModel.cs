@@ -35,6 +35,11 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Status, value);
         }
 
+        /// <summary>
+        /// Пользователь
+        /// </summary>
+        private UserData User;
+
         //private List<Company> _Companies;
         /// <summary>
         /// Список компаний
@@ -59,11 +64,11 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Login, value);
         }
 
-        private string _SelectedComapany;
+        private Company _SelectedComapany;
         /// <summary>
         /// Выбранная компания
         /// </summary>
-        public string SelectedCompany
+        public Company SelectedCompany
         {
             get => _SelectedComapany;
             set => Set(ref _SelectedComapany, value);
@@ -96,10 +101,7 @@ namespace Designer_Offer.ViewModels
 
         private bool CanLoginCommand(object p)
         {
-            PasswordBox passBox = (PasswordBox)p;
-            string pass = passBox.Password;
-
-            if (string.IsNullOrWhiteSpace(pass))
+            if (string.IsNullOrWhiteSpace(((PasswordBox)p).Password))
             {
                 return false;
             }
@@ -113,22 +115,26 @@ namespace Designer_Offer.ViewModels
         #region МЕТОДЫ
         private bool LoginSucces(PasswordBox passBox)
         {
-            int id = Convert.ToInt32(SelectedCompany);
-
-            string pass = passBox.Password.Trim().ToLower();
-
-            UserData userData = contextDB.UserData.AsNoTracking().FirstOrDefault(u => u.Login == Login);
-
-            if (userData == null || userData.Password != pass)
+            try
+            {
+                User = (from u in contextDB.UserData.AsNoTracking()
+                        join e in contextDB.Employee on u.Employee_Id equals e.Id
+                        join c in contextDB.Company on e.Company_Id equals SelectedCompany.Id
+                        select u).FirstOrDefault(u => u.Login == Login);
+            }
+            catch(Exception e)
+            {
+                Status = e.Message;
+            }
+           
+            if (User == null || User.Password != passBox.Password.Trim().ToLower())
             {
                 Status = "Неправильный логин или пароль!";
 
-                TimerCallback callback = new TimerCallback(ChangeStatus);
-                Timer timer = new Timer(callback, "Для входа в систему введите Логин и Пароль", 1500, 0);
-
+                Timer timer = new Timer(new TimerCallback(ChangeStatus), 
+                                        "Для входа в систему введите Логин и Пароль", 1500, 0);
                 return false;
             }
-
             return true;
         }
 

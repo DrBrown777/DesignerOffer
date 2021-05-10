@@ -104,21 +104,21 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Positions, value);
         }
 
-        private string _SelectedComapany;
+        private Company _SelectedComapany;
         /// <summary>
         /// Выбранная компания
         /// </summary>
-        public string SelectedCompany
+        public Company SelectedCompany
         {
             get => _SelectedComapany;
             set => Set(ref _SelectedComapany, value);
         }
 
-        private string _SelectedPosition;
+        private Position _SelectedPosition;
         /// <summary>
         /// Выбранная должность
         /// </summary>
-        public string SelectedPosition
+        public Position SelectedPosition
         {
             get => _SelectedPosition;
             set => Set(ref _SelectedPosition, value);
@@ -138,13 +138,11 @@ namespace Designer_Offer.ViewModels
         
         private async void OnLoadPositionCommand(object p)
         {
-            int IdSelectedCompany = Convert.ToInt32(SelectedCompany);
-
             try
             {
                 Positions = await (from pos in contextDB.Position
                                    join cpPos in contextDB.CompanyPosition on pos.Id equals cpPos.Position_Id
-                                   where cpPos.Company_Id.Equals(IdSelectedCompany)
+                                   where cpPos.Company_Id.Equals(SelectedCompany.Id)
                                    select pos).AsNoTracking().ToListAsync();
             }
             catch (Exception e)
@@ -178,8 +176,8 @@ namespace Designer_Offer.ViewModels
                 Last_Name = UserSurName,
                 Mail = UserEmail,
                 Phone = UserPhone,
-                Company_Id = Convert.ToInt32(SelectedCompany),
-                Position_Id = Convert.ToInt32(SelectedPosition)
+                Company_Id = SelectedCompany.Id,
+                Position_Id = SelectedPosition.Id
             };
 
             employee.UserData.Add(user);

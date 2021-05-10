@@ -125,11 +125,10 @@
         <ComboBox 
             Style="{Binding Source={StaticResource ComboBox}}"
             ItemsSource="{Binding Path=Companies, UpdateSourceTrigger=PropertyChanged}"
+            SelectedItem="{Binding Path=SelectedCompany, UpdateSourceTrigger=PropertyChanged}"
+            DisplayMemberPath="Name"
             materialDesign:HintAssist.Hint="Выберите компанию"
             materialDesign:HintAssist.HelperText="подразделение"
-            SelectedValue="{Binding Path=SelectedCompany, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
-            DisplayMemberPath="Name"
-            SelectedValuePath="Id"
             Grid.Column="1"
             IsSynchronizedWithCurrentItem="False"
             Margin="45,104,0,0"
