@@ -13,19 +13,12 @@ namespace Designer_Offer
             
             ViewModel = _viewmodel;
             DataContext = ViewModel;
-            //ContentRendered += MainWindow_ContentRendered;
             //Loaded += MainWindow_Loaded;
         }
 
-        //private async void MainWindow_ContentRendered(object sender, System.EventArgs e)
+        //private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         //{
-        //    await ViewModel.GetAllCompaniesAsync();
         //    ViewModel.UpdatePages();
-        //}
-
-        //private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    await ViewModel.GetAllCompaniesAsync();
         //}
     }
 }

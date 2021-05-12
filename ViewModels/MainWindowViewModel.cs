@@ -6,16 +6,12 @@ using System.Collections.Generic;
 using System.Windows;
 using System;
 using System.Data.Entity;
-using Designer_Offer.Infrastructure.Interfaces;
-using System.Threading.Tasks;
 
 namespace Designer_Offer.ViewModels
 {
     public class MainWindowViewModel : ViewModel
     {
         #region СВОЙСТВА
-        private readonly IDataService DataService;
-
         private List<Company> _Companies;
         /// <summary>
         /// Список компаний
@@ -84,12 +80,12 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region МЕТОДЫ
-        private async Task GetAllCompaniesAsync()
+        private async void GetAllCompanies()
         {
             try
             {
-                var comp = await DataService.GetAllAsync();
-                Companies = comp;
+                if (contextDB != null)
+                    Companies = await contextDB.Company.AsNoTracking().ToListAsync();
             }
             catch (Exception e)
             {
@@ -106,10 +102,8 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОНСТРУКТОРЫ
-        public MainWindowViewModel(LoginViewModel loginViewModel, RegistrationViewModel registrationViewModel, IDataService dataService)
+        public MainWindowViewModel(LoginViewModel loginViewModel, RegistrationViewModel registrationViewModel)
         {
-            DataService = dataService;
-
             LoginPageViewModel = loginViewModel;
             RegistrationPageViewModel = registrationViewModel;
 
@@ -118,7 +112,7 @@ namespace Designer_Offer.ViewModels
 
             AnyViewModel = LoginPageViewModel;
 
-            _ = GetAllCompaniesAsync();
+            GetAllCompanies();
         }
         #endregion
     }
