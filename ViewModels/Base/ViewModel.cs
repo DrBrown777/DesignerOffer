@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace Designer_Offer.ViewModels.Base
 {
-    public abstract class ViewModel : INotifyPropertyChanged, IDisposable
+    internal abstract class ViewModel : INotifyPropertyChanged, IDisposable
     {
         protected static PrimeContext contextDB;
 

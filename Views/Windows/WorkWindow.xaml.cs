@@ -10,7 +10,7 @@ namespace Designer_Offer.Views.Windows
         {
             InitializeComponent();
 
-            //DataContext = new MainWindowViewModel();
+            DataContext = new MainWindowViewModel();
         }
     }
 }

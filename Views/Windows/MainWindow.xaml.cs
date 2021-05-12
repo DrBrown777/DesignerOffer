@@ -5,20 +5,11 @@ namespace Designer_Offer
 {
     public partial class MainWindow : Window
     {
-        private readonly MainWindowViewModel ViewModel;
-
-        public MainWindow(MainWindowViewModel _viewmodel)
+        public MainWindow()
         {
             InitializeComponent();
-            
-            ViewModel = _viewmodel;
-            DataContext = ViewModel;
-            //Loaded += MainWindow_Loaded;
-        }
 
-        //private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    ViewModel.UpdatePages();
-        //}
+            DataContext = new MainWindowViewModel();
+        }
     }
 }

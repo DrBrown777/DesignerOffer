@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:cmd="clr-namespace:Designer_Offer.Infrastructure.Commands"
+        xmlns:local="clr-namespace:Designer_Offer.Views.Windows"
         mc:Ignorable="d"
         Title="WorkWindow" Height="600" Width="1000"
         WindowStartupLocation="CenterScreen"
@@ -43,14 +43,10 @@
                 <MenuItem 
                     Header="Сохранить как.." />
                 <Separator />
-                <MenuItem
+                <MenuItem 
                     Header="Выход"
                     InputGestureText="Ctrl+E"
-                    Icon="{materialDesign:PackIcon Kind=ExitToApp}">
-                    <MenuItem.Command>
-                        <cmd:CloseApplicationCommand/>
-                    </MenuItem.Command>
-                </MenuItem>
+                    Icon="{materialDesign:PackIcon Kind=ExitToApp}" />
             </MenuItem>
             <MenuItem Header="_Правка">
                 <MenuItem

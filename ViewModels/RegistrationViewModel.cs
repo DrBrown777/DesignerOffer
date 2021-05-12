@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace Designer_Offer.ViewModels
 {
-    public class RegistrationViewModel : ViewModel
+    internal class RegistrationViewModel : ViewModel
     {
         #region СВОЙСТВА
         private string _Title;
@@ -129,7 +129,7 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Команда загрузки страницы Логина
         /// </summary>
-        public ICommand LoadLoginPageCommand { get; set; }
+        public ICommand LoadLoginPageCommand { get; }
 
         /// <summary>
         /// Команда заполняет должности выбранной компании
@@ -195,13 +195,14 @@ namespace Designer_Offer.ViewModels
             finally
             {
                 LoadLoginPageCommand.Execute(null);
-                ResetFiled();
 
-                MessageBox.Show("Ваш аккаунт зарегистрован!\nТеперь вы можете войти.",
+                MessageBox.Show("Ваш аккаунт зарегистрован!\nТеперь вы можете войти.", 
                     "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
-        
+        #endregion
+
+        #region МЕТОДЫ
         private bool CanRegistrationCommand(object p)
         {
             PasswordBox passBox = (PasswordBox)p;
@@ -215,29 +216,20 @@ namespace Designer_Offer.ViewModels
             else
                 return true;
         }
-        #endregion
 
-        #region МЕТОДЫ
-        public void Update(List<Company> companies, ICommand loadlogin)
+        public void Update(List<Company> companies)
         {
-            if (Equals(companies, Companies) || Equals(loadlogin, LoadLoginPageCommand)) return;
+            if (Equals(companies, Companies)) return;
             Companies = companies;
-            LoadLoginPageCommand = loadlogin;
-        }
-
-        private void ResetFiled()
-        {
-            UserLogin = null;
-            UserName = null;
-            UserSurName = null;
-            UserEmail = null;
-            UserPhone = null;
         }
         #endregion
 
         #region КОНСТРУКТОРЫ
-        public RegistrationViewModel()
+        public RegistrationViewModel() { }
+
+        public RegistrationViewModel(ICommand loadlogin)
         {
+            LoadLoginPageCommand = loadlogin;
             LoadPositionCommand = new LambdaCommand(OnLoadPositionCommand, CanLoadPositionCommand);
             RegistrationCommand = new LambdaCommand(OnRegistrationCommand, CanRegistrationCommand);
 

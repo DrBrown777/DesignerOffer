@@ -1,7 +1,11 @@
-﻿using System.Threading;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
-using Autofac;
-using Designer_Offer.Services;
 
 namespace Designer_Offer
 {
@@ -9,10 +13,10 @@ namespace Designer_Offer
     {
         private static Mutex _mutex = null;
 
-        private void Application_Startup(object sender, StartupEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
         {
             const string appName = "Designer Offer";
-            
+
             _mutex = new Mutex(true, appName, out bool createdNew);
 
             if (!createdNew)
@@ -20,11 +24,7 @@ namespace Designer_Offer
                 Current.Shutdown();
             }
 
-            var bootstrapper = new Bootstrapper();
-            var container = bootstrapper.Bootstrap();
-            var mainWindow = container.Resolve<MainWindow>();
-
-            mainWindow.Show();
+            base.OnStartup(e);
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Data.Entity;
 
 namespace Designer_Offer.ViewModels
 {
-    public class MainWindowViewModel : ViewModel
+    internal class MainWindowViewModel : ViewModel
     {
         #region СВОЙСТВА
         private List<Company> _Companies;
@@ -22,7 +22,7 @@ namespace Designer_Offer.ViewModels
             set
             {
                 Set(ref _Companies, value);
-                UpdatePages();
+                LoginPageViewModel.Update(_Companies);
             }
         }
 
@@ -55,12 +55,17 @@ namespace Designer_Offer.ViewModels
 
         private void OnLoadLoginPage(object p)
         {
+            LoginPageViewModel = new LoginViewModel(LoadRegistarationPage);
+            LoginPageViewModel.Update(Companies);
+           
             AnyViewModel = LoginPageViewModel;
+
+            RegistrationPageViewModel = null;
         }
 
         private bool CanLoadLoginPage(object p)
         {
-            return LoginPageViewModel != null;
+            return LoginPageViewModel is null;
         }
 
         /// <summary>
@@ -70,12 +75,17 @@ namespace Designer_Offer.ViewModels
 
         private void OnLoadRegistarationPage(object p)
         {
+            RegistrationPageViewModel = new RegistrationViewModel(LoadLoginPage);
+            RegistrationPageViewModel.Update(Companies);
+
             AnyViewModel = RegistrationPageViewModel;
+
+            LoginPageViewModel = null;
         }
 
         private bool CanLoadRegistarationPage(object p)
         {
-            return RegistrationPageViewModel != null;
+            return RegistrationPageViewModel is null;
         }
         #endregion
 
@@ -93,26 +103,16 @@ namespace Designer_Offer.ViewModels
                     "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-        private void UpdatePages()
-        {
-            LoginPageViewModel.Update(Companies, LoadRegistarationPage);
-            RegistrationPageViewModel.Update(Companies, LoadLoginPage);
-        }
         #endregion
 
         #region КОНСТРУКТОРЫ
-        public MainWindowViewModel(LoginViewModel loginViewModel, RegistrationViewModel registrationViewModel)
+        public MainWindowViewModel()
         {
-            LoginPageViewModel = loginViewModel;
-            RegistrationPageViewModel = registrationViewModel;
-
             LoadLoginPage = new LambdaCommand(OnLoadLoginPage, CanLoadLoginPage);
             LoadRegistarationPage = new LambdaCommand(OnLoadRegistarationPage, CanLoadRegistarationPage);
-
-            AnyViewModel = LoginPageViewModel;
-
+            
             GetAllCompanies();
+            LoadLoginPage.Execute(null);
         }
         #endregion
     }
