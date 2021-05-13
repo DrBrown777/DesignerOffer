@@ -2,6 +2,7 @@
 using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.ViewModels.Base;
 using Designer_Offer.Views.Windows;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,11 +90,11 @@ namespace Designer_Offer.ViewModels
         {
             if (LoginSucces((PasswordBox)p))
             {
-                WorkWindow work = new WorkWindow();
+                var work = App.Host.Services.GetRequiredService<WorkWindow>();
 
-                Application.Current.MainWindow.DataContext = null;
                 Application.Current.MainWindow.Close();
-                Application.Current.MainWindow = null;
+
+                Application.Current.MainWindow = work;
 
                 work.Show();
             }

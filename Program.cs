@@ -18,10 +18,10 @@ namespace Designer_Offer
         {
             var host_builder = Host.CreateDefaultBuilder(Args);
 
-            host_builder.UseContentRoot(Environment.CurrentDirectory);
+            host_builder.UseContentRoot(App.CurrentDirectory);
             host_builder.ConfigureAppConfiguration((host, cfg) =>
             {
-                cfg.SetBasePath(Environment.CurrentDirectory);
+                cfg.SetBasePath(App.CurrentDirectory);
                 cfg.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
             });
 
