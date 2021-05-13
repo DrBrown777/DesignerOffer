@@ -6,6 +6,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using Designer_Offer.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Designer_Offer
 {
@@ -25,6 +28,12 @@ namespace Designer_Offer
             }
 
             base.OnStartup(e);
+        }
+
+        public static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
+        {
+            services.AddSingleton<MainWindowViewModel>();
+            services.AddSingleton<MainWindow>();
         }
     }
 }
