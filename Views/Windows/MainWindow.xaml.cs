@@ -1,5 +1,4 @@
-﻿using Designer_Offer.ViewModels;
-using System.Windows;
+﻿using System.Windows;
 
 namespace Designer_Offer
 {
@@ -8,8 +7,6 @@ namespace Designer_Offer
         internal MainWindow()
         {
             InitializeComponent();
-
-            //DataContext = new MainWindowViewModel();
         }
     }
 }

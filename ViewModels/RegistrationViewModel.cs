@@ -129,7 +129,7 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Команда загрузки страницы Логина
         /// </summary>
-        public ICommand LoadLoginPageCommand { get; }
+        public ICommand LoadLoginPageCommand { get; set; }
 
         /// <summary>
         /// Команда заполняет должности выбранной компании
@@ -140,10 +140,13 @@ namespace Designer_Offer.ViewModels
         {
             try
             {
-                Positions = await (from pos in contextDB.Position
-                                   join cpPos in contextDB.CompanyPosition on pos.Id equals cpPos.Position_Id
-                                   where cpPos.Company_Id.Equals(SelectedCompany.Id)
-                                   select pos).AsNoTracking().ToListAsync();
+                using (var context = new PrimeContext())
+                {
+                    Positions = await (from pos in context.Position
+                                       join cpPos in context.CompanyPosition on pos.Id equals cpPos.Position_Id
+                                       where cpPos.Company_Id.Equals(SelectedCompany.Id)
+                                       select pos).AsNoTracking().ToListAsync();
+                }
             }
             catch (Exception e)
             {
@@ -153,7 +156,7 @@ namespace Designer_Offer.ViewModels
 
         private bool CanLoadPositionCommand(object p)
         {
-            return true && contextDB != null;
+            return true && SelectedCompany != null;
         }
         /// <summary>
         /// Команда проводит регистрацию
@@ -184,9 +187,12 @@ namespace Designer_Offer.ViewModels
 
             try
             {
-                contextDB.Employee.Add(employee);
+                using (var context = new PrimeContext())
+                {
+                    context.Employee.Add(employee);
 
-                await contextDB.SaveChangesAsync();
+                    await context.SaveChangesAsync();
+                }
             }
             catch (Exception e)
             {
@@ -205,13 +211,9 @@ namespace Designer_Offer.ViewModels
         #region МЕТОДЫ
         private bool CanRegistrationCommand(object p)
         {
-            PasswordBox passBox = (PasswordBox)p;
-
-            string pass = passBox.Password;
-
-            if (string.IsNullOrWhiteSpace(pass))
+            if (SelectedCompany == null || SelectedPosition == null)
                 return false;
-            else if (SelectedCompany == null || SelectedPosition == null)
+            else if (string.IsNullOrWhiteSpace(((PasswordBox)p).Password))
                 return false;
             else
                 return true;
@@ -225,11 +227,8 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОНСТРУКТОРЫ
-        public RegistrationViewModel() { }
-
-        public RegistrationViewModel(ICommand loadlogin)
+        public RegistrationViewModel()
         {
-            LoadLoginPageCommand = loadlogin;
             LoadPositionCommand = new LambdaCommand(OnLoadPositionCommand, CanLoadPositionCommand);
             RegistrationCommand = new LambdaCommand(OnRegistrationCommand, CanRegistrationCommand);
 

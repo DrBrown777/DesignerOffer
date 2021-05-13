@@ -19,13 +19,9 @@
             <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="{StaticResource Primary800Foreground}"/>
             <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="{StaticResource Primary900}"/>
             <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="{StaticResource Primary900Foreground}"/>
-            <DataTemplate DataType="{x:Type vm:LoginViewModel}">
-                <vmp:Login />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type vm:RegistrationViewModel}">
-                <vmp:Registration />
-            </DataTemplate>
+            
             <vm:ViewModelLocator x:Key="Locator"/>
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

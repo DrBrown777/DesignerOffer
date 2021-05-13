@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using Designer_Offer.ViewModels;
+using Designer_Offer.Views.Pages;
 using Designer_Offer.Views.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -49,8 +50,12 @@ namespace Designer_Offer
         public static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
         {
             services.AddSingleton<MainWindowViewModel>();
+            services.AddSingleton<LoginViewModel>();
+            services.AddSingleton<RegistrationViewModel>();
 
             services.AddSingleton<WorkWindow>();
+            services.AddSingleton<Login>();
+            services.AddSingleton<Registration>();
         }
 
         public static string CurrentDirectory => IsDesignMode 

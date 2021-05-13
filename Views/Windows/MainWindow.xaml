@@ -3,12 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:Designer_Offer.ViewModels" 
         mc:Ignorable="d"
         Title="{Binding ElementName=Frame, Path=Content.Title, StringFormat='DesignerOffer :: {0}', 
                 TargetNullValue='DesignerOffer', FallbackValue='DesignerOffer'}"
         Height="500" Width="600"
-        DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
+        DataContext="{Binding MainWindowView, Source={StaticResource Locator}}"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -61,7 +60,7 @@
             Points="0, 5, 0, 435"/>
         <Frame
             x:Name="Frame"
-            Content="{Binding Path=AnyViewModel, UpdateSourceTrigger=PropertyChanged}"
+            Content="{Binding Path=AnyPage, UpdateSourceTrigger=PropertyChanged}"
             Grid.Column="1"  
             Margin="10,10,0,0"  
             NavigationUIVisibility="Hidden" />

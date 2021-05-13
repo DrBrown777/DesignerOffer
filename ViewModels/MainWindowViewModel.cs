@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.Windows;
 using System;
 using System.Data.Entity;
+using Microsoft.Extensions.DependencyInjection;
+using System.Windows.Controls;
+using Designer_Offer.Views.Pages;
 
 namespace Designer_Offer.ViewModels
 {
@@ -22,28 +25,17 @@ namespace Designer_Offer.ViewModels
             set
             {
                 Set(ref _Companies, value);
-                LoginPageViewModel.Update(_Companies);
             }
         }
 
-        /// <summary>
-        /// ViewModel страницы Логина
-        /// </summary>
-        private LoginViewModel LoginPageViewModel;
-
-        /// <summary>
-        /// ViewModel страницы Регистрации
-        /// </summary>
-        private RegistrationViewModel RegistrationPageViewModel;
-
-        private ViewModel _AnyViewModel;
+        private Page _AnyPage;
         /// <summary>
         /// Любая страница во Frame
         /// </summary>
-        public ViewModel AnyViewModel
+        public Page AnyPage
         {
-            get => _AnyViewModel;
-            set => Set(ref _AnyViewModel, value);
+            get => _AnyPage;
+            set => Set(ref _AnyPage, value);
         }
         #endregion
 
@@ -55,17 +47,14 @@ namespace Designer_Offer.ViewModels
 
         private void OnLoadLoginPage(object p)
         {
-            LoginPageViewModel = new LoginViewModel(LoadRegistarationPage);
-            LoginPageViewModel.Update(Companies);
-           
-            AnyViewModel = LoginPageViewModel;
+            App.Host.Services.GetRequiredService<LoginViewModel>().LoadRegistarationPageCommand = LoadRegistarationPage;
 
-            RegistrationPageViewModel = null;
+            AnyPage = App.Host.Services.GetRequiredService<Login>();
         }
 
         private bool CanLoadLoginPage(object p)
         {
-            return LoginPageViewModel is null;
+            return true;
         }
 
         /// <summary>
@@ -75,17 +64,14 @@ namespace Designer_Offer.ViewModels
 
         private void OnLoadRegistarationPage(object p)
         {
-            RegistrationPageViewModel = new RegistrationViewModel(LoadLoginPage);
-            RegistrationPageViewModel.Update(Companies);
+            App.Host.Services.GetRequiredService<RegistrationViewModel>().LoadLoginPageCommand = LoadLoginPage;
 
-            AnyViewModel = RegistrationPageViewModel;
-
-            LoginPageViewModel = null;
+            AnyPage = App.Host.Services.GetRequiredService<Registration>();
         }
 
         private bool CanLoadRegistarationPage(object p)
         {
-            return RegistrationPageViewModel is null;
+            return true;
         }
         #endregion
 
@@ -94,8 +80,13 @@ namespace Designer_Offer.ViewModels
         {
             try
             {
-                if (contextDB != null)
-                    Companies = await contextDB.Company.AsNoTracking().ToListAsync();
+                using (var context = new PrimeContext())
+                {
+                    Companies = await context.Company.AsNoTracking().ToListAsync();
+
+                    App.Host.Services.GetRequiredService<LoginViewModel>().Update(Companies);
+                    App.Host.Services.GetRequiredService<RegistrationViewModel>().Update(Companies);
+                }
             }
             catch (Exception e)
             {
@@ -110,8 +101,8 @@ namespace Designer_Offer.ViewModels
         {
             LoadLoginPage = new LambdaCommand(OnLoadLoginPage, CanLoadLoginPage);
             LoadRegistarationPage = new LambdaCommand(OnLoadRegistarationPage, CanLoadRegistarationPage);
-            
-            GetAllCompanies();
+
+            //GetAllCompanies();
             LoadLoginPage.Execute(null);
         }
         #endregion

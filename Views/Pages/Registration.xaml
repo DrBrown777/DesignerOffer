@@ -7,7 +7,7 @@
       xmlns:vm="clr-namespace:Designer_Offer.ViewModels"
       xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       xmlns:local="clr-namespace:Designer_Offer.Infrastructure.Validations"
-      d:DataContext="{d:DesignInstance Type=vm:RegistrationViewModel, IsDesignTimeCreatable=True}"
+      DataContext="{Binding RegistrationView, Source={StaticResource Locator}}"
       mc:Ignorable="d" 
       d:DesignHeight="436" d:DesignWidth="276"
       Title="{Binding Path=Title}"

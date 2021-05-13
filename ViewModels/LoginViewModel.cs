@@ -80,7 +80,7 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Команда загрузки страницы Регистрации
         /// </summary>
-        public ICommand LoadRegistarationPageCommand { get; }
+        public ICommand LoadRegistarationPageCommand { get; set; }
 
         public ICommand LoginCommand { get; }
         /// <summary>
@@ -102,11 +102,9 @@ namespace Designer_Offer.ViewModels
 
         private bool CanLoginCommand(object p)
         {
-            if (string.IsNullOrWhiteSpace(((PasswordBox)p).Password))
-            {
+            if (SelectedCompany == null)
                 return false;
-            }
-            else if (SelectedCompany == null)
+            else if (string.IsNullOrWhiteSpace(((PasswordBox)p).Password))
                 return false;
             else
                 return true;
@@ -118,10 +116,13 @@ namespace Designer_Offer.ViewModels
         {
             try
             {
-                User = (from u in contextDB.UserData.AsNoTracking()
-                        join e in contextDB.Employee on u.Employee_Id equals e.Id
-                        join c in contextDB.Company on e.Company_Id equals SelectedCompany.Id
-                        select u).FirstOrDefault(u => u.Login == Login);
+                using (var context = new PrimeContext())
+                {
+                    User = (from u in context.UserData.AsNoTracking()
+                            join e in context.Employee on u.Employee_Id equals e.Id
+                            join c in context.Company on e.Company_Id equals SelectedCompany.Id
+                            select u).SingleOrDefault(u => u.Login == Login);
+                }
             }
             catch(Exception e)
             {
@@ -152,12 +153,9 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОНСТРУКТОРЫ
-        public LoginViewModel(){}
-
-        public LoginViewModel(ICommand loadregister)
+        public LoginViewModel()
         {
             LoginCommand = new LambdaCommand(OnLoginCommand, CanLoginCommand);
-            LoadRegistarationPageCommand = loadregister;
 
             Status = "Для входа в систему введите Логин и Пароль";
             Title = "Вход в систему";
