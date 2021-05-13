@@ -16,6 +16,10 @@ namespace Designer_Offer
     {
         private static Mutex _mutex = null;
 
+        private static IHost _Host;
+
+        public static IHost Host => _Host = Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();//проверить на null
+
         protected override void OnStartup(StartupEventArgs e)
         {
             const string appName = "Designer Offer";
