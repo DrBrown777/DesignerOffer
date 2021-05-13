@@ -14,24 +14,36 @@ namespace Designer_Offer
 {
     public partial class App : Application
     {
-        private static Mutex _mutex = null;
-
         private static IHost _Host;
 
-        public static IHost Host => _Host = Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();//проверить на null
-
-        protected override void OnStartup(StartupEventArgs e)
+        public static IHost Host
         {
-            const string appName = "Designer Offer";
-
-            _mutex = new Mutex(true, appName, out bool createdNew);
-
-            if (!createdNew)
+            get
             {
-                Current.Shutdown();
+                if (_Host == null)
+                {
+                    _Host = Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
+                }
+                return _Host;
             }
+        }
 
+        protected override async void OnStartup(StartupEventArgs e)
+        {
+            var host = Host;
             base.OnStartup(e);
+
+            await host.StartAsync().ConfigureAwait(false);
+        }
+
+        protected override async void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+
+            var host = Host;
+            await host.StopAsync().ConfigureAwait(false);
+            host.Dispose();
+            _Host = null;
         }
 
         public static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
