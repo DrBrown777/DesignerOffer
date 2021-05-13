@@ -25,6 +25,7 @@
             <DataTemplate DataType="{x:Type vm:RegistrationViewModel}">
                 <vmp:Registration />
             </DataTemplate>
+            <vm:ViewModelLocator x:Key="Locator"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

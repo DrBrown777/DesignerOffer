@@ -4,11 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:Designer_Offer.ViewModels" 
-        d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
         mc:Ignorable="d"
         Title="{Binding ElementName=Frame, Path=Content.Title, StringFormat='DesignerOffer :: {0}', 
                 TargetNullValue='DesignerOffer', FallbackValue='DesignerOffer'}"
         Height="500" Width="600"
+        DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"

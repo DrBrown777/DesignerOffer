@@ -9,7 +9,7 @@ namespace Designer_Offer
         {
             InitializeComponent();
 
-            DataContext = new MainWindowViewModel();
+            //DataContext = new MainWindowViewModel();
         }
     }
 }

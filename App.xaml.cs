@@ -49,7 +49,6 @@ namespace Designer_Offer
         public static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
         {
             services.AddSingleton<MainWindowViewModel>();
-            services.AddSingleton<MainWindow>();
 
             services.AddSingleton<WorkWindow>();
         }
