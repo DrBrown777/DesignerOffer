@@ -47,8 +47,6 @@ namespace Designer_Offer.ViewModels
 
         private void OnLoadLoginPage(object p)
         {
-            App.Host.Services.GetRequiredService<LoginViewModel>().LoadRegistarationPageCommand = LoadRegistarationPage;
-
             AnyPage = App.Host.Services.GetRequiredService<Login>();
         }
 
@@ -64,8 +62,6 @@ namespace Designer_Offer.ViewModels
 
         private void OnLoadRegistarationPage(object p)
         {
-            App.Host.Services.GetRequiredService<RegistrationViewModel>().LoadLoginPageCommand = LoadLoginPage;
-
             AnyPage = App.Host.Services.GetRequiredService<Registration>();
         }
 
@@ -83,7 +79,6 @@ namespace Designer_Offer.ViewModels
                 using (var context = new PrimeContext())
                 {
                     Companies = await context.Company.AsNoTracking().ToListAsync();
-
                     App.Host.Services.GetRequiredService<LoginViewModel>().Update(Companies);
                     App.Host.Services.GetRequiredService<RegistrationViewModel>().Update(Companies);
                 }
@@ -94,6 +89,12 @@ namespace Designer_Offer.ViewModels
                     "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private void UpdatePage()
+        {
+            App.Host.Services.GetRequiredService<LoginViewModel>().LoadRegistarationPageCommand = LoadRegistarationPage;
+            App.Host.Services.GetRequiredService<RegistrationViewModel>().LoadLoginPageCommand = LoadLoginPage;
+        }
         #endregion
 
         #region КОНСТРУКТОРЫ
@@ -102,7 +103,10 @@ namespace Designer_Offer.ViewModels
             LoadLoginPage = new LambdaCommand(OnLoadLoginPage, CanLoadLoginPage);
             LoadRegistarationPage = new LambdaCommand(OnLoadRegistarationPage, CanLoadRegistarationPage);
 
-            //GetAllCompanies();
+            UpdatePage();
+
+            GetAllCompanies();
+
             LoadLoginPage.Execute(null);
         }
         #endregion

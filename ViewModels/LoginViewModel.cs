@@ -129,7 +129,7 @@ namespace Designer_Offer.ViewModels
                 Status = e.Message;
             }
            
-            if (User == null || User.Password != passBox.Password.Trim().ToLower())
+            if (User == null || User.Password != passBox.Password.Trim())
             {
                 Status = "Неправильный логин или пароль!";
 

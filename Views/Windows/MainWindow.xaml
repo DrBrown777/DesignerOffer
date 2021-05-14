@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="{Binding ElementName=Frame, Path=Content.Title, StringFormat='DesignerOffer :: {0}', 
-                TargetNullValue='DesignerOffer', FallbackValue='DesignerOffer'}"
+        Title="{Binding ElementName=Frame, Path=Content.Title, StringFormat='DesignerOffer :: \{\0}', 
+                TargetNullValue='DesignerOffer', 
+                FallbackValue='DesignerOffer'}"
         Height="500" Width="600"
         DataContext="{Binding MainWindowView, Source={StaticResource Locator}}"
         ResizeMode="CanMinimize"
@@ -68,8 +69,10 @@
             Grid.ColumnSpan="2" 
             Width="594">
             <StatusBarItem Width="Auto">
-                <TextBlock Text="{Binding ElementName=Frame, Path=Content.Status, StringFormat=' {0}', 
-                    TargetNullValue='ver.1.0', FallbackValue='ver.1.0'}"/>
+                <TextBlock Text="{Binding Content.DataContext.Status, ElementName=Frame, 
+                    FallbackValue=ver.1.0, 
+                    StringFormat='\{0\}', 
+                    TargetNullValue=ver.1.0}"/>
             </StatusBarItem>
             <StatusBarItem HorizontalAlignment="Right">
                 <ProgressBar Value="30"/>

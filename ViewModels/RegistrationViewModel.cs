@@ -170,7 +170,7 @@ namespace Designer_Offer.ViewModels
             UserData user = new UserData()
             {
                 Login = UserLogin,
-                Password = passBox.Password.Trim().ToLower()
+                Password = passBox.Password.Trim()
             };
 
             Employee employee = new Employee()
