@@ -11,9 +11,10 @@ using System.Windows.Input;
 
 namespace Designer_Offer.ViewModels
 {
-    internal class RegistrationViewModel : ViewModel
+    internal class RegistrationViewModel : ViewModel, IRegistrationViewModel
     {
         #region СВОЙСТВА
+
         private string _Title;
         /// <summary>
         /// Заголовок Окна
@@ -126,6 +127,7 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОМАНДЫ
+
         /// <summary>
         /// Команда загрузки страницы Логина
         /// </summary>
@@ -135,7 +137,7 @@ namespace Designer_Offer.ViewModels
         /// Команда заполняет должности выбранной компании
         /// </summary>
         public ICommand LoadPositionCommand { get; }
-        
+
         private async void OnLoadPositionCommand(object p)
         {
             try
@@ -202,13 +204,11 @@ namespace Designer_Offer.ViewModels
             {
                 LoadLoginPageCommand.Execute(null);
 
-                MessageBox.Show("Ваш аккаунт зарегистрован!\nТеперь вы можете войти.", 
+                MessageBox.Show("Ваш аккаунт зарегистрован!\nТеперь вы можете войти.",
                     "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
-        #endregion
 
-        #region МЕТОДЫ
         private bool CanRegistrationCommand(object p)
         {
             if (SelectedCompany == null || SelectedPosition == null)
@@ -218,6 +218,9 @@ namespace Designer_Offer.ViewModels
             else
                 return true;
         }
+        #endregion
+
+        #region МЕТОДЫ
 
         public void Update(List<Company> companies)
         {
@@ -227,6 +230,7 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОНСТРУКТОРЫ
+
         public RegistrationViewModel()
         {
             LoadPositionCommand = new LambdaCommand(OnLoadPositionCommand, CanLoadPositionCommand);

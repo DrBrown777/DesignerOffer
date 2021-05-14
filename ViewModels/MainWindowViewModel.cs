@@ -14,19 +14,25 @@ namespace Designer_Offer.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
-        #region СВОЙСТВА
-        private List<Company> _Companies;
+        #region ПОЛЯ
+
+        /// <summary>
+        /// Интерфейс страницы Логин
+        /// </summary>
+        private readonly ILoginViewModel LoginView;
+
+        /// <summary>
+        /// Интерфейс страницы Регистрации
+        /// </summary>
+        private readonly IRegistrationViewModel RegistrationView;
+
         /// <summary>
         /// Список компаний
         /// </summary>
-        private List<Company> Companies
-        {
-            get => _Companies;
-            set
-            {
-                Set(ref _Companies, value);
-            }
-        }
+        private List<Company> Companies;
+        #endregion
+
+        #region СВОЙСТВА
 
         private Page _AnyPage;
         /// <summary>
@@ -40,6 +46,7 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОМАНДЫ
+
         /// <summary>
         /// Команда загрузки страницы Логина
         /// </summary>
@@ -52,7 +59,7 @@ namespace Designer_Offer.ViewModels
 
         private bool CanLoadLoginPage(object p)
         {
-            return true;
+            return LoginView != null;
         }
 
         /// <summary>
@@ -67,11 +74,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanLoadRegistarationPage(object p)
         {
-            return true;
+            return RegistrationView != null;
         }
         #endregion
 
         #region МЕТОДЫ
+
         private async void GetAllCompanies()
         {
             try
@@ -79,8 +87,9 @@ namespace Designer_Offer.ViewModels
                 using (var context = new PrimeContext())
                 {
                     Companies = await context.Company.AsNoTracking().ToListAsync();
-                    App.Host.Services.GetRequiredService<LoginViewModel>().Update(Companies);
-                    App.Host.Services.GetRequiredService<RegistrationViewModel>().Update(Companies);
+
+                    LoginView.Update(Companies);
+                    RegistrationView.Update(Companies);
                 }
             }
             catch (Exception e)
@@ -89,21 +98,20 @@ namespace Designer_Offer.ViewModels
                     "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-        private void UpdatePage()
-        {
-            App.Host.Services.GetRequiredService<LoginViewModel>().LoadRegistarationPageCommand = LoadRegistarationPage;
-            App.Host.Services.GetRequiredService<RegistrationViewModel>().LoadLoginPageCommand = LoadLoginPage;
-        }
         #endregion
 
         #region КОНСТРУКТОРЫ
-        public MainWindowViewModel()
+
+        public MainWindowViewModel(ILoginViewModel loginView, IRegistrationViewModel registrationView)
         {
+            LoginView = loginView; 
+            RegistrationView = registrationView;
+
             LoadLoginPage = new LambdaCommand(OnLoadLoginPage, CanLoadLoginPage);
             LoadRegistarationPage = new LambdaCommand(OnLoadRegistarationPage, CanLoadRegistarationPage);
 
-            UpdatePage();
+            LoginView.LoadRegistarationPageCommand = LoadRegistarationPage;
+            RegistrationView.LoadLoginPageCommand = LoadLoginPage;
 
             GetAllCompanies();
 

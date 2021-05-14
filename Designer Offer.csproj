@@ -224,6 +224,8 @@
     <Compile Include="Infrastructure\Validations\UniqLoginValidationRule.cs" />
     <Compile Include="Infrastructure\Validations\UniqPhoneValidationRule.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Services\Interfaces\ILoginViewModel.cs" />
+    <Compile Include="Services\Interfaces\IRegistrationViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\Windows\WorkWindow.xaml.cs">
       <DependentUpon>WorkWindow.xaml</DependentUpon>

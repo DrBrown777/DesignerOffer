@@ -13,9 +13,18 @@ using System.Windows.Input;
 
 namespace Designer_Offer.ViewModels
 {
-    internal class LoginViewModel : ViewModel
+    internal class LoginViewModel : ViewModel, ILoginViewModel
     {
+        #region ПОЛЯ
+
+        /// <summary>
+        /// Пользователь
+        /// </summary>
+        private UserData User;
+        #endregion
+
         #region СВОЙСТВА
+
         private string _Title;
         /// <summary>
         /// Заголовок Окна
@@ -36,12 +45,6 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Status, value);
         }
 
-        /// <summary>
-        /// Пользователь
-        /// </summary>
-        private UserData User;
-
-        //private List<Company> _Companies;
         /// <summary>
         /// Список компаний
         /// </summary>
@@ -77,6 +80,7 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОМАНДЫ
+
         /// <summary>
         /// Команда загрузки страницы Регистрации
         /// </summary>
@@ -112,6 +116,7 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region МЕТОДЫ
+
         private bool LoginSucces(PasswordBox passBox)
         {
             try
@@ -124,16 +129,16 @@ namespace Designer_Offer.ViewModels
                             select u).SingleOrDefault(u => u.Login == Login);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Status = e.Message;
             }
-           
+
             if (User == null || User.Password != passBox.Password.Trim())
             {
                 Status = "Неправильный логин или пароль!";
 
-                Timer timer = new Timer(new TimerCallback(ChangeStatus), 
+                Timer timer = new Timer(new TimerCallback(ChangeStatus),
                                         "Для входа в систему введите Логин и Пароль", 1500, 0);
                 return false;
             }
@@ -153,6 +158,7 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОНСТРУКТОРЫ
+
         public LoginViewModel()
         {
             LoginCommand = new LambdaCommand(OnLoginCommand, CanLoginCommand);

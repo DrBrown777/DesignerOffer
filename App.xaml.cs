@@ -50,8 +50,9 @@ namespace Designer_Offer
         public static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
         {
             services.AddSingleton<MainWindowViewModel>();
-            services.AddSingleton<LoginViewModel>();
-            services.AddSingleton<RegistrationViewModel>();
+
+            services.AddSingleton<ILoginViewModel, LoginViewModel>();
+            services.AddSingleton<IRegistrationViewModel, RegistrationViewModel>();
 
             services.AddSingleton<WorkWindow>();
             services.AddSingleton<Login>();
