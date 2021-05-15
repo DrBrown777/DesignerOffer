@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace Designer_Offer.ViewModels
 {
-    internal interface IRegistrationViewModel
+    internal interface IRegistrationService
     {
         List<Company> Companies { get; set; }
 

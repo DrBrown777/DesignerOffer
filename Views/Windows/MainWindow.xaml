@@ -75,7 +75,7 @@
                     TargetNullValue=ver.1.0}"/>
             </StatusBarItem>
             <StatusBarItem HorizontalAlignment="Right">
-                <ProgressBar Value="30"/>
+                <ProgressBar Value="30" IsIndeterminate="{Binding Path=Progress}"/>
             </StatusBarItem>
         </StatusBar>
     </Grid>

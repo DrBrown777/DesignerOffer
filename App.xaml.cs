@@ -2,11 +2,15 @@
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using Designer_Offer.Data;
 using Designer_Offer.ViewModels;
 using Designer_Offer.Views.Pages;
 using Designer_Offer.Views.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
+using System.Data.Entity;
+using Designer_Offer.Services;
 
 namespace Designer_Offer
 {
@@ -51,12 +55,14 @@ namespace Designer_Offer
         {
             services.AddSingleton<MainWindowViewModel>();
 
-            services.AddSingleton<ILoginViewModel, LoginViewModel>();
-            services.AddSingleton<IRegistrationViewModel, RegistrationViewModel>();
+            services.AddSingleton<ILoginService, LoginViewModel>();
+            services.AddSingleton<IRegistrationService, RegistrationViewModel>();
 
             services.AddSingleton<WorkWindow>();
             services.AddSingleton<Login>();
             services.AddSingleton<Registration>();
+
+            services.AddTransient<PrimeContext>();
         }
 
         public static string CurrentDirectory => IsDesignMode 

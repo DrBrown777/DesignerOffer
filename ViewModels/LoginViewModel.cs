@@ -1,5 +1,6 @@
 ﻿using Designer_Offer.Data;
 using Designer_Offer.Infrastructure.Commands;
+using Designer_Offer.Services;
 using Designer_Offer.ViewModels.Base;
 using Designer_Offer.Views.Windows;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +14,7 @@ using System.Windows.Input;
 
 namespace Designer_Offer.ViewModels
 {
-    internal class LoginViewModel : ViewModel, ILoginViewModel
+    internal class LoginViewModel : ViewModel, ILoginService
     {
         #region ПОЛЯ
 
@@ -121,12 +122,12 @@ namespace Designer_Offer.ViewModels
         {
             try
             {
-                using (var context = new PrimeContext())
+                using (var context = App.Host.Services.GetRequiredService<PrimeContext>())
                 {
                     User = (from u in context.UserData.AsNoTracking()
                             join e in context.Employee on u.Employee_Id equals e.Id
                             join c in context.Company on e.Company_Id equals SelectedCompany.Id
-                            select u).SingleOrDefault(u => u.Login == Login);
+                            select u).FirstOrDefault(u => u.Login == Login);
                 }
             }
             catch (Exception e)

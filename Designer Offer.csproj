@@ -224,8 +224,11 @@
     <Compile Include="Infrastructure\Validations\UniqLoginValidationRule.cs" />
     <Compile Include="Infrastructure\Validations\UniqPhoneValidationRule.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Services\Interfaces\ILoginViewModel.cs" />
-    <Compile Include="Services\Interfaces\IRegistrationViewModel.cs" />
+    <Compile Include="Services\ILoginService.cs" />
+    <Compile Include="Services\Interfaces\IEntity.cs" />
+    <Compile Include="Services\Interfaces\IRepository.cs" />
+    <Compile Include="Services\IRegistrationService.cs" />
+    <Compile Include="Services\Repositories\DbRepository.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\Windows\WorkWindow.xaml.cs">
       <DependentUpon>WorkWindow.xaml</DependentUpon>
@@ -315,7 +318,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Services\.gitkeep" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

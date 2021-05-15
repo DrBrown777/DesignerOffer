@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Windows.Input;
 
-namespace Designer_Offer.ViewModels
+namespace Designer_Offer.Services
 {
-    internal interface ILoginViewModel
+    internal interface ILoginService
     {
         List<Company> Companies { get; set; }
 

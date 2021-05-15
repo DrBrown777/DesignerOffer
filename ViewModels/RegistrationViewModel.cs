@@ -8,10 +8,11 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Designer_Offer.ViewModels
 {
-    internal class RegistrationViewModel : ViewModel, IRegistrationViewModel
+    internal class RegistrationViewModel : ViewModel, IRegistrationService
     {
         #region СВОЙСТВА
 
@@ -142,7 +143,7 @@ namespace Designer_Offer.ViewModels
         {
             try
             {
-                using (var context = new PrimeContext())
+                using (var context = App.Host.Services.GetRequiredService<PrimeContext>())
                 {
                     Positions = await (from pos in context.Position
                                        join cpPos in context.CompanyPosition on pos.Id equals cpPos.Position_Id
@@ -189,8 +190,8 @@ namespace Designer_Offer.ViewModels
 
             try
             {
-                using (var context = new PrimeContext())
-                {
+                using (var context = App.Host.Services.GetRequiredService<PrimeContext>())
+                {                    
                     context.Employee.Add(employee);
 
                     await context.SaveChangesAsync();
