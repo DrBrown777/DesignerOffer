@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using Designer_Offer.Views.Pages;
 using System.Threading.Tasks;
 using Designer_Offer.Services;
+using Designer_Offer.Services.Interfaces;
 
 namespace Designer_Offer.ViewModels
 {
@@ -27,11 +28,6 @@ namespace Designer_Offer.ViewModels
         /// Интерфейс страницы Регистрации
         /// </summary>
         private readonly IRegistrationService RegistrationView;
-
-        /// <summary>
-        /// Список компаний
-        /// </summary>
-        private List<Company> Companies;
         #endregion
 
         #region СВОЙСТВА
@@ -91,32 +87,33 @@ namespace Designer_Offer.ViewModels
 
         #region МЕТОДЫ
 
-        private async void GetAllCompanies()
+        private async void UpdateAllPages(IRepository<Company> companyRepository)
         {
             try
             {
-                using (var context = App.Host.Services.GetRequiredService<PrimeContext>())
-                {
-                    Companies = await context.Company.AsNoTracking().ToListAsync();
+                var Company = await companyRepository.Items.AsNoTracking().ToListAsync();
 
-                    LoginView.Update(Companies);
-                    RegistrationView.Update(Companies);
-
-                    Progress = false;
-                }
+                LoginView.Update(Company);
+                RegistrationView.Update(Company);
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message,
                     "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            finally
+            {
+                Progress = false;
+            }
         }
         #endregion
 
         #region КОНСТРУКТОРЫ
 
-        public MainWindowViewModel(ILoginService loginView, IRegistrationService registrationView)
+        public MainWindowViewModel(IRepository<Company> companyRepository, ILoginService loginView, IRegistrationService registrationView)
         {
+            Progress = true;
+
             LoginView = loginView; 
             RegistrationView = registrationView;
 
@@ -126,9 +123,7 @@ namespace Designer_Offer.ViewModels
             LoginView.LoadRegistarationPageCommand = LoadRegistarationPage;
             RegistrationView.LoadLoginPageCommand = LoadLoginPage;
 
-            Progress = true;
-
-            Task.Run(() => GetAllCompanies());
+            Task.Run(() => UpdateAllPages(companyRepository));
 
             LoadLoginPage.Execute(null);
         }

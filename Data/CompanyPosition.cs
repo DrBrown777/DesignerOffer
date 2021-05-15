@@ -1,5 +1,6 @@
 namespace Designer_Offer.Data
 {
+    using Designer_Offer.Services.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -7,7 +8,7 @@ namespace Designer_Offer.Data
     using System.Data.Entity.Spatial;
 
     [Table("CompanyPosition")]
-    public partial class CompanyPosition
+    public partial class CompanyPosition : IEntity
     {
         public int Id { get; set; }
 

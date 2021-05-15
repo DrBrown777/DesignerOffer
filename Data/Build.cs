@@ -1,5 +1,6 @@
 namespace Designer_Offer.Data
 {
+    using Designer_Offer.Services.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -7,17 +8,15 @@ namespace Designer_Offer.Data
     using System.Data.Entity.Spatial;
 
     [Table("Build")]
-    public partial class Build
+    public partial class Build : IEntity
     {
+        public int Id { get; set; }
+
         public int? Project_Id { get; set; }
 
-        [Key]
-        [Column(Order = 0)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Client_Id { get; set; }
 
-        [Key]
-        [Column(Order = 1)]
+        [Required]
         [StringLength(500)]
         public string Name { get; set; }
 

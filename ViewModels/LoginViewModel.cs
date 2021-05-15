@@ -127,7 +127,7 @@ namespace Designer_Offer.ViewModels
                     User = (from u in context.UserData.AsNoTracking()
                             join e in context.Employee on u.Employee_Id equals e.Id
                             join c in context.Company on e.Company_Id equals SelectedCompany.Id
-                            select u).FirstOrDefault(u => u.Login == Login);
+                            select u).SingleOrDefault(u => u.Login == Login);
                 }
             }
             catch (Exception e)

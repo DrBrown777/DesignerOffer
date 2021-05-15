@@ -1,5 +1,6 @@
 namespace Designer_Offer.Data
 {
+    using Designer_Offer.Services.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -7,7 +8,7 @@ namespace Designer_Offer.Data
     using System.Data.Entity.Spatial;
 
     [Table("Install")]
-    public partial class Install
+    public partial class Install : IEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Install()

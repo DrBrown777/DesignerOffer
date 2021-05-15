@@ -8,9 +8,9 @@ using Designer_Offer.Views.Pages;
 using Designer_Offer.Views.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Configuration;
-using System.Data.Entity;
 using Designer_Offer.Services;
+using Designer_Offer.Services.Interfaces;
+using Designer_Offer.Services.Repositories;
 
 namespace Designer_Offer
 {
@@ -63,6 +63,27 @@ namespace Designer_Offer
             services.AddSingleton<Registration>();
 
             services.AddTransient<PrimeContext>();
+
+            services.AddTransient<IRepository<Build>, DbRepository<Build>>();
+            services.AddTransient<IRepository<Category>, DbRepository<Category>>();
+            services.AddTransient<IRepository<Client>, DbRepository<Client>>();
+            services.AddTransient<IRepository<Company>, DbRepository<Company>>();
+            services.AddTransient<IRepository<CompanyPosition>, DbRepository<CompanyPosition>>();
+            services.AddTransient<IRepository<Config>, DbRepository<Config>>();
+            services.AddTransient<IRepository<Employee>, DbRepository<Employee>>();
+            services.AddTransient<IRepository<Install>, DbRepository<Install>>();
+            services.AddTransient<IRepository<InstallPart>, DbRepository<InstallPart>>();
+            services.AddTransient<IRepository<Offer>, DbRepository<Offer>>();
+            services.AddTransient<IRepository<Part>, DbRepository<Part>>();
+            services.AddTransient<IRepository<Position>, DbRepository<Position>>();
+            services.AddTransient<IRepository<Product>, DbRepository<Product>>();
+            services.AddTransient<IRepository<ProductPart>, DbRepository<ProductPart>>();
+            services.AddTransient<IRepository<ProductSupplier>, DbRepository<ProductSupplier>>();
+            services.AddTransient<IRepository<Project>, DbRepository<Project>>();
+            services.AddTransient<IRepository<Section>, DbRepository<Section>>();
+            services.AddTransient<IRepository<Supplier>, DbRepository<Supplier>>();
+            services.AddTransient<IRepository<Unit>, DbRepository<Unit>>();
+            services.AddTransient<IRepository<UserData>, DbRepository<UserData>>();
         }
 
         public static string CurrentDirectory => IsDesignMode 

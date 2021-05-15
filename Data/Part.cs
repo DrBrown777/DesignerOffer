@@ -1,5 +1,6 @@
 namespace Designer_Offer.Data
 {
+    using Designer_Offer.Services.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -7,7 +8,7 @@ namespace Designer_Offer.Data
     using System.Data.Entity.Spatial;
 
     [Table("Part")]
-    public partial class Part
+    public partial class Part : IEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Part()

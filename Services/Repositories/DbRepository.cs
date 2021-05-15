@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Designer_Offer.Services.Repositories
 {
-    class DbRepository<T> : IRepository<T> where T : class, IEntity
+    internal class DbRepository<T> : IRepository<T> where T : class, IEntity
     {
         private readonly PrimeContext _db;
         private readonly DbSet<T> _Set;
@@ -80,7 +80,7 @@ namespace Designer_Offer.Services.Repositories
             _db.Set<T>().Remove(item);
 
             if (AutoSaveChanges)
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public void Update(T item)

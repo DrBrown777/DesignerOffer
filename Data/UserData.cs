@@ -1,5 +1,6 @@
 namespace Designer_Offer.Data
 {
+    using Designer_Offer.Services.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -7,20 +8,17 @@ namespace Designer_Offer.Data
     using System.Data.Entity.Spatial;
 
     [Table("UserData")]
-    public partial class UserData
+    public partial class UserData : IEntity
     {
-        [Key]
-        [Column(Order = 0)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int Id { get; set; }
+
         public int Employee_Id { get; set; }
 
-        [Key]
-        [Column(Order = 1)]
+        [Required]
         [StringLength(20)]
         public string Login { get; set; }
 
-        [Key]
-        [Column(Order = 2)]
+        [Required]
         [StringLength(32)]
         public string Password { get; set; }
 

@@ -1,5 +1,6 @@
 namespace Designer_Offer.Data
 {
+    using Designer_Offer.Services.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -7,13 +8,13 @@ namespace Designer_Offer.Data
     using System.Data.Entity.Spatial;
 
     [Table("Project")]
-    public partial class Project
+    public partial class Project : IEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Project()
         {
-            Offer = new HashSet<Offer>();
             Build = new HashSet<Build>();
+            Offer = new HashSet<Offer>();
         }
 
         public int Id { get; set; }
@@ -23,12 +24,12 @@ namespace Designer_Offer.Data
         [Column(TypeName = "date")]
         public DateTime Date { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Build> Build { get; set; }
+
         public virtual Employee Employee { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Offer> Offer { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Build> Build { get; set; }
     }
 }

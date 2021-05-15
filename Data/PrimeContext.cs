@@ -8,14 +8,16 @@ namespace Designer_Offer.Data
     public partial class PrimeContext : DbContext
     {
         public PrimeContext()
-            : base(nameOrConnectionString: "PrimeContext")
+            : base("name=PrimeContext")
         {
         }
 
+        public virtual DbSet<Build> Build { get; set; }
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Client> Client { get; set; }
         public virtual DbSet<Company> Company { get; set; }
         public virtual DbSet<CompanyPosition> CompanyPosition { get; set; }
+        public virtual DbSet<Config> Config { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<Install> Install { get; set; }
         public virtual DbSet<InstallPart> InstallPart { get; set; }
@@ -29,8 +31,6 @@ namespace Designer_Offer.Data
         public virtual DbSet<Section> Section { get; set; }
         public virtual DbSet<Supplier> Supplier { get; set; }
         public virtual DbSet<Unit> Unit { get; set; }
-        public virtual DbSet<Build> Build { get; set; }
-        public virtual DbSet<Config> Config { get; set; }
         public virtual DbSet<UserData> UserData { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -116,13 +116,13 @@ namespace Designer_Offer.Data
                 .HasForeignKey(e => e.Product_Id);
 
             modelBuilder.Entity<Project>()
-                .HasMany(e => e.Offer)
-                .WithRequired(e => e.Project)
+                .HasMany(e => e.Build)
+                .WithOptional(e => e.Project)
                 .HasForeignKey(e => e.Project_Id);
 
             modelBuilder.Entity<Project>()
-                .HasMany(e => e.Build)
-                .WithOptional(e => e.Project)
+                .HasMany(e => e.Offer)
+                .WithRequired(e => e.Project)
                 .HasForeignKey(e => e.Project_Id);
 
             modelBuilder.Entity<Section>()
