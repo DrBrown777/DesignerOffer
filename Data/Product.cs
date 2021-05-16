@@ -13,8 +13,8 @@ namespace Designer_Offer.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Product()
         {
-            ProductSupplier = new HashSet<ProductSupplier>();
             ProductPart = new HashSet<ProductPart>();
+            Supplier = new HashSet<Supplier>();
         }
 
         public int Id { get; set; }
@@ -34,9 +34,9 @@ namespace Designer_Offer.Data
         public virtual Unit Unit { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductSupplier> ProductSupplier { get; set; }
+        public virtual ICollection<ProductPart> ProductPart { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductPart> ProductPart { get; set; }
+        public virtual ICollection<Supplier> Supplier { get; set; }
     }
 }

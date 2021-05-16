@@ -1,13 +1,15 @@
 ﻿using Designer_Offer.Data;
 using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.Services;
+using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
 using Designer_Offer.Views.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Data.Entity;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,9 +21,24 @@ namespace Designer_Offer.ViewModels
         #region ПОЛЯ
 
         /// <summary>
-        /// Пользователь
+        /// Данные пользовтеля
         /// </summary>
         private UserData User;
+
+        /// <summary>
+        /// Сотрудник
+        /// </summary>
+        private Employee Employee;
+
+        /// <summary>
+        /// Репозиторий Юзеров
+        /// </summary>
+        private readonly IRepository<UserData> UserDataRepository;
+
+        /// <summary>
+        /// Репозиторий Сотрудников
+        /// </summary>
+        private readonly IRepository<Employee> EmployeeRepository;
         #endregion
 
         #region СВОЙСТВА
@@ -93,7 +110,7 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         private void OnLoginCommand(object p)
         {
-            if (LoginSucces((PasswordBox)p))
+            if (LoginSucces((PasswordBox)p).Result)
             {
                 var work = App.Host.Services.GetRequiredService<WorkWindow>();
 
@@ -118,30 +135,36 @@ namespace Designer_Offer.ViewModels
 
         #region МЕТОДЫ
 
-        private bool LoginSucces(PasswordBox passBox)
+        private async Task<bool> LoginSucces(PasswordBox passBox)
         {
             try
             {
-                using (var context = App.Host.Services.GetRequiredService<PrimeContext>())
+                User = await UserDataRepository.Items
+                    .AsNoTracking()
+                    .SingleOrDefaultAsync(u => u.Login == Login).ConfigureAwait(false);
+
+                if (User != null)
+                    Employee = await EmployeeRepository.GetAsync(User.Employee_Id);
+
+                if(User == null || User.Password != passBox.Password.Trim())
                 {
-                    User = (from u in context.UserData.AsNoTracking()
-                            join e in context.Employee on u.Employee_Id equals e.Id
-                            join c in context.Company on e.Company_Id equals SelectedCompany.Id
-                            select u).SingleOrDefault(u => u.Login == Login);
+                    Status = "Неправильный логин или пароль!";
+                    return false;
+                }
+                else if (Employee.Company_Id != SelectedCompany.Id)
+                {
+                    Status = "Вы не работаете в этой компании!";
+                    return false;
                 }
             }
             catch (Exception e)
             {
                 Status = e.Message;
             }
-
-            if (User == null || User.Password != passBox.Password.Trim())
+            finally
             {
-                Status = "Неправильный логин или пароль!";
-
                 Timer timer = new Timer(new TimerCallback(ChangeStatus),
-                                        "Для входа в систему введите Логин и Пароль", 1500, 0);
-                return false;
+                                            "Для входа в систему введите Логин и Пароль", 1500, 0);
             }
             return true;
         }
@@ -160,8 +183,11 @@ namespace Designer_Offer.ViewModels
 
         #region КОНСТРУКТОРЫ
 
-        public LoginViewModel()
+        public LoginViewModel(IRepository<UserData> userDataRepository, IRepository<Employee> employeeRepository)
         {
+            UserDataRepository = userDataRepository;
+            EmployeeRepository = employeeRepository;
+
             LoginCommand = new LambdaCommand(OnLoginCommand, CanLoginCommand);
 
             Status = "Для входа в систему введите Логин и Пароль";

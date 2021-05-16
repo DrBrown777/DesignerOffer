@@ -2,7 +2,6 @@
 using Designer_Offer.ViewModels.Base;
 using Designer_Offer.Data;
 using System.Windows.Input;
-using System.Collections.Generic;
 using System.Windows;
 using System;
 using System.Data.Entity;

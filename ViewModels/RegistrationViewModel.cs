@@ -8,12 +8,24 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Microsoft.Extensions.DependencyInjection;
+using Designer_Offer.Services.Interfaces;
 
 namespace Designer_Offer.ViewModels
 {
     internal class RegistrationViewModel : ViewModel, IRegistrationService
     {
+        #region ПОЛЯ
+        /// <summary>
+        /// Репозиторий Сотрудников
+        /// </summary>
+        private readonly IRepository<Employee> EmployeeRepository;
+
+        /// <summary>
+        /// Репозиторий должностей
+        /// </summary>
+        private readonly IRepository<Position> PositionRepository;
+        #endregion
+
         #region СВОЙСТВА
 
         private string _Title;
@@ -143,13 +155,10 @@ namespace Designer_Offer.ViewModels
         {
             try
             {
-                using (var context = App.Host.Services.GetRequiredService<PrimeContext>())
-                {
-                    Positions = await (from pos in context.Position
-                                       join cpPos in context.CompanyPosition on pos.Id equals cpPos.Position_Id
-                                       where cpPos.Company_Id.Equals(SelectedCompany.Id)
-                                       select pos).AsNoTracking().ToListAsync();
-                }
+                Positions = await PositionRepository.Items
+                    .Where(pos => pos.Company
+                    .Any(com => com.Id == SelectedCompany.Id))
+                    .AsNoTracking().ToListAsync().ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -190,12 +199,7 @@ namespace Designer_Offer.ViewModels
 
             try
             {
-                using (var context = App.Host.Services.GetRequiredService<PrimeContext>())
-                {                    
-                    context.Employee.Add(employee);
-
-                    await context.SaveChangesAsync();
-                }
+                await EmployeeRepository.AddAsync(employee);
             }
             catch (Exception e)
             {
@@ -203,6 +207,8 @@ namespace Designer_Offer.ViewModels
             }
             finally
             {
+                ClearField();
+
                 LoadLoginPageCommand.Execute(null);
 
                 MessageBox.Show("Ваш аккаунт зарегистрован!\nТеперь вы можете войти.",
@@ -228,12 +234,26 @@ namespace Designer_Offer.ViewModels
             if (Equals(companies, Companies)) return;
             Companies = companies;
         }
+
+        private void ClearField()
+        {
+            UserLogin = null;
+            UserName = null;
+            UserSurName = null;
+            UserEmail = null;
+            UserPhone = null;
+            SelectedCompany = null;
+            SelectedPosition = null;
+        }
         #endregion
 
         #region КОНСТРУКТОРЫ
 
-        public RegistrationViewModel()
+        public RegistrationViewModel(IRepository<Employee> employeeRepository, IRepository<Position> positionRepository)
         {
+            EmployeeRepository = employeeRepository;
+            PositionRepository = positionRepository;
+
             LoadPositionCommand = new LambdaCommand(OnLoadPositionCommand, CanLoadPositionCommand);
             RegistrationCommand = new LambdaCommand(OnRegistrationCommand, CanRegistrationCommand);
 

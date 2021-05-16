@@ -1,6 +1,5 @@
 ﻿using Designer_Offer.Data;
 using Designer_Offer.Services.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -9,17 +8,18 @@ using System.Threading.Tasks;
 
 namespace Designer_Offer.Services.Repositories
 {
-    internal class DbRepository<T> : IRepository<T> where T : class, IEntity
+    class DbRepository<T> : IRepository<T> where T : class, IEntity
     {
         private readonly PrimeContext _db;
         private readonly DbSet<T> _Set;
 
         public bool AutoSaveChanges { get; set; }
 
-        public DbRepository()
+        public DbRepository(PrimeContext db)
         {
-            _db = App.Host.Services.GetRequiredService<PrimeContext>();
+            _db = db;
             _Set = _db.Set<T>();
+            AutoSaveChanges = true;
         }
 
         public virtual IQueryable<T> Items => _Set;

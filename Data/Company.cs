@@ -13,8 +13,8 @@ namespace Designer_Offer.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Company()
         {
-            CompanyPosition = new HashSet<CompanyPosition>();
             Employee = new HashSet<Employee>();
+            Position = new HashSet<Position>();
         }
 
         public int Id { get; set; }
@@ -36,9 +36,9 @@ namespace Designer_Offer.Data
         public string Mail { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CompanyPosition> CompanyPosition { get; set; }
+        public virtual ICollection<Employee> Employee { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Employee> Employee { get; set; }
+        public virtual ICollection<Position> Position { get; set; }
     }
 }

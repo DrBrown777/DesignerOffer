@@ -253,7 +253,6 @@
     <Compile Include="Data\Category.cs" />
     <Compile Include="Data\Client.cs" />
     <Compile Include="Data\Company.cs" />
-    <Compile Include="Data\CompanyPosition.cs" />
     <Compile Include="Data\Config.cs" />
     <Compile Include="Data\Employee.cs" />
     <Compile Include="Data\Install.cs" />
@@ -263,7 +262,6 @@
     <Compile Include="Data\Position.cs" />
     <Compile Include="Data\Product.cs" />
     <Compile Include="Data\ProductPart.cs" />
-    <Compile Include="Data\ProductSupplier.cs" />
     <Compile Include="Data\Project.cs" />
     <Compile Include="Data\Section.cs" />
     <Compile Include="Data\Supplier.cs" />

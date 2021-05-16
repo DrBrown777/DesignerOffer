@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,7 +21,5 @@ namespace Designer_Offer.Services.Interfaces
         Task UpdateAsync(T item, CancellationToken Cancel = default);
 
         void Remove(int id);
-
-        Task RemoveAsync(int id, CancellationToken Cancel = default);
     }
 }
