@@ -192,10 +192,9 @@ namespace Designer_Offer.ViewModels
                 Mail = UserEmail,
                 Phone = UserPhone,
                 Company_Id = SelectedCompany.Id,
-                Position_Id = SelectedPosition.Id
+                Position_Id = SelectedPosition.Id,
+                UserData = user 
             };
-
-            employee.UserData.Add(user);
 
             try
             {

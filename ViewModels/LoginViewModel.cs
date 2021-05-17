@@ -26,19 +26,9 @@ namespace Designer_Offer.ViewModels
         private UserData User;
 
         /// <summary>
-        /// Сотрудник
-        /// </summary>
-        private Employee Employee;
-
-        /// <summary>
         /// Репозиторий Юзеров
         /// </summary>
         private readonly IRepository<UserData> UserDataRepository;
-
-        /// <summary>
-        /// Репозиторий Сотрудников
-        /// </summary>
-        private readonly IRepository<Employee> EmployeeRepository;
         #endregion
 
         #region СВОЙСТВА
@@ -143,15 +133,12 @@ namespace Designer_Offer.ViewModels
                     .AsNoTracking()
                     .SingleOrDefaultAsync(u => u.Login == Login).ConfigureAwait(false);
 
-                if (User != null)
-                    Employee = await EmployeeRepository.GetAsync(User.Employee_Id);
-
                 if(User == null || User.Password != passBox.Password.Trim())
                 {
                     Status = "Неправильный логин или пароль!";
                     return false;
                 }
-                else if (Employee.Company_Id != SelectedCompany.Id)
+                else if (User.Employee.Company_Id != SelectedCompany.Id)
                 {
                     Status = "Вы не работаете в этой компании!";
                     return false;
@@ -183,10 +170,9 @@ namespace Designer_Offer.ViewModels
 
         #region КОНСТРУКТОРЫ
 
-        public LoginViewModel(IRepository<UserData> userDataRepository, IRepository<Employee> employeeRepository)
+        public LoginViewModel(IRepository<UserData> userDataRepository)
         {
             UserDataRepository = userDataRepository;
-            EmployeeRepository = employeeRepository;
 
             LoginCommand = new LambdaCommand(OnLoginCommand, CanLoginCommand);
 

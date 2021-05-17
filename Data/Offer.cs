@@ -13,7 +13,6 @@ namespace Designer_Offer.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Offer()
         {
-            Config = new HashSet<Config>();
             Part = new HashSet<Part>();
         }
 
@@ -29,8 +28,7 @@ namespace Designer_Offer.Data
         [Column(TypeName = "date")]
         public DateTime Date { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Config> Config { get; set; }
+        public virtual Config Config { get; set; }
 
         public virtual Project Project { get; set; }
 

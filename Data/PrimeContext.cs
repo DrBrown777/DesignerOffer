@@ -64,9 +64,9 @@ namespace Designer_Offer.Data
                 .HasForeignKey(e => e.Employee_Id);
 
             modelBuilder.Entity<Employee>()
-                .HasMany(e => e.UserData)
+                .HasOptional(e => e.UserData)
                 .WithRequired(e => e.Employee)
-                .HasForeignKey(e => e.Employee_Id);
+                .WillCascadeOnDelete();
 
             modelBuilder.Entity<Install>()
                 .HasMany(e => e.InstallPart)
@@ -74,9 +74,9 @@ namespace Designer_Offer.Data
                 .HasForeignKey(e => e.Install_Id);
 
             modelBuilder.Entity<Offer>()
-                .HasMany(e => e.Config)
+                .HasOptional(e => e.Config)
                 .WithRequired(e => e.Offer)
-                .HasForeignKey(e => e.Offer_Id);
+                .WillCascadeOnDelete();
 
             modelBuilder.Entity<Offer>()
                 .HasMany(e => e.Part)

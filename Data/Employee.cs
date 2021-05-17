@@ -14,7 +14,6 @@ namespace Designer_Offer.Data
         public Employee()
         {
             Project = new HashSet<Project>();
-            UserData = new HashSet<UserData>();
         }
 
         public int Id { get; set; }
@@ -46,7 +45,6 @@ namespace Designer_Offer.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Project> Project { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserData> UserData { get; set; }
+        public virtual UserData UserData { get; set; }
     }
 }

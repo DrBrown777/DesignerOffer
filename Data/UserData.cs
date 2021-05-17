@@ -10,9 +10,8 @@ namespace Designer_Offer.Data
     [Table("UserData")]
     public partial class UserData : IEntity
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
-
-        public int Employee_Id { get; set; }
 
         [Required]
         [StringLength(20)]

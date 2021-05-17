@@ -10,9 +10,8 @@ namespace Designer_Offer.Data
     [Table("Config")]
     public partial class Config : IEntity
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
-
-        public int Offer_Id { get; set; }
 
         public decimal Margin_Product { get; set; }
 
