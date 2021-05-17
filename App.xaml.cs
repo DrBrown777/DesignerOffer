@@ -58,7 +58,7 @@ namespace Designer_Offer
             services.AddSingleton<ILoginService, LoginViewModel>();
             services.AddSingleton<IRegistrationService, RegistrationViewModel>();
 
-            services.AddSingleton<WorkWindow>();
+            services.AddSingleton<ProjectManageWindow>();
             services.AddSingleton<Login>();
             services.AddSingleton<Registration>();
 

@@ -230,8 +230,8 @@
     <Compile Include="Services\IRegistrationService.cs" />
     <Compile Include="Services\Repositories\DbRepository.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
-    <Compile Include="Views\Windows\WorkWindow.xaml.cs">
-      <DependentUpon>WorkWindow.xaml</DependentUpon>
+    <Compile Include="Views\Windows\ProjectManageWindow.xaml.cs">
+      <DependentUpon>ProjectManageWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\Pages\Login.xaml">
       <SubType>Designer</SubType>
@@ -284,7 +284,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\Windows\WorkWindow.xaml">
+    <Page Include="Views\Windows\ProjectManageWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
