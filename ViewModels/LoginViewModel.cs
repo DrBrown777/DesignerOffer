@@ -102,7 +102,7 @@ namespace Designer_Offer.ViewModels
         {
             if (LoginSucces((PasswordBox)p).Result)
             {
-                var work = App.Host.Services.GetRequiredService<ProjectManageWindow>();
+                var work = App.Host.Services.GetRequiredService<WorkWindow>();
 
                 Application.Current.MainWindow.Close();
 

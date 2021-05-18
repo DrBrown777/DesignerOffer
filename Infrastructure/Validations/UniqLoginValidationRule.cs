@@ -1,6 +1,8 @@
 ﻿using Designer_Offer.Data;
+using System;
 using System.Globalization;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Designer_Offer.Infrastructure.Validations
@@ -9,15 +11,23 @@ namespace Designer_Offer.Infrastructure.Validations
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            using(var context = new PrimeContext())
+            try
             {
-                if (context.UserData.AsNoTracking().Where(u => u.Login == value.ToString().Trim()).Any())
+                using (var context = new PrimeContext())
                 {
-                    return new ValidationResult(false, "логин должен быть уникален");
+                    if (context.UserData.AsNoTracking().Where(u => u.Login == value.ToString().Trim()).Any())
+                    {
+                        return new ValidationResult(false, "логин должен быть уникален");
+                    }
                 }
-                    
-                return ValidationResult.ValidResult;
             }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message,
+                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            return ValidationResult.ValidResult;
         }
     }
 }

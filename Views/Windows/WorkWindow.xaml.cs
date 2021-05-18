@@ -3,9 +3,9 @@ using System.Windows;
 
 namespace Designer_Offer.Views.Windows
 {
-    public partial class ProjectManageWindow : Window
+    public partial class WorkWindow : Window
     {
-        public ProjectManageWindow()
+        public WorkWindow()
         {
             InitializeComponent();
         }

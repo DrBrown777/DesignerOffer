@@ -1,7 +1,9 @@
 ﻿using Designer_Offer.Data;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Designer_Offer.Infrastructure.Validations
@@ -13,19 +15,27 @@ namespace Designer_Offer.Infrastructure.Validations
 
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            using(var context = new PrimeContext())
+            try
             {
-                if (!Regex.IsMatch(value.ToString(), pattern))
+                using (var context = new PrimeContext())
                 {
-                    return new ValidationResult(false, "не валидный email");
+                    if (!Regex.IsMatch(value.ToString(), pattern))
+                    {
+                        return new ValidationResult(false, "не валидный email");
+                    }
+                    else if (context.Employee.AsNoTracking().Where(e => e.Mail == value.ToString().Trim()).Any())
+                    {
+                        return new ValidationResult(false, "email должен быть уникален");
+                    }
                 }
-                else if (context.Employee.AsNoTracking().Where(e => e.Mail == value.ToString().Trim()).Any())
-                { 
-                    return new ValidationResult(false, "email должен быть уникален"); 
-                }
-                
-                return ValidationResult.ValidResult;
             }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message,
+                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            return ValidationResult.ValidResult;
         }
     }
 }

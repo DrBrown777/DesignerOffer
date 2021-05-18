@@ -229,15 +229,24 @@
     <Compile Include="Services\Interfaces\IRepository.cs" />
     <Compile Include="Services\IRegistrationService.cs" />
     <Compile Include="Services\Repositories\DbRepository.cs" />
+    <Compile Include="ViewModels\ProjectManagerViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
-    <Compile Include="Views\Windows\ProjectManageWindow.xaml.cs">
-      <DependentUpon>ProjectManageWindow.xaml</DependentUpon>
+    <Compile Include="ViewModels\WorkWindowViewModel.cs" />
+    <Compile Include="Views\UControl\ProjectManagerView.xaml.cs">
+      <DependentUpon>ProjectManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\WorkWindow.xaml.cs">
+      <DependentUpon>WorkWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\Pages\Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Pages\Registration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UControl\ProjectManagerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -284,7 +293,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\Windows\ProjectManageWindow.xaml">
+    <Page Include="Views\Windows\WorkWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
