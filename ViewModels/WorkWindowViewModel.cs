@@ -53,9 +53,12 @@ namespace Designer_Offer.ViewModels
         private bool CanShowProjectManagerCommand(object p) => true;
         #endregion
 
+        #region КОНСТРУКТОРЫ
+
         public WorkWindowViewModel()
         {
             ShowProjectManager = new LambdaCommand(OnShowProjectManagerCommand, CanShowProjectManagerCommand);
         }
+        #endregion
     }
 }

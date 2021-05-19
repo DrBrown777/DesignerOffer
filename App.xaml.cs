@@ -71,7 +71,7 @@ namespace Designer_Offer
             services.AddSingleton<ILoginService, LoginViewModel>();
             services.AddSingleton<IRegistrationService, RegistrationViewModel>();
 
-            /*Регистрация интрефейсов сущностей базы*/
+            /*Регистрация репозиториев сущностей базы данных*/
             services.AddTransient<PrimeContext>();
 
             services.AddTransient<IRepository<Build>, DbRepository<Build>>();
