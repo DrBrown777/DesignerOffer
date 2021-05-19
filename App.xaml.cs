@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Designer_Offer.Services;
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.Services.Repositories;
+using Designer_Offer.Views.UControl;
 
 namespace Designer_Offer
 {
@@ -53,15 +54,24 @@ namespace Designer_Offer
 
         public static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
         {
-            services.AddSingleton<MainWindowViewModel>();
-
-            services.AddSingleton<ILoginService, LoginViewModel>();
-            services.AddSingleton<IRegistrationService, RegistrationViewModel>();
-
+            /*Региститрация представлений*/
             services.AddSingleton<WorkWindow>();
             services.AddSingleton<Login>();
             services.AddSingleton<Registration>();
+            services.AddSingleton<ProjectManager>();
 
+            /*Регистрация моделей представлений окон*/
+            services.AddSingleton<MainWindowViewModel>();
+            services.AddSingleton<WorkWindowViewModel>();
+
+            /*Регистрация моделей представлений юзер контролов*/
+            services.AddSingleton<ProjectManagerViewModel>();
+
+            /*Регистрация интерфейсов страниц*/
+            services.AddSingleton<ILoginService, LoginViewModel>();
+            services.AddSingleton<IRegistrationService, RegistrationViewModel>();
+
+            /*Регистрация интрефейсов сущностей базы*/
             services.AddTransient<PrimeContext>();
 
             services.AddTransient<IRepository<Build>, DbRepository<Build>>();
@@ -74,9 +84,7 @@ namespace Designer_Offer
             services.AddTransient<IRepository<InstallPart>, DbRepository<InstallPart>>();
             services.AddTransient<IRepository<Offer>, DbRepository<Offer>>();
             services.AddTransient<IRepository<Part>, DbRepository<Part>>();
-
             services.AddTransient<IRepository<Position>, DbRepository<Position>>();
-
             services.AddTransient<IRepository<Product>, DbRepository<Product>>();
             services.AddTransient<IRepository<ProductPart>, DbRepository<ProductPart>>();
             services.AddTransient<IRepository<Project>, DbRepository<Project>>();

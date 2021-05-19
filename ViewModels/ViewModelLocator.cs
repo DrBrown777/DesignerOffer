@@ -7,7 +7,13 @@ namespace Designer_Offer.ViewModels
     {
         public MainWindowViewModel MainWindowView => 
             App.Host.Services.GetRequiredService<MainWindowViewModel>();
-        
+
+        public WorkWindowViewModel WorkWindowView =>
+            App.Host.Services.GetRequiredService<WorkWindowViewModel>();
+
+        public ProjectManagerViewModel ProjectManagerView =>
+           App.Host.Services.GetRequiredService<ProjectManagerViewModel>();
+
         public LoginViewModel LoginView =>
             (LoginViewModel)App.Host.Services.GetRequiredService<ILoginService>();
 

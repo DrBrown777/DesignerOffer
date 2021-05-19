@@ -6,7 +6,11 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:cmd="clr-namespace:Designer_Offer.Infrastructure.Commands"
         mc:Ignorable="d"
-        Title="ООО ''Прайм Вест ЛТД''" Height="600" Width="1000"
+        DataContext="{Binding WorkWindowView, Source={StaticResource Locator}}"
+        Title="{Binding Path=Title, StringFormat='PrimeWest Constraction :: \{\0}',
+                TargetNullValue='PrimeWest Constraction', 
+                FallbackValue='PrimeWest Constraction'}" 
+        Height="600" Width="1000"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -74,89 +78,19 @@
             </MenuItem>
             <MenuItem Header="_Настройки"/>
             <MenuItem Header="_Справка"/>
+            <MenuItem Header="_Тест" Command="{Binding Path=ShowProjectManager}"/>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem DockPanel.Dock="Right">
                 <ResizeGrip IsHitTestVisible="True"/>
             </StatusBarItem>
-            <StatusBarItem Content="Статус" FontSize="12" />
+            <StatusBarItem Content="{Binding Path=Status}" FontSize="12" />
             <StatusBarItem HorizontalAlignment="Right">
                 <ProgressBar Value="30" />
             </StatusBarItem>
         </StatusBar>
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0.7*"/>
-                <RowDefinition Height="0.3*"/>
-            </Grid.RowDefinitions>
-            <GroupBox Header="Клинеты" 
-                      Grid.Column="0" 
-                      Grid.Row="0">
-
-            </GroupBox>
-            <GroupBox Header="Обьекты" 
-                      Grid.Column="0" 
-                      Grid.Row="1">
-
-            </GroupBox>
-            <GroupBox Header="Проекты" 
-                      Grid.Column="1" 
-                      Grid.Row="0">
-
-            </GroupBox>
-            <GroupBox  Header="Навигация" 
-                       Grid.Column="1" 
-                       Grid.Row="1">
-                <Grid>
-                    <Grid.ColumnDefinitions >
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0">
-                        <DatePicker Margin="5"
-                        VerticalAlignment="Top" 
-                        materialDesign:HintAssist.Hint="Начальная дата" 
-                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
-                        <DatePicker Margin="5"
-                        VerticalAlignment="Top" 
-                        materialDesign:HintAssist.Hint="Конечная дата" 
-                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
-                    </StackPanel>
-                    <StackPanel Grid.Column="1">
-                        <ComboBox VerticalAlignment="Top" 
-                        materialDesign:HintAssist.Hint="Поиск по разделу"
-                        materialDesign:HintAssist.HelperText="раздел"
-                        IsSynchronizedWithCurrentItem="False"
-                        SelectedIndex="-1" Padding="9" Margin="5">
-                            <ComboBoxItem Content="Вентиляция"/>
-                            <ComboBoxItem Content="Кондиционирование"/>
-                            <ComboBoxItem Content="Отопление"/>
-                            <ComboBoxItem Content="Водопровод и К"/>
-                        </ComboBox>
-                    </StackPanel>
-                </Grid>
-            </GroupBox>
-            <GroupBox Header="Коммерческие предложения" 
-                      Grid.Column="2" 
-                      Grid.RowSpan="2">
-
-            </GroupBox>
-            <GroupBox  Header="Системы"
-                       Grid.Column="3">
-
-            </GroupBox>
-            <GroupBox  Header="Стоимость" 
-                       Grid.Column="3" 
-                       Grid.Row="1">
-
-            </GroupBox>
+            <ContentControl Content="{Binding Path=CurrentModel}"/>
         </Grid>
     </DockPanel>
-    
 </Window>

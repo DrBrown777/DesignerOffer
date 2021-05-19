@@ -234,8 +234,8 @@
     <Compile Include="ViewModels\ProjectManagerViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="ViewModels\WorkWindowViewModel.cs" />
-    <Compile Include="Views\UControl\ProjectManagerView.xaml.cs">
-      <DependentUpon>ProjectManagerView.xaml</DependentUpon>
+    <Compile Include="Views\UControl\ProjectManager.xaml.cs">
+      <DependentUpon>ProjectManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\WorkWindow.xaml.cs">
       <DependentUpon>WorkWindow.xaml</DependentUpon>
@@ -248,7 +248,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UControl\ProjectManagerView.xaml">
+    <Page Include="Views\UControl\ProjectManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

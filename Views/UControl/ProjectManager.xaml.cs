@@ -2,9 +2,9 @@
 
 namespace Designer_Offer.Views.UControl
 {
-    public partial class ProjectManagerView : UserControl
+    public partial class ProjectManager : UserControl
     {
-        public ProjectManagerView()
+        public ProjectManager()
         {
             InitializeComponent();
         }

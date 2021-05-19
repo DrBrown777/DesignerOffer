@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Designer_Offer"
              xmlns:vm="clr-namespace:Designer_Offer.ViewModels"
+             xmlns:view="clr-namespace:Designer_Offer.Views.UControl"
              StartupUri="Views/Windows/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -20,6 +21,10 @@
             <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="{StaticResource Primary900Foreground}"/>
             
             <vm:ViewModelLocator x:Key="Locator"/>
+
+            <DataTemplate DataType="{x:Type vm:ProjectManagerViewModel}">
+                <view:ProjectManager />
+            </DataTemplate>
             
         </ResourceDictionary>
     </Application.Resources>
