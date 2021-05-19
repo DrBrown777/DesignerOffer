@@ -84,7 +84,6 @@
             </MenuItem>
             <MenuItem Header="_Настройки"/>
             <MenuItem Header="_Справка"/>
-            <MenuItem Header="_Тест" Command="{Binding Path=ShowProjectManager}"/>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem DockPanel.Dock="Right">

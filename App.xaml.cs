@@ -71,6 +71,8 @@ namespace Designer_Offer
             services.AddSingleton<ILoginService, LoginViewModel>();
             services.AddSingleton<IRegistrationService, RegistrationViewModel>();
 
+            services.AddSingleton<IEntity, Employee>();
+
             /*Регистрация репозиториев сущностей базы данных*/
             services.AddTransient<PrimeContext>();
 

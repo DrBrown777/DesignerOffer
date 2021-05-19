@@ -50,7 +50,7 @@ namespace Designer_Offer.ViewModels
             CurrentModel = App.Host.Services.GetRequiredService<ProjectManagerViewModel>();
         }
 
-        private bool CanShowProjectManagerCommand(object p) => true;
+        private bool CanShowProjectManagerCommand(object p) => true && CurrentModel == null;
         #endregion
 
         #region КОНСТРУКТОРЫ
