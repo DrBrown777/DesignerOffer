@@ -10,11 +10,10 @@ namespace Designer_Offer.Data
     [Table("InstallPart")]
     public partial class InstallPart : IEntity
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         public int Install_Id { get; set; }
-
-        public int Part_Id { get; set; }
 
         public decimal? Count_Install { get; set; }
 

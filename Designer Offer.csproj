@@ -217,7 +217,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Data\InstallPart.cs" />
     <Compile Include="Data\PrimeContext.cs" />
+    <Compile Include="Data\ProductPart.cs" />
     <Compile Include="Infrastructure\Commands\CloseApplicationCommand.cs" />
     <Compile Include="Infrastructure\Converters\Base\Converter.cs" />
     <Compile Include="Infrastructure\Validations\UniqEmailValidationRule.cs" />
@@ -265,12 +267,10 @@
     <Compile Include="Data\Config.cs" />
     <Compile Include="Data\Employee.cs" />
     <Compile Include="Data\Install.cs" />
-    <Compile Include="Data\InstallPart.cs" />
     <Compile Include="Data\Offer.cs" />
     <Compile Include="Data\Part.cs" />
     <Compile Include="Data\Position.cs" />
     <Compile Include="Data\Product.cs" />
-    <Compile Include="Data\ProductPart.cs" />
     <Compile Include="Data\Project.cs" />
     <Compile Include="Data\Section.cs" />
     <Compile Include="Data\Supplier.cs" />

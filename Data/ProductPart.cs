@@ -10,11 +10,10 @@ namespace Designer_Offer.Data
     [Table("ProductPart")]
     public partial class ProductPart : IEntity
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         public int Product_Id { get; set; }
-
-        public int Part_Id { get; set; }
 
         public decimal? Count_Product { get; set; }
 
