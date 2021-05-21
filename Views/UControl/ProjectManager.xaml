@@ -36,10 +36,10 @@
             <RowDefinition Height="0.7*"/>
             <RowDefinition Height="0.3*"/>
         </Grid.RowDefinitions>
-        <GroupBox Header="Клинеты" 
+        <GroupBox Header="Клиенты" 
                       Grid.Column="0" 
                       Grid.Row="0">
-            <DataGrid ItemsSource="{Binding Path=Clients}">
+            <DataGrid x:Name="Clients" ItemsSource="{Binding Path=Clients}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название" 
                                         Binding="{Binding Path=Name}" 
@@ -57,10 +57,22 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название"
                                         Binding="{Binding Path=Name}"
-                                        Width="0.5*"/>
+                                        Width="0.5*">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextWrapping" Value="Wrap"></Setter>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
                     <DataGridTextColumn Header="Адрес"
                                         Binding="{Binding Path=Adress}"
-                                        Width="0.5*"/>
+                                        Width="0.5*">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextWrapping" Value="Wrap"></Setter>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>

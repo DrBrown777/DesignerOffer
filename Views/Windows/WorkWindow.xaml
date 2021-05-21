@@ -8,7 +8,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         DataContext="{Binding WorkWindowView, Source={StaticResource Locator}}"
-        Title="{Binding Path=Title, StringFormat='PrimeWest Constraction :: \{\0}',
+        Title="{Binding Path=Content.Title, ElementName=UContorl, StringFormat='\{\0}',
                 TargetNullValue='PrimeWest Constraction', 
                 FallbackValue='PrimeWest Constraction'}" 
         Height="600" Width="1000"
@@ -89,13 +89,20 @@
             <StatusBarItem DockPanel.Dock="Right">
                 <ResizeGrip IsHitTestVisible="True"/>
             </StatusBarItem>
-            <StatusBarItem Content="{Binding Path=Status}" FontSize="12" />
+            <StatusBarItem Width="Auto">
+                <TextBlock Text="{Binding Content.Status, ElementName=UContorl, 
+                    FallbackValue=ver.1.0, 
+                    StringFormat='Менеджер: \{0\}', 
+                    TargetNullValue=ver.1.0}"/>
+            </StatusBarItem>
             <StatusBarItem HorizontalAlignment="Right">
                 <ProgressBar Value="30" />
             </StatusBarItem>
         </StatusBar>
         <Grid>
-            <ContentControl Content="{Binding Path=CurrentModel}"/>
+            <ContentControl 
+                x:Name="UContorl" 
+                Content="{Binding Path=CurrentModel}"/>
         </Grid>
     </DockPanel>
 </Window>
