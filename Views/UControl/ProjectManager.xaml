@@ -18,6 +18,12 @@
         <Style TargetType="GroupBox" BasedOn="{StaticResource MaterialDesignCardGroupBox}">
             <Setter Property="Margin" Value="3px"/>
         </Style>
+        <Style TargetType="DataGrid" BasedOn="{StaticResource MaterialDesignDataGrid}">
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False" />
+            <Setter Property="CanUserDeleteRows" Value="False"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -33,12 +39,30 @@
         <GroupBox Header="Клинеты" 
                       Grid.Column="0" 
                       Grid.Row="0">
-
+            <DataGrid ItemsSource="{Binding Path=Clients}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Название" 
+                                        Binding="{Binding Path=Name}" 
+                                        Width="0.7*"/>
+                    <DataGridTextColumn Header="Кол-во обьектов" 
+                                        Binding="{Binding Path=Build.Count}" 
+                                        Width="0.3*"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </GroupBox>
         <GroupBox Header="Обьекты" 
                       Grid.Column="0" 
                       Grid.Row="1">
-
+            <DataGrid ItemsSource="{Binding Path=Builds}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Название"
+                                        Binding="{Binding Path=Name}"
+                                        Width="0.5*"/>
+                    <DataGridTextColumn Header="Адрес"
+                                        Binding="{Binding Path=Adress}"
+                                        Width="0.5*"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </GroupBox>
         <GroupBox Header="Проекты" 
                       Grid.Column="1" 
