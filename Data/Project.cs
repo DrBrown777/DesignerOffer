@@ -13,10 +13,10 @@ namespace Designer_Offer.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Project()
         {
-            Build = new HashSet<Build>();
             Offer = new HashSet<Offer>();
         }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         public int? Employee_Id { get; set; }
@@ -24,8 +24,7 @@ namespace Designer_Offer.Data
         [Column(TypeName = "date")]
         public DateTime Date { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Build> Build { get; set; }
+        public virtual Build Build { get; set; }
 
         public virtual Employee Employee { get; set; }
 

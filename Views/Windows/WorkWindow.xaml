@@ -82,7 +82,17 @@
                     Icon="{materialDesign:PackIcon Kind=ContentPaste}" />
                 <Separator />
             </MenuItem>
-            <MenuItem Header="_Настройки"/>
+            <MenuItem Header="_Настройки">
+                <MenuItem
+                    Header="Редактирование компаний"
+                    Icon="{materialDesign:PackIcon Kind=Domain}"/>
+                <MenuItem
+                    Header="Редактирование менеджеров"
+                    Icon="{materialDesign:PackIcon Kind=Account}"/>
+                <MenuItem
+                    Header="Редактирование разделов"
+                    Icon="{materialDesign:PackIcon Kind=VectorIntersection}"/>
+            </MenuItem>
             <MenuItem Header="_Справка"/>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">

@@ -23,7 +23,7 @@ namespace Designer_Offer.Data
         public int Project_Id { get; set; }
 
         [StringLength(100)]
-        public string Variant { get; set; }
+        public string Name { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime Date { get; set; }

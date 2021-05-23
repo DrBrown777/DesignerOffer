@@ -1,6 +1,7 @@
 ﻿using Designer_Offer.Data;
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
@@ -62,14 +63,44 @@ namespace Designer_Offer.ViewModels
             get => _Builds;
             set => Set(ref _Builds, value);
         }
+
+        private ObservableCollection<Section> _Sections;
+        /// <summary>
+        /// Разделы КП
+        /// </summary>
+        public  ObservableCollection<Section> Sections
+        {
+            get => _Sections;
+            set => Set(ref _Sections, value);
+        }
+
+        private Client _SelectedClient;
+        /// <summary>
+        /// Выбранный клиент
+        /// </summary>
+        public Client SelectedClient
+        {
+            get => _SelectedClient;
+            set => Set(ref _SelectedClient, value);
+        }
+
+        private Build _SelectedBuild;
+        /// <summary>
+        /// Выбранный обьект
+        /// </summary>
+        public Build SelectedBuild
+        {
+            get => _SelectedBuild;
+            set => Set(ref _SelectedBuild, value);
+        }
         #endregion
 
         #region КОНСТРУКТОРЫ
         public ProjectManagerViewModel(IEntity employe, IRepository<Employee> repaUser, IRepository<Company> repaCompany, 
-                                                        IRepository<Client> repaClient, IRepository<Build> repaBuild)
+                                                        IRepository<Client> repaClient, IRepository<Section> repaSection)
         {
-            //CurrentUser = repaUser.Get(employe.Id);
-            CurrentUser = repaUser.Get(21);
+            CurrentUser = repaUser.Get(employe.Id);
+            //CurrentUser = repaUser.Get(21);
 
             CurrentCompany = repaCompany.Get((int)CurrentUser.Company_Id);
 
@@ -79,7 +110,8 @@ namespace Designer_Offer.ViewModels
 
             Clients = new ObservableCollection<Client>(repaClient.Items);
 
-            Builds = new ObservableCollection<Build>(repaBuild.Items);
+            Sections = new ObservableCollection<Section>(repaSection.Items);
+
         }
         #endregion
     }

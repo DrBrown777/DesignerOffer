@@ -33,6 +33,11 @@ namespace Designer_Offer.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Build>()
+                .HasOptional(e => e.Project)
+                .WithRequired(e => e.Build)
+                .WillCascadeOnDelete();
+
             modelBuilder.Entity<Category>()
                 .HasMany(e => e.Install)
                 .WithOptional(e => e.Category)
@@ -107,11 +112,6 @@ namespace Designer_Offer.Data
                 .HasMany(e => e.Supplier)
                 .WithMany(e => e.Product)
                 .Map(m => m.ToTable("ProductSupplier"));
-
-            modelBuilder.Entity<Project>()
-                .HasMany(e => e.Build)
-                .WithOptional(e => e.Project)
-                .HasForeignKey(e => e.Project_Id);
 
             modelBuilder.Entity<Project>()
                 .HasMany(e => e.Offer)

@@ -39,7 +39,28 @@
         <GroupBox Header="Клиенты" 
                       Grid.Column="0" 
                       Grid.Row="0">
-            <DataGrid x:Name="Clients" ItemsSource="{Binding Path=Clients}">
+            <ListBox 
+                ItemsSource="{Binding Path=Clients, UpdateSourceTrigger=PropertyChanged}"
+                SelectedItem="{Binding Path=SelectedClient}"
+                SelectedIndex="0">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <DockPanel>
+                            <TextBlock
+                                Text="{Binding Build.Count, StringFormat=Обьекты: ({0}), UpdateSourceTrigger=PropertyChanged}"
+                                DockPanel.Dock="Right"/>
+                            <TextBlock 
+                                Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DockPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <!--<DataGrid x:Name="Clients" ItemsSource="{Binding Path=Clients}" SelectedItem="{Binding Path=SelectedClient}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название" 
                                         Binding="{Binding Path=Name}" 
@@ -48,16 +69,35 @@
                                         Binding="{Binding Path=Build.Count}" 
                                         Width="0.3*"/>
                 </DataGrid.Columns>
+            </DataGrid>-->
+        </GroupBox>
+        <GroupBox Header="Проекты"
+                      Grid.Column="1" 
+                      Grid.Row="1">
+            <DataGrid DataContext="{Binding Path=SelectedBuild.Project.Employee}"
+                ItemsSource="{Binding Path=Project, UpdateSourceTrigger=PropertyChanged}"
+                SelectedIndex="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Менеджер"
+                                        Binding="{Binding Path=Employee.Last_Name}"
+                                        Width="0.7*"/>
+                    <DataGridTextColumn Header="Дата"
+                                        Binding="{Binding Path=Date, StringFormat=dd/MM/yy}"
+                                        Width="0.3*"/>
+                </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
-        <GroupBox Header="Обьекты" 
-                      Grid.Column="0" 
-                      Grid.Row="1">
-            <DataGrid ItemsSource="{Binding Path=Builds}">
+        <GroupBox Header="Обьекты"
+                      Grid.Column="1" 
+                      Grid.ColumnSpan="2">
+            <DataGrid
+                ItemsSource="{Binding Path=SelectedClient.Build, UpdateSourceTrigger=PropertyChanged}"
+                SelectedItem="{Binding Path=SelectedBuild}"
+                SelectedIndex="0">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название"
-                                        Binding="{Binding Path=Name}"
-                                        Width="0.5*">
+                                        Binding="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="0.7*">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="TextWrapping" Value="Wrap"></Setter>
@@ -65,24 +105,19 @@
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="Адрес"
-                                        Binding="{Binding Path=Adress}"
-                                        Width="0.5*">
+                                        Binding="{Binding Path=Adress, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="0.3*">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
-                                <Setter Property="TextWrapping" Value="Wrap"></Setter>
+                                <Setter Property="TextWrapping" Value="Wrap"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
-        <GroupBox Header="Проекты" 
-                      Grid.Column="1" 
-                      Grid.Row="0">
-
-        </GroupBox>
         <GroupBox  Header="Навигация" 
-                       Grid.Column="1" 
+                       Grid.Column="0" 
                        Grid.Row="1">
             <Grid>
                 <Grid.ColumnDefinitions >
@@ -100,30 +135,53 @@
                         Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
                 </StackPanel>
                 <StackPanel Grid.Column="1">
-                    <ComboBox VerticalAlignment="Top" 
+                    <ComboBox
+                        ItemsSource="{Binding Path=Sections, UpdateSourceTrigger=PropertyChanged}"
+                        DisplayMemberPath="Name"
+                        VerticalAlignment="Top" 
                         materialDesign:HintAssist.Hint="Поиск по разделу"
                         materialDesign:HintAssist.HelperText="раздел"
                         IsSynchronizedWithCurrentItem="False"
-                        SelectedIndex="-1" Padding="9" Margin="5">
-                        <ComboBoxItem Content="Вентиляция"/>
-                        <ComboBoxItem Content="Кондиционирование"/>
-                        <ComboBoxItem Content="Отопление"/>
-                        <ComboBoxItem Content="Водопровод и К"/>
-                    </ComboBox>
+                        SelectedIndex="-1" Padding="9" Margin="5"/>
                 </StackPanel>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Коммерческие предложения" 
-                      Grid.Column="2" 
-                      Grid.RowSpan="2">
+        <GroupBox Header="Системы" 
+                      Grid.Column="3" 
+                      Grid.Row="1">
 
         </GroupBox>
-        <GroupBox  Header="Системы"
-                       Grid.Column="3">
+        <GroupBox  Header="Коммерческие предложения"
+                       Grid.Column="3"
+                       Grid.Row="0">
+            <DataGrid
+                ItemsSource="{Binding Path=SelectedBuild.Project.Offer}"
+                SelectedIndex="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn 
+                        Header="Название"
+                        Binding="{Binding Path=Name}"
+                        Width="0.5*">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextWrapping" Value="Wrap"></Setter>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn
+                        Header="Раздел"
+                        Binding="{Binding Path=Section.Name}"
+                        Width="0.3*"/>
+                    <DataGridTextColumn
+                        Header="Дата"
+                        Binding="{Binding Path=Date, StringFormat=dd/MM/yy}"
+                        Width="0.2*"/>
+                </DataGrid.Columns>
+            </DataGrid>
 
         </GroupBox>
         <GroupBox  Header="Стоимость" 
-                       Grid.Column="3" 
+                       Grid.Column="2" 
                        Grid.Row="1">
 
         </GroupBox>
