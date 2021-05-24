@@ -93,14 +93,24 @@ namespace Designer_Offer.ViewModels
             get => _SelectedBuild;
             set => Set(ref _SelectedBuild, value);
         }
+
+        private Offer _SelectedOffer;
+        /// <summary>
+        /// Выбранное КП
+        /// </summary>
+        public Offer SelectedOffer
+        {
+            get => _SelectedOffer;
+            set => Set(ref _SelectedOffer, value);
+        }
         #endregion
 
         #region КОНСТРУКТОРЫ
         public ProjectManagerViewModel(IEntity employe, IRepository<Employee> repaUser, IRepository<Company> repaCompany, 
                                                         IRepository<Client> repaClient, IRepository<Section> repaSection)
         {
-            CurrentUser = repaUser.Get(employe.Id);
-            //CurrentUser = repaUser.Get(21);
+            //CurrentUser = repaUser.Get(employe.Id);
+            CurrentUser = repaUser.Get(21);
 
             CurrentCompany = repaCompany.Get((int)CurrentUser.Company_Id);
 

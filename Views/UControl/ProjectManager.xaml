@@ -149,13 +149,36 @@
         <GroupBox Header="Системы" 
                       Grid.Column="3" 
                       Grid.Row="1">
+            <DataGrid
+                ItemsSource="{Binding Path=SelectedOffer.Part}"
+                SelectedIndex="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Header="Название"
+                        Binding="{Binding Path=Name}"
+                        Width="0.25*"/>
+                    <DataGridTextColumn
+                        Header="%"
+                        Width="0.1*"/>
+                    <DataGridTextColumn
+                        Header="Вход"
+                        Width="0.2*"/>
+                    <DataGridTextColumn
+                        Header="Выход"
+                        Width="0.2*"/>
+                    <DataGridTextColumn
+                        Header="Доход"
+                        Width="0.25*"/>
+                </DataGrid.Columns>
 
+            </DataGrid>
         </GroupBox>
         <GroupBox  Header="Коммерческие предложения"
                        Grid.Column="3"
                        Grid.Row="0">
             <DataGrid
                 ItemsSource="{Binding Path=SelectedBuild.Project.Offer}"
+                SelectedItem="{Binding Path=SelectedOffer}"
                 SelectedIndex="0">
                 <DataGrid.Columns>
                     <DataGridTextColumn 
