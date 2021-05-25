@@ -42,7 +42,9 @@ namespace Designer_Offer.ViewModels
         }
 
         private bool _Progress;
-
+        /// <summary>
+        /// Индикатор прогрессбара
+        /// </summary>
         public bool Progress
         {
             get => _Progress;

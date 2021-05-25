@@ -1,11 +1,14 @@
 ﻿using Designer_Offer.Data;
+using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Designer_Offer.ViewModels
 {
@@ -16,11 +19,31 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Текущий пользователь
         /// </summary>
-        private readonly Employee CurrentUser;
+        private Employee CurrentUser;
         /// <summary>
         /// Текущая компания
         /// </summary>
-        private readonly Company CurrentCompany;
+        private Company CurrentCompany;
+
+        #region Репозитории 
+        /// <summary>
+        /// Репозитории пользователей
+        /// </summary>
+        private readonly IRepository<Employee> RepositoryUsers;
+        /// <summary>
+        /// Репозиторий компаний
+        /// </summary>
+        private readonly IRepository<Company> RepositoryCompanies;
+        /// <summary>
+        /// Репозиторий клиентов
+        /// </summary>
+        private readonly IRepository<Client> RepositoryClients;
+        /// <summary>
+        /// Репозиторий разделов
+        /// </summary>
+        private readonly IRepository<Section> RepositorySections;
+        #endregion
+
         #endregion
 
         #region СВОЙСТВА
@@ -42,6 +65,16 @@ namespace Designer_Offer.ViewModels
         {
             get => _Status;
             set => Set(ref _Status, value);
+        }
+
+        private bool _Progress;
+        /// <summary>
+        /// Индикатор прогрессбара
+        /// </summary>
+        public bool Progress
+        {
+            get => _Progress;
+            set => Set(ref _Progress, value);
         }
 
         private ObservableCollection<Client> _Clients;
@@ -105,23 +138,41 @@ namespace Designer_Offer.ViewModels
         }
         #endregion
 
-        #region КОНСТРУКТОРЫ
-        public ProjectManagerViewModel(IEntity employe, IRepository<Employee> repaUser, IRepository<Company> repaCompany, 
-                                                        IRepository<Client> repaClient, IRepository<Section> repaSection)
+        #region КОМАНДЫ
+        /// <summary>
+        /// Загрузка данных из репозиториев
+        /// </summary>
+        public ICommand LoadDataFromRepositories { get; }
+
+        private bool CanLoadDataFromRepositories(object p) => true;
+
+        private async void OnLoadDataFromRepositories(object p)
         {
-            //CurrentUser = repaUser.Get(employe.Id);
-            CurrentUser = repaUser.Get(21);
-
-            CurrentCompany = repaCompany.Get((int)CurrentUser.Company_Id);
-
-            Title = CurrentCompany.Name + _title;
+            //CurrentUser = await RepositoryUsers.GetAsync(App.Host.Services.GetRequiredService<IEntity>().Id);
+            CurrentUser = await RepositoryUsers.GetAsync(21);
 
             Status = CurrentUser.First_Name + " " + CurrentUser.Last_Name;
 
-            Clients = new ObservableCollection<Client>(repaClient.Items);
+            CurrentCompany = await RepositoryCompanies.GetAsync((int)CurrentUser?.Company_Id);
 
-            Sections = new ObservableCollection<Section>(repaSection.Items);
+            Title = CurrentCompany?.Name + _title;
 
+            Clients = new ObservableCollection<Client>(await RepositoryClients.Items.ToListAsync());
+
+            Sections = new ObservableCollection<Section>(await RepositorySections.Items.ToListAsync());
+        }
+        #endregion
+
+        #region КОНСТРУКТОРЫ
+        public ProjectManagerViewModel(IRepository<Employee> repaUser, IRepository<Company> repaCompany, 
+                                       IRepository<Client> repaClient, IRepository<Section> repaSection)
+        {
+            RepositoryUsers = repaUser;
+            RepositoryCompanies = repaCompany;
+            RepositoryClients = repaClient;
+            RepositorySections = repaSection;
+
+            LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
         }
         #endregion
     }
