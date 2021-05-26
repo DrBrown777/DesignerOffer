@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1000"
              DataContext="{Binding ProjectManagerView, Source={StaticResource Locator}}"
@@ -30,6 +31,10 @@
             <Setter Property="CanUserDeleteRows" Value="False"/>
             <Setter Property="IsReadOnly" Value="True"/>
         </Style>
+        <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
+            <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>
+            <Setter Property="Height" Value="25"/>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -45,27 +50,43 @@
         <GroupBox Header="Клиенты" 
                       Grid.Column="0" 
                       Grid.Row="0">
-            <ListBox 
-                ItemsSource="{Binding Path=Clients, UpdateSourceTrigger=PropertyChanged}"
-                SelectedItem="{Binding Path=SelectedClient}"
-                SelectedIndex="0">
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <DockPanel>
-                            <TextBlock
-                                Text="{Binding Build.Count, StringFormat=Обьекты: ({0}), UpdateSourceTrigger=PropertyChanged}"
-                                DockPanel.Dock="Right"/>
-                            <TextBlock 
-                                Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
-                        </DockPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+            <!--<GroupBox.Resources>
+                <CollectionViewSource x:Key="CollectionClient" Source="{Binding Clients}">
+                    <CollectionViewSource.SortDescriptions>
+                        <cm:SortDescription PropertyName="Name"/>
+                    </CollectionViewSource.SortDescriptions>
+                </CollectionViewSource>
+            </GroupBox.Resources>-->
+            <DockPanel>
+                <DockPanel DockPanel.Dock="Top">
+                    <materialDesign:PackIcon DockPanel.Dock="Left" 
+                                             Height="25" 
+                                             Kind="Search"/>
+                    <TextBox DockPanel.Dock="Right" Text="{Binding Path=ClientFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                </DockPanel>
+                <ListBox 
+                    ItemsSource="{Binding Path=ClientsView, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding Path=SelectedClient}"
+                    SelectedIndex="0"
+                    Margin="0,5,0,0">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <TextBlock
+                                    Text="{Binding Build.Count, StringFormat=Обьекты: ({0}), UpdateSourceTrigger=PropertyChanged}"
+                                    DockPanel.Dock="Right"/>
+                                <TextBlock 
+                                    Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
             <!--<DataGrid x:Name="Clients" ItemsSource="{Binding Path=Clients}" SelectedItem="{Binding Path=SelectedClient}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название" 

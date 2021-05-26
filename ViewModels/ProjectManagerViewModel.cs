@@ -2,12 +2,12 @@
 using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
-using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data.Entity;
-using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Designer_Offer.ViewModels
@@ -84,8 +84,44 @@ namespace Designer_Offer.ViewModels
         public ObservableCollection<Client> Clients
         {
             get => _Clients;
-            set => Set(ref _Clients, value);
+            set 
+            {
+                if (Set(ref _Clients, value))
+                {
+                    ClientsViewSource = new CollectionViewSource()
+                    {
+                        Source = value,
+                        SortDescriptions =
+                        {
+                            new SortDescription(nameof(Client.Name), ListSortDirection.Ascending)
+                        }
+
+                    };
+                    ClientsViewSource.Filter += OnClientFilter;
+                    ClientsViewSource.View.Refresh();
+
+                    OnPropertyChanged(nameof(ClientsView));
+                }
+            }
         }
+
+        private string _ClientFilter;
+        /// <summary>
+        /// Искомый клиент для фильтрации
+        /// </summary>
+        public string ClientFilter
+        {
+            get => _ClientFilter;
+            set
+            {
+                if (Set(ref _ClientFilter, value))
+                    ClientsViewSource.View.Refresh();
+            }
+        }
+
+        public ICollectionView ClientsView => ClientsViewSource?.View;
+
+        private CollectionViewSource ClientsViewSource;
 
         private ObservableCollection<Build> _Builds;
         /// <summary>
@@ -148,18 +184,37 @@ namespace Designer_Offer.ViewModels
 
         private async void OnLoadDataFromRepositories(object p)
         {
-            //CurrentUser = await RepositoryUsers.GetAsync(App.Host.Services.GetRequiredService<IEntity>().Id);
-            CurrentUser = await RepositoryUsers.GetAsync(21);
+            try
+            {
+                //CurrentUser = await RepositoryUsers.GetAsync(App.Host.Services.GetRequiredService<IEntity>().Id);
+                CurrentUser = await RepositoryUsers.GetAsync(21);
 
-            Status = CurrentUser.First_Name + " " + CurrentUser.Last_Name;
+                Status = CurrentUser.First_Name + " " + CurrentUser.Last_Name;
 
-            CurrentCompany = await RepositoryCompanies.GetAsync((int)CurrentUser?.Company_Id);
+                CurrentCompany = await RepositoryCompanies.GetAsync((int)CurrentUser?.Company_Id);
 
-            Title = CurrentCompany?.Name + _title;
+                Title = CurrentCompany?.Name + _title;
 
-            Clients = new ObservableCollection<Client>(await RepositoryClients.Items.ToListAsync());
+                Clients = new ObservableCollection<Client>(await RepositoryClients.Items.ToListAsync());
 
-            Sections = new ObservableCollection<Section>(await RepositorySections.Items.ToListAsync());
+                Sections = new ObservableCollection<Section>(await RepositorySections.Items.ToListAsync());
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message,
+                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            
+        }
+        #endregion
+
+        #region МЕТОДЫ
+        private void OnClientFilter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Client client) || string.IsNullOrEmpty(ClientFilter)) return;
+
+            if (!client.Name.ToLower().Contains(ClientFilter.ToLower()))
+                e.Accepted = false;
         }
         #endregion
 
