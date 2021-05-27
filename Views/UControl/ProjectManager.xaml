@@ -64,7 +64,7 @@
                                              Kind="Search"/>
                     <TextBox DockPanel.Dock="Right" Text="{Binding Path=ClientFilter, UpdateSourceTrigger=PropertyChanged}"/>
                 </DockPanel>
-                <ListBox 
+                <ListBox DockPanel.Dock="Top"
                     ItemsSource="{Binding Path=ClientsView, UpdateSourceTrigger=PropertyChanged}"
                     SelectedItem="{Binding Path=SelectedClient}"
                     SelectedIndex="0"
@@ -86,6 +86,36 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
+                <Grid DockPanel.Dock="Bottom">
+                    <materialDesign:PopupBox
+                        Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                        PlacementMode="LeftAndAlignMiddles"
+                        UnfurlOrientation="Horizontal"
+                        ToolTip="Управление клиентами"
+                        ToolTipService.Placement="Top"
+                        Height="40" Width="40"
+                        Margin="0,0,10,10"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom">
+                    <StackPanel Orientation="Horizontal">
+                        <Button
+                            ToolTip="Добавить" ToolTipService.Placement="Top"
+                            Command="">
+                                <materialDesign:PackIcon Kind="PlusBold" />
+                        </Button>
+                        <Button
+                            ToolTip="Редактировать" ToolTipService.Placement="Top"
+                            Command="">
+                                <materialDesign:PackIcon Kind="Edit" />
+                        </Button>
+                        <Button
+                            ToolTip="Удалить" ToolTipService.Placement="Top" 
+                            Command="">
+                                <materialDesign:PackIcon Kind="Delete" />
+                        </Button>
+                    </StackPanel>
+                </materialDesign:PopupBox>
+              </Grid>
             </DockPanel>
             <!--<DataGrid x:Name="Clients" ItemsSource="{Binding Path=Clients}" SelectedItem="{Binding Path=SelectedClient}">
                 <DataGrid.Columns>
@@ -117,31 +147,63 @@
         <GroupBox Header="Обьекты"
                       Grid.Column="1" 
                       Grid.ColumnSpan="2">
-            <DataGrid
-                ItemsSource="{Binding Path=SelectedClient.Build, UpdateSourceTrigger=PropertyChanged}"
-                SelectedItem="{Binding Path=SelectedBuild}"
-                SelectedIndex="0">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Название"
-                                        Binding="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"
-                                        Width="0.7*">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="TextWrapping" Value="Wrap"></Setter>
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
-                    <DataGridTextColumn Header="Адрес"
-                                        Binding="{Binding Path=Adress, UpdateSourceTrigger=PropertyChanged}"
-                                        Width="0.3*">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="TextWrapping" Value="Wrap"/>
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+            <DockPanel>
+                <DataGrid DockPanel.Dock="Top"
+                    ItemsSource="{Binding Path=SelectedClient.Build, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding Path=SelectedBuild}"
+                    SelectedIndex="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Название"
+                                            Binding="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"
+                                            Width="0.7*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextWrapping" Value="Wrap"></Setter>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Адрес"
+                                            Binding="{Binding Path=Adress, UpdateSourceTrigger=PropertyChanged}"
+                                            Width="0.3*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Grid DockPanel.Dock="Bottom">
+                    <materialDesign:PopupBox 
+                        Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                        PlacementMode="LeftAndAlignMiddles"
+                        UnfurlOrientation="Horizontal"
+                        ToolTip="Управление обьектами"
+                        ToolTipService.Placement="Top"
+                        Height="40" Width="40"
+                        Margin="0,0,10,10"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom">
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                ToolTip="Добавить" ToolTipService.Placement="Top"
+                                Command="">
+                                    <materialDesign:PackIcon Kind="PlusBold" />
+                            </Button>
+                            <Button
+                                ToolTip="Редактировать" ToolTipService.Placement="Top"
+                                Command="">
+                                    <materialDesign:PackIcon Kind="Edit" />
+                            </Button>
+                            <Button
+                                ToolTip="Удалить" ToolTipService.Placement="Top" 
+                                Command="">
+                                    <materialDesign:PackIcon Kind="Delete" />
+                            </Button>
+                        </StackPanel>
+                    </materialDesign:PopupBox>
+                </Grid>
+            </DockPanel>
         </GroupBox>
         <GroupBox  Header="Навигация" 
                        Grid.Column="0" 
@@ -197,38 +259,68 @@
                         Header="Доход"
                         Width="0.25*"/>
                 </DataGrid.Columns>
-
             </DataGrid>
         </GroupBox>
         <GroupBox  Header="Коммерческие предложения"
                        Grid.Column="3"
                        Grid.Row="0">
-            <DataGrid
-                ItemsSource="{Binding Path=SelectedBuild.Project.Offer}"
-                SelectedItem="{Binding Path=SelectedOffer}"
-                SelectedIndex="0">
-                <DataGrid.Columns>
-                    <DataGridTextColumn 
-                        Header="Название"
-                        Binding="{Binding Path=Name}"
-                        Width="0.5*">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="TextWrapping" Value="Wrap"></Setter>
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
-                    <DataGridTextColumn
-                        Header="Раздел"
-                        Binding="{Binding Path=Section.Name}"
-                        Width="0.3*"/>
-                    <DataGridTextColumn
-                        Header="Дата"
-                        Binding="{Binding Path=Date, StringFormat=dd/MM/yy}"
-                        Width="0.2*"/>
-                </DataGrid.Columns>
-            </DataGrid>
-
+            <DockPanel>
+                <DataGrid DockPanel.Dock="Top"
+                    ItemsSource="{Binding Path=SelectedBuild.Project.Offer}"
+                    SelectedItem="{Binding Path=SelectedOffer}"
+                    SelectedIndex="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn 
+                            Header="Название"
+                            Binding="{Binding Path=Name}"
+                            Width="0.5*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextWrapping" Value="Wrap"></Setter>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn
+                            Header="Раздел"
+                            Binding="{Binding Path=Section.Name}"
+                            Width="0.3*"/>
+                        <DataGridTextColumn
+                            Header="Дата"
+                            Binding="{Binding Path=Date, StringFormat=dd/MM/yy}"
+                            Width="0.2*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Grid DockPanel.Dock="Bottom">
+                    <materialDesign:PopupBox 
+                        Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                        PlacementMode="LeftAndAlignMiddles"
+                        UnfurlOrientation="Horizontal"
+                        ToolTip="Управление КП"
+                        ToolTipService.Placement="Top"
+                        Height="40" Width="40"
+                        Margin="0,0,10,10"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom">
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                ToolTip="Добавить" ToolTipService.Placement="Top"
+                                Command="">
+                                    <materialDesign:PackIcon Kind="PlusBold" />
+                            </Button>
+                            <Button
+                                ToolTip="Редактировать" ToolTipService.Placement="Top"
+                                Command="">
+                                    <materialDesign:PackIcon Kind="Edit" />
+                            </Button>
+                            <Button
+                                ToolTip="Удалить" ToolTipService.Placement="Top" 
+                                Command="">
+                                    <materialDesign:PackIcon Kind="Delete" />
+                            </Button>
+                        </StackPanel>
+                    </materialDesign:PopupBox>
+                </Grid>
+            </DockPanel>
         </GroupBox>
         <GroupBox  Header="Стоимость" 
                        Grid.Column="2" 
