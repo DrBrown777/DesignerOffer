@@ -85,6 +85,11 @@
                             </DockPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding Path=FilterBuild}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </ListBox>
                 <Grid DockPanel.Dock="Bottom">
                     <materialDesign:PopupBox
@@ -132,8 +137,7 @@
                       Grid.Column="1" 
                       Grid.Row="1">
             <DataGrid DataContext="{Binding Path=SelectedBuild.Project.Employee}"
-                ItemsSource="{Binding Path=Project, UpdateSourceTrigger=PropertyChanged}"
-                SelectedIndex="0">
+                ItemsSource="{Binding Path=Project, UpdateSourceTrigger=PropertyChanged}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Менеджер"
                                         Binding="{Binding Path=Employee.Last_Name}"
@@ -149,7 +153,7 @@
                       Grid.ColumnSpan="2">
             <DockPanel>
                 <DataGrid DockPanel.Dock="Top"
-                    ItemsSource="{Binding Path=SelectedClient.Build, UpdateSourceTrigger=PropertyChanged}"
+                    ItemsSource="{Binding Path=Builds}"
                     SelectedItem="{Binding Path=SelectedBuild}"
                     SelectedIndex="0">
                     <DataGrid.Columns>

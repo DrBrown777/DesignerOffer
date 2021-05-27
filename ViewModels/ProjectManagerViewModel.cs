@@ -6,6 +6,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Entity;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -38,6 +39,10 @@ namespace Designer_Offer.ViewModels
         /// Репозиторий клиентов
         /// </summary>
         private readonly IRepository<Client> RepositoryClients;
+        /// <summary>
+        /// Репозиторий обьектов
+        /// </summary>
+        private readonly IRepository<Build> RepositoryBuilds;
         /// <summary>
         /// Репозиторий разделов
         /// </summary>
@@ -137,7 +142,7 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Разделы КП
         /// </summary>
-        public  ObservableCollection<Section> Sections
+        public ObservableCollection<Section> Sections
         {
             get => _Sections;
             set => Set(ref _Sections, value);
@@ -198,13 +203,38 @@ namespace Designer_Offer.ViewModels
                 Clients = new ObservableCollection<Client>(await RepositoryClients.Items.ToListAsync());
 
                 Sections = new ObservableCollection<Section>(await RepositorySections.Items.ToListAsync());
+
+                Builds = new ObservableCollection<Build>(await RepositoryBuilds.Items.ToListAsync());
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message,
                     "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            
+        }
+        /// <summary>
+        /// Фильтрация Обьектов в зависимости от выбранного клиента
+        /// </summary>
+        public ICommand FilterBuild { get; }
+
+        private bool CanFilterBuild(object p)
+        {
+            return true && SelectedClient != null;
+        }
+
+        private async void OnFilterBuild(object p)
+        {
+            var items = await RepositoryBuilds.Items.Where(b => b.Client_Id == SelectedClient.Id).ToListAsync();
+
+            if (Builds != null)
+            {
+                Builds.Clear();
+
+                foreach (var item in items)
+                {
+                    Builds.Add(item);
+                }
+            }
         }
         #endregion
 
@@ -219,15 +249,18 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОНСТРУКТОРЫ
-        public ProjectManagerViewModel(IRepository<Employee> repaUser, IRepository<Company> repaCompany, 
-                                       IRepository<Client> repaClient, IRepository<Section> repaSection)
+        public ProjectManagerViewModel(IRepository<Employee> repaUser, IRepository<Company> repaCompany,
+                                       IRepository<Client> repaClient, IRepository<Section> repaSection,
+                                       IRepository<Build> repaBuild)
         {
             RepositoryUsers = repaUser;
             RepositoryCompanies = repaCompany;
             RepositoryClients = repaClient;
+            RepositoryBuilds = repaBuild;
             RepositorySections = repaSection;
 
             LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
+            FilterBuild = new LambdaCommand(OnFilterBuild, CanFilterBuild);
         }
         #endregion
     }
