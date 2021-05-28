@@ -3,6 +3,7 @@ using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Entity;
@@ -280,16 +281,9 @@ namespace Designer_Offer.ViewModels
         {
             var items = await RepositoryBuilds.Items.Where(b => b.Client_Id == SelectedClient.Id).ToListAsync();
 
-            if (Builds != null)
-            {
-                Builds.Clear();
-
-                foreach (var item in items)
-                {
-                    Builds.Add(item);
-                }
-            }
+            UpdateCollection(Builds, items);
         }
+
         /// <summary>
         /// Выборка КП в зависимости от выбранного обьекта
         /// </summary>
@@ -320,15 +314,7 @@ namespace Designer_Offer.ViewModels
                 Project = null;
             }
 
-            if (Offers != null)
-            {
-                if (Offers.Count != 0) Offers.Clear();
-
-                foreach (var item in items)
-                {
-                    Offers.Add(item);
-                }
-            }
+            UpdateCollection(Offers, items);
         }
 
         /// <summary>
@@ -352,15 +338,7 @@ namespace Designer_Offer.ViewModels
         {
             var items = await RepositoryParts.Items.Where(part => part.Offer.Id == SelectedOffer.Id).ToListAsync();
 
-            if (Parts != null)
-            {
-                if (Parts.Count != 0) Parts.Clear();
-
-                foreach (var item in items)
-                {
-                    Parts.Add(item);
-                }
-            }
+            UpdateCollection(Parts, items);
         }
         #endregion
 
@@ -371,6 +349,18 @@ namespace Designer_Offer.ViewModels
 
             if (!client.Name.ToLower().Contains(ClientFilter.ToLower()))
                 e.Accepted = false;
+        }
+
+        private void UpdateCollection<T>(ObservableCollection<T> collection, List<T> list)
+        {
+            if (collection == null || list == null) return;
+
+            collection.Clear();
+
+            foreach (var item in list)
+            {
+                collection.Add(item);
+            }
         }
         #endregion
 
