@@ -47,6 +47,18 @@ namespace Designer_Offer.ViewModels
         /// Репозиторий разделов
         /// </summary>
         private readonly IRepository<Section> RepositorySections;
+        /// <summary>
+        /// Репозиторий КП
+        /// </summary>
+        private readonly IRepository<Offer> RepositoryOffers;
+        /// <summary>
+        /// Репозиторий проектов
+        /// </summary>
+        private readonly IRepository<Project> RepositoryProject;
+        /// <summary>
+        /// Репозиторий систем в КП
+        /// </summary>
+        private readonly IRepository<Part> RepositoryParts;
         #endregion
 
         #endregion
@@ -128,26 +140,6 @@ namespace Designer_Offer.ViewModels
 
         private CollectionViewSource ClientsViewSource;
 
-        private ObservableCollection<Build> _Builds;
-        /// <summary>
-        /// Колекция обьектов клиентов
-        /// </summary>
-        public ObservableCollection<Build> Builds
-        {
-            get => _Builds;
-            set => Set(ref _Builds, value);
-        }
-
-        private ObservableCollection<Section> _Sections;
-        /// <summary>
-        /// Разделы КП
-        /// </summary>
-        public ObservableCollection<Section> Sections
-        {
-            get => _Sections;
-            set => Set(ref _Sections, value);
-        }
-
         private Client _SelectedClient;
         /// <summary>
         /// Выбранный клиент
@@ -156,6 +148,16 @@ namespace Designer_Offer.ViewModels
         {
             get => _SelectedClient;
             set => Set(ref _SelectedClient, value);
+        }
+
+        private ObservableCollection<Build> _Builds;
+        /// <summary>
+        /// Колекция обьектов клиентов
+        /// </summary>
+        public ObservableCollection<Build> Builds
+        {
+            get => _Builds;
+            set => Set(ref _Builds, value);
         }
 
         private Build _SelectedBuild;
@@ -168,6 +170,36 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _SelectedBuild, value);
         }
 
+        private ObservableCollection<Section> _Sections;
+        /// <summary>
+        /// Разделы КП
+        /// </summary>
+        public ObservableCollection<Section> Sections
+        {
+            get => _Sections;
+            set => Set(ref _Sections, value);
+        }
+
+        private ObservableCollection<Employee> _Employees;
+        /// <summary>
+        /// Сотрудники
+        /// </summary>
+        public ObservableCollection<Employee> Employees
+        {
+            get => _Employees;
+            set => Set(ref _Employees, value);
+        }
+
+        private ObservableCollection<Offer> _Offers;
+        /// <summary>
+        /// Колекция КП
+        /// </summary>
+        public ObservableCollection<Offer> Offers
+        {
+            get => _Offers;
+            set => Set(ref _Offers, value);
+        }
+
         private Offer _SelectedOffer;
         /// <summary>
         /// Выбранное КП
@@ -176,6 +208,26 @@ namespace Designer_Offer.ViewModels
         {
             get => _SelectedOffer;
             set => Set(ref _SelectedOffer, value);
+        }
+
+        private Project _Project;
+        /// <summary>
+        /// Текущий проект обьекта
+        /// </summary>
+        public Project Project
+        {
+            get => _Project;
+            set => Set(ref _Project, value);
+        }
+
+        private ObservableCollection<Part> _Parts;
+        /// <summary>
+        /// Коллекция систем
+        /// </summary>
+        public ObservableCollection<Part> Parts
+        {
+            get => _Parts;
+            set => Set(ref _Parts, value);
         }
         #endregion
 
@@ -205,6 +257,8 @@ namespace Designer_Offer.ViewModels
                 Sections = new ObservableCollection<Section>(await RepositorySections.Items.ToListAsync());
 
                 Builds = new ObservableCollection<Build>(await RepositoryBuilds.Items.ToListAsync());
+
+                Employees = new ObservableCollection<Employee>(await RepositoryUsers.Items.ToListAsync());
             }
             catch (Exception e)
             {
@@ -213,7 +267,7 @@ namespace Designer_Offer.ViewModels
             }
         }
         /// <summary>
-        /// Фильтрация Обьектов в зависимости от выбранного клиента
+        /// Выборка обьектов в зависимости от выбранного клиента
         /// </summary>
         public ICommand FilterBuild { get; }
 
@@ -236,6 +290,78 @@ namespace Designer_Offer.ViewModels
                 }
             }
         }
+        /// <summary>
+        /// Выборка КП в зависимости от выбранного обьекта
+        /// </summary>
+        public ICommand FilterOffer { get; }
+
+        private bool CanFilterOffer(object p)
+        {
+            if (SelectedBuild == null)
+            {
+                if (Offers?.Count != 0) Offers?.Clear();
+
+                return false;
+            }
+
+            return true;
+        }
+
+        private async void OnFilterOffer(object p)
+        {
+            var items = await RepositoryOffers.Items.Where(o => o.Project_Id == SelectedBuild.Id).ToListAsync();
+
+            if (SelectedBuild.Project != null)
+            {
+                Project = await RepositoryProject.GetAsync(SelectedBuild.Project.Id);
+            }
+            else
+            {
+                Project = null;
+            }
+
+            if (Offers != null)
+            {
+                if (Offers.Count != 0) Offers.Clear();
+
+                foreach (var item in items)
+                {
+                    Offers.Add(item);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Выборка систем в зависимости от выбранного КП
+        /// </summary>
+        public ICommand FilterPart { get; }
+
+        private bool CanFilterPart(object p)
+        {
+            if (SelectedOffer == null)
+            {
+                if (Parts?.Count != 0) Parts.Clear();
+                
+                return false;
+            }
+
+            return true;
+        }
+
+        private async void OnFilterPart(object p)
+        {
+            var items = await RepositoryParts.Items.Where(part => part.Offer.Id == SelectedOffer.Id).ToListAsync();
+
+            if (Parts != null)
+            {
+                if (Parts.Count != 0) Parts.Clear();
+
+                foreach (var item in items)
+                {
+                    Parts.Add(item);
+                }
+            }
+        }
         #endregion
 
         #region МЕТОДЫ
@@ -251,16 +377,21 @@ namespace Designer_Offer.ViewModels
         #region КОНСТРУКТОРЫ
         public ProjectManagerViewModel(IRepository<Employee> repaUser, IRepository<Company> repaCompany,
                                        IRepository<Client> repaClient, IRepository<Section> repaSection,
-                                       IRepository<Build> repaBuild)
+                                       IRepository<Build> repaBuild, IRepository<Offer> repaOffer,
+                                       IRepository<Project> repaProject, IRepository<Part> repaPart)
         {
-            RepositoryUsers = repaUser;
-            RepositoryCompanies = repaCompany;
-            RepositoryClients = repaClient;
-            RepositoryBuilds = repaBuild;
-            RepositorySections = repaSection;
+            RepositoryUsers = repaUser; RepositoryCompanies = repaCompany;
+            RepositoryClients = repaClient; RepositoryBuilds = repaBuild;
+            RepositorySections = repaSection; RepositoryOffers = repaOffer;
+            RepositoryProject = repaProject; RepositoryParts = repaPart;
 
             LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
             FilterBuild = new LambdaCommand(OnFilterBuild, CanFilterBuild);
+            FilterOffer = new LambdaCommand(OnFilterOffer, CanFilterOffer);
+            FilterPart = new LambdaCommand(OnFilterPart, CanFilterPart);
+
+            Offers = new ObservableCollection<Offer>();
+            Parts = new ObservableCollection<Part>();
         }
         #endregion
     }
