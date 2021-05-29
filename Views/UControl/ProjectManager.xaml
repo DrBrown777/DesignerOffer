@@ -34,6 +34,9 @@
             <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>
             <Setter Property="Height" Value="25"/>
         </Style>
+        <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
+            <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>

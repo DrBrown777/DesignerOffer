@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace Designer_Offer.ViewModels
 {
-    class WorkWindowViewModel : ViewModel
+    internal class WorkWindowViewModel : ViewModel
     {
         #region СВОЙСТВА
         private ViewModel _CurrentModel;
@@ -38,6 +38,7 @@ namespace Designer_Offer.ViewModels
         public WorkWindowViewModel()
         {
             ShowProjectManager = new LambdaCommand(OnShowProjectManagerCommand, CanShowProjectManagerCommand);
+            ShowProjectManager.Execute(null);
         }
         #endregion
     }

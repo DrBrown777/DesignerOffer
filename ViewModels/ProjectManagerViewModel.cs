@@ -2,6 +2,7 @@
 using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,7 +15,7 @@ using System.Windows.Input;
 
 namespace Designer_Offer.ViewModels
 {
-    class ProjectManagerViewModel : ViewModel
+    internal class ProjectManagerViewModel : ViewModel
     {
         #region ПОЛЯ
         static readonly string _title = " :: Управление проектами";
@@ -33,10 +34,6 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         private readonly IRepository<Employee> RepositoryUsers;
         /// <summary>
-        /// Репозиторий компаний
-        /// </summary>
-        private readonly IRepository<Company> RepositoryCompanies;
-        /// <summary>
         /// Репозиторий клиентов
         /// </summary>
         private readonly IRepository<Client> RepositoryClients;
@@ -48,18 +45,6 @@ namespace Designer_Offer.ViewModels
         /// Репозиторий разделов
         /// </summary>
         private readonly IRepository<Section> RepositorySections;
-        /// <summary>
-        /// Репозиторий КП
-        /// </summary>
-        private readonly IRepository<Offer> RepositoryOffers;
-        /// <summary>
-        /// Репозиторий проектов
-        /// </summary>
-        private readonly IRepository<Project> RepositoryProject;
-        /// <summary>
-        /// Репозиторий систем в КП
-        /// </summary>
-        private readonly IRepository<Part> RepositoryParts;
         #endregion
 
         #endregion
@@ -133,7 +118,7 @@ namespace Designer_Offer.ViewModels
             set
             {
                 if (Set(ref _ClientFilter, value))
-                    ClientsViewSource.View.Refresh();
+                    ClientsViewSource?.View.Refresh();
             }
         }
 
@@ -238,18 +223,29 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         public ICommand LoadDataFromRepositories { get; }
 
-        private bool CanLoadDataFromRepositories(object p) => true;
+        private bool CanLoadDataFromRepositories(object p)
+        {
+            if (RepositoryUsers == null || RepositoryClients == null)
+                return false;
+            else if (RepositorySections == null || RepositoryBuilds == null)
+                return false;
+            else
+                return true;
+        }
 
         private async void OnLoadDataFromRepositories(object p)
         {
             try
             {
-                //CurrentUser = await RepositoryUsers.GetAsync(App.Host.Services.GetRequiredService<IEntity>().Id);
-                CurrentUser = await RepositoryUsers.GetAsync(21);
+                Employees = new ObservableCollection<Employee>(await RepositoryUsers.Items.ToListAsync());
+
+                //CurrentUser = Employees.SingleOrDefault(e => e.Id == App.Host.Services.GetRequiredService<IEntity>().Id);
+
+                CurrentUser = Employees.SingleOrDefault(e => e.Id == 21);
 
                 Status = CurrentUser.First_Name + " " + CurrentUser.Last_Name;
 
-                CurrentCompany = await RepositoryCompanies.GetAsync((int)CurrentUser?.Company_Id);
+                CurrentCompany = CurrentUser.Company;
 
                 Title = CurrentCompany?.Name + _title;
 
@@ -258,13 +254,15 @@ namespace Designer_Offer.ViewModels
                 Sections = new ObservableCollection<Section>(await RepositorySections.Items.ToListAsync());
 
                 Builds = new ObservableCollection<Build>(await RepositoryBuilds.Items.ToListAsync());
-
-                Employees = new ObservableCollection<Employee>(await RepositoryUsers.Items.ToListAsync());
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message,
                     "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                Progress = false;
             }
         }
         /// <summary>
@@ -277,9 +275,11 @@ namespace Designer_Offer.ViewModels
             return true && SelectedClient != null;
         }
 
-        private async void OnFilterBuild(object p)
+        private void OnFilterBuild(object p)
         {
-            var items = await RepositoryBuilds.Items.Where(b => b.Client_Id == SelectedClient.Id).ToListAsync();
+            var items = SelectedClient.Build
+                .Where(b => b.Client_Id == SelectedClient.Id)
+                .ToList();
 
             UpdateCollection(Builds, items);
         }
@@ -291,28 +291,23 @@ namespace Designer_Offer.ViewModels
 
         private bool CanFilterOffer(object p)
         {
-            if (SelectedBuild == null)
+            if (SelectedBuild == null || SelectedBuild.Project == null)
             {
+                Project = null;
                 if (Offers?.Count != 0) Offers?.Clear();
 
                 return false;
             }
-
             return true;
         }
 
-        private async void OnFilterOffer(object p)
+        private void OnFilterOffer(object p)
         {
-            var items = await RepositoryOffers.Items.Where(o => o.Project_Id == SelectedBuild.Id).ToListAsync();
+            Project = SelectedBuild.Project;
 
-            if (SelectedBuild.Project != null)
-            {
-                Project = await RepositoryProject.GetAsync(SelectedBuild.Project.Id);
-            }
-            else
-            {
-                Project = null;
-            }
+            var items = SelectedBuild.Project.Offer
+                .Where(o => o.Project_Id == SelectedBuild.Id)
+                .ToList();
 
             UpdateCollection(Offers, items);
         }
@@ -334,9 +329,11 @@ namespace Designer_Offer.ViewModels
             return true;
         }
 
-        private async void OnFilterPart(object p)
+        private void OnFilterPart(object p)
         {
-            var items = await RepositoryParts.Items.Where(part => part.Offer.Id == SelectedOffer.Id).ToListAsync();
+            var items = SelectedOffer.Part
+                .Where(part => part.Offer_Id == SelectedOffer.Id)
+                .ToList();
 
             UpdateCollection(Parts, items);
         }
@@ -365,15 +362,15 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОНСТРУКТОРЫ
-        public ProjectManagerViewModel(IRepository<Employee> repaUser, IRepository<Company> repaCompany,
-                                       IRepository<Client> repaClient, IRepository<Section> repaSection,
-                                       IRepository<Build> repaBuild, IRepository<Offer> repaOffer,
-                                       IRepository<Project> repaProject, IRepository<Part> repaPart)
+        public ProjectManagerViewModel(IRepository<Employee> repaUser, IRepository<Client> repaClient, 
+                                       IRepository<Section> repaSection, IRepository<Build> repaBuild)
         {
-            RepositoryUsers = repaUser; RepositoryCompanies = repaCompany;
-            RepositoryClients = repaClient; RepositoryBuilds = repaBuild;
-            RepositorySections = repaSection; RepositoryOffers = repaOffer;
-            RepositoryProject = repaProject; RepositoryParts = repaPart;
+            Progress = true;
+
+            RepositoryUsers = repaUser;
+            RepositoryClients = repaClient; 
+            RepositoryBuilds = repaBuild;
+            RepositorySections = repaSection;
 
             LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
             FilterBuild = new LambdaCommand(OnFilterBuild, CanFilterBuild);

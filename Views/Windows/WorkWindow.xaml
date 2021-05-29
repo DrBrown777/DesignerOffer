@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:cmd="clr-namespace:Designer_Offer.Infrastructure.Commands"
-        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         DataContext="{Binding WorkWindowView, Source={StaticResource Locator}}"
         Title="{Binding Path=Content.Title, ElementName=UContorl, StringFormat='\{\0}',
@@ -21,11 +20,6 @@
         TextOptions.TextRenderingMode="Aliased"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}" >
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding Path=ShowProjectManager}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
     <Window.Resources>
         <Style TargetType="GroupBox" BasedOn="{StaticResource MaterialDesignCardGroupBox}">
             <Setter Property="Margin" Value="3px"/>
@@ -106,7 +100,7 @@
                     TargetNullValue=ver.1.0}"/>
             </StatusBarItem>
             <StatusBarItem HorizontalAlignment="Right">
-                <ProgressBar Value="30" />
+                <ProgressBar Value="30" IsIndeterminate="{Binding Path=Content.Progress, ElementName=UContorl}"/>
             </StatusBarItem>
         </StatusBar>
         <Grid>
