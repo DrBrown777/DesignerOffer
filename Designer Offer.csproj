@@ -221,6 +221,7 @@
     <Compile Include="Data\PrimeContext.cs" />
     <Compile Include="Data\ProductPart.cs" />
     <Compile Include="Infrastructure\Commands\CloseApplicationCommand.cs" />
+    <Compile Include="Infrastructure\Commands\DialogResultCommand.cs" />
     <Compile Include="Infrastructure\Converters\Base\Converter.cs" />
     <Compile Include="Infrastructure\Validations\UniqEmailValidationRule.cs" />
     <Compile Include="Infrastructure\Validations\UniqLoginValidationRule.cs" />
@@ -229,13 +230,19 @@
     <Compile Include="Services\ILoginService.cs" />
     <Compile Include="Services\Interfaces\IEntity.cs" />
     <Compile Include="Services\Interfaces\IRepository.cs" />
+    <Compile Include="Services\Interfaces\IUserDialog.cs" />
     <Compile Include="Services\IRegistrationService.cs" />
     <Compile Include="Services\Repositories\DbRepository.cs" />
+    <Compile Include="Services\UserDialogService.cs" />
+    <Compile Include="ViewModels\ClientEditorViewModel.cs" />
     <Compile Include="ViewModels\ProjectManagerViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="ViewModels\WorkWindowViewModel.cs" />
     <Compile Include="Views\UControl\ProjectManager.xaml.cs">
       <DependentUpon>ProjectManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\ClientEditorWindow.xaml.cs">
+      <DependentUpon>ClientEditorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\WorkWindow.xaml.cs">
       <DependentUpon>WorkWindow.xaml</DependentUpon>
@@ -249,6 +256,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UControl\ProjectManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\ClientEditorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

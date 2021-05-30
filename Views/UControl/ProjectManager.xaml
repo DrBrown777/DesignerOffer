@@ -100,7 +100,7 @@
                         <StackPanel Orientation="Horizontal">
                             <Button
                             ToolTip="Добавить" ToolTipService.Placement="Top"
-                            Command="">
+                                Command="{Binding Path=AddClient}">
                                 <materialDesign:PackIcon Kind="PlusBold" />
                             </Button>
                             <Button
@@ -110,7 +110,8 @@
                             </Button>
                             <Button
                             ToolTip="Удалить" ToolTipService.Placement="Top" 
-                            Command="">
+                                Command="{Binding Path=RemoveClient}"
+                                CommandParameter="{Binding Path=SelectedClient}">
                                 <materialDesign:PackIcon Kind="Delete" />
                             </Button>
                         </StackPanel>

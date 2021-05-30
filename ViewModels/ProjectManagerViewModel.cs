@@ -27,6 +27,10 @@ namespace Designer_Offer.ViewModels
         /// Текущая компания
         /// </summary>
         private Company CurrentCompany;
+        /// <summary>
+        /// Сервис диалогов
+        /// </summary>
+        private readonly IUserDialog UserDialog;
 
         #region Репозитории 
         /// <summary>
@@ -87,7 +91,7 @@ namespace Designer_Offer.ViewModels
         public ObservableCollection<Client> Clients
         {
             get => _Clients;
-            set 
+            set
             {
                 if (Set(ref _Clients, value))
                 {
@@ -265,6 +269,8 @@ namespace Designer_Offer.ViewModels
                 Progress = false;
             }
         }
+
+        #region фильтрация данных
         /// <summary>
         /// Выборка обьектов в зависимости от выбранного клиента
         /// </summary>
@@ -322,7 +328,7 @@ namespace Designer_Offer.ViewModels
             if (SelectedOffer == null)
             {
                 if (Parts?.Count != 0) Parts.Clear();
-                
+
                 return false;
             }
 
@@ -337,6 +343,52 @@ namespace Designer_Offer.ViewModels
 
             UpdateCollection(Parts, items);
         }
+        #endregion
+
+        /// <summary>
+        /// Добавление нового клиента
+        /// </summary>
+        public ICommand AddClient { get; }
+
+        private bool CanAddClient(object p)
+        {
+            return true;
+        }
+
+        private void OnAddClient(object p)
+        {
+            var new_client = new Client();
+
+            if (!UserDialog.Edit(new_client)) return;
+
+            Clients.Add(RepositoryClients.Add(new_client));
+
+            SelectedClient = new_client;
+        }
+        /// <summary>
+        /// Удаление клиента
+        /// </summary>
+        public ICommand RemoveClient { get; }
+
+        private bool CanRemoveClient(object p)
+        {
+            return (Client)p != null && SelectedClient != null;
+        }
+
+        private void OnRemoveClient(object p)
+        {
+            var client_to_remove = (Client)p ?? SelectedClient;
+
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить клента {client_to_remove.Name}?", "Удаление клиента"))
+                return;
+
+            RepositoryClients.Remove(client_to_remove.Id);
+
+            Clients.Remove(client_to_remove);
+            if (ReferenceEquals(SelectedClient, client_to_remove))
+                SelectedClient = null;
+        }
+
         #endregion
 
         #region МЕТОДЫ
@@ -362,8 +414,12 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОНСТРУКТОРЫ
-        public ProjectManagerViewModel(IRepository<Employee> repaUser, IRepository<Client> repaClient, 
-                                       IRepository<Section> repaSection, IRepository<Build> repaBuild)
+        public ProjectManagerViewModel(
+            IRepository<Employee> repaUser,
+            IRepository<Client> repaClient,
+            IRepository<Section> repaSection,
+            IRepository<Build> repaBuild,
+            IUserDialog userDialog)
         {
             Progress = true;
 
@@ -372,10 +428,15 @@ namespace Designer_Offer.ViewModels
             RepositoryBuilds = repaBuild;
             RepositorySections = repaSection;
 
+            UserDialog = userDialog;
+
             LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
             FilterBuild = new LambdaCommand(OnFilterBuild, CanFilterBuild);
             FilterOffer = new LambdaCommand(OnFilterOffer, CanFilterOffer);
             FilterPart = new LambdaCommand(OnFilterPart, CanFilterPart);
+
+            AddClient = new LambdaCommand(OnAddClient, CanAddClient);
+            RemoveClient = new LambdaCommand(OnRemoveClient, CanRemoveClient);
 
             Offers = new ObservableCollection<Offer>();
             Parts = new ObservableCollection<Part>();

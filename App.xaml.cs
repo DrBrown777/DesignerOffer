@@ -12,11 +12,20 @@ using Designer_Offer.Services;
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.Services.Repositories;
 using Designer_Offer.Views.UControl;
+using System.Linq;
 
 namespace Designer_Offer
 {
     public partial class App : Application
     {
+        public static Window ActiveWindow => Current.Windows.OfType<Window>()
+            .FirstOrDefault(w => w.IsActive);
+
+        public static Window FocusedWindow => Current.Windows.OfType<Window>()
+            .FirstOrDefault(w => w.IsFocused);
+
+        public static Window CurrentWindow => FocusedWindow ?? ActiveWindow;
+
         public static bool IsDesignMode { get; private set; } = true;
 
         private static IHost _Host;
@@ -72,6 +81,9 @@ namespace Designer_Offer
             services.AddSingleton<IRegistrationService, RegistrationViewModel>();
 
             services.AddSingleton<IEntity, Employee>();
+
+            /*Регистрация сервис диалогов*/
+            services.AddTransient<IUserDialog, UserDialogService>();
 
             /*Регистрация репозиториев сущностей базы данных*/
             services.AddTransient<PrimeContext>();
