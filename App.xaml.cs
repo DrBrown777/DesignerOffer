@@ -69,9 +69,13 @@ namespace Designer_Offer
             services.AddSingleton<Registration>();
             services.AddSingleton<ProjectManager>();
 
+            services.AddTransient<ClientEditorWindow>();
+
             /*Регистрация моделей представлений окон*/
             services.AddSingleton<MainWindowViewModel>();
             services.AddSingleton<WorkWindowViewModel>();
+
+            services.AddTransient<ClientEditorViewModel>();
 
             /*Регистрация моделей представлений юзер контролов*/
             services.AddSingleton<ProjectManagerViewModel>();

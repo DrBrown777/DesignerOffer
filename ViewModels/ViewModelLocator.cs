@@ -19,5 +19,8 @@ namespace Designer_Offer.ViewModels
 
         public RegistrationViewModel RegistrationView =>
             (RegistrationViewModel)App.Host.Services.GetRequiredService<IRegistrationService>();
+
+        public ClientEditorViewModel ClientEditorView =>
+            App.Host.Services.GetRequiredService<ClientEditorViewModel>();
     }
 }

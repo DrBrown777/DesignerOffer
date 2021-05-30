@@ -39,7 +39,6 @@ namespace Designer_Offer.ViewModels
         public WorkWindowViewModel()
         {
             ShowProjectManager = new LambdaCommand(OnShowProjectManagerCommand, CanShowProjectManagerCommand);
-            ShowProjectManager.Execute(null);
         }
         #endregion
     }

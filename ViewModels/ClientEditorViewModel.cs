@@ -1,5 +1,4 @@
-﻿using Designer_Offer.Data;
-using Designer_Offer.ViewModels.Base;
+﻿using Designer_Offer.ViewModels.Base;
 
 namespace Designer_Offer.ViewModels
 {
@@ -8,7 +7,7 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Id клиента
         /// </summary>
-        public int ClientId { get; }
+        public int Id { get; set; }
 
         private string _Name;
         /// <summary>
@@ -20,10 +19,6 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Name, value);
         }
 
-        public ClientEditorViewModel(Client client)
-        {
-            ClientId = client.Id;
-            Name = client.Name;
-        }
+        public ClientEditorViewModel() { }
     }
 }

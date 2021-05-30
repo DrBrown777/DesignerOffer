@@ -2,6 +2,7 @@
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels;
 using Designer_Offer.Views.Windows;
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 
 namespace Designer_Offer.Services
@@ -10,12 +11,13 @@ namespace Designer_Offer.Services
     {
         public bool Edit(Client client)
         {
-            var client_editor_model = new ClientEditorViewModel(client);
+            var client_editor_window = App.Host.Services.GetRequiredService<ClientEditorWindow>();
+            var client_editor_model = App.Host.Services.GetRequiredService<ClientEditorViewModel>();
 
-            var client_editor_window = new ClientEditorWindow
-            {
-                DataContext = client_editor_model
-            };
+            client_editor_model.Id = client.Id;
+            client_editor_model.Name = client.Name;
+
+            client_editor_window.DataContext = client_editor_model;
 
             if (client_editor_window.ShowDialog() != true) return false;
 
