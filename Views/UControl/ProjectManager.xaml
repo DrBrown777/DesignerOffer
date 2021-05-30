@@ -105,7 +105,8 @@
                             </Button>
                             <Button
                             ToolTip="Редактировать" ToolTipService.Placement="Top"
-                            Command="">
+                                Command="{Binding Path=EditClient}"
+                                CommandParameter="{Binding Path=SelectedClient}">
                                 <materialDesign:PackIcon Kind="Edit" />
                             </Button>
                             <Button

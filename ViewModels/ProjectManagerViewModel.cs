@@ -345,6 +345,7 @@ namespace Designer_Offer.ViewModels
         }
         #endregion
 
+        #region добавление/удаление данных
         /// <summary>
         /// Добавление нового клиента
         /// </summary>
@@ -364,6 +365,28 @@ namespace Designer_Offer.ViewModels
             Clients.Add(RepositoryClients.Add(new_client));
 
             SelectedClient = new_client;
+        }
+        /// <summary>
+        /// Редактирование клиента
+        /// </summary>
+        public ICommand EditClient { get; }
+
+        private bool CanEditClient(object p)
+        {
+            return (Client)p != null && SelectedClient != null;
+        }
+
+        private void OnEditClient(object p)
+        {
+            var client_to_edit = (Client)p ?? SelectedClient;
+
+            if (!UserDialog.Edit(client_to_edit)) return;
+
+            RepositoryClients.Update(client_to_edit);
+
+            ClientsViewSource.View.Refresh();
+
+            SelectedClient = client_to_edit;
         }
         /// <summary>
         /// Удаление клиента
@@ -388,6 +411,7 @@ namespace Designer_Offer.ViewModels
             if (ReferenceEquals(SelectedClient, client_to_remove))
                 SelectedClient = null;
         }
+        #endregion
 
         #endregion
 
@@ -437,6 +461,7 @@ namespace Designer_Offer.ViewModels
 
             AddClient = new LambdaCommand(OnAddClient, CanAddClient);
             RemoveClient = new LambdaCommand(OnRemoveClient, CanRemoveClient);
+            EditClient = new LambdaCommand(OnEditClient, CanEditClient);
 
             Offers = new ObservableCollection<Offer>();
             Parts = new ObservableCollection<Part>();
