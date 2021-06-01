@@ -234,12 +234,16 @@
     <Compile Include="Services\IRegistrationService.cs" />
     <Compile Include="Services\Repositories\DbRepository.cs" />
     <Compile Include="Services\UserDialogService.cs" />
+    <Compile Include="ViewModels\BuildEditorViewModel.cs" />
     <Compile Include="ViewModels\ClientEditorViewModel.cs" />
     <Compile Include="ViewModels\ProjectManagerViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="ViewModels\WorkWindowViewModel.cs" />
     <Compile Include="Views\UControl\ProjectManager.xaml.cs">
       <DependentUpon>ProjectManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\BuildEditorWindow.xaml.cs">
+      <DependentUpon>BuildEditorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\ClientEditorWindow.xaml.cs">
       <DependentUpon>ClientEditorWindow.xaml</DependentUpon>
@@ -256,6 +260,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UControl\ProjectManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\BuildEditorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

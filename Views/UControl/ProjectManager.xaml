@@ -127,9 +127,12 @@
             <DataGrid DataContext="{Binding Path=Project.Employee}" IsEnabled="False"
                 ItemsSource="{Binding Path=Project, UpdateSourceTrigger=PropertyChanged}">
                 <DataGrid.Columns>
+                    <DataGridTextColumn Header="Название"
+                                        Binding="{Binding Path=Name}"
+                                        Width="0.35*"/>
                     <DataGridTextColumn Header="Менеджер"
                                         Binding="{Binding Path=Employee.Last_Name}"
-                                        Width="0.7*"/>
+                                        Width="0.35*"/>
                     <DataGridTextColumn Header="Дата"
                                         Binding="{Binding Path=Date, StringFormat=dd/MM/yy}"
                                         Width="0.3*"/>

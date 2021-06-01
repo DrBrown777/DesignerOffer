@@ -21,6 +21,10 @@ namespace Designer_Offer.Data
 
         public int? Employee_Id { get; set; }
 
+        [Required]
+        [StringLength(100)]
+        public string Name { get; set; }
+
         [Column(TypeName = "date")]
         public DateTime Date { get; set; }
 

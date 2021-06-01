@@ -22,5 +22,8 @@ namespace Designer_Offer.ViewModels
 
         public ClientEditorViewModel ClientEditorView =>
             App.Host.Services.GetRequiredService<ClientEditorViewModel>();
+
+        public BuildEditorViewModel BuildEditorView =>
+            App.Host.Services.GetRequiredService<BuildEditorViewModel>();
     }
 }

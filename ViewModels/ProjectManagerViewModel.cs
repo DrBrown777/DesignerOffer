@@ -222,6 +222,8 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОМАНДЫ
+
+        #region загрузка данных из репозиториев
         /// <summary>
         /// Загрузка данных из репозиториев
         /// </summary>
@@ -268,6 +270,7 @@ namespace Designer_Offer.ViewModels
                 Progress = false;
             }
         }
+        #endregion
 
         #region фильтрация данных
         /// <summary>
@@ -410,6 +413,7 @@ namespace Designer_Offer.ViewModels
             if (ReferenceEquals(SelectedClient, client_to_remove))
                 SelectedClient = null;
         }
+
         #endregion
 
         #endregion

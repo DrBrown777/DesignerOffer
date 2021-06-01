@@ -1,0 +1,23 @@
+﻿<Window x:Class="Designer_Offer.Views.Windows.BuildEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:cmd="clr-namespace:Designer_Offer.Infrastructure.Commands" 
+        xmlns:local="clr-namespace:Designer_Offer.Infrastructure.Validations"
+        mc:Ignorable="d"
+        Title="Редактор обьектов" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen"
+        DataContext="{Binding BuildEditorView, Source={StaticResource Locator}}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Aliased"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
+    <Grid>
+        
+    </Grid>
+</Window>
