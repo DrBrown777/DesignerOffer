@@ -1,9 +1,10 @@
 ﻿using Designer_Offer.Data;
+using Designer_Offer.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace Designer_Offer.Infrastructure.Validations
@@ -17,7 +18,7 @@ namespace Designer_Offer.Infrastructure.Validations
         {
             try
             {
-                using (var context = new PrimeContext())
+                using (var context = App.Host.Services.GetRequiredService<PrimeContext>())
                 {
                     if (!Regex.IsMatch(value.ToString(), pattern))
                     {
@@ -31,8 +32,7 @@ namespace Designer_Offer.Infrastructure.Validations
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message,
-                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                App.Host.Services.GetRequiredService<IUserDialog>().ShowError(e.Message, "Ошибка");
             }
 
             return ValidationResult.ValidResult;

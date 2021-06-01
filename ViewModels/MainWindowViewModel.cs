@@ -2,7 +2,6 @@
 using Designer_Offer.ViewModels.Base;
 using Designer_Offer.Data;
 using System.Windows.Input;
-using System.Windows;
 using System;
 using System.Data.Entity;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +26,10 @@ namespace Designer_Offer.ViewModels
         /// Интерфейс страницы Регистрации
         /// </summary>
         private readonly IRegistrationService RegistrationView;
+        /// <summary>
+        /// Интерфейс окна диалога
+        /// </summary>
+        private readonly IUserDialog UserDialog;
         #endregion
 
         #region СВОЙСТВА
@@ -50,7 +53,6 @@ namespace Designer_Offer.ViewModels
             get => _Progress;
             set => Set(ref _Progress, value);
         }
-
         #endregion
 
         #region КОМАНДЫ
@@ -99,8 +101,7 @@ namespace Designer_Offer.ViewModels
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message,
-                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                UserDialog.ShowError(e.Message, "Ошибка");
             }
             finally
             {
@@ -111,9 +112,15 @@ namespace Designer_Offer.ViewModels
 
         #region КОНСТРУКТОРЫ
 
-        public MainWindowViewModel(IRepository<Company> companyRepository, ILoginService loginView, IRegistrationService registrationView)
+        public MainWindowViewModel(
+            IRepository<Company> companyRepository,
+            ILoginService loginView,
+            IRegistrationService registrationView,
+            IUserDialog userDialog)
         {
             Progress = true;
+
+            UserDialog = userDialog;
 
             LoginView = loginView; 
             RegistrationView = registrationView;

@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Designer_Offer.Services.Interfaces;
@@ -24,6 +23,10 @@ namespace Designer_Offer.ViewModels
         /// Репозиторий должностей
         /// </summary>
         private readonly IRepository<Position> PositionRepository;
+        /// <summary>
+        /// Сервис диалогов
+        /// </summary>
+        private readonly IUserDialog UserDialog;
         #endregion
 
         #region СВОЙСТВА
@@ -162,7 +165,7 @@ namespace Designer_Offer.ViewModels
             }
             catch (Exception e)
             {
-                Status = e.Message;
+                UserDialog.ShowError(e.Message, "Ошибка");
             }
         }
 
@@ -202,7 +205,7 @@ namespace Designer_Offer.ViewModels
             }
             catch (Exception e)
             {
-                Status = e.Message;
+                UserDialog.ShowError(e.Message, "Ошибка");
             }
             finally
             {
@@ -210,8 +213,7 @@ namespace Designer_Offer.ViewModels
 
                 LoadLoginPageCommand.Execute(null);
 
-                MessageBox.Show("Ваш аккаунт зарегистрован!\nТеперь вы можете войти.",
-                    "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                UserDialog.ShowInformation("Ваш аккаунт зарегистрован!\nТеперь вы можете войти.", "Информация");
             }
         }
 
@@ -248,8 +250,12 @@ namespace Designer_Offer.ViewModels
 
         #region КОНСТРУКТОРЫ
 
-        public RegistrationViewModel(IRepository<Employee> employeeRepository, IRepository<Position> positionRepository)
+        public RegistrationViewModel(
+            IRepository<Employee> employeeRepository,
+            IRepository<Position> positionRepository,
+            IUserDialog userDialog)
         {
+            UserDialog = userDialog;
             EmployeeRepository = employeeRepository;
             PositionRepository = positionRepository;
 

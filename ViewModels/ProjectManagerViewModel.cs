@@ -261,8 +261,7 @@ namespace Designer_Offer.ViewModels
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message,
-                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                UserDialog.ShowError(e.Message, "Ошибка");
             }
             finally
             {

@@ -49,5 +49,21 @@ namespace Designer_Offer.Services
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Error) == MessageBoxResult.Yes;
         }
+
+        public void ShowError(string Information, string Caption)
+        {
+            MessageBox.Show(
+                Information, Caption,
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+
+        public void ShowInformation(string Information, string Caption)
+        {
+            MessageBox.Show(
+               Information, Caption,
+               MessageBoxButton.OK,
+               MessageBoxImage.Information);
+        }
     }
 }

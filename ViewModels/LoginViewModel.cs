@@ -24,11 +24,14 @@ namespace Designer_Offer.ViewModels
         /// Данные пользовтеля
         /// </summary>
         private UserData User;
-
         /// <summary>
         /// Репозиторий Юзеров
         /// </summary>
         private readonly IRepository<UserData> UserDataRepository;
+        /// <summary>
+        /// Сервис окна диалогов
+        /// </summary>
+        private readonly IUserDialog UserDialog;
         #endregion
 
         #region СВОЙСТВА
@@ -133,7 +136,8 @@ namespace Designer_Offer.ViewModels
             {
                 User = await UserDataRepository.Items
                     .AsNoTracking()
-                    .SingleOrDefaultAsync(u => u.Login == Login).ConfigureAwait(false);
+                    .SingleOrDefaultAsync(u => u.Login == Login)
+                    .ConfigureAwait(false);
 
                 if(User == null || User.Password != passBox.Password.Trim())
                 {
@@ -148,7 +152,7 @@ namespace Designer_Offer.ViewModels
             }
             catch (Exception e)
             {
-                Status = e.Message;
+                UserDialog.ShowError(e.Message, "Ошибка");
             }
             finally
             {
@@ -172,8 +176,9 @@ namespace Designer_Offer.ViewModels
 
         #region КОНСТРУКТОРЫ
 
-        public LoginViewModel(IRepository<UserData> userDataRepository)
+        public LoginViewModel(IRepository<UserData> userDataRepository, IUserDialog userDialog)
         {
+            UserDialog = userDialog;
             UserDataRepository = userDataRepository;
 
             LoginCommand = new LambdaCommand(OnLoginCommand, CanLoginCommand);
