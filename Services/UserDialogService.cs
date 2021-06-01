@@ -3,27 +3,24 @@ using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels;
 using Designer_Offer.Views.Windows;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Windows;
 
 namespace Designer_Offer.Services
 {
     internal class UserDialogService : IUserDialog
     {
-        public bool Edit(Client client)
+        public bool Edit(object item)
         {
-            var client_editor_window = App.Host.Services.GetRequiredService<ClientEditorWindow>();
-            var client_editor_model = App.Host.Services.GetRequiredService<ClientEditorViewModel>();
+            if (item == null) throw new ArgumentNullException(nameof(item));
 
-            client_editor_model.Id = client.Id;
-            client_editor_model.Name = client.Name;
-
-            client_editor_window.DataContext = client_editor_model;
-
-            if (client_editor_window.ShowDialog() != true) return false;
-
-            client.Name = client_editor_model.Name;
-
-            return true;
+            switch (item)
+            {
+                case Client client:
+                    return EditClient(client);
+                default:
+                    throw new NotSupportedException($"Редактирование обьекта типа {item.GetType().Name} не поддерживается.");
+            }
         }
 
         public bool ConfirmInformation(string Information, string Caption)
@@ -64,6 +61,23 @@ namespace Designer_Offer.Services
                Information, Caption,
                MessageBoxButton.OK,
                MessageBoxImage.Information);
+        }
+
+        private static bool EditClient(Client client)
+        {
+            var client_editor_window = App.Host.Services.GetRequiredService<ClientEditorWindow>();
+            var client_editor_model = App.Host.Services.GetRequiredService<ClientEditorViewModel>();
+
+            client_editor_model.Id = client.Id;
+            client_editor_model.Name = client.Name;
+
+            client_editor_window.DataContext = client_editor_model;
+
+            if (client_editor_window.ShowDialog() != true) return false;
+
+            client.Name = client_editor_model.Name;
+
+            return true;
         }
     }
 }
