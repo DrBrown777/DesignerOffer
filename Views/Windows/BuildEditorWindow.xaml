@@ -7,7 +7,7 @@
         xmlns:cmd="clr-namespace:Designer_Offer.Infrastructure.Commands" 
         xmlns:local="clr-namespace:Designer_Offer.Infrastructure.Validations"
         mc:Ignorable="d"
-        Title="Редактор обьектов" Height="450" Width="800"
+        Title="Редактор обьектов" Height="350" Width="600"
         WindowStartupLocation="CenterScreen"
         DataContext="{Binding BuildEditorView, Source={StaticResource Locator}}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -17,7 +17,114 @@
         TextOptions.TextRenderingMode="Aliased"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
-    <Grid>
-        
-    </Grid>
+    <Window.Resources>
+        <cmd:DialogResultCommand x:Key="DialogResultCommand"/>
+        <Style x:Key="Button" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedDarkButton}">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Padding" Value="10,3"/>
+            <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth2"/>
+        </Style>
+        <Style x:Key="ButtonValid" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedDarkButton}">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Padding" Value="10,3"/>
+            <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth2"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=ClientName}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="UniformGrid" TargetType="UniformGrid">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+        <Style x:Key="TextBoxOutline" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+        <Style x:Key="TextBox" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="Height" Value="27"/>
+            <Setter Property="Margin" Value="18,0,3,5"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>
+        </Style>
+        <Style TargetType="materialDesign:PackIcon">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Foreground" Value="#FF436EB1"/>
+        </Style>
+        <Style x:Key="ComboBox" TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="18,0,3,5"/>
+            <Setter Property="Width" Value="200"/>
+        </Style>
+    </Window.Resources>
+    <DockPanel Margin="3">
+        <UniformGrid Style="{StaticResource UniformGrid}"
+            DockPanel.Dock="Bottom" Rows="1">
+            <Button Style="{StaticResource ButtonValid}"
+                        Content="Сохранить"
+                        Command="{StaticResource DialogResultCommand}"
+                        CommandParameter="True"/>
+            <Button Style="{StaticResource Button}"
+                        Content="Отмена"
+                        Command="{StaticResource DialogResultCommand}"
+                        CommandParameter="False"/>
+        </UniformGrid>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <materialDesign:PackIcon 
+                Kind="Domain"
+                Grid.Column="0" Grid.Row="0"/>
+            <TextBox Style="{StaticResource TextBoxOutline}"
+                Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"
+                Grid.Column="1" Grid.Row="0"
+                Height="100"
+                AcceptsReturn="True"
+                VerticalScrollBarVisibility="Auto"
+                materialDesign:HintAssist.Hint="Полное название обьекта"/>
+            <materialDesign:PackIcon 
+                Kind="Domain"
+                Grid.Column="0" Grid.Row="1"/>
+            <TextBox Style="{StaticResource TextBoxOutline}"
+                Text="{Binding Path=Adress, UpdateSourceTrigger=PropertyChanged}"
+                Grid.Column="1" Grid.Row="1"
+                Height="50"
+                AcceptsReturn="True"
+                VerticalScrollBarVisibility="Auto"
+                materialDesign:HintAssist.Hint="Полный адрес обьекта"/>
+            <materialDesign:PackIcon 
+                Kind="Domain"
+                Grid.Column="0" Grid.Row="2"/>
+            <TextBox Style="{StaticResource TextBox}"
+                Text="{Binding Path=Project.Name, UpdateSourceTrigger=PropertyChanged}"
+                Grid.Column="1" Grid.Row="2"
+                materialDesign:HintAssist.Hint="Краткое название обьекта"
+                materialDesign:HintAssist.HelperText="введите название"/>
+            <materialDesign:PackIcon 
+                Kind="Domain"
+                Grid.Column="0" Grid.Row="3"/>
+            <ComboBox Style="{Binding Source={StaticResource ComboBox}}"
+                ItemsSource="{Binding Path=CLients, UpdateSourceTrigger=PropertyChanged}"
+                SelectedItem="{Binding Path=SelectedClient, UpdateSourceTrigger=PropertyChanged}"
+                Grid.Column="1" Grid.Row="3"
+                DisplayMemberPath="Name"
+                materialDesign:HintAssist.Hint="Выберите клиента"
+                materialDesign:HintAssist.HelperText="заказчик"
+                IsSynchronizedWithCurrentItem="False"/>
+        </Grid>
+    </DockPanel>
 </Window>

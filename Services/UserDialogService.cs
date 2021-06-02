@@ -68,7 +68,6 @@ namespace Designer_Offer.Services
             var client_editor_window = App.Host.Services.GetRequiredService<ClientEditorWindow>();
             var client_editor_model = App.Host.Services.GetRequiredService<ClientEditorViewModel>();
 
-            client_editor_model.Id = client.Id;
             client_editor_model.Name = client.Name;
 
             client_editor_window.DataContext = client_editor_model;

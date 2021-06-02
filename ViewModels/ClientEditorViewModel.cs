@@ -4,11 +4,6 @@ namespace Designer_Offer.ViewModels
 {
     internal class ClientEditorViewModel : ViewModel
     {
-        /// <summary>
-        /// Id клиента
-        /// </summary>
-        public int Id { get; set; }
-
         private string _Name;
         /// <summary>
         /// Название клиента
@@ -18,7 +13,5 @@ namespace Designer_Offer.ViewModels
             get => _Name;
             set => Set(ref _Name, value);
         }
-
-        public ClientEditorViewModel() { }
     }
 }

@@ -200,11 +200,11 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _SelectedOffer, value);
         }
 
-        private Project _Project;
+        private ObservableCollection<Project> _Project;
         /// <summary>
         /// Текущий проект обьекта
         /// </summary>
-        public Project Project
+        public ObservableCollection<Project> Project
         {
             get => _Project;
             set => Set(ref _Project, value);
@@ -299,9 +299,10 @@ namespace Designer_Offer.ViewModels
 
         private bool CanFilterOffer(object p)
         {
+            if (Project?.Count != 0) Project?.Clear();
+            
             if (SelectedBuild == null || SelectedBuild.Project == null)
             {
-                Project = null;
                 if (Offers?.Count != 0) Offers?.Clear();
 
                 return false;
@@ -311,7 +312,7 @@ namespace Designer_Offer.ViewModels
 
         private void OnFilterOffer(object p)
         {
-            Project = SelectedBuild.Project;
+            Project?.Add(SelectedBuild.Project);
 
             var items = SelectedBuild.Project.Offer
                 .Where(o => o.Project_Id == SelectedBuild.Id)
@@ -414,6 +415,49 @@ namespace Designer_Offer.ViewModels
                 SelectedClient = null;
         }
 
+        /// <summary>
+        /// Добаление нового обьекта
+        /// </summary>
+        public ICommand AddBuild { get; }
+
+        private bool CanAddBuild(object p)
+        {
+            return true;
+        }
+
+        private void OnAddBuild(object p)
+        {
+
+        }
+        /// <summary>
+        /// Редактирование обьекта
+        /// </summary>
+        public ICommand EditBuild { get; }
+
+        private bool CanEditBuild (object p)
+        {
+            return false;
+        }
+
+        private void OnEditBuild (object p)
+        {
+
+        }
+        /// <summary>
+        /// Удаление обьекта
+        /// </summary>
+        public ICommand RemoveBuild { get; }
+
+        private bool CanRemoveBuild (object p)
+        {
+            return false;
+        }
+
+        private void OnAddRemoveBuild (object p)
+        {
+
+        }
+
         #endregion
 
         #endregion
@@ -468,6 +512,7 @@ namespace Designer_Offer.ViewModels
 
             Offers = new ObservableCollection<Offer>();
             Parts = new ObservableCollection<Part>();
+            Project = new ObservableCollection<Project>();
         }
         #endregion
     }

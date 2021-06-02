@@ -124,7 +124,7 @@
         <GroupBox Header="Проекты"
                       Grid.Column="1" 
                       Grid.Row="1">
-            <DataGrid DataContext="{Binding Path=Project.Employee}" IsEnabled="False"
+            <DataGrid IsEnabled="False"
                 ItemsSource="{Binding Path=Project, UpdateSourceTrigger=PropertyChanged}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название"
