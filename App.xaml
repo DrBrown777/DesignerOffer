@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:Designer_Offer"
              xmlns:vm="clr-namespace:Designer_Offer.ViewModels"
              xmlns:view="clr-namespace:Designer_Offer.Views.UControl"
-             StartupUri="Views/Windows/MainWindow.xaml">
+             StartupUri="Views/Windows/WorkWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

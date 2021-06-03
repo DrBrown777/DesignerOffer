@@ -28,11 +28,11 @@
             <Setter Property="Margin" Value="3"/>
             <Setter Property="Padding" Value="10,3"/>
             <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth2"/>
-            <Style.Triggers>
+            <!--<Style.Triggers>
                 <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=ClientName}" Value="True">
                     <Setter Property="IsEnabled" Value="False"/>
                 </DataTrigger>
-            </Style.Triggers>
+            </Style.Triggers>-->
         </Style>
         <Style x:Key="UniformGrid" TargetType="UniformGrid">
             <Setter Property="Margin" Value="5"/>
@@ -118,7 +118,7 @@
                 Kind="Domain"
                 Grid.Column="0" Grid.Row="3"/>
             <ComboBox Style="{Binding Source={StaticResource ComboBox}}"
-                ItemsSource="{Binding Path=CLients, UpdateSourceTrigger=PropertyChanged}"
+                ItemsSource="{Binding Path=Clients, UpdateSourceTrigger=PropertyChanged}"
                 SelectedItem="{Binding Path=SelectedClient, UpdateSourceTrigger=PropertyChanged}"
                 Grid.Column="1" Grid.Row="3"
                 DisplayMemberPath="Name"

@@ -18,6 +18,8 @@ namespace Designer_Offer.Services
             {
                 case Client client:
                     return EditClient(client);
+                case Build build:
+                    return EditBuild(build);
                 default:
                     throw new NotSupportedException($"Редактирование обьекта типа {item.GetType().Name} не поддерживается.");
             }
@@ -75,6 +77,32 @@ namespace Designer_Offer.Services
             if (client_editor_window.ShowDialog() != true) return false;
 
             client.Name = client_editor_model.Name;
+
+            return true;
+        }
+
+        private static bool EditBuild(Build build)
+        {
+            var build_editor_window = App.Host.Services.GetRequiredService<BuildEditorWindow>();
+            var build_editor_model = App.Host.Services.GetRequiredService<BuildEditorViewModel>();
+
+            build_editor_model.Name = build.Name;
+            build_editor_model.Adress = build.Adress;
+
+            if (build.Project != null)
+                build_editor_model.Project = build.Project;
+
+            if (build.Client != null)
+                build_editor_model.SelectedClient = build.Client;
+
+            build_editor_window.DataContext = build_editor_model;
+
+            if (build_editor_window.ShowDialog() != true) return false;
+
+            build.Name = build_editor_model.Name;
+            build.Adress = build_editor_model.Adress;
+            build.Project = build_editor_model.Project;
+            build.Client_Id = build_editor_model.SelectedClient.Id;
 
             return true;
         }

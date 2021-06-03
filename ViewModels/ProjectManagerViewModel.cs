@@ -9,7 +9,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
-using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -427,7 +426,23 @@ namespace Designer_Offer.ViewModels
 
         private void OnAddBuild(object p)
         {
+            var new_project = new Project
+            {
+                Employee_Id = CurrentUser.Id,
+                Date = DateTime.Today
+            };
 
+            var new_build = new Build()
+            {
+                Project = new_project
+            };
+
+            if (!UserDialog.Edit(new_build)) return;
+
+            Builds.Add(RepositoryBuilds.Add(new_build));
+
+            SelectedClient = new_build.Client;
+            SelectedBuild = new_build;
         }
         /// <summary>
         /// Редактирование обьекта
@@ -453,7 +468,7 @@ namespace Designer_Offer.ViewModels
             return false;
         }
 
-        private void OnAddRemoveBuild (object p)
+        private void OnRemoveBuild (object p)
         {
 
         }
@@ -509,6 +524,10 @@ namespace Designer_Offer.ViewModels
             AddClient = new LambdaCommand(OnAddClient, CanAddClient);
             RemoveClient = new LambdaCommand(OnRemoveClient, CanRemoveClient);
             EditClient = new LambdaCommand(OnEditClient, CanEditClient);
+
+            AddBuild = new LambdaCommand(OnAddBuild, CanAddBuild);
+            RemoveBuild = new LambdaCommand(OnRemoveBuild, CanRemoveBuild);
+            EditBuild = new LambdaCommand(OnEditBuild, CanEditBuild);
 
             Offers = new ObservableCollection<Offer>();
             Parts = new ObservableCollection<Part>();
