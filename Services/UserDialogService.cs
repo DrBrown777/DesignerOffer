@@ -4,6 +4,7 @@ using Designer_Offer.ViewModels;
 using Designer_Offer.Views.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
 using System.Windows;
 
 namespace Designer_Offer.Services
@@ -89,11 +90,7 @@ namespace Designer_Offer.Services
             build_editor_model.Name = build.Name;
             build_editor_model.Adress = build.Adress;
 
-            if (build.Project != null)
-                build_editor_model.Project = build.Project;
-
-            if (build.Client != null)
-                build_editor_model.SelectedClient = build.Client;
+            build_editor_model.Project = build.Project;
 
             build_editor_window.DataContext = build_editor_model;
 

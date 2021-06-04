@@ -33,6 +33,8 @@ namespace Designer_Offer.Services.Repositories
             if (AutoSaveChanges)
                 _db.SaveChanges();
 
+            _db.Entry(item).Reload();
+
             return item;
         }
 

@@ -410,6 +410,7 @@ namespace Designer_Offer.ViewModels
             RepositoryClients.Remove(client_to_remove.Id);
 
             Clients.Remove(client_to_remove);
+
             if (ReferenceEquals(SelectedClient, client_to_remove))
                 SelectedClient = null;
         }
@@ -434,15 +435,21 @@ namespace Designer_Offer.ViewModels
 
             var new_build = new Build()
             {
-                Project = new_project
+                Project = new_project,
             };
 
             if (!UserDialog.Edit(new_build)) return;
 
-            Builds.Add(RepositoryBuilds.Add(new_build));
+            var a = Builds[0];
 
-            SelectedClient = new_build.Client;
-            SelectedBuild = new_build;
+            var b = RepositoryBuilds.Add(new_build);
+
+            ClientsViewSource.View.Refresh();
+
+            OnPropertyChanged(nameof(ClientsView));
+
+            //SelectedClient = new_build.Client;
+            //SelectedBuild = new_build;
         }
         /// <summary>
         /// Редактирование обьекта
