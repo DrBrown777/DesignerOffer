@@ -2,8 +2,6 @@
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
 
 namespace Designer_Offer.ViewModels
 {
@@ -57,11 +55,6 @@ namespace Designer_Offer.ViewModels
         {
             get => _Project;
             set => Set(ref _Project, value);
-        }
-        
-        public BuildEditorViewModel(IRepository<Client> repaClient)
-        {
-            Clients = repaClient.Items.AsNoTracking().ToList();
         }
     }
 }

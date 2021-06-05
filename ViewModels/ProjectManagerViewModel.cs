@@ -353,10 +353,7 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         public ICommand AddClient { get; }
 
-        private bool CanAddClient(object p)
-        {
-            return true;
-        }
+        private bool CanAddClient(object p) => true;
 
         private void OnAddClient(object p)
         {
@@ -420,17 +417,14 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         public ICommand AddBuild { get; }
 
-        private bool CanAddBuild(object p)
-        {
-            return true;
-        }
+        private bool CanAddBuild(object p) => true;
 
         private void OnAddBuild(object p)
         {
             var new_project = new Project
             {
                 Employee_Id = CurrentUser.Id,
-                Date = DateTime.Today
+                Date = DateTime.Today,
             };
 
             var new_build = new Build()
@@ -440,16 +434,18 @@ namespace Designer_Offer.ViewModels
 
             if (!UserDialog.Edit(new_build)) return;
 
-            var a = Builds[0];
+            RepositoryBuilds.Add(new_build);
 
-            var b = RepositoryBuilds.Add(new_build);
+            Clients.Remove(Clients.SingleOrDefault(c => c.Id == new_build.Client_Id));
+
+            Clients.Add(new_build.Client);
 
             ClientsViewSource.View.Refresh();
 
             OnPropertyChanged(nameof(ClientsView));
 
-            //SelectedClient = new_build.Client;
-            //SelectedBuild = new_build;
+            SelectedClient = new_build.Client;
+            SelectedBuild = new_build;
         }
         /// <summary>
         /// Редактирование обьекта
@@ -472,12 +468,32 @@ namespace Designer_Offer.ViewModels
 
         private bool CanRemoveBuild (object p)
         {
-            return false;
+            return (Build)p != null && SelectedBuild != null;
         }
 
         private void OnRemoveBuild (object p)
         {
+            var build_to_remove = (Build)p ?? SelectedBuild;
 
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить обьект {build_to_remove.Project.Name}?", "Удаление обьекта"))
+                return;
+
+            RepositoryBuilds.Remove(build_to_remove.Id);
+
+            //Builds.Remove(build_to_remove);
+
+            //if (ReferenceEquals(SelectedBuild, build_to_remove))
+            //    SelectedBuild = null;
+
+            Clients.Remove(Clients.SingleOrDefault(c => c.Id == build_to_remove.Client_Id));
+
+            Clients.Add(RepositoryClients.Get(build_to_remove.Client_Id));
+
+            ClientsViewSource.View.Refresh();
+
+            OnPropertyChanged(nameof(ClientsView));
+
+            SelectedClient = build_to_remove.Client;
         }
 
         #endregion

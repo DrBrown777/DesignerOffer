@@ -84,11 +84,16 @@ namespace Designer_Offer.Services
 
         private static bool EditBuild(Build build)
         {
-            var build_editor_window = App.Host.Services.GetRequiredService<BuildEditorWindow>();
-            var build_editor_model = App.Host.Services.GetRequiredService<BuildEditorViewModel>();
+            var build_editor_window = App.Host.Services
+                                        .GetRequiredService<BuildEditorWindow>();
+            var build_editor_model = App.Host.Services
+                                        .GetRequiredService<BuildEditorViewModel>();
 
             build_editor_model.Name = build.Name;
             build_editor_model.Adress = build.Adress;
+            build_editor_model.Clients = App.Host.Services
+                                        .GetRequiredService<ProjectManagerViewModel>()
+                                        .Clients.ToList();
 
             build_editor_model.Project = build.Project;
 

@@ -197,7 +197,8 @@
                             </Button>
                             <Button
                                 ToolTip="Удалить" ToolTipService.Placement="Top" 
-                                Command="">
+                                Command="{Binding Path=RemoveBuild}"
+                                CommandParameter="{Binding Path=SelectedBuild}">
                                     <materialDesign:PackIcon Kind="Delete" />
                             </Button>
                         </StackPanel>

@@ -87,7 +87,7 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <materialDesign:PackIcon 
-                Kind="Domain"
+                Kind="Crane"
                 Grid.Column="0" Grid.Row="0"/>
             <TextBox Style="{StaticResource TextBoxOutline}"
                 Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"
@@ -97,7 +97,7 @@
                 VerticalScrollBarVisibility="Auto"
                 materialDesign:HintAssist.Hint="Полное название обьекта"/>
             <materialDesign:PackIcon 
-                Kind="Domain"
+                Kind="MapMarkerPlus"
                 Grid.Column="0" Grid.Row="1"/>
             <TextBox Style="{StaticResource TextBoxOutline}"
                 Text="{Binding Path=Adress, UpdateSourceTrigger=PropertyChanged}"
@@ -107,7 +107,7 @@
                 VerticalScrollBarVisibility="Auto"
                 materialDesign:HintAssist.Hint="Полный адрес обьекта"/>
             <materialDesign:PackIcon 
-                Kind="Domain"
+                Kind="Wall"
                 Grid.Column="0" Grid.Row="2"/>
             <TextBox Style="{StaticResource TextBox}"
                 Text="{Binding Path=Project.Name, UpdateSourceTrigger=PropertyChanged}"
@@ -115,7 +115,7 @@
                 materialDesign:HintAssist.Hint="Краткое название обьекта"
                 materialDesign:HintAssist.HelperText="введите название"/>
             <materialDesign:PackIcon 
-                Kind="Domain"
+                Kind="AccountHardHat"
                 Grid.Column="0" Grid.Row="3"/>
             <ComboBox Style="{Binding Source={StaticResource ComboBox}}"
                 ItemsSource="{Binding Path=Clients, UpdateSourceTrigger=PropertyChanged}"

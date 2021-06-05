@@ -98,7 +98,7 @@
     <StackPanel>
         <WrapPanel>
             <materialDesign:PackIcon 
-                Kind="Account"/>
+                Kind="Login"/>
             <TextBox x:Name="LoginBox"
                 Style="{Binding Source={StaticResource TextBox}}"
                 materialDesign:HintAssist.Hint="Логин"
@@ -208,7 +208,7 @@
         </WrapPanel>
         <WrapPanel>
             <materialDesign:PackIcon 
-                Kind="AccountHardHat"/>
+                Kind="AccountTie"/>
             <ComboBox 
                 Style="{Binding Source={StaticResource ComboBox}}"
                 ItemsSource="{Binding Path=Positions, UpdateSourceTrigger=PropertyChanged}"

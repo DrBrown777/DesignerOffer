@@ -96,7 +96,8 @@ namespace Designer_Offer
             /*Регистрация репозиториев сущностей базы данных*/
             services.AddTransient<PrimeContext>();
 
-            services.AddTransient<IRepository<Build>, DbRepository<Build>>();
+            //services.AddTransient<IRepository<Build>, DbRepository<Build>>();
+            services.AddTransient<IRepository<Build>, BuildRepository>();
             services.AddTransient<IRepository<Category>, DbRepository<Category>>();
             services.AddTransient<IRepository<Client>, DbRepository<Client>>();
             services.AddTransient<IRepository<Company>, DbRepository<Company>>();

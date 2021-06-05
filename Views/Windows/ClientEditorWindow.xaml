@@ -76,7 +76,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <materialDesign:PackIcon 
-                Kind="Domain"
+                Kind="AccountHardHat"
                 Grid.Column="0"/>
             <TextBox Style="{StaticResource TextBox}"
                 x:Name="ClientName"

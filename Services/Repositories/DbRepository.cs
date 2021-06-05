@@ -33,8 +33,6 @@ namespace Designer_Offer.Services.Repositories
             if (AutoSaveChanges)
                 _db.SaveChanges();
 
-            _db.Entry(item).Reload();
-
             return item;
         }
 
@@ -100,5 +98,14 @@ namespace Designer_Offer.Services.Repositories
             if (AutoSaveChanges)
                 await _db.SaveChangesAsync(Cancel).ConfigureAwait(false);
         }
+    }
+
+    class BuildRepository : DbRepository<Build>
+    {
+        public override IQueryable<Build> Items => base.Items
+            .Include(item => item.Client)
+            .Include(item => item.Project.Employee);
+
+        public BuildRepository(PrimeContext db) : base(db) { }
     }
 }
