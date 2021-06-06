@@ -50,8 +50,9 @@ namespace Designer_Offer.Data
 
             modelBuilder.Entity<Client>()
                 .HasMany(e => e.Build)
-                .WithRequired(e => e.Client)
-                .HasForeignKey(e => e.Client_Id);
+                .WithOptional(e => e.Client)
+                .HasForeignKey(e => e.Client_Id)
+                .WillCascadeOnDelete();
 
             modelBuilder.Entity<Company>()
                 .HasMany(e => e.Employee)

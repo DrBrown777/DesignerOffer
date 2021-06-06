@@ -2,6 +2,7 @@
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Designer_Offer.ViewModels
 {
@@ -27,11 +28,11 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Adress, value);
         }
 
-        private List<Client> _Clients;
+        private ObservableCollection<Client> _Clients;
         /// <summary>
         /// Список Клиентов
         /// </summary>
-        public List<Client> Clients
+        public ObservableCollection<Client> Clients
         {
             get => _Clients;
             set => Set(ref _Clients, value);

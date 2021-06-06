@@ -93,9 +93,10 @@ namespace Designer_Offer.Services
             build_editor_model.Adress = build.Adress;
             build_editor_model.Clients = App.Host.Services
                                         .GetRequiredService<ProjectManagerViewModel>()
-                                        .Clients.ToList();
+                                        .Clients;
 
             build_editor_model.Project = build.Project;
+            build_editor_model.SelectedClient = build.Client;
 
             build_editor_window.DataContext = build_editor_model;
 
@@ -104,6 +105,7 @@ namespace Designer_Offer.Services
             build.Name = build_editor_model.Name;
             build.Adress = build_editor_model.Adress;
             build.Project = build_editor_model.Project;
+            //build.Client = build_editor_model.SelectedClient;
             build.Client_Id = build_editor_model.SelectedClient.Id;
 
             return true;

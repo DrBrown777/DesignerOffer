@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Designer_Offer.Services.Repositories
 {
-    class DbRepository<T> : IRepository<T> where T : class, IEntity
+    class DbRepository<T> : IRepository<T> where T : class, IEntity, new()
     {
         private readonly PrimeContext _db;
         private readonly DbSet<T> _Set;
@@ -100,12 +100,21 @@ namespace Designer_Offer.Services.Repositories
         }
     }
 
-    class BuildRepository : DbRepository<Build>
+    internal class BuildRepository : DbRepository<Build>
     {
         public override IQueryable<Build> Items => base.Items
             .Include(item => item.Client)
+            .Include(item => item.Project)
             .Include(item => item.Project.Employee);
 
         public BuildRepository(PrimeContext db) : base(db) { }
+    }
+
+    internal class ClientRepository : DbRepository<Client>
+    {
+        public override IQueryable<Client> Items => base.Items
+            .Include(item => item.Build);
+
+        public ClientRepository(PrimeContext db) : base(db) { }
     }
 }

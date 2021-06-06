@@ -99,7 +99,8 @@ namespace Designer_Offer
             //services.AddTransient<IRepository<Build>, DbRepository<Build>>();
             services.AddTransient<IRepository<Build>, BuildRepository>();
             services.AddTransient<IRepository<Category>, DbRepository<Category>>();
-            services.AddTransient<IRepository<Client>, DbRepository<Client>>();
+            //services.AddTransient<IRepository<Client>, DbRepository<Client>>();
+            services.AddTransient<IRepository<Client>, ClientRepository>();
             services.AddTransient<IRepository<Company>, DbRepository<Company>>();
             services.AddTransient<IRepository<Config>, DbRepository<Config>>();
             services.AddTransient<IRepository<Employee>, DbRepository<Employee>>();

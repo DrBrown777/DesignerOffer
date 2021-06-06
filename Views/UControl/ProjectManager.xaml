@@ -187,12 +187,14 @@
                         <StackPanel Orientation="Horizontal">
                             <Button
                                 ToolTip="Добавить" ToolTipService.Placement="Top"
-                                Command="{Binding Path=AddBuild}">
+                                Command="{Binding Path=AddBuild}"
+                                CommandParameter="{Binding Path=SelectedClient}">
                                     <materialDesign:PackIcon Kind="PlusBold" />
                             </Button>
                             <Button
                                 ToolTip="Редактировать" ToolTipService.Placement="Top"
-                                Command="">
+                                Command="{Binding Path=EditBuild}"
+                                CommandParameter="{Binding Path=SelectedBuild}">
                                     <materialDesign:PackIcon Kind="Edit" />
                             </Button>
                             <Button
