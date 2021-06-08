@@ -433,7 +433,7 @@ namespace Designer_Offer.ViewModels
             var new_build = new Build()
             {
                 Project = new_project,
-                //Client = (Client)p ?? SelectedClient,
+                Client_Id = SelectedClient.Id,
             };
 
             if (!UserDialog.Edit(new_build)) return;
@@ -442,7 +442,7 @@ namespace Designer_Offer.ViewModels
 
             Clients.Remove(Clients.SingleOrDefault(c => c.Id == new_build.Client_Id));
 
-            var new_client = RepositoryClients.Get(new_build.Client_Id);
+            var new_client = RepositoryClients.Get((int)new_build.Client_Id);
 
             Clients.Add(new_client);
 
@@ -469,8 +469,11 @@ namespace Designer_Offer.ViewModels
 
             if (!UserDialog.Edit(build_to_edit)) return;
 
-            RepositoryBuilds.Update(build_to_edit);
+            RepositoryClients.Update(build_to_edit.Client);
 
+            //RepositoryBuilds.Update(build_to_edit);
+
+            SelectedClient = build_to_edit.Client;
             SelectedBuild = build_to_edit;
         }
         /// <summary>
@@ -492,11 +495,11 @@ namespace Designer_Offer.ViewModels
             if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить обьект {build_to_remove.Project.Name}?", "Удаление обьекта"))
                 return;
 
-            //SelectedClient.Build.Remove(build_to_remove);
-
-            RepositoryBuilds.Remove(build_to_remove.Id);
+            SelectedClient.Build.Remove(build_to_remove);
 
             RepositoryClients.Update(SelectedClient);
+
+            RepositoryBuilds.Remove(build_to_remove.Id);
 
             Clients.Remove(Clients.SingleOrDefault(c => c.Id == client_id));
 
