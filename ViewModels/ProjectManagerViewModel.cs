@@ -471,7 +471,11 @@ namespace Designer_Offer.ViewModels
 
             RepositoryClients.Update(build_to_edit.Client);
 
-            //RepositoryBuilds.Update(build_to_edit);
+            FilterBuild.Execute(null);
+
+            ClientsViewSource.View.Refresh();
+
+            OnPropertyChanged(nameof(ClientsView));
 
             SelectedClient = build_to_edit.Client;
             SelectedBuild = build_to_edit;
@@ -490,28 +494,22 @@ namespace Designer_Offer.ViewModels
         {
             var build_to_remove = (Build)p ?? SelectedBuild;
 
-            var client_id = (int)build_to_remove.Client_Id;
-
             if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить обьект {build_to_remove.Project.Name}?", "Удаление обьекта"))
                 return;
 
+            Builds.Remove(build_to_remove);
+            
             SelectedClient.Build.Remove(build_to_remove);
 
             RepositoryClients.Update(SelectedClient);
 
             RepositoryBuilds.Remove(build_to_remove.Id);
 
-            Clients.Remove(Clients.SingleOrDefault(c => c.Id == client_id));
-
-            var new_client = RepositoryClients.Get(client_id);
-
-            Clients.Add(new_client);
+            FilterBuild.Execute(null);
 
             ClientsViewSource.View.Refresh();
 
             OnPropertyChanged(nameof(ClientsView));
-
-            SelectedClient = new_client;
 
             if (ReferenceEquals(SelectedBuild, build_to_remove))
                 SelectedBuild = null;
