@@ -217,11 +217,13 @@
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
-                    <DatePicker Margin="5"
+                    <DatePicker Margin="5" Language="ru-RU"
+                        SelectedDate="{Binding Path=StartSelectedDate}"
                         VerticalAlignment="Top" 
                         materialDesign:HintAssist.Hint="Начальная дата" 
                         Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
-                    <DatePicker Margin="5"
+                    <DatePicker Margin="5" Language="ru-RU"
+                        SelectedDate="{Binding Path=EndSelectedDate}"
                         VerticalAlignment="Top" 
                         materialDesign:HintAssist.Hint="Конечная дата" 
                         Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />

@@ -45,6 +45,10 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         private readonly IRepository<Build> RepositoryBuilds;
         /// <summary>
+        /// Репозиторий проектов
+        /// </summary>
+        private readonly IRepository<Project> RepositoryProjects;
+        /// <summary>
         /// Репозиторий разделов
         /// </summary>
         private readonly IRepository<Section> RepositorySections;
@@ -217,6 +221,24 @@ namespace Designer_Offer.ViewModels
         {
             get => _Parts;
             set => Set(ref _Parts, value);
+        }
+        private DateTime _StartSelectedDate;
+        /// <summary>
+        /// Начальная дата
+        /// </summary>
+        public DateTime StartSelectedDate
+        {
+            get => _StartSelectedDate;
+            set => Set(ref _StartSelectedDate, value);
+        }
+        private DateTime _EndSelectedDate;
+        /// <summary>
+        /// Конечная дата
+        /// </summary>
+        public DateTime EndSelectedDate
+        {
+            get => _EndSelectedDate;
+            set => Set(ref _EndSelectedDate, value);
         }
         #endregion
 
@@ -547,6 +569,7 @@ namespace Designer_Offer.ViewModels
             IRepository<Client> repaClient,
             IRepository<Section> repaSection,
             IRepository<Build> repaBuild,
+            IRepository<Project> repaProject,
             IUserDialog userDialog)
         {
             Progress = true;
@@ -554,6 +577,7 @@ namespace Designer_Offer.ViewModels
             RepositoryUsers = repaUser;
             RepositoryClients = repaClient; 
             RepositoryBuilds = repaBuild;
+            RepositoryProjects = repaProject;
             RepositorySections = repaSection;
 
             UserDialog = userDialog;
@@ -574,6 +598,9 @@ namespace Designer_Offer.ViewModels
             Offers = new ObservableCollection<Offer>();
             Parts = new ObservableCollection<Part>();
             Project = new ObservableCollection<Project>();
+
+            StartSelectedDate = DateTime.Now;
+            EndSelectedDate = DateTime.Now;
         }
         #endregion
     }
