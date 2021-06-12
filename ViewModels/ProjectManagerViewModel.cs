@@ -17,7 +17,7 @@ namespace Designer_Offer.ViewModels
     internal class ProjectManagerViewModel : ViewModel
     {
         #region ПОЛЯ
-        static readonly string _title = " :: Управление проектами";
+        private static readonly string _title = " :: Управление проектами";
         /// <summary>
         /// Текущий пользователь
         /// </summary>
@@ -44,10 +44,6 @@ namespace Designer_Offer.ViewModels
         /// Репозиторий обьектов
         /// </summary>
         private readonly IRepository<Build> RepositoryBuilds;
-        /// <summary>
-        /// Репозиторий проектов
-        /// </summary>
-        private readonly IRepository<Project> RepositoryProjects;
         /// <summary>
         /// Репозиторий разделов
         /// </summary>
@@ -125,7 +121,9 @@ namespace Designer_Offer.ViewModels
             set
             {
                 if (Set(ref _ClientFilter, value))
+                {
                     ClientsViewSource?.View.Refresh();
+                }
             }
         }
 
@@ -240,6 +238,24 @@ namespace Designer_Offer.ViewModels
             get => _EndSelectedDate;
             set => Set(ref _EndSelectedDate, value);
         }
+        private Section _SelectedSection;
+        /// <summary>
+        /// Выбранный раздел
+        /// </summary>
+        public Section SelectedSection
+        {
+            get => _SelectedSection;
+            set => Set(ref _SelectedSection, value);
+        }
+        private Employee _SelectedManager;
+        /// <summary>
+        /// Выбранный менеджер
+        /// </summary>
+        public Employee SelectedManager
+        {
+            get => _SelectedManager;
+            set => Set(ref _SelectedManager, value);
+        }
         #endregion
 
         #region КОМАНДЫ
@@ -253,11 +269,15 @@ namespace Designer_Offer.ViewModels
         private bool CanLoadDataFromRepositories(object p)
         {
             if (RepositoryUsers == null || RepositoryClients == null)
+            {
                 return false;
+            }
             else if (RepositorySections == null || RepositoryBuilds == null)
+            {
                 return false;
-            else
-                return true;
+            }
+
+            return true;
         }
 
         private async void OnLoadDataFromRepositories(object p)
@@ -278,9 +298,9 @@ namespace Designer_Offer.ViewModels
 
                 Clients = new ObservableCollection<Client>(await RepositoryClients.Items.ToListAsync());
 
-                Sections = new ObservableCollection<Section>(await RepositorySections.Items.ToListAsync());
+                FilterBuild.Execute(null);
 
-                Builds = new ObservableCollection<Build>(await RepositoryBuilds.Items.ToListAsync());
+                Sections = new ObservableCollection<Section>(await RepositorySections.Items.ToListAsync());
             }
             catch (Exception e)
             {
@@ -306,11 +326,19 @@ namespace Designer_Offer.ViewModels
 
         private void OnFilterBuild(object p)
         {
-            var items = SelectedClient.Build
+            List<Build> items = SelectedClient.Build
                 .Where(b => b.Client_Id == SelectedClient.Id)
                 .ToList();
 
             UpdateCollection(Builds, items);
+            
+            if (Builds != null)
+            {
+                if (Builds.Count != 0)
+                {
+                    SelectedBuild = Builds[0];
+                }
+            }
         }
 
         /// <summary>
@@ -320,11 +348,17 @@ namespace Designer_Offer.ViewModels
 
         private bool CanFilterOffer(object p)
         {
-            if (Project?.Count != 0) Project?.Clear();
-            
+            if (Project?.Count != 0)
+            {
+                Project?.Clear();
+            }
+
             if (SelectedBuild == null || SelectedBuild.Project == null)
             {
-                if (Offers?.Count != 0) Offers?.Clear();
+                if (Offers?.Count != 0)
+                {
+                    Offers?.Clear();
+                }
 
                 return false;
             }
@@ -335,11 +369,19 @@ namespace Designer_Offer.ViewModels
         {
             Project?.Add(SelectedBuild.Project);
 
-            var items = SelectedBuild.Project.Offer
+            List<Offer> items = SelectedBuild.Project.Offer
                 .Where(o => o.Project_Id == SelectedBuild.Id)
                 .ToList();
 
             UpdateCollection(Offers, items);
+
+            if (SelectedBuild.Project.Offer != null)
+            {
+                if (SelectedBuild.Project.Offer.Count != 0)
+                {
+                    SelectedOffer = Offers[0];
+                }
+            }
         }
 
         /// <summary>
@@ -361,11 +403,83 @@ namespace Designer_Offer.ViewModels
 
         private void OnFilterPart(object p)
         {
-            var items = SelectedOffer.Part
+            List<Part> items = SelectedOffer.Part
                 .Where(part => part.Offer_Id == SelectedOffer.Id)
                 .ToList();
 
             UpdateCollection(Parts, items);
+        }
+        /// <summary>
+        /// Выборка КП по разделу
+        /// </summary>
+        public ICommand FilterSection { get; }
+
+        private bool CanFilterSection(object p)
+        {
+            return true && SelectedSection != null && SelectedBuild != null;
+        }
+
+        private void OnFilterSection(object p)
+        {
+            List<Offer> items = SelectedBuild.Project.Offer
+                .Where(o => o.Section_Id == SelectedSection.Id)
+                .Where(o => o.Project.Id == SelectedBuild.Id)
+                .ToList();
+            
+            UpdateCollection(Offers, items);
+
+            if (Offers.Count != 0)
+            {
+                SelectedOffer = Offers[0];
+            }
+        }
+        /// <summary>
+        /// Выборка строек по менеджеру
+        /// </summary>
+        public ICommand FilterManager { get; }
+
+        private bool CanFilterManager(object p)
+        {
+            return true && SelectedManager != null && SelectedClient != null;
+        }
+
+        private void OnFilterManager(object p)
+        {
+            List<Build> items = SelectedClient.Build
+                .Where(b => b.Project.Employee_Id == SelectedManager.Id)
+                .Where(b => b.Client_Id == SelectedClient.Id)
+                .ToList();
+
+            UpdateCollection(Builds, items);
+
+            if (Builds.Count != 0)
+            {
+                SelectedBuild = Builds[0];
+            }
+        }
+        /// <summary>
+        /// Выборка по дате
+        /// </summary>
+        public ICommand FilterDateDiff { get; }
+
+        public bool CanFilterDateDiff(object p)
+        {
+            return true && StartSelectedDate < EndSelectedDate
+                        && SelectedBuild != null;
+        }
+
+        public void OnFilterDateDiff(object p)
+        {
+            List<Offer> items = SelectedBuild.Project.Offer
+                .Where(o => o.Date <= EndSelectedDate && o.Date >= StartSelectedDate)
+                .ToList();
+
+            UpdateCollection(Offers, items);
+
+            if (Offers.Count != 0)
+            {
+                SelectedOffer = Offers[0];
+            }
         }
         #endregion
 
@@ -381,7 +495,10 @@ namespace Designer_Offer.ViewModels
         {
             var new_client = new Client();
 
-            if (!UserDialog.Edit(new_client)) return;
+            if (!UserDialog.Edit(new_client))
+            {
+                return;
+            }
 
             Clients.Add(RepositoryClients.Add(new_client));
 
@@ -399,9 +516,12 @@ namespace Designer_Offer.ViewModels
 
         private void OnEditClient(object p)
         {
-            var client_to_edit = (Client)p ?? SelectedClient;
+            Client client_to_edit = (Client)p ?? SelectedClient;
 
-            if (!UserDialog.Edit(client_to_edit)) return;
+            if (!UserDialog.Edit(client_to_edit))
+            {
+                return;
+            }
 
             RepositoryClients.Update(client_to_edit);
 
@@ -421,17 +541,21 @@ namespace Designer_Offer.ViewModels
 
         private void OnRemoveClient(object p)
         {
-            var client_to_remove = (Client)p ?? SelectedClient;
+            Client client_to_remove = (Client)p ?? SelectedClient;
 
             if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить клента {client_to_remove.Name}?", "Удаление клиента"))
+            {
                 return;
+            }
 
             RepositoryClients.Remove(client_to_remove.Id);
 
             Clients.Remove(client_to_remove);
 
             if (ReferenceEquals(SelectedClient, client_to_remove))
+            {
                 SelectedClient = null;
+            }
         }
 
         /// <summary>
@@ -446,25 +570,28 @@ namespace Designer_Offer.ViewModels
 
         private void OnAddBuild(object p)
         {
-            var new_project = new Project
+            Project new_project = new Project
             {
                 Employee_Id = CurrentUser.Id,
                 Date = DateTime.Today,
             };
 
-            var new_build = new Build()
+            Build new_build = new Build()
             {
                 Project = new_project,
                 Client_Id = SelectedClient.Id,
             };
 
-            if (!UserDialog.Edit(new_build)) return;
+            if (!UserDialog.Edit(new_build))
+            {
+                return;
+            }
 
             new_build = RepositoryBuilds.Add(new_build);
 
             Clients.Remove(Clients.SingleOrDefault(c => c.Id == new_build.Client_Id));
 
-            var new_client = RepositoryClients.Get((int)new_build.Client_Id);
+            Client new_client = RepositoryClients.Get((int)new_build.Client_Id);
 
             Clients.Add(new_client);
 
@@ -487,9 +614,12 @@ namespace Designer_Offer.ViewModels
 
         private void OnEditBuild (object p)
         {
-            var build_to_edit = (Build)p ?? SelectedBuild;
+            Build build_to_edit = (Build)p ?? SelectedBuild;
 
-            if (!UserDialog.Edit(build_to_edit)) return;
+            if (!UserDialog.Edit(build_to_edit))
+            {
+                return;
+            }
 
             RepositoryClients.Update(build_to_edit.Client);
 
@@ -514,10 +644,12 @@ namespace Designer_Offer.ViewModels
 
         private void OnRemoveBuild (object p)
         {
-            var build_to_remove = (Build)p ?? SelectedBuild;
+            Build build_to_remove = (Build)p ?? SelectedBuild;
 
             if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить обьект {build_to_remove.Project.Name}?", "Удаление обьекта"))
+            {
                 return;
+            }
 
             Builds.Remove(build_to_remove);
             
@@ -534,7 +666,9 @@ namespace Designer_Offer.ViewModels
             OnPropertyChanged(nameof(ClientsView));
 
             if (ReferenceEquals(SelectedBuild, build_to_remove))
+            {
                 SelectedBuild = null;
+            }
         }
 
         #endregion
@@ -544,15 +678,23 @@ namespace Designer_Offer.ViewModels
         #region МЕТОДЫ
         private void OnClientFilter(object sender, FilterEventArgs e)
         {
-            if (!(e.Item is Client client) || string.IsNullOrEmpty(ClientFilter)) return;
+            if (!(e.Item is Client client) || string.IsNullOrEmpty(ClientFilter))
+            {
+                return;
+            }
 
             if (!client.Name.ToLower().Contains(ClientFilter.ToLower()))
+            {
                 e.Accepted = false;
+            }
         }
 
         private void UpdateCollection<T>(ObservableCollection<T> collection, List<T> list)
         {
-            if (collection == null || list == null) return;
+            if (collection == null || list == null)
+            {
+                return;
+            }
 
             collection.Clear();
 
@@ -570,6 +712,7 @@ namespace Designer_Offer.ViewModels
             IRepository<Section> repaSection,
             IRepository<Build> repaBuild,
             IRepository<Project> repaProject,
+            IRepository<Offer> repaOffer,
             IUserDialog userDialog)
         {
             Progress = true;
@@ -577,7 +720,6 @@ namespace Designer_Offer.ViewModels
             RepositoryUsers = repaUser;
             RepositoryClients = repaClient; 
             RepositoryBuilds = repaBuild;
-            RepositoryProjects = repaProject;
             RepositorySections = repaSection;
 
             UserDialog = userDialog;
@@ -586,6 +728,9 @@ namespace Designer_Offer.ViewModels
             FilterBuild = new LambdaCommand(OnFilterBuild, CanFilterBuild);
             FilterOffer = new LambdaCommand(OnFilterOffer, CanFilterOffer);
             FilterPart = new LambdaCommand(OnFilterPart, CanFilterPart);
+            FilterSection = new LambdaCommand(OnFilterSection, CanFilterSection);
+            FilterManager = new LambdaCommand(OnFilterManager, CanFilterManager);
+            FilterDateDiff = new LambdaCommand(OnFilterDateDiff, CanFilterDateDiff);
 
             AddClient = new LambdaCommand(OnAddClient, CanAddClient);
             RemoveClient = new LambdaCommand(OnRemoveClient, CanRemoveClient);
@@ -595,6 +740,7 @@ namespace Designer_Offer.ViewModels
             RemoveBuild = new LambdaCommand(OnRemoveBuild, CanRemoveBuild);
             EditBuild = new LambdaCommand(OnEditBuild, CanEditBuild);
 
+            Builds = new ObservableCollection<Build>();
             Offers = new ObservableCollection<Offer>();
             Parts = new ObservableCollection<Part>();
             Project = new ObservableCollection<Project>();

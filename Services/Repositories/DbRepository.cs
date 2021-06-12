@@ -105,7 +105,8 @@ namespace Designer_Offer.Services.Repositories
         public override IQueryable<Build> Items => base.Items
             .Include(item => item.Client)
             .Include(item => item.Project)
-            .Include(item => item.Project.Employee);
+            .Include(item => item.Project.Employee)
+            .Include(item => item.Project.Offer);
 
         public BuildRepository(PrimeContext db) : base(db) { }
     }
