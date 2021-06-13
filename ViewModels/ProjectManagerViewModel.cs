@@ -268,11 +268,7 @@ namespace Designer_Offer.ViewModels
 
         private bool CanLoadDataFromRepositories(object p)
         {
-            if (RepositoryUsers == null || RepositoryClients == null)
-            {
-                return false;
-            }
-            else if (RepositorySections == null || RepositoryBuilds == null)
+            if (RepositoryUsers == null || RepositoryClients == null || RepositorySections == null)
             {
                 return false;
             }
@@ -587,19 +583,16 @@ namespace Designer_Offer.ViewModels
                 return;
             }
 
-            new_build = RepositoryBuilds.Add(new_build);
+            SelectedClient.Build.Add(new_build);
 
-            Clients.Remove(Clients.SingleOrDefault(c => c.Id == new_build.Client_Id));
+            RepositoryClients.Update(SelectedClient);
 
-            Client new_client = RepositoryClients.Get((int)new_build.Client_Id);
-
-            Clients.Add(new_client);
+            FilterBuild.Execute(null);
 
             ClientsViewSource.View.Refresh();
 
             OnPropertyChanged(nameof(ClientsView));
 
-            SelectedClient = new_client;
             SelectedBuild = new_build;
         }
         /// <summary>
@@ -650,8 +643,6 @@ namespace Designer_Offer.ViewModels
             {
                 return;
             }
-
-            Builds.Remove(build_to_remove);
             
             SelectedClient.Build.Remove(build_to_remove);
 
@@ -711,8 +702,6 @@ namespace Designer_Offer.ViewModels
             IRepository<Client> repaClient,
             IRepository<Section> repaSection,
             IRepository<Build> repaBuild,
-            IRepository<Project> repaProject,
-            IRepository<Offer> repaOffer,
             IUserDialog userDialog)
         {
             Progress = true;

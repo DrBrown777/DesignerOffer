@@ -321,7 +321,13 @@
                         <DataGridTextColumn
                             Header="Раздел"
                             Binding="{Binding Path=Section.Name}"
-                            Width="0.3*"/>
+                            Width="0.3*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextWrapping" Value="Wrap"></Setter>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                         <DataGridTextColumn
                             Header="Дата"
                             Binding="{Binding Path=Date, StringFormat=dd/MM/yy}"
