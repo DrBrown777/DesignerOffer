@@ -29,6 +29,17 @@
             <Setter Property="CanUserAddRows" Value="False" />
             <Setter Property="CanUserDeleteRows" Value="False"/>
             <Setter Property="IsReadOnly" Value="True"/>
+            <Style.Triggers>
+                <Trigger Property="HasItems" Value="False">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <TextBlock Margin="5">данные не найдены</TextBlock>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
         </Style>
         <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
             <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>
