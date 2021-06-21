@@ -496,9 +496,18 @@ namespace Designer_Offer.ViewModels
                 return;
             }
 
-            Clients.Add(RepositoryClients.Add(new_client));
-
-            SelectedClient = new_client;
+            try
+            {
+                Clients.Add(RepositoryClients.Add(new_client));
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                SelectedClient = new_client;
+            }
         }
         /// <summary>
         /// Редактирование клиента
@@ -519,11 +528,20 @@ namespace Designer_Offer.ViewModels
                 return;
             }
 
-            RepositoryClients.Update(client_to_edit);
+            try
+            {
+                RepositoryClients.Update(client_to_edit);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                ClientsViewSource.View.Refresh();
 
-            ClientsViewSource.View.Refresh();
-
-            SelectedClient = client_to_edit;
+                SelectedClient = client_to_edit;
+            }
         }
         /// <summary>
         /// Удаление клиента
@@ -544,13 +562,22 @@ namespace Designer_Offer.ViewModels
                 return;
             }
 
-            RepositoryClients.Remove(client_to_remove.Id);
-
-            Clients.Remove(client_to_remove);
-
-            if (ReferenceEquals(SelectedClient, client_to_remove))
+            try
             {
-                SelectedClient = null;
+                RepositoryClients.Remove(client_to_remove.Id);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                Clients.Remove(client_to_remove);
+
+                if (ReferenceEquals(SelectedClient, client_to_remove))
+                {
+                    SelectedClient = null;
+                }
             }
         }
 
@@ -583,17 +610,26 @@ namespace Designer_Offer.ViewModels
                 return;
             }
 
-            SelectedClient.Build.Add(new_build);
+            try
+            {
+                SelectedClient.Build.Add(new_build);
 
-            RepositoryClients.Update(SelectedClient);
+                RepositoryClients.Update(SelectedClient);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                FilterBuild.Execute(null);
 
-            FilterBuild.Execute(null);
+                ClientsViewSource.View.Refresh();
 
-            ClientsViewSource.View.Refresh();
+                OnPropertyChanged(nameof(ClientsView));
 
-            OnPropertyChanged(nameof(ClientsView));
-
-            SelectedBuild = new_build;
+                SelectedBuild = new_build;
+            }
         }
         /// <summary>
         /// Редактирование обьекта
@@ -614,16 +650,25 @@ namespace Designer_Offer.ViewModels
                 return;
             }
 
-            RepositoryClients.Update(build_to_edit.Client);
+            try
+            {
+                RepositoryClients.Update(build_to_edit.Client);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                FilterBuild.Execute(null);
 
-            FilterBuild.Execute(null);
+                ClientsViewSource.View.Refresh();
 
-            ClientsViewSource.View.Refresh();
+                OnPropertyChanged(nameof(ClientsView));
 
-            OnPropertyChanged(nameof(ClientsView));
-
-            SelectedClient = build_to_edit.Client;
-            SelectedBuild = build_to_edit;
+                SelectedClient = build_to_edit.Client;
+                SelectedBuild = build_to_edit;
+            }
         }
         /// <summary>
         /// Удаление обьекта
@@ -643,22 +688,31 @@ namespace Designer_Offer.ViewModels
             {
                 return;
             }
-            
-            SelectedClient.Build.Remove(build_to_remove);
 
-            RepositoryClients.Update(SelectedClient);
-
-            RepositoryBuilds.Remove(build_to_remove.Id);
-
-            FilterBuild.Execute(null);
-
-            ClientsViewSource.View.Refresh();
-
-            OnPropertyChanged(nameof(ClientsView));
-
-            if (ReferenceEquals(SelectedBuild, build_to_remove))
+            try
             {
-                SelectedBuild = null;
+                SelectedClient.Build.Remove(build_to_remove);
+
+                RepositoryClients.Update(SelectedClient);
+
+                RepositoryBuilds.Remove(build_to_remove.Id);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                FilterBuild.Execute(null);
+
+                ClientsViewSource.View.Refresh();
+
+                OnPropertyChanged(nameof(ClientsView));
+
+                if (ReferenceEquals(SelectedBuild, build_to_remove))
+                {
+                    SelectedBuild = null;
+                }
             }
         }
 
