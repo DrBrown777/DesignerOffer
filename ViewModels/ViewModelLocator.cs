@@ -14,6 +14,9 @@ namespace Designer_Offer.ViewModels
         public ProjectManagerViewModel ProjectManagerView =>
            App.Host.Services.GetRequiredService<ProjectManagerViewModel>();
 
+        public CompanyManagerViewModel CompanyManagerView =>
+            App.Host.Services.GetRequiredService<CompanyManagerViewModel>();
+
         public LoginViewModel LoginView =>
             (LoginViewModel)App.Host.Services.GetRequiredService<ILoginService>();
 

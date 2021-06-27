@@ -31,7 +31,30 @@ namespace Designer_Offer.ViewModels
             CurrentModel = App.Host.Services.GetRequiredService<ProjectManagerViewModel>();
         }
 
-        private bool CanShowProjectManagerCommand(object p) => true && CurrentModel == null;
+        private bool CanShowProjectManagerCommand(object p)
+        {
+            if (!ReferenceEquals(CurrentModel, App.Host.Services.GetRequiredService<ProjectManagerViewModel>()))
+                return true;
+
+            return false;
+        }
+        /// <summary>
+        /// Команда отображения страницы Менеджера Компаний
+        /// </summary>
+        public ICommand ShowCompanyManager { get; }
+
+        private void OnShowCompanyManagerCommand(object p)
+        {
+            CurrentModel = App.Host.Services.GetRequiredService<CompanyManagerViewModel>();
+        }
+
+        private bool CanShowCompanyManagerCommand(object p)
+        {
+            if (!ReferenceEquals(CurrentModel, App.Host.Services.GetRequiredService<CompanyManagerViewModel>()))
+                return true;
+            
+            return false;
+        }
         #endregion
 
         #region КОНСТРУКТОРЫ
@@ -39,6 +62,7 @@ namespace Designer_Offer.ViewModels
         public WorkWindowViewModel()
         {
             ShowProjectManager = new LambdaCommand(OnShowProjectManagerCommand, CanShowProjectManagerCommand);
+            ShowCompanyManager = new LambdaCommand(OnShowCompanyManagerCommand, CanShowCompanyManagerCommand);
         }
         #endregion
     }

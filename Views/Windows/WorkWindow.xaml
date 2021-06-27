@@ -83,13 +83,15 @@
             </MenuItem>
             <MenuItem Header="_Настройки">
                 <MenuItem
-                    Header="Редактирование компаний"
-                    Icon="{materialDesign:PackIcon Kind=Domain}"/>
+                    Header="Управление проектами"
+                    Icon="{materialDesign:PackIcon Kind=Domain}"
+                    Command="{Binding Path=ShowProjectManager}"/>
                 <MenuItem
-                    Header="Редактирование менеджеров"
-                    Icon="{materialDesign:PackIcon Kind=Account}"/>
+                    Header="Управление компанией"
+                    Icon="{materialDesign:PackIcon Kind=Account}"
+                    Command="{Binding Path=ShowCompanyManager}"/>
                 <MenuItem
-                    Header="Редактирование разделов"
+                    Header="Управление услугами"
                     Icon="{materialDesign:PackIcon Kind=VectorIntersection}"/>
             </MenuItem>
             <MenuItem Header="_Справка"/>

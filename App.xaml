@@ -28,6 +28,10 @@
             <DataTemplate DataType="{x:Type vm:ProjectManagerViewModel}">
                 <view:ProjectManager />
             </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:CompanyManagerViewModel}">
+                <view:CompanyManager />
+            </DataTemplate>
             
         </ResourceDictionary>
     </Application.Resources>
