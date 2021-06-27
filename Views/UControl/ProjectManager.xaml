@@ -29,6 +29,7 @@
             <Setter Property="CanUserAddRows" Value="False" />
             <Setter Property="CanUserDeleteRows" Value="False"/>
             <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="Margin" Value="0,5,0,5"/>
             <Style.Triggers>
                 <Trigger Property="HasItems" Value="False">
                     <Setter Property="Template">
@@ -48,6 +49,9 @@
         <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
             <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>
         </Style>
+        <Style TargetType="ListBox" BasedOn="{StaticResource MaterialDesignListBox}">
+            <Setter Property="Margin" Value="0,5,0,5"/>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -64,6 +68,36 @@
                       Grid.Column="0" 
                       Grid.Row="0">
             <DockPanel>
+                <materialDesign:PopupBox
+                        Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                        PlacementMode="LeftAndAlignMiddles"
+                        UnfurlOrientation="Horizontal"
+                        ToolTip="Управление клиентами"
+                        ToolTipService.Placement="Top"
+                        Height="40" Width="40"
+                        Margin="0,0,10,5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
+                    <StackPanel Orientation="Horizontal">
+                        <Button
+                            ToolTip="Добавить" ToolTipService.Placement="Top"
+                                Command="{Binding Path=AddClient}">
+                            <materialDesign:PackIcon Kind="PlusBold" />
+                        </Button>
+                        <Button
+                            ToolTip="Редактировать" ToolTipService.Placement="Top"
+                                Command="{Binding Path=EditClient}"
+                                CommandParameter="{Binding Path=SelectedClient}">
+                            <materialDesign:PackIcon Kind="Edit" />
+                        </Button>
+                        <Button
+                            ToolTip="Удалить" ToolTipService.Placement="Top" 
+                                Command="{Binding Path=RemoveClient}"
+                                CommandParameter="{Binding Path=SelectedClient}">
+                            <materialDesign:PackIcon Kind="Delete" />
+                        </Button>
+                    </StackPanel>
+                </materialDesign:PopupBox>
                 <DockPanel DockPanel.Dock="Top">
                     <materialDesign:PackIcon DockPanel.Dock="Left" 
                                              Height="25" 
@@ -71,10 +105,9 @@
                     <TextBox DockPanel.Dock="Right"
                              Text="{Binding Path=ClientFilter, UpdateSourceTrigger=PropertyChanged}"/>
                 </DockPanel>
-                <ListBox DockPanel.Dock="Top"
+                <ListBox
                     ItemsSource="{Binding Path=ClientsView, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedItem="{Binding Path=SelectedClient}"
-                    Margin="0,5,0,0">
+                    SelectedItem="{Binding Path=SelectedClient}">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -97,38 +130,6 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </ListBox>
-                <Grid DockPanel.Dock="Bottom">
-                    <materialDesign:PopupBox
-                        Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
-                        PlacementMode="LeftAndAlignMiddles"
-                        UnfurlOrientation="Horizontal"
-                        ToolTip="Управление клиентами"
-                        ToolTipService.Placement="Top"
-                        Height="40" Width="40"
-                        Margin="0,0,10,10"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom">
-                        <StackPanel Orientation="Horizontal">
-                            <Button
-                            ToolTip="Добавить" ToolTipService.Placement="Top"
-                                Command="{Binding Path=AddClient}">
-                                <materialDesign:PackIcon Kind="PlusBold" />
-                            </Button>
-                            <Button
-                            ToolTip="Редактировать" ToolTipService.Placement="Top"
-                                Command="{Binding Path=EditClient}"
-                                CommandParameter="{Binding Path=SelectedClient}">
-                                <materialDesign:PackIcon Kind="Edit" />
-                            </Button>
-                            <Button
-                            ToolTip="Удалить" ToolTipService.Placement="Top" 
-                                Command="{Binding Path=RemoveClient}"
-                                CommandParameter="{Binding Path=SelectedClient}">
-                                <materialDesign:PackIcon Kind="Delete" />
-                            </Button>
-                        </StackPanel>
-                    </materialDesign:PopupBox>
-                </Grid>
             </DockPanel>
         </GroupBox>
         <GroupBox Header="Проекты"
@@ -153,6 +154,37 @@
                       Grid.Column="1" 
                       Grid.ColumnSpan="2">
             <DockPanel>
+                <materialDesign:PopupBox 
+                        Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                        PlacementMode="LeftAndAlignMiddles"
+                        UnfurlOrientation="Horizontal"
+                        ToolTip="Управление обьектами"
+                        ToolTipService.Placement="Top"
+                        Height="40" Width="40"
+                        Margin="0,0,10,5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
+                    <StackPanel Orientation="Horizontal">
+                        <Button
+                                ToolTip="Добавить" ToolTipService.Placement="Top"
+                                Command="{Binding Path=AddBuild}"
+                                CommandParameter="{Binding Path=SelectedClient}">
+                            <materialDesign:PackIcon Kind="PlusBold" />
+                        </Button>
+                        <Button
+                                ToolTip="Редактировать" ToolTipService.Placement="Top"
+                                Command="{Binding Path=EditBuild}"
+                                CommandParameter="{Binding Path=SelectedBuild}">
+                            <materialDesign:PackIcon Kind="Edit" />
+                        </Button>
+                        <Button
+                                ToolTip="Удалить" ToolTipService.Placement="Top" 
+                                Command="{Binding Path=RemoveBuild}"
+                                CommandParameter="{Binding Path=SelectedBuild}">
+                            <materialDesign:PackIcon Kind="Delete" />
+                        </Button>
+                    </StackPanel>
+                </materialDesign:PopupBox>
                 <DataGrid DockPanel.Dock="Top"
                     ItemsSource="{Binding Path=Builds}"
                     SelectedItem="{Binding Path=SelectedBuild}"
@@ -183,39 +215,6 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </DataGrid>
-                <Grid DockPanel.Dock="Bottom">
-                    <materialDesign:PopupBox 
-                        Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
-                        PlacementMode="LeftAndAlignMiddles"
-                        UnfurlOrientation="Horizontal"
-                        ToolTip="Управление обьектами"
-                        ToolTipService.Placement="Top"
-                        Height="40" Width="40"
-                        Margin="0,0,10,10"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom">
-                        <StackPanel Orientation="Horizontal">
-                            <Button
-                                ToolTip="Добавить" ToolTipService.Placement="Top"
-                                Command="{Binding Path=AddBuild}"
-                                CommandParameter="{Binding Path=SelectedClient}">
-                                    <materialDesign:PackIcon Kind="PlusBold" />
-                            </Button>
-                            <Button
-                                ToolTip="Редактировать" ToolTipService.Placement="Top"
-                                Command="{Binding Path=EditBuild}"
-                                CommandParameter="{Binding Path=SelectedBuild}">
-                                    <materialDesign:PackIcon Kind="Edit" />
-                            </Button>
-                            <Button
-                                ToolTip="Удалить" ToolTipService.Placement="Top" 
-                                Command="{Binding Path=RemoveBuild}"
-                                CommandParameter="{Binding Path=SelectedBuild}">
-                                    <materialDesign:PackIcon Kind="Delete" />
-                            </Button>
-                        </StackPanel>
-                    </materialDesign:PopupBox>
-                </Grid>
             </DockPanel>
         </GroupBox>
         <GroupBox  Header="Навигация" 
@@ -314,6 +313,34 @@
                        Grid.Column="3"
                        Grid.Row="0">
             <DockPanel>
+                <materialDesign:PopupBox 
+                        Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                        PlacementMode="LeftAndAlignMiddles"
+                        UnfurlOrientation="Horizontal"
+                        ToolTip="Управление КП"
+                        ToolTipService.Placement="Top"
+                        Height="40" Width="40"
+                        Margin="0,0,10,5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
+                    <StackPanel Orientation="Horizontal">
+                        <Button
+                                ToolTip="Добавить" ToolTipService.Placement="Top"
+                                Command="">
+                            <materialDesign:PackIcon Kind="PlusBold" />
+                        </Button>
+                        <Button
+                                ToolTip="Редактировать" ToolTipService.Placement="Top"
+                                Command="">
+                            <materialDesign:PackIcon Kind="Edit" />
+                        </Button>
+                        <Button
+                                ToolTip="Удалить" ToolTipService.Placement="Top" 
+                                Command="">
+                            <materialDesign:PackIcon Kind="Delete" />
+                        </Button>
+                    </StackPanel>
+                </materialDesign:PopupBox>
                 <DataGrid DockPanel.Dock="Top"
                     ItemsSource="{Binding Path=Offers}"
                     SelectedItem="{Binding Path=SelectedOffer}"
@@ -350,36 +377,6 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </DataGrid>
-                <Grid DockPanel.Dock="Bottom">
-                    <materialDesign:PopupBox 
-                        Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
-                        PlacementMode="LeftAndAlignMiddles"
-                        UnfurlOrientation="Horizontal"
-                        ToolTip="Управление КП"
-                        ToolTipService.Placement="Top"
-                        Height="40" Width="40"
-                        Margin="0,0,10,10"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom">
-                        <StackPanel Orientation="Horizontal">
-                            <Button
-                                ToolTip="Добавить" ToolTipService.Placement="Top"
-                                Command="">
-                                    <materialDesign:PackIcon Kind="PlusBold" />
-                            </Button>
-                            <Button
-                                ToolTip="Редактировать" ToolTipService.Placement="Top"
-                                Command="">
-                                    <materialDesign:PackIcon Kind="Edit" />
-                            </Button>
-                            <Button
-                                ToolTip="Удалить" ToolTipService.Placement="Top" 
-                                Command="">
-                                    <materialDesign:PackIcon Kind="Delete" />
-                            </Button>
-                        </StackPanel>
-                    </materialDesign:PopupBox>
-                </Grid>
             </DockPanel>
         </GroupBox>
         <GroupBox  Header="Стоимость" 

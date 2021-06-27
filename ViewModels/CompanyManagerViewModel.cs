@@ -81,6 +81,7 @@ namespace Designer_Offer.ViewModels
             get => _Progress;
             set => Set(ref _Progress, value);
         }
+
         private ObservableCollection<Employee> _Employees;
         /// <summary>
         /// Сотрудники
@@ -90,6 +91,16 @@ namespace Designer_Offer.ViewModels
             get => _Employees;
             set => Set(ref _Employees, value);
         }
+        private Employee _SelectedEmployee;
+        /// <summary>
+        /// Выбранный сотрудник
+        /// </summary>
+        public Employee SelectedEmployee
+        {
+            get => _SelectedEmployee;
+            set => Set(ref _SelectedEmployee, value);
+        }
+
         private ObservableCollection<Company> _Companies;
         /// <summary>
         /// Компании
@@ -99,6 +110,16 @@ namespace Designer_Offer.ViewModels
             get => _Companies;
             set => Set(ref _Companies, value);
         }
+        private Company _SelectedCompany;
+        /// <summary>
+        /// Выбранная компания
+        /// </summary>
+        public Company SelectedCompany
+        {
+            get => _SelectedCompany;
+            set => Set(ref _SelectedCompany, value);
+        }
+
         private ObservableCollection<Position> _Positions;
         /// <summary>
         /// Должности
@@ -108,6 +129,16 @@ namespace Designer_Offer.ViewModels
             get => _Positions;
             set => Set(ref _Positions, value);
         }
+        private Position _SelectedPosition;
+        /// <summary>
+        /// Выбранная должность
+        /// </summary>
+        public Position SelectedPosition
+        {
+            get => _SelectedPosition;
+            set => Set(ref _SelectedPosition, value);
+        }
+
         private ObservableCollection<Section> _Sections;
         /// <summary>
         /// Разделы
@@ -116,6 +147,15 @@ namespace Designer_Offer.ViewModels
         {
             get => _Sections;
             set => Set(ref _Sections, value);
+        }
+        private Section _SelectedSection;
+        /// <summary>
+        /// Выбранный раздел
+        /// </summary>
+        public Section SelectedSection
+        {
+            get => _SelectedSection;
+            set => Set(ref _SelectedSection, value);
         }
         #endregion
 

@@ -26,11 +26,25 @@
             <Setter Property="Margin" Value="3px"/>
         </Style>
         <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
-            <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>
             <Setter Property="Height" Value="25"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="IsReadOnly" Value="True"/>
         </Style>
         <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
             <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>
+        </Style>
+        <Style TargetType="ListBox" BasedOn="{StaticResource MaterialDesignListBox}">
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+        <Style TargetType="Label" BasedOn="{StaticResource MaterialDesignLabel}">
+            <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="Margin" Value="3"/>
+        </Style>
+        <Style x:Key="Button" TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatMidBgButton}">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Padding" Value="10,3"/>
+            <Setter Property="Opacity" Value="0.8"/>
+            <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth2"/>
         </Style>
     </UserControl.Resources>
     <Grid>
@@ -47,41 +61,250 @@
         <GroupBox Header="Компании"
                   Grid.Column="0"
                   Grid.Row="0">
+            <DockPanel>
+                <materialDesign:PopupBox
+                        Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                        PlacementMode="LeftAndAlignMiddles"
+                        UnfurlOrientation="Horizontal"
+                        ToolTip="Управление компаниями"
+                        ToolTipService.Placement="Top"
+                        Height="40" Width="40"
+                        Margin="0,0,10,5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
+                    <StackPanel Orientation="Horizontal">
+                        <Button
+                            ToolTip="Добавить" ToolTipService.Placement="Top"
+                                Command="">
+                            <materialDesign:PackIcon Kind="PencilPlus" />
+                        </Button>
+                        <Button
+                            ToolTip="Редактировать" ToolTipService.Placement="Top"
+                                Command=""
+                                CommandParameter="">
+                            <materialDesign:PackIcon Kind="Pencil" />
+                        </Button>
+                        <Button
+                            ToolTip="Удалить" ToolTipService.Placement="Top" 
+                                Command=""
+                                CommandParameter="">
+                            <materialDesign:PackIcon Kind="Delete" />
+                        </Button>
+                    </StackPanel>
+                </materialDesign:PopupBox>
+                <ListBox DockPanel.Dock="Top"
+                         ItemsSource="{Binding Path=Companies, UpdateSourceTrigger=PropertyChanged}"
+                         SelectedItem="{Binding Path=SelectedCompany}"
+                         DisplayMemberPath="Name"
+                         SelectedIndex="0">
+
+                </ListBox>
+            </DockPanel>
             
         </GroupBox>
-        <GroupBox Header="Информация о компании"
+        <GroupBox Header="Информация о компании" DataContext="{Binding Path=SelectedCompany}"
                   Grid.Column="1"
                   Grid.Row="0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <Label Content="Название: "/>
+                    <TextBox Text="{Binding Path=Name}"/>
+                    <Label Content="Адрес: "/>
+                    <TextBox Text="{Binding Path=Adress}"/>
+                    <Label Content="Почта: "/>
+                    <TextBox Text="{Binding Path=Mail}"/>
+                    <Label Content="Телефон: "/>
+                    <TextBox Text="{Binding Path=Phone}"/>
+                    <Label Content="Кол-во сотрудников: "/>
+                    <TextBox Text="{Binding Path=Employee.Count, Mode=OneWay}"/>
+                    <Label Content="Кол-во должностей: "/>
+                    <TextBox Text="{Binding Path=Position.Count, Mode=OneWay}"/>
+                </StackPanel>
+            </ScrollViewer>
 
         </GroupBox>
         <GroupBox Header="Сотрудники"
                   Grid.Column="2"
                   Grid.Row="0">
+            <DockPanel>
+                <materialDesign:PopupBox
+                        Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                        PlacementMode="LeftAndAlignMiddles"
+                        UnfurlOrientation="Horizontal"
+                        ToolTip="Управление сотрудниками"
+                        ToolTipService.Placement="Top"
+                        Height="40" Width="40"
+                        Margin="0,0,10,5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
+                    <StackPanel Orientation="Horizontal">
+                        <Button
+                            ToolTip="Добавить" ToolTipService.Placement="Top"
+                                Command="">
+                            <materialDesign:PackIcon Kind="PencilPlus" />
+                        </Button>
+                        <Button
+                            ToolTip="Редактировать" ToolTipService.Placement="Top"
+                                Command=""
+                                CommandParameter="">
+                            <materialDesign:PackIcon Kind="Pencil" />
+                        </Button>
+                        <Button
+                            ToolTip="Удалить" ToolTipService.Placement="Top" 
+                                Command=""
+                                CommandParameter="">
+                            <materialDesign:PackIcon Kind="Delete" />
+                        </Button>
+                    </StackPanel>
+                </materialDesign:PopupBox>
+                <ListBox DockPanel.Dock="Top"
+                         ItemsSource="{Binding Path=Employees, UpdateSourceTrigger=PropertyChanged}"
+                         SelectedItem="{Binding Path=SelectedEmployee}"
+                         DisplayMemberPath="Last_Name"
+                         SelectedIndex="0">
+
+                </ListBox>
+            </DockPanel>
 
         </GroupBox>
-        <GroupBox Header="Информация о сотруднике"
+        <GroupBox Header="Информация о сотруднике" DataContext="{Binding Path=SelectedEmployee}"
                   Grid.Column="3"
                   Grid.Row="0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <Label Content="Фамилия: "/>
+                    <TextBox Text="{Binding Path=Last_Name}" />
+                    <Label Content="Имя: "/>
+                    <TextBox Text="{Binding Path=First_Name}"/>
+                    <Label Content="Почта: "/>
+                    <TextBox Text="{Binding Path=Mail}"/>
+                    <Label Content="Телефон: "/>
+                    <TextBox Text="{Binding Path=Phone}"/>
+                    <Label Content="Должность: "/>
+                    <TextBox Text="{Binding Path=Position.Name}"/>
+                    <Label Content="Компания: "/>
+                    <TextBox Text="{Binding Path=Company.Name}"/>
+                    <Label Content="Кол-во обьектов: "/>
+                    <TextBox Text="{Binding Path=Project.Count, Mode=OneWay}"/>
+                </StackPanel>
+            </ScrollViewer>
 
         </GroupBox>
         <GroupBox Header="Должности"
                   Grid.Column="0"
                   Grid.Row="1">
+            <DockPanel>
+                <materialDesign:PopupBox
+                        Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                        PlacementMode="LeftAndAlignMiddles"
+                        UnfurlOrientation="Horizontal"
+                        ToolTip="Управление должностями"
+                        ToolTipService.Placement="Top"
+                        Height="40" Width="40"
+                        Margin="0,0,10,5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
+                    <StackPanel Orientation="Horizontal">
+                        <Button
+                            ToolTip="Добавить" ToolTipService.Placement="Top"
+                                Command="">
+                            <materialDesign:PackIcon Kind="PencilPlus" />
+                        </Button>
+                        <Button
+                            ToolTip="Редактировать" ToolTipService.Placement="Top"
+                                Command=""
+                                CommandParameter="">
+                            <materialDesign:PackIcon Kind="Pencil" />
+                        </Button>
+                        <Button
+                            ToolTip="Удалить" ToolTipService.Placement="Top" 
+                                Command=""
+                                CommandParameter="">
+                            <materialDesign:PackIcon Kind="Delete" />
+                        </Button>
+                    </StackPanel>
+                </materialDesign:PopupBox>
+                <ListBox DockPanel.Dock="Top"
+                         ItemsSource="{Binding Path=Positions, UpdateSourceTrigger=PropertyChanged}"
+                         SelectedItem="{Binding Path=SelectedPosition}"
+                         DisplayMemberPath="Name"
+                         SelectedIndex="0">
+
+                </ListBox>
+                
+            </DockPanel>
 
         </GroupBox>
-        <GroupBox Header="Информация о должности"
+        <GroupBox Header="Информация о должности" DataContext="{Binding Path=SelectedPosition}"
                   Grid.Column="1"
                   Grid.Row="1">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <Label Content="Название: "/>
+                    <TextBox Text="{Binding Path=Name}"/>
+                    <Label Content="Кол-во сотруников: "/>
+                    <TextBox Text="{Binding Path=Employee.Count, Mode=OneWay}"/>
+                    <Label Content="Кол-во компаний: "/>
+                    <TextBox Text="{Binding Path=Company.Count, Mode=OneWay}"/>
+                </StackPanel>
+            </ScrollViewer>
 
         </GroupBox>
         <GroupBox Header="Разделы"
                   Grid.Column="2"
                   Grid.Row="1">
+            <DockPanel>
+                <materialDesign:PopupBox
+                        Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                        PlacementMode="LeftAndAlignMiddles"
+                        UnfurlOrientation="Horizontal"
+                        ToolTip="Управление разделами"
+                        ToolTipService.Placement="Top"
+                        Height="40" Width="40"
+                        Margin="0,0,10,5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
+                    <StackPanel Orientation="Horizontal">
+                        <Button
+                            ToolTip="Добавить" ToolTipService.Placement="Top"
+                                Command="">
+                            <materialDesign:PackIcon Kind="PencilPlus" />
+                        </Button>
+                        <Button
+                            ToolTip="Редактировать" ToolTipService.Placement="Top"
+                                Command=""
+                                CommandParameter="">
+                            <materialDesign:PackIcon Kind="Pencil" />
+                        </Button>
+                        <Button
+                            ToolTip="Удалить" ToolTipService.Placement="Top" 
+                                Command=""
+                                CommandParameter="">
+                            <materialDesign:PackIcon Kind="Delete" />
+                        </Button>
+                    </StackPanel>
+                </materialDesign:PopupBox>
+                <ListBox DockPanel.Dock="Top"
+                         ItemsSource="{Binding Path=Sections, UpdateSourceTrigger=PropertyChanged}"
+                         SelectedItem="{Binding Path=SelectedSection}"
+                         DisplayMemberPath="Name"
+                         SelectedIndex="0">
+
+                </ListBox>
+            </DockPanel>
 
         </GroupBox>
-        <GroupBox Header="Информация о разделах"
+        <GroupBox Header="Информация о разделах" DataContext="{Binding Path=SelectedSection}"
                   Grid.Column="3"
                   Grid.Row="1">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <Label Content="Название: "/>
+                    <TextBox Text="{Binding Path=Name}"/>
+                    <Label Content="Кол-во КП: "/>
+                    <TextBox Text="{Binding Path=Offer.Count, Mode=OneWay}"/>
+                </StackPanel>
+            </ScrollViewer>
 
         </GroupBox>
     </Grid>
