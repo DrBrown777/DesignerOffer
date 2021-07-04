@@ -210,6 +210,43 @@ namespace Designer_Offer.ViewModels
         }
         #endregion
 
+        #region добавление удаление данных
+        /// <summary>
+        /// Добавление новой компании
+        /// </summary>
+        public ICommand AddNewCompany { get; }
+
+        private bool CanAddNewCompany(object p) => true;
+
+        private void OnAddNewCompany(object p)
+        {
+            Company new_company = new Company();
+
+            if (!UserDialog.Edit(new_company))
+            {
+                return;
+            }
+
+            try
+            {
+                foreach (var item in Positions)
+                {
+                    item.Company.Add(new_company);
+                }
+
+                Companies.Add(RepositoryCompanies.Add(new_company));
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                SelectedCompany = new_company;
+            }
+        }
+
+        #endregion
         #endregion
 
         #region КОНСТРУКТОРЫ
@@ -230,6 +267,7 @@ namespace Designer_Offer.ViewModels
             RepositorySections = repaSections;
 
             LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
+            AddNewCompany = new LambdaCommand(OnAddNewCompany, CanAddNewCompany);
         }
         #endregion
     }

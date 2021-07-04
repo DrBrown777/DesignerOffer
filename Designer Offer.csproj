@@ -236,6 +236,7 @@
     <Compile Include="Services\UserDialogService.cs" />
     <Compile Include="ViewModels\BuildEditorViewModel.cs" />
     <Compile Include="ViewModels\ClientEditorViewModel.cs" />
+    <Compile Include="ViewModels\CompanyEditorViewModel.cs" />
     <Compile Include="ViewModels\CompanyManagerViewModel.cs" />
     <Compile Include="ViewModels\ProjectManagerViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
@@ -251,6 +252,9 @@
     </Compile>
     <Compile Include="Views\Windows\ClientEditorWindow.xaml.cs">
       <DependentUpon>ClientEditorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\CompanyEditorWindow.xaml.cs">
+      <DependentUpon>CompanyEditorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\WorkWindow.xaml.cs">
       <DependentUpon>WorkWindow.xaml</DependentUpon>
@@ -276,6 +280,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Windows\ClientEditorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\CompanyEditorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -75,7 +75,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Button
                             ToolTip="Добавить" ToolTipService.Placement="Top"
-                                Command="">
+                                Command="{Binding Path=AddNewCompany}">
                             <materialDesign:PackIcon Kind="PencilPlus" />
                         </Button>
                         <Button

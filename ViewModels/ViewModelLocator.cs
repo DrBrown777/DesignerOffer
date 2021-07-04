@@ -28,5 +28,8 @@ namespace Designer_Offer.ViewModels
 
         public BuildEditorViewModel BuildEditorView =>
             App.Host.Services.GetRequiredService<BuildEditorViewModel>();
+
+        public CompanyEditorViewModel CompanyEditorView =>
+            App.Host.Services.GetRequiredService<CompanyEditorViewModel>();
     }
 }
