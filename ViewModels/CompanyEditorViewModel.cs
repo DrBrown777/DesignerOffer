@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Designer_Offer.ViewModels
@@ -75,28 +76,23 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Position, value);
         }
 
-        private Position _SelPos;
-
-        public Position SelPos
-        {
-            get => _SelPos;
-            set => Set(ref _SelPos, value);
-        }
-
+        /// <summary>
+        /// Добавление позиций в компанию
+        /// </summary>
         public ICommand AddPos { get; }
 
         private bool CanAddPos(object p) => true;
 
         private void OnAddPos(object p)
         {
-            if (CompanyPosition.Contains((Position)p))
-            {
-                CompanyPosition.Remove((Position)p);
+            var listBox = (ListBox)p;
 
-                return;
+            CompanyPosition.Clear();
+
+            foreach (Position item in listBox.SelectedItems)
+            { 
+                CompanyPosition.Add(item);
             }
-
-            CompanyPosition.Add((Position)p);
         }
 
         public CompanyEditorViewModel(IRepository<Position> repaposition)

@@ -130,10 +130,11 @@
                      Grid.Row="4" Grid.Column="1"
                      ItemsSource="{Binding Path=Position, UpdateSourceTrigger=PropertyChanged}"
                      DisplayMemberPath="Name"
-                     SelectedItem="{Binding Path=SelPos}" SelectionMode="Multiple">
+                     SelectionMode="Multiple">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding Path=AddPos}" CommandParameter="{Binding Path=SelPos}"/>
+                        <i:InvokeCommandAction Command="{Binding Path=AddPos}" 
+                                               CommandParameter="{Binding ElementName=CompanyPosition}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ListBox>
