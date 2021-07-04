@@ -48,9 +48,9 @@
             <Setter Property="Height" Value="20"/>
             <Setter Property="Foreground" Value="#FF436EB1"/>
         </Style>
-        <Style x:Key="ListBox" TargetType="ListBox" BasedOn="{StaticResource MaterialDesignFilterChipPrimaryListBox}">
+        <Style x:Key="ListBox" TargetType="ListBox" BasedOn="{StaticResource MaterialDesignListBox}">
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="Margin" Value="3"/>
             <Setter Property="Padding" Value="10,3"/>
         </Style>
@@ -128,8 +128,14 @@
                 Grid.Column="0" Grid.Row="4"/>
             <ListBox x:Name="CompanyPosition" Style="{StaticResource ListBox}" 
                      Grid.Row="4" Grid.Column="1"
-                     ItemsSource="{Binding Path=CompanyPosition}"
-                     DisplayMemberPath="Name">
+                     ItemsSource="{Binding Path=Position, UpdateSourceTrigger=PropertyChanged}"
+                     DisplayMemberPath="Name"
+                     SelectedItem="{Binding Path=SelPos}" SelectionMode="Multiple">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding Path=AddPos}" CommandParameter="{Binding Path=SelPos}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </ListBox>
         </Grid>
     </DockPanel>

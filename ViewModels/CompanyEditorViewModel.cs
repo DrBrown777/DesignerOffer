@@ -75,10 +75,35 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Position, value);
         }
 
+        private Position _SelPos;
+
+        public Position SelPos
+        {
+            get => _SelPos;
+            set => Set(ref _SelPos, value);
+        }
+
+        public ICommand AddPos { get; }
+
+        private bool CanAddPos(object p) => true;
+
+        private void OnAddPos(object p)
+        {
+            if (CompanyPosition.Contains((Position)p))
+            {
+                CompanyPosition.Remove((Position)p);
+
+                return;
+            }
+
+            CompanyPosition.Add((Position)p);
+        }
+
         public CompanyEditorViewModel(IRepository<Position> repaposition)
         {
             RepositoryPosition = repaposition;
-            //Position = CompanyPosition.ToList();
+            Position = RepositoryPosition.Items.ToList();
+            AddPos = new LambdaCommand(OnAddPos, CanAddPos);
         }
     }
 }
