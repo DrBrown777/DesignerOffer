@@ -86,7 +86,7 @@ namespace Designer_Offer.Services
             company_editor_model.Address = company.Adress;
             company_editor_model.Phone = company.Phone;
             company_editor_model.Email = company.Mail;
-            company_editor_model.CompanyPosition = company.Position.ToList();
+            company_editor_model.Position = company.Position.ToList();
 
             company_editor_window.DataContext = company_editor_model;
 

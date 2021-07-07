@@ -220,7 +220,10 @@ namespace Designer_Offer.ViewModels
 
         private void OnAddNewCompany(object p)
         {
-            Company new_company = new Company();
+            Company new_company = new Company
+            {
+                Position = Positions
+            };
 
             if (!UserDialog.Edit(new_company))
             {
@@ -229,14 +232,13 @@ namespace Designer_Offer.ViewModels
 
             try
             {
-                //new_company = RepositoryCompanies.Add(new_company);
-
-                //new_company.Position = Positions;
-
-                foreach (var item in Positions)
+                foreach (Position item in Positions)
                 {
-                    item.Company.Add(new_company);
-                    RepositoryPositions.Update(item);
+                    if (new_company.Position.Contains(item))
+                    {
+                        item.Company.Add(new_company);
+                        RepositoryPositions.Update(item);
+                    }
                 }
 
                 Companies.Add(new_company);

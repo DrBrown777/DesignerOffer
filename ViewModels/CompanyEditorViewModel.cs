@@ -14,8 +14,6 @@ namespace Designer_Offer.ViewModels
 {
     internal class CompanyEditorViewModel : ViewModel
     {
-        private readonly IRepository<Position> RepositoryPosition;
-
         private string _Name;
         /// <summary>
         /// Название компании
@@ -87,7 +85,7 @@ namespace Designer_Offer.ViewModels
         {
             var listBox = (ListBox)p;
 
-            CompanyPosition.Clear();
+            CompanyPosition?.Clear();
 
             foreach (Position item in listBox.SelectedItems)
             { 
@@ -95,11 +93,10 @@ namespace Designer_Offer.ViewModels
             }
         }
 
-        public CompanyEditorViewModel(IRepository<Position> repaposition)
+        public CompanyEditorViewModel()
         {
-            RepositoryPosition = repaposition;
-            Position = RepositoryPosition.Items.ToList();
             AddPos = new LambdaCommand(OnAddPos, CanAddPos);
+            CompanyPosition = new List<Position>();
         }
     }
 }

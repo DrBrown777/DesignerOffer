@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:Designer_Offer.Infrastructure.Validations"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="Редактор компаний" Height="400" Width="500"
+        Title="Редактор компаний" Height="460" Width="500"
         WindowStartupLocation="CenterScreen"
         DataContext="{Binding CompanyEditorView, Source={StaticResource Locator}}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -48,11 +48,12 @@
             <Setter Property="Height" Value="20"/>
             <Setter Property="Foreground" Value="#FF436EB1"/>
         </Style>
-        <Style x:Key="ListBox" TargetType="ListBox" BasedOn="{StaticResource MaterialDesignListBox}">
+        <Style x:Key="ListBox" TargetType="ListBox" BasedOn="{StaticResource MaterialDesignFilterChipPrimaryListBox}">
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="Margin" Value="3"/>
             <Setter Property="Padding" Value="10,3"/>
+            <Setter Property="Height" Value="80"/>
         </Style>
     </Window.Resources>
     <DockPanel Margin="3">
@@ -67,7 +68,7 @@
                         Command="{StaticResource DialogResultCommand}"
                         CommandParameter="False"/>
         </UniformGrid>
-        <Grid DockPanel.Dock="Top">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
