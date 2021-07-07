@@ -229,12 +229,17 @@ namespace Designer_Offer.ViewModels
 
             try
             {
+                //new_company = RepositoryCompanies.Add(new_company);
+
+                //new_company.Position = Positions;
+
                 foreach (var item in Positions)
                 {
                     item.Company.Add(new_company);
+                    RepositoryPositions.Update(item);
                 }
 
-                Companies.Add(RepositoryCompanies.Add(new_company));
+                Companies.Add(new_company);
             }
             catch (Exception e)
             {
