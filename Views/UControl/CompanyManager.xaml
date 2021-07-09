@@ -80,14 +80,14 @@
                         </Button>
                         <Button
                             ToolTip="Редактировать" ToolTipService.Placement="Top"
-                                Command=""
-                                CommandParameter="">
+                                Command="{Binding Path=EditCompany}"
+                                CommandParameter="{Binding Path=SelectedCompany}">
                             <materialDesign:PackIcon Kind="Pencil" />
                         </Button>
                         <Button
                             ToolTip="Удалить" ToolTipService.Placement="Top" 
-                                Command=""
-                                CommandParameter="">
+                                Command="{Binding Path=RemoveCompany}"
+                                CommandParameter="{Binding Path=SelectedCompany}">
                             <materialDesign:PackIcon Kind="Delete" />
                         </Button>
                     </StackPanel>
@@ -102,19 +102,19 @@
             </DockPanel>
             
         </GroupBox>
-        <GroupBox Header="Информация о компании" DataContext="{Binding Path=SelectedCompany}"
+        <GroupBox Header="Информация о компании" DataContext="{Binding Path=SelectedCompany, UpdateSourceTrigger=PropertyChanged}"
                   Grid.Column="1"
                   Grid.Row="0">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
                     <Label Content="Название: "/>
-                    <TextBox Text="{Binding Path=Name}"/>
+                    <TextBox Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Адрес: "/>
-                    <TextBox Text="{Binding Path=Adress}"/>
+                    <TextBox Text="{Binding Path=Adress, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Почта: "/>
-                    <TextBox Text="{Binding Path=Mail}"/>
+                    <TextBox Text="{Binding Path=Mail, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Телефон: "/>
-                    <TextBox Text="{Binding Path=Phone}"/>
+                    <TextBox Text="{Binding Path=Phone, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Кол-во сотрудников: "/>
                     <TextBox Text="{Binding Path=Employee.Count, Mode=OneWay}"/>
                     <Label Content="Кол-во должностей: "/>

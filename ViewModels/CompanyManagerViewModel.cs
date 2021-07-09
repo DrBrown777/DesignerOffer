@@ -252,6 +252,76 @@ namespace Designer_Offer.ViewModels
                 SelectedCompany = new_company;
             }
         }
+        /// <summary>
+        /// Редактирование компании
+        /// </summary>
+        public ICommand EditCompany { get; }
+
+        private bool CanEditCompany(object p)
+        {
+            return (Company)p != null && SelectedCompany != null;
+        }
+
+        private void OnEditCompany(object p)
+        {
+            Company company_to_edit = (Company)p ?? SelectedCompany;
+
+            if (!UserDialog.Edit(company_to_edit))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositoryCompanies.Update(company_to_edit);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                SelectedCompany = company_to_edit;
+            }
+        }
+
+        /// <summary>
+        /// Удаление компании
+        /// </summary>
+        public ICommand RemoveCompany { get; }
+
+        private bool CanRemoveCompany(object p)
+        {
+            return (Company)p != null && SelectedCompany != null;
+        }
+
+        private void OnRemoveCompany(object p)
+        {
+            Company company_to_remove = (Company)p ?? SelectedCompany;
+
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить компанию {company_to_remove.Name}?", "Удаление компании"))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositoryCompanies.Remove(company_to_remove.Id);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                Companies.Remove(company_to_remove);
+
+                if (ReferenceEquals(SelectedCompany, company_to_remove))
+                {
+                    SelectedCompany = null;
+                }
+            }
+        }
 
         #endregion
         #endregion
@@ -275,6 +345,8 @@ namespace Designer_Offer.ViewModels
 
             LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
             AddNewCompany = new LambdaCommand(OnAddNewCompany, CanAddNewCompany);
+            EditCompany = new LambdaCommand(OnEditCompany, CanEditCompany);
+            RemoveCompany = new LambdaCommand(OnRemoveCompany, CanRemoveCompany);
         }
         #endregion
     }
