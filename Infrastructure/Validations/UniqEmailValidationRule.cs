@@ -14,18 +14,11 @@ namespace Designer_Offer.Infrastructure.Validations
         private static readonly PrimeContext context;
         private static readonly IUserDialog userDialog;
 
-        private static readonly string pattern = @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
-                @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$";
-
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             try
             {
-                if (!Regex.IsMatch(value.ToString(), pattern))
-                {
-                    return new ValidationResult(false, "не валидный email");
-                }
-                else if (context.Employee.AsNoTracking().Where(e => e.Mail == value.ToString().Trim()).Any())
+                if (context.Employee.AsNoTracking().Where(e => e.Mail == value.ToString().Trim()).Any())
                 {
                     return new ValidationResult(false, "email должен быть уникален");
                 }

@@ -18,6 +18,12 @@
         TextOptions.TextRenderingMode="Aliased"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding Path=ChoicePosition}"
+                                   CommandParameter="{Binding ElementName=CompanyPosition}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Window.Resources>
         <cmd:DialogResultCommand x:Key="DialogResultCommand"/>
         <Style x:Key="Button" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedDarkButton}">
@@ -29,6 +35,23 @@
             <Setter Property="Margin" Value="3"/>
             <Setter Property="Padding" Value="10,3"/>
             <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth2"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=CompanyName}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=CompanyAddress}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=CompanyPhone}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=CompanyPhone}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=CompanyEmail}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
         <Style x:Key="UniformGrid" TargetType="UniformGrid">
             <Setter Property="Margin" Value="5"/>
@@ -84,45 +107,71 @@
                 Kind="Domain"
                 Grid.Column="0" Grid.Row="0"/>
             <TextBox x:Name="CompanyName" Style="{StaticResource TextBox}"
-                     Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"
                      Grid.Row="0" Grid.Column="1"
                      AcceptsReturn="True"
                      VerticalScrollBarVisibility="Auto"
                      materialDesign:HintAssist.Hint="Полное название компании"
                      materialDesign:HintAssist.HelperText="введите название">
+                <TextBox.Text>
+                    <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
             </TextBox>
             <materialDesign:PackIcon 
                 Kind="MapMarkerPlus"
                 Grid.Column="0" Grid.Row="1"/>
             <TextBox x:Name="CompanyAddress" Style="{StaticResource TextBox}"
-                     Text="{Binding Path=Address, UpdateSourceTrigger=PropertyChanged}"
                      Grid.Row="1" Grid.Column="1"
                      AcceptsReturn="True"
                      VerticalScrollBarVisibility="Auto"
                      materialDesign:HintAssist.Hint="Адрес"
                      materialDesign:HintAssist.HelperText="введите адрес">
+                <TextBox.Text>
+                    <Binding Path="Address" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
             </TextBox>
             <materialDesign:PackIcon 
                 Kind="Phone"
                 Grid.Column="0" Grid.Row="2"/>
             <TextBox x:Name="CompanyPhone" Style="{StaticResource TextBox}"
-                     Text="{Binding Path=Phone, UpdateSourceTrigger=PropertyChanged}"
                      Grid.Row="2" Grid.Column="1"
                      AcceptsReturn="True"
                      VerticalScrollBarVisibility="Auto"
                      materialDesign:HintAssist.Hint="Телефон"
                      materialDesign:HintAssist.HelperText="введите телефон">
+                <TextBox.Text>
+                    <Binding Path="Phone" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                            <local:NotValidPhoneValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
             </TextBox>
             <materialDesign:PackIcon 
                 Kind="Email"
                 Grid.Column="0" Grid.Row="3"/>
             <TextBox x:Name="CompanyEmail" Style="{StaticResource TextBox}"
-                     Text="{Binding Path=Email, UpdateSourceTrigger=PropertyChanged}"
                      Grid.Row="3" Grid.Column="1"
                      AcceptsReturn="True"
                      VerticalScrollBarVisibility="Auto"
                      materialDesign:HintAssist.Hint="E-mail"
                      materialDesign:HintAssist.HelperText="введите e-mail">
+                <TextBox.Text>
+                    <Binding Path="Email" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                            <local:NotValidEmailValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
             </TextBox>
             <materialDesign:PackIcon 
                 Kind="AccountTie"
@@ -134,7 +183,7 @@
                      SelectionMode="Multiple">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding Path=AddPos}" 
+                        <i:InvokeCommandAction Command="{Binding Path=AddPosition}" 
                                                CommandParameter="{Binding ElementName=CompanyPosition}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>

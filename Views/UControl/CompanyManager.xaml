@@ -102,7 +102,7 @@
             </DockPanel>
             
         </GroupBox>
-        <GroupBox Header="Информация о компании" DataContext="{Binding Path=SelectedCompany, UpdateSourceTrigger=PropertyChanged}"
+        <GroupBox Header="Информация о компании" DataContext="{Binding Path=SelectedCompany}"
                   Grid.Column="1"
                   Grid.Row="0">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -116,9 +116,9 @@
                     <Label Content="Телефон: "/>
                     <TextBox Text="{Binding Path=Phone, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Кол-во сотрудников: "/>
-                    <TextBox Text="{Binding Path=Employee.Count, Mode=OneWay}"/>
+                    <TextBox Text="{Binding Path=Employee.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Кол-во должностей: "/>
-                    <TextBox Text="{Binding Path=Position.Count, Mode=OneWay}"/>
+                    <TextBox Text="{Binding Path=Position.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </ScrollViewer>
 
@@ -241,11 +241,11 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
                     <Label Content="Название: "/>
-                    <TextBox Text="{Binding Path=Name}"/>
+                    <TextBox Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Кол-во сотруников: "/>
-                    <TextBox Text="{Binding Path=Employee.Count, Mode=OneWay}"/>
+                    <TextBox Text="{Binding Path=Employee.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Кол-во компаний: "/>
-                    <TextBox Text="{Binding Path=Company.Count, Mode=OneWay}"/>
+                    <TextBox Text="{Binding Path=Company.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </ScrollViewer>
 
