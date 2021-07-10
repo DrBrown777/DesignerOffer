@@ -4,7 +4,7 @@ namespace Designer_Offer.Services.Interfaces
 {
     internal interface IUserDialog
     {
-        bool Edit(object item);
+        bool Edit(object item, params object[] items);
 
         bool ConfirmInformation(string Information, string Caption);
         bool ConfirmWarning(string Information, string Caption);

@@ -98,7 +98,7 @@ namespace Designer_Offer
             services.AddTransient<IUserDialog, UserDialogService>();
 
             /*Регистрация репозиториев сущностей базы данных*/
-            services.AddTransient<PrimeContext>();
+            services.AddSingleton<PrimeContext>();
 
             //services.AddTransient<IRepository<Build>, DbRepository<Build>>();
             services.AddTransient<IRepository<Build>, BuildRepository>();

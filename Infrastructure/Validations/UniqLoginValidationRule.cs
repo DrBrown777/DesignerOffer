@@ -10,24 +10,30 @@ namespace Designer_Offer.Infrastructure.Validations
 {
     internal class UniqLoginValidationRule : ValidationRule
     {
+        private static readonly PrimeContext context;
+        private static readonly IUserDialog userDialog;
+
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             try
             {
-                using (var context = App.Host.Services.GetRequiredService<PrimeContext>())
+                if (context.UserData.AsNoTracking().Where(u => u.Login == value.ToString().Trim()).Any())
                 {
-                    if (context.UserData.AsNoTracking().Where(u => u.Login == value.ToString().Trim()).Any())
-                    {
-                        return new ValidationResult(false, "логин должен быть уникален");
-                    }
+                    return new ValidationResult(false, "логин должен быть уникален");
                 }
             }
             catch (Exception e)
             {
-                App.Host.Services.GetRequiredService<IUserDialog>().ShowError(e.Message, "Ошибка");
+                userDialog.ShowError(e.Message, "Ошибка");
             }
 
             return ValidationResult.ValidResult;
+        }
+
+        static UniqLoginValidationRule()
+        {
+            context = App.Host.Services.GetRequiredService<PrimeContext>();
+            userDialog = App.Host.Services.GetRequiredService<IUserDialog>();
         }
     }
 }

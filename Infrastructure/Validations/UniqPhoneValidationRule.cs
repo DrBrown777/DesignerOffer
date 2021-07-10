@@ -11,30 +11,36 @@ namespace Designer_Offer.Infrastructure.Validations
 {
     internal class UniqPhoneValidationRule : ValidationRule
     {
+        private static readonly PrimeContext context;
+        private static readonly IUserDialog userDialog;
+
         private static readonly string pattern = @"^((\+?3)?8)?0\d{9}$";
 
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             try
             {
-                using (var context = App.Host.Services.GetRequiredService<PrimeContext>())
+                if (!Regex.IsMatch(value.ToString(), pattern))
                 {
-                    if (!Regex.IsMatch(value.ToString(), pattern))
-                    {
-                        return new ValidationResult(false, "формат номера +380675552233");
-                    }
-                    else if (context.Employee.AsNoTracking().Where(e => e.Phone == value.ToString().Trim()).Any())
-                    {
-                        return new ValidationResult(false, "телефон должен быть уникален");
-                    }
+                    return new ValidationResult(false, "формат номера +380675552233");
+                }
+                else if (context.Employee.AsNoTracking().Where(e => e.Phone == value.ToString().Trim()).Any())
+                {
+                    return new ValidationResult(false, "телефон должен быть уникален");
                 }
             }
             catch (Exception e)
             {
-                App.Host.Services.GetRequiredService<IUserDialog>().ShowError(e.Message, "Ошибка");
+                userDialog.ShowError(e.Message, "Ошибка");
             }
 
             return ValidationResult.ValidResult;
+        }
+
+        static UniqPhoneValidationRule()
+        {
+            context = App.Host.Services.GetRequiredService<PrimeContext>();
+            userDialog = App.Host.Services.GetRequiredService<IUserDialog>();
         }
     }
 }

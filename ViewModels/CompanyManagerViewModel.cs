@@ -220,28 +220,16 @@ namespace Designer_Offer.ViewModels
 
         private void OnAddNewCompany(object p)
         {
-            Company new_company = new Company
-            {
-                Position = Positions
-            };
+            Company new_company = new Company();
 
-            if (!UserDialog.Edit(new_company))
+            if (!UserDialog.Edit(new_company, Positions.ToList()))
             {
                 return;
             }
 
             try
             {
-                foreach (Position item in Positions)
-                {
-                    if (new_company.Position.Contains(item))
-                    {
-                        item.Company.Add(new_company);
-                        RepositoryPositions.Update(item);
-                    }
-                }
-
-                Companies.Add(new_company);
+                Companies.Add(RepositoryCompanies.Add(new_company));
             }
             catch (Exception e)
             {
@@ -266,7 +254,7 @@ namespace Designer_Offer.ViewModels
         {
             Company company_to_edit = (Company)p ?? SelectedCompany;
 
-            if (!UserDialog.Edit(company_to_edit))
+            if (!UserDialog.Edit(company_to_edit, Positions.ToList()))
             {
                 return;
             }

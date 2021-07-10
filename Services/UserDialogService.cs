@@ -4,6 +4,7 @@ using Designer_Offer.ViewModels;
 using Designer_Offer.Views.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
@@ -11,7 +12,7 @@ namespace Designer_Offer.Services
 {
     internal class UserDialogService : IUserDialog
     {
-        public bool Edit(object item)
+        public bool Edit(object item, params object[] items)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
 
@@ -22,7 +23,7 @@ namespace Designer_Offer.Services
                 case Build build:
                     return EditBuild(build);
                 case Company company:
-                    return EditCompany(company);
+                    return EditCompany(company, (List<Position>)items[0]);
                 default:
                     throw new NotSupportedException($"Редактирование обьекта типа {item.GetType().Name} не поддерживается.");
             }
@@ -75,7 +76,7 @@ namespace Designer_Offer.Services
             return true;
         }
 
-        private bool EditCompany(Company company)
+        private bool EditCompany(Company company, List<Position> positions)
         {
             var company_editor_window = App.Host.Services
                                         .GetRequiredService<CompanyEditorWindow>();
@@ -86,7 +87,9 @@ namespace Designer_Offer.Services
             company_editor_model.Address = company.Adress;
             company_editor_model.Phone = company.Phone;
             company_editor_model.Email = company.Mail;
-            company_editor_model.Position = company.Position.ToList();
+            company_editor_model.CompanyPosition = company.Position;
+
+            company_editor_model.Position = positions;
 
             company_editor_window.DataContext = company_editor_model;
 
