@@ -140,7 +140,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Button
                             ToolTip="Добавить" ToolTipService.Placement="Top"
-                                Command="">
+                                Command="{Binding Path=AddNewUser}">
                             <materialDesign:PackIcon Kind="PencilPlus" />
                         </Button>
                         <Button

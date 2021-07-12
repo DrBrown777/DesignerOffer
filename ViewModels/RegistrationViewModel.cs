@@ -196,7 +196,7 @@ namespace Designer_Offer.ViewModels
                 Phone = UserPhone,
                 Company_Id = SelectedCompany.Id,
                 Position_Id = SelectedPosition.Id,
-                UserData = user 
+                UserData = user
             };
 
             try

@@ -311,6 +311,41 @@ namespace Designer_Offer.ViewModels
             }
         }
 
+        /// <summary>
+        /// Добавление нового пользователя
+        /// </summary>
+        public ICommand AddNewUser { get; }
+
+        private bool CanAddNewUser(object p) => true;
+
+        private void OnAddNewUser(object p)
+        {
+            UserData new_user = new UserData();
+
+            Employee new_employee = new Employee
+            {
+                UserData = new_user
+            };
+
+            if (!UserDialog.Edit(new_employee))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositoryUsers.Add(new_employee);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                SelectedEmployee = new_employee;
+            }
+        }
+
         #endregion
         #endregion
 
@@ -335,6 +370,8 @@ namespace Designer_Offer.ViewModels
             AddNewCompany = new LambdaCommand(OnAddNewCompany, CanAddNewCompany);
             EditCompany = new LambdaCommand(OnEditCompany, CanEditCompany);
             RemoveCompany = new LambdaCommand(OnRemoveCompany, CanRemoveCompany);
+
+            AddNewUser = new LambdaCommand(OnAddNewUser, CanAddNewUser);
         }
         #endregion
     }

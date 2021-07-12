@@ -74,6 +74,7 @@ namespace Designer_Offer
             services.AddTransient<ClientEditorWindow>();
             services.AddTransient<BuildEditorWindow>();
             services.AddTransient<CompanyEditorWindow>();
+            services.AddTransient<EmployeeEditorWindow>();
 
             /*Регистрация моделей представлений окон*/
             services.AddSingleton<MainWindowViewModel>();
@@ -83,6 +84,7 @@ namespace Designer_Offer
             services.AddTransient<ClientEditorViewModel>();
             services.AddTransient<BuildEditorViewModel>();
             services.AddTransient<CompanyEditorViewModel>();
+            services.AddTransient<EmployeeEditorViewModel>();
 
             /*Регистрация моделей представлений юзер контролов*/
             services.AddSingleton<ProjectManagerViewModel>();
@@ -107,7 +109,8 @@ namespace Designer_Offer
             services.AddTransient<IRepository<Client>, ClientRepository>();
             services.AddTransient<IRepository<Company>, DbRepository<Company>>();
             services.AddTransient<IRepository<Config>, DbRepository<Config>>();
-            services.AddTransient<IRepository<Employee>, DbRepository<Employee>>();
+            //services.AddTransient<IRepository<Employee>, DbRepository<Employee>>();
+            services.AddTransient<IRepository<Employee>, EmployeeRepository>();
             services.AddTransient<IRepository<Install>, DbRepository<Install>>();
             services.AddTransient<IRepository<InstallPart>, DbRepository<InstallPart>>();
             services.AddTransient<IRepository<Offer>, DbRepository<Offer>>();

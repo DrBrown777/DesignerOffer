@@ -31,5 +31,8 @@ namespace Designer_Offer.ViewModels
 
         public CompanyEditorViewModel CompanyEditorView =>
             App.Host.Services.GetRequiredService<CompanyEditorViewModel>();
+
+        public EmployeeEditorViewModel EmployeeEditorView =>
+            App.Host.Services.GetRequiredService<EmployeeEditorViewModel>();
     }
 }

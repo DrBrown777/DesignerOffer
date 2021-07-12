@@ -1,0 +1,24 @@
+﻿<Window x:Class="Designer_Offer.Views.Windows.EmployeeEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:cmd="clr-namespace:Designer_Offer.Infrastructure.Commands" 
+        xmlns:local="clr-namespace:Designer_Offer.Infrastructure.Validations"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d"
+        Title="Редактор сотрудников" Height="460" Width="500"
+        WindowStartupLocation="CenterScreen"
+        DataContext="{Binding EmployeeEditorView, Source={StaticResource Locator}}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Aliased"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
+    <Grid>
+        
+    </Grid>
+</Window>
