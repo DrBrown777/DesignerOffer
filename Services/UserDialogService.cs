@@ -25,7 +25,7 @@ namespace Designer_Offer.Services
                 case Company company:
                     return EditCompany(company, (List<Position>)items[0]);
                 case Employee employee:
-                    return EditEmploee(employee);
+                    return EditEmploee(employee, (List<Company>)items[0]);
                 default:
                     throw new NotSupportedException($"Редактирование обьекта типа {item.GetType().Name} не поддерживается.");
             }
@@ -106,16 +106,36 @@ namespace Designer_Offer.Services
             return true;
         }
 
-        private bool EditEmploee(Employee employee)
+        private bool EditEmploee(Employee employee, List<Company> companies)
         {
             var employee_editor_window = App.Host.Services
                                         .GetRequiredService<EmployeeEditorWindow>();
             var employee_editor_model = App.Host.Services
                                         .GetRequiredService<EmployeeEditorViewModel>();
 
+            employee_editor_model.UserLogin = employee.UserData.Login;
+            employee_editor_model.UserPassword = employee.UserData.Password;
+            employee_editor_model.UserName = employee.First_Name;
+            employee_editor_model.UserSurName = employee.Last_Name;
+            employee_editor_model.UserEmail = employee.Mail;
+            employee_editor_model.UserPhone = employee.Phone;
+            employee_editor_model.SelectedCompany = employee.Company;
+            employee_editor_model.SelectedPosition = employee.Position;
+
+            employee_editor_model.Companies = companies;
+
             employee_editor_window.DataContext = employee_editor_model;
 
             if (employee_editor_window.ShowDialog() != true) return false;
+
+            employee.UserData.Login = employee_editor_model.UserLogin;
+            employee.UserData.Password = employee_editor_model.UserPassword;
+            employee.First_Name = employee_editor_model.UserName;
+            employee.Last_Name = employee_editor_model.UserSurName;
+            employee.Mail = employee_editor_model.UserEmail;
+            employee.Phone = employee_editor_model.UserPhone;
+            employee.Company = employee_editor_model.SelectedCompany;
+            employee.Position = employee_editor_model.SelectedPosition;
 
             return true;
         }

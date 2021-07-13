@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:Designer_Offer.Infrastructure.Validations"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="Редактор сотрудников" Height="460" Width="500"
+        Title="Редактор сотрудников" Height="580" Width="400"
         WindowStartupLocation="CenterScreen"
         DataContext="{Binding EmployeeEditorView, Source={StaticResource Locator}}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -18,7 +18,227 @@
         TextOptions.TextRenderingMode="Aliased"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
-    <Grid>
-        
-    </Grid>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding Path=LoadPositionCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Window.Resources>
+        <cmd:DialogResultCommand x:Key="DialogResultCommand"/>
+        <Style x:Key="Button" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedDarkButton}">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Padding" Value="10,3"/>
+            <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth2"/>
+        </Style>
+        <Style x:Key="ButtonValid" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedDarkButton}">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Padding" Value="10,3"/>
+            <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth2"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=LoginBox}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=PassBox}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=NameBox}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=SurNameBox}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=EmailBox}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=PhoneBox}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="UniformGrid" TargetType="UniformGrid">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+        <Style x:Key="TextBox" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="Height" Value="27"/>
+            <Setter Property="Margin" Value="10,15,3,5"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>
+        </Style>
+        <Style TargetType="materialDesign:PackIcon">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Foreground" Value="#FF436EB1"/>
+        </Style>
+        <Style x:Key="ComboBox" TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Width" Value="220"/>
+            <Setter Property="Margin" Value="10,15,15,5"/>
+        </Style>
+    </Window.Resources>
+    <DockPanel Margin="3">
+        <UniformGrid Style="{StaticResource UniformGrid}"
+            DockPanel.Dock="Bottom" Rows="1">
+            <Button Style="{StaticResource ButtonValid}"
+                        Content="Сохранить"
+                        Command="{StaticResource DialogResultCommand}"
+                        CommandParameter="True"/>
+            <Button Style="{StaticResource Button}"
+                        Content="Отмена"
+                        Command="{StaticResource DialogResultCommand}"
+                        CommandParameter="False"/>
+        </UniformGrid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <materialDesign:PackIcon 
+                Kind="Login"
+                Grid.Column="0" Grid.Row="0"/>
+            <TextBox x:Name="LoginBox" 
+                Style="{StaticResource TextBox}"
+                Grid.Row="0" Grid.Column="1"
+                materialDesign:HintAssist.Hint="Логин"
+                materialDesign:HintAssist.HelperText="введите логин">
+                <TextBox.Text>
+                    <Binding Path="UserLogin" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                            <local:UniqLoginValidationRule ValidatesOnTargetUpdated="False"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <materialDesign:PackIcon 
+                Kind="Key"
+                Grid.Column="0" Grid.Row="1"/>
+            <TextBox x:Name="PassBox"
+                Style="{Binding Source={StaticResource TextBox}}"
+                Grid.Row="1" Grid.Column="1"
+                materialDesign:HintAssist.Hint="Пароль"
+                materialDesign:HintAssist.HelperText="введите пароль">
+                <TextBox.Text>
+                    <Binding Path="UserPassword" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <materialDesign:PackIcon 
+                Kind="CardAccountDetailsOutline"
+                Grid.Column="0" Grid.Row="2"/>
+            <TextBox x:Name="NameBox"
+                Style="{Binding Source={StaticResource TextBox}}"
+                Grid.Row="2" Grid.Column="1"
+                materialDesign:HintAssist.Hint="Имя"
+                materialDesign:HintAssist.HelperText="введите имя">
+                <TextBox.Text>
+                    <Binding Path="UserName" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <materialDesign:PackIcon 
+                Kind="CardAccountDetails"
+                Grid.Column="0" Grid.Row="3"/>
+            <TextBox x:Name="SurNameBox"
+                Style="{Binding Source={StaticResource TextBox}}"
+                Grid.Column="1" Grid.Row="3"
+                materialDesign:HintAssist.Hint="Фамилия"
+                materialDesign:HintAssist.HelperText="введите фамилию">
+                <TextBox.Text>
+                    <Binding Path="UserSurName" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <materialDesign:PackIcon 
+                Kind="Email"
+                Grid.Column="0" Grid.Row="4"/>
+            <TextBox x:Name="EmailBox"
+                Style="{Binding Source={StaticResource TextBox}}"
+                Grid.Column="1" Grid.Row="4"
+                materialDesign:HintAssist.Hint="Email"
+                materialDesign:HintAssist.HelperText="введите e-mail">
+                <TextBox.Text>
+                    <Binding Path="UserEmail" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                            <local:NotValidEmailValidationRule ValidatesOnTargetUpdated="True"/>
+                            <local:UniqEmailValidationRule ValidatesOnTargetUpdated="False"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <materialDesign:PackIcon 
+                Kind="Phone"
+                Grid.Column="0" Grid.Row="5"/>
+            <TextBox x:Name="PhoneBox"
+                Style="{Binding Source={StaticResource TextBox}}"
+                Grid.Column="2" Grid.Row="5"
+                materialDesign:HintAssist.Hint="+38"
+                materialDesign:HintAssist.HelperText="введите телефон">
+                <TextBox.Text>
+                    <Binding Path="UserPhone" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                            <local:NotValidPhoneValidationRule ValidatesOnTargetUpdated="True"/>
+                            <local:UniqPhoneValidationRule ValidatesOnTargetUpdated="False" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <materialDesign:PackIcon 
+                Kind="Domain"
+                Grid.Column="0" Grid.Row="6"/>
+            <ComboBox 
+                Style="{Binding Source={StaticResource ComboBox}}"
+                Grid.Column="1" Grid.Row="6"
+                ItemsSource="{Binding Path=Companies, UpdateSourceTrigger=PropertyChanged}"
+                SelectedItem="{Binding Path=SelectedCompany, UpdateSourceTrigger=PropertyChanged}"
+                DisplayMemberPath="Name"
+                materialDesign:HintAssist.Hint="Выберите компанию"
+                materialDesign:HintAssist.HelperText="подразделение"
+                IsSynchronizedWithCurrentItem="False"
+                SelectedIndex="-1">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="DropDownClosed">
+                        <i:InvokeCommandAction Command="{Binding Path=LoadPositionCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+            <materialDesign:PackIcon 
+                Kind="AccountTie"
+                Grid.Column="0" Grid.Row="7"/>
+            <ComboBox 
+                Style="{Binding Source={StaticResource ComboBox}}"
+                Grid.Column="1" Grid.Row="7"
+                ItemsSource="{Binding Path=Positions, UpdateSourceTrigger=PropertyChanged}"
+                SelectedItem="{Binding Path=SelectedPosition, UpdateSourceTrigger=PropertyChanged}"
+                DisplayMemberPath="Name"
+                materialDesign:HintAssist.Hint="Выберите должность"
+                materialDesign:HintAssist.HelperText="специальность"
+                IsSynchronizedWithCurrentItem="False"
+                SelectedIndex="-1"/>
+        </Grid>
+    </DockPanel>
 </Window>

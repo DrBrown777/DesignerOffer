@@ -327,14 +327,14 @@ namespace Designer_Offer.ViewModels
                 UserData = new_user
             };
 
-            if (!UserDialog.Edit(new_employee))
+            if (!UserDialog.Edit(new_employee, Companies.ToList()))
             {
                 return;
             }
 
             try
             {
-                RepositoryUsers.Add(new_employee);
+                Employees.Add(RepositoryUsers.Add(new_employee));
             }
             catch (Exception e)
             {
@@ -355,7 +355,7 @@ namespace Designer_Offer.ViewModels
             IRepository<Company> repaCompany,
             IRepository<Position> repaPosition,
             IRepository<Section> repaSections,
-            IUserDialog userDialog) 
+            IUserDialog userDialog)
         {
             Progress = true;
 
