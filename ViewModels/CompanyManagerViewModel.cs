@@ -379,6 +379,44 @@ namespace Designer_Offer.ViewModels
             }
         }
 
+        /// <summary>
+        /// Удаление пользователя
+        /// </summary>
+        public ICommand RemoveUser { get; }
+
+        private bool CanRemoveUser(object p)
+        {
+            return (Employee)p != null && SelectedEmployee != null;
+        }
+
+        private void OnRemoveUser(object p)
+        {
+            Employee user_to_remove = (Employee)p ?? SelectedEmployee;
+
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить сотрудника {user_to_remove.Last_Name}?", "Удаление сотрудника"))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositoryUsers.Remove(user_to_remove.Id);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                Employees.Remove(user_to_remove);
+
+                if (ReferenceEquals(SelectedEmployee, user_to_remove))
+                {
+                    SelectedEmployee = null;
+                }
+            }
+        }
+
         #endregion
         #endregion
 
@@ -400,12 +438,14 @@ namespace Designer_Offer.ViewModels
             RepositorySections = repaSections;
 
             LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
+
             AddNewCompany = new LambdaCommand(OnAddNewCompany, CanAddNewCompany);
             EditCompany = new LambdaCommand(OnEditCompany, CanEditCompany);
             RemoveCompany = new LambdaCommand(OnRemoveCompany, CanRemoveCompany);
 
             AddNewUser = new LambdaCommand(OnAddNewUser, CanAddNewUser);
             EditUser = new LambdaCommand(OnEditUser, CanEditUser);
+            RemoveUser = new LambdaCommand(OnRemoveUser, CanRemoveUser);
         }
         #endregion
     }

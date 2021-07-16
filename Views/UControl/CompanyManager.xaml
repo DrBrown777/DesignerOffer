@@ -94,9 +94,13 @@
                 </materialDesign:PopupBox>
                 <ListBox DockPanel.Dock="Top"
                          ItemsSource="{Binding Path=Companies, UpdateSourceTrigger=PropertyChanged}"
-                         SelectedItem="{Binding Path=SelectedCompany}"
-                         DisplayMemberPath="Name"
+                         SelectedItem="{Binding Path=SelectedCompany, UpdateSourceTrigger=PropertyChanged}"
                          SelectedIndex="0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
                 </ListBox>
             </DockPanel>
             
@@ -150,8 +154,8 @@
                         </Button>
                         <Button
                             ToolTip="Удалить" ToolTipService.Placement="Top" 
-                                Command=""
-                                CommandParameter="">
+                                Command="{Binding Path=RemoveUser}"
+                                CommandParameter="{Binding Path=SelectedEmployee}">
                             <materialDesign:PackIcon Kind="Delete" />
                         </Button>
                     </StackPanel>
