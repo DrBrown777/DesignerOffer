@@ -345,6 +345,39 @@ namespace Designer_Offer.ViewModels
                 SelectedEmployee = new_employee;
             }
         }
+        /// <summary>
+        /// Редактирование пользователя
+        /// </summary>
+        public ICommand EditUser { get; }
+
+        private bool CanEditUser(object p)
+        {
+            return true && (Employee)p != null && SelectedEmployee != null;
+        }
+
+        private void OnEditUser(object p)
+        {
+            Employee employee = (Employee)p ?? SelectedEmployee;
+
+            if (!UserDialog.Edit(employee, Companies.ToList()))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositoryUsers.Update(employee);
+            }
+            catch (Exception e)
+            {
+
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                SelectedEmployee = employee;
+            }
+        }
 
         #endregion
         #endregion
@@ -372,6 +405,7 @@ namespace Designer_Offer.ViewModels
             RemoveCompany = new LambdaCommand(OnRemoveCompany, CanRemoveCompany);
 
             AddNewUser = new LambdaCommand(OnAddNewUser, CanAddNewUser);
+            EditUser = new LambdaCommand(OnEditUser, CanEditUser);
         }
         #endregion
     }

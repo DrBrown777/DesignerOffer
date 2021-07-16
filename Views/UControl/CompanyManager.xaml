@@ -97,7 +97,6 @@
                          SelectedItem="{Binding Path=SelectedCompany}"
                          DisplayMemberPath="Name"
                          SelectedIndex="0">
-
                 </ListBox>
             </DockPanel>
             
@@ -145,8 +144,8 @@
                         </Button>
                         <Button
                             ToolTip="Редактировать" ToolTipService.Placement="Top"
-                                Command=""
-                                CommandParameter="">
+                                Command="{Binding Path=EditUser}"
+                                CommandParameter="{Binding Path=SelectedEmployee}">
                             <materialDesign:PackIcon Kind="Pencil" />
                         </Button>
                         <Button
@@ -162,7 +161,6 @@
                          SelectedItem="{Binding Path=SelectedEmployee}"
                          DisplayMemberPath="Last_Name"
                          SelectedIndex="0">
-
                 </ListBox>
             </DockPanel>
 
