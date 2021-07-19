@@ -26,6 +26,8 @@ namespace Designer_Offer.Services
                     return EditCompany(company, (List<Position>)items[0]);
                 case Employee employee:
                     return EditEmploee(employee, (List<Company>)items[0]);
+                case Position position:
+                    return EditPosition(position);
                 default:
                     throw new NotSupportedException($"Редактирование обьекта типа {item.GetType().Name} не поддерживается.");
             }
@@ -136,6 +138,25 @@ namespace Designer_Offer.Services
             employee.Phone = employee_editor_model.UserPhone;
             employee.Company = employee_editor_model.SelectedCompany;
             employee.Position = employee_editor_model.SelectedPosition;
+
+            return true;
+        }
+
+        private bool EditPosition(Position position)
+        {
+            var position_editor_window = App.Host.Services
+                                            .GetRequiredService<PositionEditorWindow>();
+
+            var position_editor_model = App.Host.Services
+                                            .GetRequiredService<PositionEditorViewModel>();
+
+            position_editor_model.Name = position.Name;
+
+            position_editor_window.DataContext = position_editor_model;
+
+            if (position_editor_window.ShowDialog() != true) return false;
+
+            position.Name = position_editor_model.Name;
 
             return true;
         }

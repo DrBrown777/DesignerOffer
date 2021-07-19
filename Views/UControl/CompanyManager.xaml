@@ -209,19 +209,19 @@
                     <StackPanel Orientation="Horizontal">
                         <Button
                             ToolTip="Добавить" ToolTipService.Placement="Top"
-                                Command="">
+                                Command="{Binding Path=AddNewPosition}">
                             <materialDesign:PackIcon Kind="PencilPlus" />
                         </Button>
                         <Button
                             ToolTip="Редактировать" ToolTipService.Placement="Top"
-                                Command=""
-                                CommandParameter="">
+                                Command="{Binding Path=EditPosition}"
+                                CommandParameter="{Binding Path=SelectedPosition}">
                             <materialDesign:PackIcon Kind="Pencil" />
                         </Button>
                         <Button
                             ToolTip="Удалить" ToolTipService.Placement="Top" 
-                                Command=""
-                                CommandParameter="">
+                                Command="{Binding Path=RemovePosition}"
+                                CommandParameter="{Binding Path=SelectedPosition}">
                             <materialDesign:PackIcon Kind="Delete" />
                         </Button>
                     </StackPanel>

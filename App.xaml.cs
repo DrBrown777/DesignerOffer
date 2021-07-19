@@ -75,6 +75,7 @@ namespace Designer_Offer
             services.AddTransient<BuildEditorWindow>();
             services.AddTransient<CompanyEditorWindow>();
             services.AddTransient<EmployeeEditorWindow>();
+            services.AddTransient<PositionEditorWindow>();
 
             /*Регистрация моделей представлений окон*/
             services.AddSingleton<MainWindowViewModel>();
@@ -85,6 +86,7 @@ namespace Designer_Offer
             services.AddTransient<BuildEditorViewModel>();
             services.AddTransient<CompanyEditorViewModel>();
             services.AddTransient<EmployeeEditorViewModel>();
+            services.AddTransient<PositionEditorViewModel>();
 
             /*Регистрация моделей представлений юзер контролов*/
             services.AddSingleton<ProjectManagerViewModel>();

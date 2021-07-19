@@ -131,14 +131,11 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         public ICommand LoadPositionCommand { get; }
 
-        private async void OnLoadPositionCommand(object p)
+        private void OnLoadPositionCommand(object p)
         {
             try
             {
-                Positions = await RepositoryPositions.Items
-                    .Where(pos => pos.Company
-                    .Any(com => com.Id == SelectedCompany.Id))
-                    .ToListAsync().ConfigureAwait(false);
+                Positions = SelectedCompany.Position.ToList();
             }
             catch (Exception e)
             {

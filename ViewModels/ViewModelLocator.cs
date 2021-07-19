@@ -34,5 +34,8 @@ namespace Designer_Offer.ViewModels
 
         public EmployeeEditorViewModel EmployeeEditorView =>
             App.Host.Services.GetRequiredService<EmployeeEditorViewModel>();
+
+        public PositionEditorViewModel PositionEditorView =>
+            App.Host.Services.GetRequiredService<PositionEditorViewModel>();
     }
 }

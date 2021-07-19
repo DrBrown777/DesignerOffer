@@ -262,6 +262,11 @@ namespace Designer_Offer.ViewModels
             try
             {
                 RepositoryCompanies.Update(company_to_edit);
+
+                if (Companies.Remove(company_to_edit))
+                {
+                    Companies.Add(company_to_edit);
+                }
             }
             catch (Exception e)
             {
@@ -367,6 +372,11 @@ namespace Designer_Offer.ViewModels
             try
             {
                 RepositoryUsers.Update(employee);
+
+                if (Employees.Remove(employee))
+                {
+                    Employees.Add(employee);
+                }
             }
             catch (Exception e)
             {
@@ -416,6 +426,109 @@ namespace Designer_Offer.ViewModels
                 }
             }
         }
+        /// <summary>
+        /// Добавление новой должности
+        /// </summary>
+        public ICommand AddNewPosition { get; }
+
+        private bool CanAddNewPosition(object p) => true;
+
+        private void OnAddNewPosition(object p)
+        {
+            Position new_position = new Position();
+            
+            if (!UserDialog.Edit(new_position))
+            {
+                return;
+            }
+
+            try
+            {
+                Positions.Add(RepositoryPositions.Add(new_position));
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Oшибка");
+            }
+            finally
+            {
+                SelectedPosition = new_position;
+            }
+        }
+        /// <summary>
+        /// Редактирование должности
+        /// </summary>
+        public ICommand EditPosition { get; }
+
+        private bool CanEditPosition(object p)
+        {
+            return true && SelectedPosition != null && (Position)p != null;
+        }
+
+        private void OnEditPosition(object p)
+        {
+            Position position = SelectedPosition ?? (Position)p;
+
+            if (!UserDialog.Edit(position))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositoryPositions.Update(position);
+
+                if (Positions.Remove(position))
+                {
+                    Positions.Add(position);
+                }
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                SelectedPosition = position;
+            }
+        }
+        /// <summary>
+        /// Удаление должности
+        /// </summary>
+        public ICommand RemovePosition { get; }
+
+        private bool CanRemovePosition(object p)
+        {
+            return true && SelectedPosition != null && (Position)p != null;
+        }
+
+        private void OnRemovePosition(object p)
+        {
+            Position position_to_remove = SelectedPosition ?? (Position)p;
+
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить должность {position_to_remove.Name}?", "Удаление должности"))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositoryPositions.Remove(position_to_remove.Id);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                Positions.Remove(position_to_remove);
+
+                if (ReferenceEquals(SelectedPosition, position_to_remove))
+                {
+                    SelectedPosition = null;
+                }
+            }
+        }
 
         #endregion
         #endregion
@@ -446,6 +559,10 @@ namespace Designer_Offer.ViewModels
             AddNewUser = new LambdaCommand(OnAddNewUser, CanAddNewUser);
             EditUser = new LambdaCommand(OnEditUser, CanEditUser);
             RemoveUser = new LambdaCommand(OnRemoveUser, CanRemoveUser);
+
+            AddNewPosition = new LambdaCommand(OnAddNewPosition, CanAddNewPosition);
+            EditPosition = new LambdaCommand(OnEditPosition, CanEditPosition);
+            RemovePosition = new LambdaCommand(OnRemovePosition, CanRemovePosition);
         }
         #endregion
     }
