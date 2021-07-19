@@ -243,6 +243,7 @@
     <Compile Include="ViewModels\EmployeeEditorViewModel.cs" />
     <Compile Include="ViewModels\PositionEditorViewModel.cs" />
     <Compile Include="ViewModels\ProjectManagerViewModel.cs" />
+    <Compile Include="ViewModels\SectionEditorViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="ViewModels\WorkWindowViewModel.cs" />
     <Compile Include="Views\UControl\CompanyManager.xaml.cs">
@@ -265,6 +266,9 @@
     </Compile>
     <Compile Include="Views\Windows\PositionEditorWindow.xaml.cs">
       <DependentUpon>PositionEditorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\SectionEditorWindow.xaml.cs">
+      <DependentUpon>SectionEditorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\WorkWindow.xaml.cs">
       <DependentUpon>WorkWindow.xaml</DependentUpon>
@@ -343,6 +347,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\Windows\PositionEditorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\SectionEditorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

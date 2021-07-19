@@ -529,7 +529,109 @@ namespace Designer_Offer.ViewModels
                 }
             }
         }
+        /// <summary>
+        /// Добавление нового раздела
+        /// </summary>
+        public ICommand AddNewSection { get; }
 
+        private bool CanAddNewSection(object p) => true;
+
+        private void OnAddNewSection(object p)
+        {
+            Section new_section = new Section();
+
+            if (!UserDialog.Edit(new_section))
+            {
+                return;
+            }
+
+            try
+            {
+                Sections.Add(RepositorySections.Add(new_section));
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                SelectedSection = new_section;
+            }
+        }
+        /// <summary>
+        /// Редактирование раздела
+        /// </summary>
+        public ICommand EditSection { get; }
+
+        private bool CanEditSection(object p)
+        {
+            return true && SelectedSection != null && (Section)p != null;
+        }
+
+        private void OnEditSection(object p)
+        {
+            Section section = SelectedSection ?? (Section)p;
+
+            if (!UserDialog.Edit(section))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositorySections.Update(section);
+
+                if (Sections.Remove(section))
+                {
+                    Sections.Add(section);
+                }
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                SelectedSection = section;
+            }
+        }
+        /// <summary>
+        /// Удаление раздела
+        /// </summary>
+        public ICommand RemoveSection { get; }
+
+        private bool CanRemoveSection(object p)
+        {
+            return true && SelectedSection != null && (Section)p != null;
+        }
+
+        private void OnRemoveSection(object p)
+        {
+            Section section_to_remove = SelectedSection ?? (Section)p;
+
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить должность {section_to_remove.Name}?", "Удаление должности"))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositorySections.Remove(section_to_remove.Id);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                Sections.Remove(section_to_remove);
+
+                if (ReferenceEquals(SelectedSection, section_to_remove))
+                {
+                    SelectedSection = null;
+                }
+            }
+        }
         #endregion
         #endregion
 
@@ -563,6 +665,10 @@ namespace Designer_Offer.ViewModels
             AddNewPosition = new LambdaCommand(OnAddNewPosition, CanAddNewPosition);
             EditPosition = new LambdaCommand(OnEditPosition, CanEditPosition);
             RemovePosition = new LambdaCommand(OnRemovePosition, CanRemovePosition);
+
+            AddNewSection = new LambdaCommand(OnAddNewSection, CanAddNewSection);
+            EditSection = new LambdaCommand(OnEditSection, CanEditSection);
+            RemoveSection = new LambdaCommand(OnRemoveSection, CanRemoveSection);
         }
         #endregion
     }

@@ -2,8 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Designer_Offer.Views.UControl"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
@@ -103,7 +102,6 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </DockPanel>
-            
         </GroupBox>
         <GroupBox Header="Информация о компании" DataContext="{Binding Path=SelectedCompany}"
                   Grid.Column="1"
@@ -124,7 +122,6 @@
                     <TextBox Text="{Binding Path=Position.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </ScrollViewer>
-
         </GroupBox>
         <GroupBox Header="Сотрудники"
                   Grid.Column="2"
@@ -163,11 +160,14 @@
                 <ListBox DockPanel.Dock="Top"
                          ItemsSource="{Binding Path=Employees, UpdateSourceTrigger=PropertyChanged}"
                          SelectedItem="{Binding Path=SelectedEmployee}"
-                         DisplayMemberPath="Last_Name"
                          SelectedIndex="0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Last_Name, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
                 </ListBox>
             </DockPanel>
-
         </GroupBox>
         <GroupBox Header="Информация о сотруднике" DataContext="{Binding Path=SelectedEmployee}"
                   Grid.Column="3"
@@ -175,22 +175,21 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
                     <Label Content="Фамилия: "/>
-                    <TextBox Text="{Binding Path=Last_Name}" />
+                    <TextBox Text="{Binding Path=Last_Name, UpdateSourceTrigger=PropertyChanged}" />
                     <Label Content="Имя: "/>
-                    <TextBox Text="{Binding Path=First_Name}"/>
+                    <TextBox Text="{Binding Path=First_Name, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Почта: "/>
-                    <TextBox Text="{Binding Path=Mail}"/>
+                    <TextBox Text="{Binding Path=Mail, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Телефон: "/>
-                    <TextBox Text="{Binding Path=Phone}"/>
+                    <TextBox Text="{Binding Path=Phone, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Должность: "/>
-                    <TextBox Text="{Binding Path=Position.Name}"/>
+                    <TextBox Text="{Binding Path=Position.Name, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Компания: "/>
-                    <TextBox Text="{Binding Path=Company.Name}"/>
+                    <TextBox Text="{Binding Path=Company.Name, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Кол-во обьектов: "/>
-                    <TextBox Text="{Binding Path=Project.Count, Mode=OneWay}"/>
+                    <TextBox Text="{Binding Path=Project.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </ScrollViewer>
-
         </GroupBox>
         <GroupBox Header="Должности"
                   Grid.Column="0"
@@ -229,13 +228,14 @@
                 <ListBox DockPanel.Dock="Top"
                          ItemsSource="{Binding Path=Positions, UpdateSourceTrigger=PropertyChanged}"
                          SelectedItem="{Binding Path=SelectedPosition}"
-                         DisplayMemberPath="Name"
                          SelectedIndex="0">
-
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
                 </ListBox>
-                
             </DockPanel>
-
         </GroupBox>
         <GroupBox Header="Информация о должности" DataContext="{Binding Path=SelectedPosition}"
                   Grid.Column="1"
@@ -250,7 +250,6 @@
                     <TextBox Text="{Binding Path=Company.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </ScrollViewer>
-
         </GroupBox>
         <GroupBox Header="Разделы"
                   Grid.Column="2"
@@ -269,19 +268,19 @@
                     <StackPanel Orientation="Horizontal">
                         <Button
                             ToolTip="Добавить" ToolTipService.Placement="Top"
-                                Command="">
+                                Command="{Binding Path=AddNewSection}">
                             <materialDesign:PackIcon Kind="PencilPlus" />
                         </Button>
                         <Button
                             ToolTip="Редактировать" ToolTipService.Placement="Top"
-                                Command=""
-                                CommandParameter="">
+                                Command="{Binding Path=EditSection}"
+                                CommandParameter="{Binding Path=SelectedSection}">
                             <materialDesign:PackIcon Kind="Pencil" />
                         </Button>
                         <Button
                             ToolTip="Удалить" ToolTipService.Placement="Top" 
-                                Command=""
-                                CommandParameter="">
+                                Command="{Binding Path=RemoveSection}"
+                                CommandParameter="{Binding Path=SelectedSection}">
                             <materialDesign:PackIcon Kind="Delete" />
                         </Button>
                     </StackPanel>
@@ -289,12 +288,14 @@
                 <ListBox DockPanel.Dock="Top"
                          ItemsSource="{Binding Path=Sections, UpdateSourceTrigger=PropertyChanged}"
                          SelectedItem="{Binding Path=SelectedSection}"
-                         DisplayMemberPath="Name"
                          SelectedIndex="0">
-
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
                 </ListBox>
             </DockPanel>
-
         </GroupBox>
         <GroupBox Header="Информация о разделах" DataContext="{Binding Path=SelectedSection}"
                   Grid.Column="3"
@@ -302,12 +303,11 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
                     <Label Content="Название: "/>
-                    <TextBox Text="{Binding Path=Name}"/>
+                    <TextBox Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Кол-во КП: "/>
-                    <TextBox Text="{Binding Path=Offer.Count, Mode=OneWay}"/>
+                    <TextBox Text="{Binding Path=Offer.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </ScrollViewer>
-
         </GroupBox>
     </Grid>
 </UserControl>

@@ -28,6 +28,8 @@ namespace Designer_Offer.Services
                     return EditEmploee(employee, (List<Company>)items[0]);
                 case Position position:
                     return EditPosition(position);
+                case Section section:
+                    return EditSection(section);
                 default:
                     throw new NotSupportedException($"Редактирование обьекта типа {item.GetType().Name} не поддерживается.");
             }
@@ -80,7 +82,7 @@ namespace Designer_Offer.Services
             return true;
         }
 
-        private bool EditCompany(Company company, List<Position> positions)
+        private static bool EditCompany(Company company, List<Position> positions)
         {
             var company_editor_window = App.Host.Services
                                         .GetRequiredService<CompanyEditorWindow>();
@@ -108,7 +110,7 @@ namespace Designer_Offer.Services
             return true;
         }
 
-        private bool EditEmploee(Employee employee, List<Company> companies)
+        private static bool EditEmploee(Employee employee, List<Company> companies)
         {
             var employee_editor_window = App.Host.Services
                                         .GetRequiredService<EmployeeEditorWindow>();
@@ -142,7 +144,7 @@ namespace Designer_Offer.Services
             return true;
         }
 
-        private bool EditPosition(Position position)
+        private static bool EditPosition(Position position)
         {
             var position_editor_window = App.Host.Services
                                             .GetRequiredService<PositionEditorWindow>();
@@ -157,6 +159,24 @@ namespace Designer_Offer.Services
             if (position_editor_window.ShowDialog() != true) return false;
 
             position.Name = position_editor_model.Name;
+
+            return true;
+        }
+
+        private static bool EditSection(Section section)
+        {
+            var section_editor_window = App.Host.Services
+                                        .GetRequiredService<SectionEditorWindow>();
+            var section_editor_model = App.Host.Services
+                                        .GetRequiredService<SectionEditorViewModel>();
+
+            section_editor_model.Name = section.Name;
+
+            section_editor_window.DataContext = section_editor_model;
+
+            if (section_editor_window.ShowDialog() != true) return false;
+
+            section.Name = section_editor_model.Name;
 
             return true;
         }
