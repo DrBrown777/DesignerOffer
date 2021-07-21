@@ -244,6 +244,7 @@
     <Compile Include="ViewModels\PositionEditorViewModel.cs" />
     <Compile Include="ViewModels\ProjectManagerViewModel.cs" />
     <Compile Include="ViewModels\SectionEditorViewModel.cs" />
+    <Compile Include="ViewModels\ServiceManagerViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="ViewModels\WorkWindowViewModel.cs" />
     <Compile Include="Views\UControl\CompanyManager.xaml.cs">
@@ -251,6 +252,9 @@
     </Compile>
     <Compile Include="Views\UControl\ProjectManager.xaml.cs">
       <DependentUpon>ProjectManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UControl\ServiceManager.xaml.cs">
+      <DependentUpon>ServiceManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\BuildEditorWindow.xaml.cs">
       <DependentUpon>BuildEditorWindow.xaml</DependentUpon>
@@ -286,6 +290,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UControl\ProjectManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UControl\ServiceManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

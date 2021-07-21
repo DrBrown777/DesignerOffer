@@ -55,14 +55,31 @@ namespace Designer_Offer.ViewModels
             
             return false;
         }
+        /// <summary>
+        /// Команда отображения страницы Менеджера услуг
+        /// </summary>
+        public ICommand ShowServiceManager { get; }
+
+        private void OnShowServiceManagerCommand(object p)
+        {
+            CurrentModel = App.Host.Services.GetRequiredService<ServiceManagerViewModel>();
+        }
+
+        private bool CanShowServiceManagerCommand(object p)
+        {
+            if (!ReferenceEquals(CurrentModel, App.Host.Services.GetRequiredService<ServiceManagerViewModel>()))
+                return true;
+
+            return false;
+        }
         #endregion
 
         #region КОНСТРУКТОРЫ
-
         public WorkWindowViewModel()
         {
             ShowProjectManager = new LambdaCommand(OnShowProjectManagerCommand, CanShowProjectManagerCommand);
             ShowCompanyManager = new LambdaCommand(OnShowCompanyManagerCommand, CanShowCompanyManagerCommand);
+            ShowServiceManager = new LambdaCommand(OnShowServiceManagerCommand, CanShowServiceManagerCommand);
         }
         #endregion
     }

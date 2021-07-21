@@ -32,7 +32,11 @@
             <DataTemplate DataType="{x:Type vm:CompanyManagerViewModel}">
                 <view:CompanyManager />
             </DataTemplate>
-            
+
+            <DataTemplate DataType="{x:Type vm:ServiceManagerViewModel}">
+                <view:ServiceManager />
+            </DataTemplate>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

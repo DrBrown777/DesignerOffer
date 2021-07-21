@@ -92,7 +92,8 @@
                     Command="{Binding Path=ShowCompanyManager}"/>
                 <MenuItem
                     Header="Управление услугами"
-                    Icon="{materialDesign:PackIcon Kind=VectorIntersection}"/>
+                    Icon="{materialDesign:PackIcon Kind=VectorIntersection}"
+                    Command="{Binding Path=ShowServiceManager}"/>
             </MenuItem>
             <MenuItem Header="_Справка"/>
         </Menu>
