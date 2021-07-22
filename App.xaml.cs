@@ -127,7 +127,8 @@ namespace Designer_Offer
             services.AddTransient<IRepository<ProductPart>, DbRepository<ProductPart>>();
             services.AddTransient<IRepository<Project>, DbRepository<Project>>();
             services.AddTransient<IRepository<Section>, DbRepository<Section>>();
-            services.AddTransient<IRepository<Supplier>, DbRepository<Supplier>>();
+            //services.AddTransient<IRepository<Supplier>, DbRepository<Supplier>>();
+            services.AddTransient<IRepository<Supplier>, SupplierRepository>();
             services.AddTransient<IRepository<Unit>, DbRepository<Unit>>();
             services.AddTransient<IRepository<UserData>, DbRepository<UserData>>();
         }

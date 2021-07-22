@@ -57,54 +57,8 @@
             <RowDefinition Height="0.7*"/>
             <RowDefinition Height="0.3*"/>
         </Grid.RowDefinitions>
-        <GroupBox Header="Товары"
-                  Grid.Column="0"
-                  Grid.Row="0">
-            <DockPanel>
-                <materialDesign:PopupBox
-                        Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
-                        PlacementMode="LeftAndAlignMiddles"
-                        UnfurlOrientation="Horizontal"
-                        ToolTip="Управление товарами"
-                        ToolTipService.Placement="Top"
-                        Height="40" Width="40"
-                        Margin="0,0,10,5"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
-                    <StackPanel Orientation="Horizontal">
-                        <Button
-                            ToolTip="Добавить" ToolTipService.Placement="Top"
-                                Command="">
-                            <materialDesign:PackIcon Kind="PencilPlus" />
-                        </Button>
-                        <Button
-                            ToolTip="Редактировать" ToolTipService.Placement="Top"
-                                Command=""
-                                CommandParameter="">
-                            <materialDesign:PackIcon Kind="Pencil" />
-                        </Button>
-                        <Button
-                            ToolTip="Удалить" ToolTipService.Placement="Top" 
-                                Command=""
-                                CommandParameter="">
-                            <materialDesign:PackIcon Kind="Delete" />
-                        </Button>
-                    </StackPanel>
-                </materialDesign:PopupBox>
-                <ListBox DockPanel.Dock="Top"
-                         ItemsSource="{Binding Path=Products, UpdateSourceTrigger=PropertyChanged}"
-                         SelectedItem="{Binding Path=SelectedProduct, UpdateSourceTrigger=PropertyChanged}"
-                         SelectedIndex="0">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Path=Model, UpdateSourceTrigger=PropertyChanged}"/>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </DockPanel>
-        </GroupBox>
         <GroupBox Header="Поставщики"
-                  Grid.Column="1"
+                  Grid.Column="0"
                   Grid.Row="0">
             <DockPanel>
                 <materialDesign:PopupBox
@@ -137,27 +91,46 @@
                         </Button>
                     </StackPanel>
                 </materialDesign:PopupBox>
-                <ListBox DockPanel.Dock="Top"
+                <DockPanel DockPanel.Dock="Top">
+                    <materialDesign:PackIcon DockPanel.Dock="Left" 
+                                             Height="25" 
+                                             Kind="Search"/>
+                    <TextBox DockPanel.Dock="Right"
+                             Text=""/>
+                </DockPanel>
+                <ListBox
                          ItemsSource="{Binding Path=Suppliers, UpdateSourceTrigger=PropertyChanged}"
                          SelectedItem="{Binding Path=SelectedSupplier, UpdateSourceTrigger=PropertyChanged}"
                          SelectedIndex="0">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DockPanel>
+                                <TextBlock
+                                    Text="{Binding Path=Product.Count, StringFormat=Товары ({0}), UpdateSourceTrigger=PropertyChanged}"
+                                    DockPanel.Dock="Right"/>
+                                <TextBlock 
+                                    Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
+                            </DockPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </DockPanel>
         </GroupBox>
-        <GroupBox Header="Услуги"
-                  Grid.Column="2"
-                  Grid.Row="0">
+        <GroupBox Header="Товары"
+                  Grid.Column="1"
+                  Grid.Row="0" 
+                  Grid.RowSpan="2">
             <DockPanel>
                 <materialDesign:PopupBox
                         Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
                         PlacementMode="LeftAndAlignMiddles"
                         UnfurlOrientation="Horizontal"
-                        ToolTip="Управление услугами"
+                        ToolTip="Управление товарами"
                         ToolTipService.Placement="Top"
                         Height="40" Width="40"
                         Margin="0,0,10,5"
@@ -183,20 +156,38 @@
                         </Button>
                     </StackPanel>
                 </materialDesign:PopupBox>
-                <ListBox DockPanel.Dock="Top"
-                         ItemsSource="{Binding Path=Installs, UpdateSourceTrigger=PropertyChanged}"
-                         SelectedItem="{Binding Path=SelectedInstall, UpdateSourceTrigger=PropertyChanged}"
+                <DockPanel DockPanel.Dock="Top">
+                    <materialDesign:PackIcon DockPanel.Dock="Left" 
+                                             Height="25" 
+                                             Kind="Search"/>
+                    <TextBox DockPanel.Dock="Right"
+                             Text=""/>
+                </DockPanel>
+                <ListBox
+                         ItemsSource="{Binding Path=Products, UpdateSourceTrigger=PropertyChanged}"
+                         SelectedItem="{Binding Path=SelectedProduct, UpdateSourceTrigger=PropertyChanged}"
                          SelectedIndex="0">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DockPanel>
+                                <TextBlock
+                                    Text="{Binding Path=Model, StringFormat=({0}), UpdateSourceTrigger=PropertyChanged}"
+                                    DockPanel.Dock="Right"/>
+                                <TextBlock 
+                                    Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
+                            </DockPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </DockPanel>
         </GroupBox>
         <GroupBox Header="Категории"
-                  Grid.Column="3"
+                  Grid.Column="2"
                   Grid.Row="0">
             <DockPanel>
                 <materialDesign:PopupBox
@@ -229,7 +220,14 @@
                         </Button>
                     </StackPanel>
                 </materialDesign:PopupBox>
-                <ListBox DockPanel.Dock="Top"
+                <DockPanel DockPanel.Dock="Top">
+                    <materialDesign:PackIcon DockPanel.Dock="Left" 
+                                             Height="25" 
+                                             Kind="Search"/>
+                    <TextBox DockPanel.Dock="Right"
+                             Text=""/>
+                </DockPanel>
+                <ListBox
                          ItemsSource="{Binding Path=Categories, UpdateSourceTrigger=PropertyChanged}"
                          SelectedItem="{Binding Path=SelectedCategory, UpdateSourceTrigger=PropertyChanged}"
                          SelectedIndex="0">
@@ -241,12 +239,62 @@
                 </ListBox>
             </DockPanel>
         </GroupBox>
+        <GroupBox Header="Услуги"
+                  Grid.Column="3"
+                  Grid.Row="0"
+                  Grid.RowSpan="2">
+            <DockPanel>
+                <materialDesign:PopupBox
+                        Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                        PlacementMode="LeftAndAlignMiddles"
+                        UnfurlOrientation="Horizontal"
+                        ToolTip="Управление услугами"
+                        ToolTipService.Placement="Top"
+                        Height="40" Width="40"
+                        Margin="0,0,10,5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
+                    <StackPanel Orientation="Horizontal">
+                        <Button
+                            ToolTip="Добавить" ToolTipService.Placement="Top"
+                                Command="">
+                            <materialDesign:PackIcon Kind="PencilPlus" />
+                        </Button>
+                        <Button
+                            ToolTip="Редактировать" ToolTipService.Placement="Top"
+                                Command=""
+                                CommandParameter="">
+                            <materialDesign:PackIcon Kind="Pencil" />
+                        </Button>
+                        <Button
+                            ToolTip="Удалить" ToolTipService.Placement="Top" 
+                                Command=""
+                                CommandParameter="">
+                            <materialDesign:PackIcon Kind="Delete" />
+                        </Button>
+                    </StackPanel>
+                </materialDesign:PopupBox>
+                <DockPanel DockPanel.Dock="Top">
+                    <materialDesign:PackIcon DockPanel.Dock="Left" 
+                                             Height="25" 
+                                             Kind="Search"/>
+                    <TextBox DockPanel.Dock="Right"
+                             Text=""/>
+                </DockPanel>
+                <ListBox
+                         ItemsSource="{Binding Path=Installs, UpdateSourceTrigger=PropertyChanged}"
+                         SelectedItem="{Binding Path=SelectedInstall, UpdateSourceTrigger=PropertyChanged}"
+                         SelectedIndex="0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </GroupBox>
         <GroupBox Header="Навигация"
                   Grid.Column="0"
-                  Grid.Row="1">
-        </GroupBox>
-        <GroupBox Header="----"
-                  Grid.Column="1"
                   Grid.Row="1">
         </GroupBox>
         <GroupBox Header="Ед.измерения"
@@ -294,10 +342,6 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </DockPanel>
-        </GroupBox>
-        <GroupBox Header="----"
-                  Grid.Column="3"
-                  Grid.Row="1">
         </GroupBox>
     </Grid>
 </UserControl>

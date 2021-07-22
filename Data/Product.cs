@@ -24,6 +24,9 @@ namespace Designer_Offer.Data
         public int? Unit_id { get; set; }
 
         [Required]
+        [StringLength(255)]
+        public string Name { get; set; }
+
         [StringLength(100)]
         public string Model { get; set; }
 
