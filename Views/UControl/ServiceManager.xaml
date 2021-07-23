@@ -27,7 +27,7 @@
         <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
             <Setter Property="Height" Value="25"/>
             <Setter Property="Margin" Value="3"/>
-            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>
         </Style>
         <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
             <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>
@@ -96,10 +96,10 @@
                                              Height="25" 
                                              Kind="Search"/>
                     <TextBox DockPanel.Dock="Right"
-                             Text=""/>
+                             Text="{Binding Path=SupplierFilter, UpdateSourceTrigger=PropertyChanged}"/>
                 </DockPanel>
                 <ListBox
-                         ItemsSource="{Binding Path=Suppliers, UpdateSourceTrigger=PropertyChanged}"
+                         ItemsSource="{Binding Path=SuppliersView, UpdateSourceTrigger=PropertyChanged}"
                          SelectedItem="{Binding Path=SelectedSupplier, UpdateSourceTrigger=PropertyChanged}"
                          SelectedIndex="0">
                     <ListBox.ItemContainerStyle>
@@ -161,10 +161,10 @@
                                              Height="25" 
                                              Kind="Search"/>
                     <TextBox DockPanel.Dock="Right"
-                             Text=""/>
+                             Text="{Binding Path=ProductFilter, UpdateSourceTrigger=PropertyChanged}"/>
                 </DockPanel>
                 <ListBox
-                         ItemsSource="{Binding Path=Products, UpdateSourceTrigger=PropertyChanged}"
+                         ItemsSource="{Binding Path=ProductsView, UpdateSourceTrigger=PropertyChanged}"
                          SelectedItem="{Binding Path=SelectedProduct, UpdateSourceTrigger=PropertyChanged}"
                          SelectedIndex="0">
                     <ListBox.ItemContainerStyle>
@@ -225,10 +225,10 @@
                                              Height="25" 
                                              Kind="Search"/>
                     <TextBox DockPanel.Dock="Right"
-                             Text=""/>
+                             Text="{Binding Path=CategoryFilter, UpdateSourceTrigger=PropertyChanged}"/>
                 </DockPanel>
                 <ListBox
-                         ItemsSource="{Binding Path=Categories, UpdateSourceTrigger=PropertyChanged}"
+                         ItemsSource="{Binding Path=CategoriesView, UpdateSourceTrigger=PropertyChanged}"
                          SelectedItem="{Binding Path=SelectedCategory, UpdateSourceTrigger=PropertyChanged}"
                          SelectedIndex="0">
                     <ListBox.ItemTemplate>
@@ -279,10 +279,10 @@
                                              Height="25" 
                                              Kind="Search"/>
                     <TextBox DockPanel.Dock="Right"
-                             Text=""/>
+                             Text="{Binding Path=InstallFilter, UpdateSourceTrigger=PropertyChanged}"/>
                 </DockPanel>
                 <ListBox
-                         ItemsSource="{Binding Path=Installs, UpdateSourceTrigger=PropertyChanged}"
+                         ItemsSource="{Binding Path=InstallsView, UpdateSourceTrigger=PropertyChanged}"
                          SelectedItem="{Binding Path=SelectedInstall, UpdateSourceTrigger=PropertyChanged}"
                          SelectedIndex="0">
                     <ListBox.ItemTemplate>

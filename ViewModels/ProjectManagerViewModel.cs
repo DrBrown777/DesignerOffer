@@ -126,9 +126,13 @@ namespace Designer_Offer.ViewModels
                 }
             }
         }
-
+        /// <summary>
+        /// Пользовательская сортировка клиентов
+        /// </summary>
         public ICollectionView ClientsView => ClientsViewSource?.View;
-
+        /// <summary>
+        /// Прокси коллекция клиентов
+        /// </summary>
         private CollectionViewSource ClientsViewSource;
 
         private Client _SelectedClient;

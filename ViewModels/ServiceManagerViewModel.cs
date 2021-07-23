@@ -6,10 +6,12 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Designer_Offer.ViewModels
@@ -98,8 +100,53 @@ namespace Designer_Offer.ViewModels
         public ObservableCollection<Product> Products
         {
             get => _Products;
-            set => Set(ref _Products, value);
+            set
+            {
+                if (Set(ref _Products, value))
+                {
+                    {
+                        ProductsViewSource = new CollectionViewSource()
+                        {
+                            Source = value,
+                            SortDescriptions =
+                        {
+                            new SortDescription(nameof(Product.Name), ListSortDirection.Ascending)
+                        }
+
+                        };
+                        ProductsViewSource.Filter += ProductsViewSource_Filter;
+                        ProductsViewSource.View.Refresh();
+
+                        OnPropertyChanged(nameof(ProductsView));
+                    }
+                }
+            }
         }
+
+        private string _ProductFilter;
+        /// <summary>
+        /// Искомый товар для фильтрации
+        /// </summary>
+        public string ProductFilter
+        {
+            get => _ProductFilter;
+            set
+            {
+                if (Set(ref _ProductFilter, value))
+                {
+                    ProductsViewSource?.View.Refresh();
+                }
+            }
+        }
+        /// <summary>
+        /// Пользователская сортировка товаров
+        /// </summary>
+        public ICollectionView ProductsView => ProductsViewSource?.View;
+
+        /// <summary>
+        /// Прокси коллекция товаров
+        /// </summary>
+        private CollectionViewSource ProductsViewSource;
 
         private Product _SelectedProduct;
         /// <summary>
@@ -118,8 +165,53 @@ namespace Designer_Offer.ViewModels
         public ObservableCollection<Install> Installs
         {
             get => _Installs;
-            set => Set(ref _Installs, value);
+            set
+            {
+                if (Set(ref _Installs, value))
+                {
+                    {
+                        InstallsViewSource = new CollectionViewSource()
+                        {
+                            Source = value,
+                            SortDescriptions =
+                        {
+                            new SortDescription(nameof(Install.Name), ListSortDirection.Ascending)
+                        }
+
+                        };
+                        InstallsViewSource.Filter += InstallsViewSource_Filter;
+                        InstallsViewSource.View.Refresh();
+
+                        OnPropertyChanged(nameof(InstallsView));
+                    }
+                }
+            }
         }
+
+        private string _InstallFilter;
+        /// <summary>
+        /// Искомая услуга для фильтрации
+        /// </summary>
+        public string InstallFilter
+        {
+            get => _InstallFilter;
+            set
+            {
+                if (Set(ref _InstallFilter, value))
+                {
+                    InstallsViewSource?.View.Refresh();
+                }
+            }
+        }
+        /// <summary>
+        /// Пользователская сортировка услуг
+        /// </summary>
+        public ICollectionView InstallsView => InstallsViewSource?.View;
+
+        /// <summary>
+        /// Прокси коллекция услуг
+        /// </summary>
+        private CollectionViewSource InstallsViewSource;
 
         private Install _SelectedInstall;
         /// <summary>
@@ -138,8 +230,53 @@ namespace Designer_Offer.ViewModels
         public ObservableCollection<Supplier> Suppliers
         {
             get => _Suppliers;
-            set => Set(ref _Suppliers, value);
+            set
+            {
+                if (Set(ref _Suppliers, value))
+                {
+                    {
+                        SuppliersViewSource = new CollectionViewSource()
+                        {
+                            Source = value,
+                            SortDescriptions =
+                        {
+                            new SortDescription(nameof(Supplier.Name), ListSortDirection.Ascending)
+                        }
+
+                        };
+                        SuppliersViewSource.Filter += SuppliersViewSource_Filter;
+                        SuppliersViewSource.View.Refresh();
+
+                        OnPropertyChanged(nameof(SuppliersView));
+                    }
+                }
+            }
         }
+
+        private string _SupplierFilter;
+        /// <summary>
+        /// Искомый поставщик для фильтрации
+        /// </summary>
+        public string SupplierFilter
+        {
+            get => _SupplierFilter;
+            set
+            {
+                if (Set(ref _SupplierFilter, value))
+                {
+                    SuppliersViewSource?.View.Refresh();
+                }
+            }
+        }
+        /// <summary>
+        /// Пользователская сортировка поставщиков
+        /// </summary>
+        public ICollectionView SuppliersView => SuppliersViewSource?.View;
+
+        /// <summary>
+        /// Прокси коллекция поставщиков
+        /// </summary>
+        private CollectionViewSource SuppliersViewSource;
 
         private Supplier _SelectedSupplier;
         /// <summary>
@@ -150,7 +287,6 @@ namespace Designer_Offer.ViewModels
             get => _SelectedSupplier;
             set => Set(ref _SelectedSupplier, value);
         }
-
         private ObservableCollection<Unit> _Units;
         /// <summary>
         /// Коллекция единиц измерения
@@ -178,8 +314,53 @@ namespace Designer_Offer.ViewModels
         public ObservableCollection<Category> Categories
         {
             get => _Categories;
-            set => Set(ref _Categories, value);
+            set
+            {
+                if (Set(ref _Categories, value))
+                {
+                    {
+                        CategoriesViewSource = new CollectionViewSource()
+                        {
+                            Source = value,
+                            SortDescriptions =
+                        {
+                            new SortDescription(nameof(Category.Name), ListSortDirection.Ascending)
+                        }
+
+                        };
+                        CategoriesViewSource.Filter += CategoriesViewSource_Filter;
+                        CategoriesViewSource.View.Refresh();
+
+                        OnPropertyChanged(nameof(CategoriesView));
+                    }
+                }
+            }
         }
+
+        private string _CategoryFilter;
+        /// <summary>
+        /// Искомая категория для фильтрации
+        /// </summary>
+        public string CategoryFilter
+        {
+            get => _CategoryFilter;
+            set
+            {
+                if (Set(ref _CategoryFilter, value))
+                {
+                    CategoriesViewSource?.View.Refresh();
+                }
+            }
+        }
+        /// <summary>
+        /// Пользователская сортировка категорий
+        /// </summary>
+        public ICollectionView CategoriesView => CategoriesViewSource?.View;
+
+        /// <summary>
+        /// Прокси коллекция категорий
+        /// </summary>
+        private CollectionViewSource CategoriesViewSource;
 
         private Category _SelectedCategory;
         /// <summary>
@@ -190,7 +371,6 @@ namespace Designer_Offer.ViewModels
             get => _SelectedCategory;
             set => Set(ref _SelectedCategory, value);
         }
-
         #endregion
 
         #region КОМАНДЫ
@@ -251,7 +431,66 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region МЕТОДЫ
+        /// <summary>
+        /// Метод фильтрации поставщиков
+        /// </summary>
+        private void SuppliersViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Supplier supplier) || string.IsNullOrEmpty(SupplierFilter))
+            {
+                return;
+            }
 
+            if (!supplier.Name.ToLower().Contains(SupplierFilter.ToLower()))
+            {
+                e.Accepted = false;
+            }
+        }
+        /// <summary>
+        /// Метод фильтрации категорий
+        /// </summary>
+        private void CategoriesViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Category category) || string.IsNullOrEmpty(CategoryFilter))
+            {
+                return;
+            }
+
+            if (!category.Name.ToLower().Contains(CategoryFilter.ToLower()))
+            {
+                e.Accepted = false;
+            }
+        }
+        /// <summary>
+        /// Метод сортировки товаров
+        /// </summary>
+        private void ProductsViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Product product) || string.IsNullOrEmpty(ProductFilter))
+            {
+                return;
+            }
+
+            if (!product.Name.ToLower().Contains(ProductFilter.ToLower()))
+            {
+                e.Accepted = false;
+            }
+        }
+        /// <summary>
+        /// Метод сортировки услуг
+        /// </summary>
+        private void InstallsViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Install install) || string.IsNullOrEmpty(InstallFilter))
+            {
+                return;
+            }
+
+            if (!install.Name.ToLower().Contains(InstallFilter.ToLower()))
+            {
+                e.Accepted = false;
+            }
+        }
         #endregion
 
         #region КОНСТРУКТОРЫ
