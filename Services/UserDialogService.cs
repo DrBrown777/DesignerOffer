@@ -30,6 +30,8 @@ namespace Designer_Offer.Services
                     return EditPosition(position);
                 case Section section:
                     return EditSection(section);
+                case Unit unit:
+                    return EditUnit(unit);
                 default:
                     throw new NotSupportedException($"Редактирование обьекта типа {item.GetType().Name} не поддерживается.");
             }
@@ -177,6 +179,24 @@ namespace Designer_Offer.Services
             if (section_editor_window.ShowDialog() != true) return false;
 
             section.Name = section_editor_model.Name;
+
+            return true;
+        }
+
+        private static bool EditUnit(Unit unit)
+        {
+            var unit_editor_window = App.Host.Services
+                                       .GetRequiredService<UnitEditorWindow>();
+            var unit_editor_model = App.Host.Services
+                                       .GetRequiredService<UnitEditorViewModel>();
+
+            unit_editor_model.Name = unit.Name;
+
+            unit_editor_window.DataContext = unit_editor_model;
+
+            if (unit_editor_window.ShowDialog() != true) return false;
+
+            unit.Name = unit_editor_model.Name;
 
             return true;
         }

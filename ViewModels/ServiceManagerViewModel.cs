@@ -428,6 +428,112 @@ namespace Designer_Offer.ViewModels
         }
         #endregion
 
+        #region добавление/удаление данных
+        /// <summary>
+        /// Добавить новые ед.измерения
+        /// </summary>
+        public ICommand AddNewUnit { get; }
+
+        private bool CanAddNewUnit(object p) => true;
+
+        private void OnAddNewUnit(object p)
+        {
+            Unit new_unit = new Unit();
+
+            if (!UserDialog.Edit(new_unit))
+            {
+                return;
+            }
+
+            try
+            {
+                Units.Add(RepositoryUnits.Add(new_unit));
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                SelectedUnit = new_unit;
+            }
+        }
+        /// <summary>
+        /// Редактирование ед.измерения
+        /// </summary>
+        public ICommand EditUnit { get; }
+
+        private bool CanEditUnit(object p)
+        {
+            return (Unit)p != null && SelectedUnit != null;
+        }
+
+        private void OnEditUnit(object p)
+        {
+            Unit edit_unit = (Unit)p ?? SelectedUnit;
+
+            if (!UserDialog.Edit(edit_unit))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositoryUnits.Update(edit_unit);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                if (Units.Remove(edit_unit))
+                {
+                    Units.Add(edit_unit);
+                }
+
+                SelectedUnit = edit_unit;
+            }
+        }
+        /// <summary>
+        /// Удаление ед.измерения
+        /// </summary>
+        public ICommand RemoveUnit { get; }
+
+        private bool CanRemoveUnit(object p)
+        {
+            return (Unit)p != null && SelectedUnit != null;
+        }
+
+        private void OnRemoveUnit(object p)
+        {
+            Unit unit_to_remove = (Unit)p ?? SelectedUnit;
+
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить ед.измерения {unit_to_remove.Name}?", "Удаление компании"))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositoryUnits.Remove(unit_to_remove.Id);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                Units.Remove(unit_to_remove);
+
+                if (ReferenceEquals(SelectedUnit, unit_to_remove))
+                {
+                    SelectedUnit = null;
+                }
+            }
+        }
+        #endregion
+
         #endregion
 
         #region МЕТОДЫ
@@ -515,6 +621,10 @@ namespace Designer_Offer.ViewModels
             UserDialog = userDialog;
 
             LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
+
+            AddNewUnit = new LambdaCommand(OnAddNewUnit, CanAddNewUnit);
+            EditUnit = new LambdaCommand(OnEditUnit, CanEditUnit);
+            RemoveUnit = new LambdaCommand(OnRemoveUnit, CanRemoveUnit);
         }
         #endregion
     }

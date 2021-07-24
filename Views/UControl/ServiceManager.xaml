@@ -175,11 +175,16 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <DockPanel>
+                                <TextBlock DockPanel.Dock="Right">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{} ({0}) ({1} грн)">
+                                            <Binding Path="Model" UpdateSourceTrigger="PropertyChanged"/>
+                                            <Binding Path="Entry_Price" UpdateSourceTrigger="PropertyChanged"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
                                 <TextBlock
-                                    Text="{Binding Path=Model, StringFormat=({0}), UpdateSourceTrigger=PropertyChanged}"
-                                    DockPanel.Dock="Right"/>
-                                <TextBlock 
-                                    Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
+                                   Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
                             </DockPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -285,9 +290,20 @@
                          ItemsSource="{Binding Path=InstallsView, UpdateSourceTrigger=PropertyChanged}"
                          SelectedItem="{Binding Path=SelectedInstall, UpdateSourceTrigger=PropertyChanged}"
                          SelectedIndex="0">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DockPanel>
+                                <TextBlock
+                                    Text="{Binding Path=Entry_Price, StringFormat=({0} грн), UpdateSourceTrigger=PropertyChanged}"
+                                    DockPanel.Dock="Right"/>
+                                <TextBlock 
+                                    Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
+                            </DockPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
@@ -314,19 +330,19 @@
                     <StackPanel Orientation="Horizontal">
                         <Button
                             ToolTip="Добавить" ToolTipService.Placement="Top"
-                                Command="">
+                                Command="{Binding Path=AddNewUnit}">
                             <materialDesign:PackIcon Kind="PencilPlus" />
                         </Button>
                         <Button
                             ToolTip="Редактировать" ToolTipService.Placement="Top"
-                                Command=""
-                                CommandParameter="">
+                                Command="{Binding Path=EditUnit}"
+                                CommandParameter="{Binding Path=SelectedUnit}">
                             <materialDesign:PackIcon Kind="Pencil" />
                         </Button>
                         <Button
                             ToolTip="Удалить" ToolTipService.Placement="Top" 
-                                Command=""
-                                CommandParameter="">
+                                Command="{Binding Path=RemoveUnit}"
+                                CommandParameter="{Binding Path=SelectedUnit}">
                             <materialDesign:PackIcon Kind="Delete" />
                         </Button>
                     </StackPanel>
