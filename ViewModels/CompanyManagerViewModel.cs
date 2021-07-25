@@ -609,7 +609,7 @@ namespace Designer_Offer.ViewModels
         {
             Section section_to_remove = SelectedSection ?? (Section)p;
 
-            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить должность {section_to_remove.Name}?", "Удаление должности"))
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить раздел {section_to_remove.Name}?", "Удаление раздела"))
             {
                 return;
             }
@@ -633,6 +633,7 @@ namespace Designer_Offer.ViewModels
             }
         }
         #endregion
+
         #endregion
 
         #region КОНСТРУКТОРЫ

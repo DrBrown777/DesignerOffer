@@ -509,7 +509,7 @@ namespace Designer_Offer.ViewModels
         {
             Unit unit_to_remove = (Unit)p ?? SelectedUnit;
 
-            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить ед.измерения {unit_to_remove.Name}?", "Удаление компании"))
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить ед.измерения {unit_to_remove.Name}?", "Удаление ед.измерения"))
             {
                 return;
             }
@@ -529,6 +529,107 @@ namespace Designer_Offer.ViewModels
                 if (ReferenceEquals(SelectedUnit, unit_to_remove))
                 {
                     SelectedUnit = null;
+                }
+            }
+        }
+        /// <summary>
+        /// Добавление нового поставщика
+        /// </summary>
+        public ICommand AddNewSupplier { get; }
+
+        private bool CanAddNewSupplier(object p) => true;
+
+        private void OnAddNewSupplier(object p)
+        {
+            Supplier new_supplier = new Supplier();
+
+            if (!UserDialog.Edit(new_supplier))
+            {
+                return;
+            }
+
+            try
+            {
+                Suppliers.Add(RepositorySuppliers.Add(new_supplier));
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                SelectedSupplier = new_supplier;
+            }
+        }
+        /// <summary>
+        /// Редактирование поставщика
+        /// </summary>
+        public ICommand EditSupplier { get; }
+
+        private bool CanEditSupplier(object p)
+        {
+            return (Supplier)p != null && SelectedSupplier != null;
+        }
+
+        private void OnEditSupplier(object p)
+        {
+            Supplier supplier_to_edit = (Supplier)p ?? SelectedSupplier;
+
+            if (!UserDialog.Edit(supplier_to_edit))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositorySuppliers.Update(supplier_to_edit);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                SuppliersViewSource.View.Refresh();
+
+                SelectedSupplier = supplier_to_edit;
+            }
+        }
+
+        /// <summary>
+        /// Удаление поставщика
+        /// </summary>
+        public ICommand RemoveSupplier { get; }
+
+        private bool CanRemoveSupplier(object p)
+        {
+            return (Supplier)p != null && SelectedSupplier != null;
+        }
+
+        private void OnRemoveSupplier(object p)
+        {
+            Supplier supplier_to_remove = (Supplier)p ?? SelectedSupplier;
+
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить поставщика {supplier_to_remove.Name}?", "Удаление поставщика"))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositorySuppliers.Remove(supplier_to_remove.Id);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                Suppliers.Remove(supplier_to_remove);
+
+                if (ReferenceEquals(supplier_to_remove, SelectedSupplier))
+                {
+                    SelectedSupplier = null;
                 }
             }
         }
@@ -625,6 +726,10 @@ namespace Designer_Offer.ViewModels
             AddNewUnit = new LambdaCommand(OnAddNewUnit, CanAddNewUnit);
             EditUnit = new LambdaCommand(OnEditUnit, CanEditUnit);
             RemoveUnit = new LambdaCommand(OnRemoveUnit, CanRemoveUnit);
+
+            AddNewSupplier = new LambdaCommand(OnAddNewSupplier, CanAddNewSupplier);
+            EditSupplier = new LambdaCommand(OnEditSupplier, CanEditSupplier);
+            RemoveSupplier = new LambdaCommand(OnRemoveSupplier, CanRemoveSupplier);
         }
         #endregion
     }

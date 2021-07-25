@@ -32,6 +32,8 @@ namespace Designer_Offer.Services
                     return EditSection(section);
                 case Unit unit:
                     return EditUnit(unit);
+                case Supplier supplier:
+                    return EditSupplier(supplier);
                 default:
                     throw new NotSupportedException($"Редактирование обьекта типа {item.GetType().Name} не поддерживается.");
             }
@@ -197,6 +199,24 @@ namespace Designer_Offer.Services
             if (unit_editor_window.ShowDialog() != true) return false;
 
             unit.Name = unit_editor_model.Name;
+
+            return true;
+        }
+
+        private static bool EditSupplier(Supplier supplier)
+        {
+            var supplier_editor_window = App.Host.Services
+                                            .GetRequiredService<SupplierEditorWindow>();
+            var supplier_editor_model = App.Host.Services
+                                            .GetRequiredService<SupplierEditorViewModel>();
+
+            supplier_editor_model.Name = supplier.Name;
+
+            supplier_editor_window.DataContext = supplier_editor_model;
+
+            if (supplier_editor_window.ShowDialog() != true) return false;
+
+            supplier.Name = supplier_editor_model.Name;
 
             return true;
         }

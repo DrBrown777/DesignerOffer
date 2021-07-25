@@ -74,19 +74,19 @@
                     <StackPanel Orientation="Horizontal">
                         <Button
                             ToolTip="Добавить" ToolTipService.Placement="Top"
-                                Command="">
+                                Command="{Binding Path=AddNewSupplier}">
                             <materialDesign:PackIcon Kind="PencilPlus" />
                         </Button>
                         <Button
                             ToolTip="Редактировать" ToolTipService.Placement="Top"
-                                Command=""
-                                CommandParameter="">
+                                Command="{Binding Path=EditSupplier}"
+                                CommandParameter="{Binding Path=SelectedSupplier}">
                             <materialDesign:PackIcon Kind="Pencil" />
                         </Button>
                         <Button
                             ToolTip="Удалить" ToolTipService.Placement="Top" 
-                                Command=""
-                                CommandParameter="">
+                                Command="{Binding Path=RemoveSupplier}"
+                                CommandParameter="{Binding Path=SelectedSupplier}">
                             <materialDesign:PackIcon Kind="Delete" />
                         </Button>
                     </StackPanel>
