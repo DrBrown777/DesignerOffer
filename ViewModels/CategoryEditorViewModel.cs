@@ -1,8 +1,11 @@
 ﻿using Designer_Offer.Data;
+using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Designer_Offer.ViewModels
 {
@@ -18,9 +21,19 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Name, value);
         }
 
+        private ICollection<Section> _CategorySections;
+        /// <summary>
+        /// Разделы выбранной категории
+        /// </summary>
+        public ICollection<Section> CategorySections
+        {
+            get => _CategorySections;
+            set => Set(ref _CategorySections, value);
+        }
+
         private List<Section> _Sections;
         /// <summary>
-        /// Разделы
+        /// Все разделы
         /// </summary>
         public List<Section> Sections
         {
@@ -38,9 +51,51 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _SelectedSection, value);
         }
 
+        /// <summary>
+        /// Добавление разделов в категорию
+        /// </summary>
+        public ICommand AddSections { get; }
+
+        private bool CanAddSections(object p) => true && p != null;
+
+        private void OnAddSections(object p)
+        {
+            ListBox listBox = (ListBox)p;
+
+            CategorySections?.Clear();
+
+            foreach (Section item in listBox.SelectedItems)
+            {
+                CategorySections.Add(item);
+            }
+        }
+
+        /// <summary>
+        /// Автоматическая Выборка разделов у редактируемой категории
+        /// </summary>
+        public ICommand ChoiceSections { get; }
+
+        private bool CanChoiceSections(object p) => true && p != null;
+
+        private void OnChoiceSections(object p)
+        {
+            ListBox listBox = (ListBox)p;
+
+            foreach (Section item in listBox.Items)
+            {
+                if (CategorySections.Contains(item))
+                {
+                    listBox.SelectedItems.Add(item);
+                }
+            }
+        }
+
         public CategoryEditorViewModel(IRepository<Section> repaSection)
         {
             Sections = repaSection.Items.ToList();
+
+            AddSections = new LambdaCommand(OnAddSections, CanAddSections);
+            ChoiceSections = new LambdaCommand(OnChoiceSections, CanChoiceSections);
         }
     }
 }

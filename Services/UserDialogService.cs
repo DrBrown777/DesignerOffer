@@ -231,14 +231,14 @@ namespace Designer_Offer.Services
                                         .GetRequiredService<CategoryEditorViewModel>();
 
             category_editor_model.Name = category.Name;
-            //category_editor_model.SelectedSection = category.Section;
+            category_editor_model.CategorySections = category.Section;
 
             category_editor_window.DataContext = category_editor_model;
 
             if (category_editor_window.ShowDialog() != true) return false;
 
             category.Name = category_editor_model.Name;
-            //category.Section = category_editor_model.SelectedSection;
+            category.Section = category_editor_model.CategorySections;
 
             return true;
         }
