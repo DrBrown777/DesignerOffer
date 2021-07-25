@@ -11,6 +11,7 @@ namespace Designer_Offer.ViewModels
 {
     internal class CategoryEditorViewModel : ViewModel
     {
+        #region СВОЙСТВА
         private string _Name;
         /// <summary>
         /// Название категории
@@ -40,17 +41,9 @@ namespace Designer_Offer.ViewModels
             get => _Sections;
             set => Set(ref _Sections, value);
         }
+        #endregion
 
-        private Section _SelectedSection;
-        /// <summary>
-        /// Выбранный раздел
-        /// </summary>
-        public Section SelectedSection
-        {
-            get => _SelectedSection;
-            set => Set(ref _SelectedSection, value);
-        }
-
+        #region КОМАНДЫ
         /// <summary>
         /// Добавление разделов в категорию
         /// </summary>
@@ -89,7 +82,9 @@ namespace Designer_Offer.ViewModels
                 }
             }
         }
+        #endregion
 
+        #region КОНСТРУКТОРЫ
         public CategoryEditorViewModel(IRepository<Section> repaSection)
         {
             Sections = repaSection.Items.ToList();
@@ -97,5 +92,6 @@ namespace Designer_Offer.ViewModels
             AddSections = new LambdaCommand(OnAddSections, CanAddSections);
             ChoiceSections = new LambdaCommand(OnChoiceSections, CanChoiceSections);
         }
+        #endregion
     }
 }
