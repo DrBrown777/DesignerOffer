@@ -48,6 +48,11 @@ namespace Designer_Offer.Data
                 .WithOptional(e => e.Category)
                 .HasForeignKey(e => e.Category_Id);
 
+            modelBuilder.Entity<Category>()
+                .HasMany(e => e.Section)
+                .WithMany(e => e.Category)
+                .Map(m => m.ToTable("SectionCategory"));
+
             modelBuilder.Entity<Client>()
                 .HasMany(e => e.Build)
                 .WithOptional(e => e.Client)
@@ -118,11 +123,6 @@ namespace Designer_Offer.Data
                 .HasMany(e => e.Offer)
                 .WithRequired(e => e.Project)
                 .HasForeignKey(e => e.Project_Id);
-
-            modelBuilder.Entity<Section>()
-                .HasMany(e => e.Category)
-                .WithOptional(e => e.Section)
-                .HasForeignKey(e => e.Section_Id);
 
             modelBuilder.Entity<Section>()
                 .HasMany(e => e.Offer)

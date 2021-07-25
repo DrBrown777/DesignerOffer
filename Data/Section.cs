@@ -13,8 +13,8 @@ namespace Designer_Offer.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Section()
         {
-            Category = new HashSet<Category>();
             Offer = new HashSet<Offer>();
+            Category = new HashSet<Category>();
         }
 
         public int Id { get; set; }
@@ -24,9 +24,9 @@ namespace Designer_Offer.Data
         public string Name { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Category> Category { get; set; }
+        public virtual ICollection<Offer> Offer { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Offer> Offer { get; set; }
+        public virtual ICollection<Category> Category { get; set; }
     }
 }
