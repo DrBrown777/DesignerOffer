@@ -80,6 +80,7 @@ namespace Designer_Offer
             services.AddTransient<SectionEditorWindow>();
             services.AddTransient<UnitEditorWindow>();
             services.AddTransient<SupplierEditorWindow>();
+            services.AddTransient<CategoryEditorWindow>();
 
             /*Регистрация моделей представлений окон*/
             services.AddSingleton<MainWindowViewModel>();
@@ -94,6 +95,7 @@ namespace Designer_Offer
             services.AddTransient<SectionEditorViewModel>();
             services.AddTransient<UnitEditorViewModel>();
             services.AddTransient<SupplierEditorViewModel>();
+            services.AddTransient<CategoryEditorViewModel>();
 
             /*Регистрация моделей представлений юзер контролов*/
             services.AddSingleton<ProjectManagerViewModel>();

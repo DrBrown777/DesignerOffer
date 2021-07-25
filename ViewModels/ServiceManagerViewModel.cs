@@ -4,13 +4,9 @@ using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -625,12 +621,112 @@ namespace Designer_Offer.ViewModels
             }
             finally
             {
-                Suppliers.Remove(supplier_to_remove);
-
                 if (ReferenceEquals(supplier_to_remove, SelectedSupplier))
                 {
                     SelectedSupplier = null;
                 }
+
+                Suppliers.Remove(supplier_to_remove);
+            }
+        }
+        /// <summary>
+        /// Добавление новой категории
+        /// </summary>
+        public ICommand AddNewCategory { get; }
+
+        public bool CanAddNewCategory(object p) => true;
+
+        public void OnAddNewCategory(object p)
+        {
+            Category new_category = new Category();
+
+            if (!UserDialog.Edit(new_category))
+            {
+                return;
+            }
+
+            try
+            {
+                Categories.Add(RepositoryCategories.Add(new_category));
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                SelectedCategory = new_category;
+            }
+        }
+        /// <summary>
+        /// Редактирование категории
+        /// </summary>
+        public ICommand EditCategory { get; }
+
+        public bool CanEditCategory(object p)
+        {
+            return (Category)p != null && SelectedCategory != null;
+        }
+
+        public void OnEditCategory(object p)
+        {
+            Category category_to_edit = (Category)p ?? SelectedCategory;
+
+            if (!UserDialog.Edit(category_to_edit))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositoryCategories.Update(category_to_edit);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                CategoriesViewSource.View.Refresh();
+
+                SelectedCategory = category_to_edit;
+            }
+        }
+        /// <summary>
+        /// Удаление категории
+        /// </summary>
+        public ICommand RemoveCategory { get; }
+
+        public bool CanRemoveCategory(object p)
+        {
+            return (Category)p != null && SelectedCategory != null;
+        }
+
+        public void OnRemoveCategory(object p)
+        {
+            Category category_to_remove = (Category)p ?? SelectedCategory;
+
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить категорию {category_to_remove.Name}?", "Удаление категории"))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositoryCategories.Remove(category_to_remove.Id);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                if (ReferenceEquals(SelectedCategory, category_to_remove))
+                {
+                    SelectedCategory = null;
+                }
+
+                Categories.Remove(category_to_remove);
             }
         }
         #endregion
@@ -730,6 +826,10 @@ namespace Designer_Offer.ViewModels
             AddNewSupplier = new LambdaCommand(OnAddNewSupplier, CanAddNewSupplier);
             EditSupplier = new LambdaCommand(OnEditSupplier, CanEditSupplier);
             RemoveSupplier = new LambdaCommand(OnRemoveSupplier, CanRemoveSupplier);
+
+            AddNewCategory = new LambdaCommand(OnAddNewCategory, CanAddNewCategory);
+            EditCategory = new LambdaCommand(OnEditCategory, CanEditCategory);
+            RemoveCategory = new LambdaCommand(OnRemoveCategory, CanRemoveCategory);
         }
         #endregion
     }

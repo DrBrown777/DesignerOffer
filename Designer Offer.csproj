@@ -237,6 +237,7 @@
     <Compile Include="Services\Repositories\DbRepository.cs" />
     <Compile Include="Services\UserDialogService.cs" />
     <Compile Include="ViewModels\BuildEditorViewModel.cs" />
+    <Compile Include="ViewModels\CategoryEditorViewModel.cs" />
     <Compile Include="ViewModels\ClientEditorViewModel.cs" />
     <Compile Include="ViewModels\CompanyEditorViewModel.cs" />
     <Compile Include="ViewModels\CompanyManagerViewModel.cs" />
@@ -260,6 +261,9 @@
     </Compile>
     <Compile Include="Views\Windows\BuildEditorWindow.xaml.cs">
       <DependentUpon>BuildEditorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\CategoryEditorWindow.xaml.cs">
+      <DependentUpon>CategoryEditorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\ClientEditorWindow.xaml.cs">
       <DependentUpon>ClientEditorWindow.xaml</DependentUpon>
@@ -306,6 +310,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Windows\BuildEditorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\CategoryEditorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -34,6 +34,8 @@ namespace Designer_Offer.Services
                     return EditUnit(unit);
                 case Supplier supplier:
                     return EditSupplier(supplier);
+                case Category category:
+                    return EditCategory(category);
                 default:
                     throw new NotSupportedException($"Редактирование обьекта типа {item.GetType().Name} не поддерживается.");
             }
@@ -217,6 +219,26 @@ namespace Designer_Offer.Services
             if (supplier_editor_window.ShowDialog() != true) return false;
 
             supplier.Name = supplier_editor_model.Name;
+
+            return true;
+        }
+
+        private static bool EditCategory(Category category)
+        {
+            var category_editor_window = App.Host.Services
+                                       .GetRequiredService<CategoryEditorWindow>();
+            var category_editor_model = App.Host.Services
+                                        .GetRequiredService<CategoryEditorViewModel>();
+
+            category_editor_model.Name = category.Name;
+            category_editor_model.SelectedSection = category.Section;
+
+            category_editor_window.DataContext = category_editor_model;
+
+            if (category_editor_window.ShowDialog() != true) return false;
+
+            category.Name = category_editor_model.Name;
+            category.Section = category_editor_model.SelectedSection;
 
             return true;
         }

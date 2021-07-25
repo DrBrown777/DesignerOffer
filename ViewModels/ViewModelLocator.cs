@@ -49,5 +49,8 @@ namespace Designer_Offer.ViewModels
 
         public SupplierEditorViewModel SupplierEditorView =>
             App.Host.Services.GetRequiredService<SupplierEditorViewModel>();
+
+        public CategoryEditorViewModel CategoryEditorView =>
+            App.Host.Services.GetRequiredService<CategoryEditorViewModel>();
     }
 }
