@@ -52,5 +52,8 @@ namespace Designer_Offer.ViewModels
 
         public CategoryEditorViewModel CategoryEditorView =>
             App.Host.Services.GetRequiredService<CategoryEditorViewModel>();
+
+        public ProductEditorViewModel ProductEditorView =>
+            App.Host.Services.GetRequiredService<ProductEditorViewModel>();
     }
 }

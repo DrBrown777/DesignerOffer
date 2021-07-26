@@ -61,10 +61,9 @@
         </Style>
         <Style x:Key="ListBox" TargetType="ListBox" BasedOn="{StaticResource MaterialDesignFilterChipPrimaryListBox}">
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
             <Setter Property="Margin" Value="3"/>
             <Setter Property="Padding" Value="10,3"/>
-            <Setter Property="Height" Value="120"/>
         </Style>
     </Window.Resources>
     <DockPanel Margin="3">
@@ -86,7 +85,7 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <materialDesign:PackIcon 
                 Kind="Wrench"

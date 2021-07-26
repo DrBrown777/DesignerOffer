@@ -28,6 +28,7 @@
             <Setter Property="Height" Value="25"/>
             <Setter Property="Margin" Value="3"/>
             <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="BorderThickness" Value="0"/>
         </Style>
         <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
             <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>

@@ -81,6 +81,7 @@ namespace Designer_Offer
             services.AddTransient<UnitEditorWindow>();
             services.AddTransient<SupplierEditorWindow>();
             services.AddTransient<CategoryEditorWindow>();
+            services.AddTransient<ProductEditorWindow>();
 
             /*Регистрация моделей представлений окон*/
             services.AddSingleton<MainWindowViewModel>();
@@ -96,6 +97,7 @@ namespace Designer_Offer
             services.AddTransient<UnitEditorViewModel>();
             services.AddTransient<SupplierEditorViewModel>();
             services.AddTransient<CategoryEditorViewModel>();
+            services.AddTransient<ProductEditorViewModel>();
 
             /*Регистрация моделей представлений юзер контролов*/
             services.AddSingleton<ProjectManagerViewModel>();
@@ -139,7 +141,7 @@ namespace Designer_Offer
             services.AddTransient<IRepository<UserData>, DbRepository<UserData>>();
         }
 
-        public static string CurrentDirectory => IsDesignMode 
+        public static string CurrentDirectory => IsDesignMode
             ? Path.GetDirectoryName(GetSourceCodePath())
             : Environment.CurrentDirectory;
 
