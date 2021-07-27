@@ -36,9 +36,37 @@ namespace Designer_Offer.Services
                     return EditSupplier(supplier);
                 case Category category:
                     return EditCategory(category);
+                case Product product:
+                    return EditProduct(product);
                 default:
                     throw new NotSupportedException($"Редактирование обьекта типа {item.GetType().Name} не поддерживается.");
             }
+        }
+
+        private bool EditProduct(Product product)
+        {
+            var product_editor_window = App.Host.Services
+                                       .GetRequiredService<ProductEditorWindow>();
+            var product_editor_model = App.Host.Services
+                                        .GetRequiredService<ProductEditorViewModel>();
+
+            product_editor_model.Name = product.Name;
+            product_editor_model.Model = product.Model;
+            product_editor_model.EntryPrice = product.Entry_Price.Value;
+            product_editor_model.SelectedUnit = product.Unit;
+            product_editor_model.SelectedCategory = product.Category;
+
+            product_editor_window.DataContext = product_editor_model;
+
+            if (product_editor_window.ShowDialog() != true) return false;
+
+            product.Name = product_editor_model.Name;
+            product.Model = product_editor_model.Model;
+            product.Entry_Price = product_editor_model.EntryPrice;
+            product.Unit = product_editor_model.SelectedUnit;
+            product.Category = product_editor_model.SelectedCategory;
+
+            return true;
         }
 
         private static bool EditClient(Client client)

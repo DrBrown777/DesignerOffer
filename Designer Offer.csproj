@@ -223,6 +223,8 @@
     <Compile Include="Infrastructure\Commands\CloseApplicationCommand.cs" />
     <Compile Include="Infrastructure\Commands\DialogResultCommand.cs" />
     <Compile Include="Infrastructure\Converters\Base\Converter.cs" />
+    <Compile Include="Infrastructure\Converters\DecimalToStringConverter.cs" />
+    <Compile Include="Infrastructure\Validations\NotNumberValidationRule.cs" />
     <Compile Include="Infrastructure\Validations\NotValidEmailValidationRule.cs" />
     <Compile Include="Infrastructure\Validations\NotValidPhoneValidationRule.cs" />
     <Compile Include="Infrastructure\Validations\UniqEmailValidationRule.cs" />

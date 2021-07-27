@@ -155,6 +155,7 @@ namespace Designer_Offer.ViewModels
             Units = repaUnit.Items.ToList();
             Suppliers = repaSuppliers.Items.ToList();
             Categories = repaCategories.Items.ToList();
+            ProductSuppliers = new List<Supplier>();
 
             ChoiceSuppliers = new LambdaCommand(OnChoiceSuppliers, CanChoiceSuppliers);
             AddSuppliers = new LambdaCommand(OnAddSuppliers, CanAddSuppliers);

@@ -729,6 +729,38 @@ namespace Designer_Offer.ViewModels
                 Categories.Remove(category_to_remove);
             }
         }
+        /// <summary>
+        /// Добавление нового товара
+        /// </summary>
+        public ICommand AddNewProduct { get; }
+
+        private bool CanAddNewProduct(object p) => true;
+
+        private void OnAddNewProduct(object p)
+        {
+            Product new_product = new Product
+            {
+                Entry_Price = 0
+            };
+
+            if (!UserDialog.Edit(new_product))
+            {
+                return;
+            }
+
+            try
+            {
+                Products.Add(RepositoryProducts.Add(new_product));
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                SelectedProduct = new_product;
+            }
+        }
         #endregion
 
         #endregion
@@ -830,6 +862,8 @@ namespace Designer_Offer.ViewModels
             AddNewCategory = new LambdaCommand(OnAddNewCategory, CanAddNewCategory);
             EditCategory = new LambdaCommand(OnEditCategory, CanEditCategory);
             RemoveCategory = new LambdaCommand(OnRemoveCategory, CanRemoveCategory);
+
+            AddNewProduct = new LambdaCommand(OnAddNewProduct, CanAddNewProduct);
         }
         #endregion
     }
