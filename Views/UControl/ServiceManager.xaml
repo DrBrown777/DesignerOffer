@@ -262,19 +262,19 @@
                     <StackPanel Orientation="Horizontal">
                         <Button
                             ToolTip="Добавить" ToolTipService.Placement="Top"
-                                Command="">
+                                Command="{Binding Path=AddNewInstall}">
                             <materialDesign:PackIcon Kind="PencilPlus" />
                         </Button>
                         <Button
                             ToolTip="Редактировать" ToolTipService.Placement="Top"
-                                Command=""
-                                CommandParameter="">
+                                Command="{Binding Path=EditInstall}"
+                                CommandParameter="{Binding Path=SelectedInstall}">
                             <materialDesign:PackIcon Kind="Pencil" />
                         </Button>
                         <Button
                             ToolTip="Удалить" ToolTipService.Placement="Top" 
-                                Command=""
-                                CommandParameter="">
+                                Command="{Binding Path=RemoveInstall}"
+                                CommandParameter="{Binding Path=SelectedInstall}">
                             <materialDesign:PackIcon Kind="Delete" />
                         </Button>
                     </StackPanel>

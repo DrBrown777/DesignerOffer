@@ -832,7 +832,109 @@ namespace Designer_Offer.ViewModels
                 Products.Remove(product_to_remove);
             }
         }
+        /// <summary>
+        /// Добавление новой услуги
+        /// </summary>
+        public ICommand AddNewInstall { get; }
 
+        private bool CanAddNewInstall(object p) => true;
+
+        private void OnAddNewInstall(object p)
+        {
+            Install new_install = new Install
+            {
+                Entry_Price = 0
+            };
+
+            if (!UserDialog.Edit(new_install))
+            {
+                return;
+            }
+
+            try
+            {
+                Installs.Add(RepositoryInstalls.Add(new_install));
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                SelectedInstall = new_install;
+            }
+        }
+        /// <summary>
+        /// Редактирование услуги
+        /// </summary>
+        public ICommand EditInstall { get; }
+
+        private bool CanEditInstall(object p)
+        {
+            return (Install)p != null && SelectedInstall != null;
+        }
+
+        private void OnEditInstall(object p)
+        {
+            Install install_to_edit = (Install)p ?? SelectedInstall;
+
+            if (!UserDialog.Edit(install_to_edit))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositoryInstalls.Update(install_to_edit);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                InstallsViewSource.View.Refresh();
+
+                SelectedInstall = install_to_edit;
+            }
+        }
+        /// <summary>
+        /// Удаление услуги
+        /// </summary>
+        public ICommand RemoveInstall { get; }
+
+        private bool CanRemoveInstall(object p)
+        {
+            return (Install)p != null && SelectedInstall != null;
+        }
+
+        private void OnRemoveInstall(object p)
+        {
+            Install install_to_remove = (Install)p ?? SelectedInstall;
+
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить услугу {install_to_remove.Name}?", "Удаление услуги"))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositoryInstalls.Remove(install_to_remove.Id);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                if (ReferenceEquals(install_to_remove, SelectedInstall))
+                {
+                    SelectedInstall = null;
+                }
+
+                Installs.Remove(install_to_remove);
+            }
+        }
         #endregion
 
         #endregion
@@ -938,6 +1040,10 @@ namespace Designer_Offer.ViewModels
             AddNewProduct = new LambdaCommand(OnAddNewProduct, CanAddNewProduct);
             EditProduct = new LambdaCommand(OnEditProduct, CanEditProduct);
             RemoveProduct = new LambdaCommand(OnRemoveProduct, CanRemoveProduct);
+
+            AddNewInstall = new LambdaCommand(OnAddNewInstall, CanAddNewInstall);
+            EditInstall = new LambdaCommand(OnEditInstall, CanEditInstall);
+            RemoveInstall = new LambdaCommand(OnRemoveInstall, CanRemoveInstall);
         }
         #endregion
     }

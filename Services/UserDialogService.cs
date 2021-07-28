@@ -38,36 +38,11 @@ namespace Designer_Offer.Services
                     return EditCategory(category);
                 case Product product:
                     return EditProduct(product);
+                case Install install:
+                    return EditInstall(install);
                 default:
                     throw new NotSupportedException($"Редактирование обьекта типа {item.GetType().Name} не поддерживается.");
             }
-        }
-
-        private bool EditProduct(Product product)
-        {
-            var product_editor_window = App.Host.Services
-                                       .GetRequiredService<ProductEditorWindow>();
-            var product_editor_model = App.Host.Services
-                                        .GetRequiredService<ProductEditorViewModel>();
-
-            product_editor_model.Name = product.Name;
-            product_editor_model.Model = product.Model;
-            product_editor_model.EntryPrice = product.Entry_Price.Value;
-            product_editor_model.SelectedUnit = product.Unit;
-            product_editor_model.SelectedCategory = product.Category;
-            product_editor_model.ProductSuppliers = product.Supplier;
-
-            product_editor_window.DataContext = product_editor_model;
-
-            if (product_editor_window.ShowDialog() != true) return false;
-
-            product.Name = product_editor_model.Name;
-            product.Model = product_editor_model.Model;
-            product.Entry_Price = product_editor_model.EntryPrice;
-            product.Unit = product_editor_model.SelectedUnit;
-            product.Category = product_editor_model.SelectedCategory;
-
-            return true;
         }
 
         private static bool EditClient(Client client)
@@ -268,6 +243,57 @@ namespace Designer_Offer.Services
 
             category.Name = category_editor_model.Name;
             category.Section = category_editor_model.CategorySections;
+
+            return true;
+        }
+
+        private static bool EditProduct(Product product)
+        {
+            var product_editor_window = App.Host.Services
+                                       .GetRequiredService<ProductEditorWindow>();
+            var product_editor_model = App.Host.Services
+                                        .GetRequiredService<ProductEditorViewModel>();
+
+            product_editor_model.Name = product.Name;
+            product_editor_model.Model = product.Model;
+            product_editor_model.EntryPrice = product.Entry_Price.Value;
+            product_editor_model.SelectedUnit = product.Unit;
+            product_editor_model.SelectedCategory = product.Category;
+            product_editor_model.ProductSuppliers = product.Supplier;
+
+            product_editor_window.DataContext = product_editor_model;
+
+            if (product_editor_window.ShowDialog() != true) return false;
+
+            product.Name = product_editor_model.Name;
+            product.Model = product_editor_model.Model;
+            product.Entry_Price = product_editor_model.EntryPrice;
+            product.Unit = product_editor_model.SelectedUnit;
+            product.Category = product_editor_model.SelectedCategory;
+
+            return true;
+        }
+
+        private static bool EditInstall(Install install)
+        {
+            var install_editor_window = App.Host.Services
+                                       .GetRequiredService<InstallEditorWindow>();
+            var install_editor_model = App.Host.Services
+                                        .GetRequiredService<InstallEditorViewModel>();
+
+            install_editor_model.Name = install.Name;
+            install_editor_model.EntryPrice = install.Entry_Price.Value;
+            install_editor_model.SelectedUnit = install.Unit;
+            install_editor_model.SelectedCategory = install.Category;
+
+            install_editor_window.DataContext = install_editor_model;
+
+            if (install_editor_window.ShowDialog() != true) return false;
+
+            install.Name = install_editor_model.Name;
+            install.Entry_Price = install_editor_model.EntryPrice;
+            install.Unit = install_editor_model.SelectedUnit;
+            install.Category = install_editor_model.SelectedCategory;
 
             return true;
         }

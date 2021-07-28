@@ -55,5 +55,8 @@ namespace Designer_Offer.ViewModels
 
         public ProductEditorViewModel ProductEditorView =>
             App.Host.Services.GetRequiredService<ProductEditorViewModel>();
+
+        public InstallEditorViewModel InstallEditorView =>
+            App.Host.Services.GetRequiredService<InstallEditorViewModel>();
     }
 }

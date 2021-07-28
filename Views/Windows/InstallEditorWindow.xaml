@@ -1,17 +1,16 @@
-﻿<Window x:Class="Designer_Offer.Views.Windows.ProductEditorWindow"
+﻿<Window x:Class="Designer_Offer.Views.Windows.InstallEditorWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:cmd="clr-namespace:Designer_Offer.Infrastructure.Commands" 
         xmlns:local="clr-namespace:Designer_Offer.Infrastructure.Validations"
         xmlns:cnv="clr-namespace:Designer_Offer.Infrastructure.Converters"
-        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="Редактор товара" Height="500" Width="500"
+        Title="Редактор услуги" Height="430" Width="500"
         WindowStartupLocation="CenterScreen"
-        DataContext="{Binding ProductEditorView, Source={StaticResource Locator}}"
+        DataContext="{Binding InstallEditorView, Source={StaticResource Locator}}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -19,12 +18,6 @@
         TextOptions.TextRenderingMode="Aliased"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding Path=ChoiceSuppliers}"
-                                   CommandParameter="{Binding ElementName=ProductSuppliers}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
     <Window.Resources>
         <cmd:DialogResultCommand x:Key="DialogResultCommand"/>
         <Style x:Key="Button" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedDarkButton}">
@@ -37,13 +30,10 @@
             <Setter Property="Padding" Value="10,3"/>
             <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth2"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=ProductName}" Value="True">
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=InstallName}" Value="True">
                     <Setter Property="IsEnabled" Value="False"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=ProductModel}" Value="True">
-                    <Setter Property="IsEnabled" Value="False"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=ProductPrice}" Value="True">
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=InstallPrice}" Value="True">
                     <Setter Property="IsEnabled" Value="False"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -71,12 +61,6 @@
             <Setter Property="Height" Value="20"/>
             <Setter Property="Foreground" Value="#FF436EB1"/>
         </Style>
-        <Style x:Key="ListBox" TargetType="ListBox" BasedOn="{StaticResource MaterialDesignFilterChipPrimaryListBox}">
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="3"/>
-            <Setter Property="Padding" Value="10,3"/>
-        </Style>
         <Style x:Key="ComboBox" TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="Margin" Value="10,15,3,5"/>
@@ -102,20 +86,18 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition />
-                <RowDefinition />
                 <RowDefinition Height="Auto"/>
                 <RowDefinition />
                 <RowDefinition />
-                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <materialDesign:PackIcon 
-                Kind="Fan"
+                Kind="Worker"
                 Grid.Column="0" Grid.Row="0"/>
-            <TextBox x:Name="ProductName" Style="{StaticResource TextBox}"
+            <TextBox x:Name="InstallName" Style="{StaticResource TextBox}"
                      Grid.Row="0" Grid.Column="1"
                      AcceptsReturn="True"
                      VerticalScrollBarVisibility="Auto"
-                     materialDesign:HintAssist.Hint="Наименование"
+                     materialDesign:HintAssist.Hint="Вид работ"
                      materialDesign:HintAssist.HelperText="введите название">
                 <TextBox.Text>
                     <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
@@ -126,23 +108,10 @@
                 </TextBox.Text>
             </TextBox>
             <materialDesign:PackIcon 
-                Kind="Cog"
-                Grid.Column="0" Grid.Row="1"/>
-            <TextBox x:Name="ProductModel" Style="{StaticResource TextBox}"
-                     Grid.Row="1" Grid.Column="1"
-                     AcceptsReturn="True"
-                     VerticalScrollBarVisibility="Auto"
-                     materialDesign:HintAssist.Hint="Маркировка"
-                     materialDesign:HintAssist.HelperText="введите маркировку">
-                <TextBox.Text>
-                    <Binding Path="Model" UpdateSourceTrigger="PropertyChanged"/>
-                </TextBox.Text>
-            </TextBox>
-            <materialDesign:PackIcon 
                 Kind="Cash"
-                Grid.Column="0" Grid.Row="2"/>
-            <TextBox x:Name="ProductPrice" Style="{StaticResource TextBoxOutline}"
-                     Grid.Row="2" Grid.Column="1"
+                Grid.Column="0" Grid.Row="1"/>
+            <TextBox x:Name="InstallPrice" Style="{StaticResource TextBoxOutline}"
+                     Grid.Row="1" Grid.Column="1"
                      AcceptsReturn="True"
                      ToolTip="Входящая цена" 
                      VerticalScrollBarVisibility="Auto"
@@ -162,41 +131,26 @@
             </TextBox>
             <materialDesign:PackIcon 
                 Kind="Ruler"
-                Grid.Column="0" Grid.Row="3"/>
+                Grid.Column="0" Grid.Row="2"/>
             <ComboBox Style="{Binding Source={StaticResource ComboBox}}"
                 ItemsSource="{Binding Path=Units, UpdateSourceTrigger=PropertyChanged}"
                 SelectedItem="{Binding Path=SelectedUnit}"
-                Grid.Column="1" Grid.Row="3"
+                Grid.Column="1" Grid.Row="2"
                 DisplayMemberPath="Name"
                 materialDesign:HintAssist.Hint="Выберите ед. измерения"
                 materialDesign:HintAssist.HelperText="единицы измерения"
                 IsSynchronizedWithCurrentItem="False"/>
             <materialDesign:PackIcon 
                 Kind="SetCenter"
-                Grid.Column="0" Grid.Row="4"/>
+                Grid.Column="0" Grid.Row="3"/>
             <ComboBox Style="{Binding Source={StaticResource ComboBox}}"
                 ItemsSource="{Binding Path=Categories, UpdateSourceTrigger=PropertyChanged}"
                 SelectedItem="{Binding Path=SelectedCategory}"
-                Grid.Column="1" Grid.Row="4"
+                Grid.Column="1" Grid.Row="3"
                 DisplayMemberPath="Name"
                 materialDesign:HintAssist.Hint="Выберите категорию"
                 materialDesign:HintAssist.HelperText="категория"
                 IsSynchronizedWithCurrentItem="False"/>
-            <materialDesign:PackIcon 
-                Kind="AccountTie"
-                Grid.Column="0" Grid.Row="5"/>
-            <ListBox x:Name="ProductSuppliers" Style="{StaticResource ListBox}" 
-                     Grid.Row="5" Grid.Column="1"
-                     ItemsSource="{Binding Path=Suppliers, UpdateSourceTrigger=PropertyChanged}"
-                     DisplayMemberPath="Name"
-                     SelectionMode="Multiple">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding Path=AddSuppliers}" 
-                                               CommandParameter="{Binding ElementName=ProductSuppliers}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </ListBox>
         </Grid>
     </DockPanel>
 </Window>
