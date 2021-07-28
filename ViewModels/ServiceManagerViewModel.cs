@@ -761,6 +761,78 @@ namespace Designer_Offer.ViewModels
                 SelectedProduct = new_product;
             }
         }
+        /// <summary>
+        /// Редактирование товара
+        /// </summary>
+        public ICommand EditProduct { get; }
+
+        private bool CanEditProduct(object p)
+        {
+            return (Product)p != null && SelectedProduct != null;
+        }
+
+        private void OnEditProduct(object p)
+        {
+            Product product_to_edit = (Product)p ?? SelectedProduct;
+
+            if (!UserDialog.Edit(product_to_edit))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositoryProducts.Update(product_to_edit);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                ProductsViewSource.View.Refresh();
+
+                SelectedProduct = product_to_edit;
+            }
+        }
+        /// <summary>
+        /// Удаление товара
+        /// </summary>
+        public ICommand RemoveProduct { get; }
+
+        private bool CanRemoveProduct(object p)
+        {
+            return (Product)p != null && SelectedProduct != null;
+        }
+
+        private void OnRemoveProduct(object p)
+        {
+            Product product_to_remove = (Product)p ?? SelectedProduct;
+
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить товар {product_to_remove.Name}?", "Удаление товара"))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositoryProducts.Remove(product_to_remove.Id);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                if (ReferenceEquals(SelectedProduct, product_to_remove))
+                {
+                    SelectedProduct = null;
+                }
+
+                Products.Remove(product_to_remove);
+            }
+        }
+
         #endregion
 
         #endregion
@@ -864,6 +936,8 @@ namespace Designer_Offer.ViewModels
             RemoveCategory = new LambdaCommand(OnRemoveCategory, CanRemoveCategory);
 
             AddNewProduct = new LambdaCommand(OnAddNewProduct, CanAddNewProduct);
+            EditProduct = new LambdaCommand(OnEditProduct, CanEditProduct);
+            RemoveProduct = new LambdaCommand(OnRemoveProduct, CanRemoveProduct);
         }
         #endregion
     }

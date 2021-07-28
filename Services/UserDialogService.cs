@@ -55,6 +55,7 @@ namespace Designer_Offer.Services
             product_editor_model.EntryPrice = product.Entry_Price.Value;
             product_editor_model.SelectedUnit = product.Unit;
             product_editor_model.SelectedCategory = product.Category;
+            product_editor_model.ProductSuppliers = product.Supplier;
 
             product_editor_window.DataContext = product_editor_model;
 

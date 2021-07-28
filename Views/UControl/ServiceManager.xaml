@@ -144,14 +144,14 @@
                         </Button>
                         <Button
                             ToolTip="Редактировать" ToolTipService.Placement="Top"
-                                Command=""
-                                CommandParameter="">
+                                Command="{Binding Path=EditProduct}"
+                                CommandParameter="{Binding Path=SelectedProduct}">
                             <materialDesign:PackIcon Kind="Pencil" />
                         </Button>
                         <Button
                             ToolTip="Удалить" ToolTipService.Placement="Top" 
-                                Command=""
-                                CommandParameter="">
+                                Command="{Binding Path=RemoveProduct}"
+                                CommandParameter="{Binding Path=SelectedProduct}">
                             <materialDesign:PackIcon Kind="Delete" />
                         </Button>
                     </StackPanel>
