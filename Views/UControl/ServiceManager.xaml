@@ -309,9 +309,69 @@
                 </ListBox>
             </DockPanel>
         </GroupBox>
-        <GroupBox Header="Навигация"
+        <GroupBox Header="Производители"
                   Grid.Column="0"
                   Grid.Row="1">
+            <DockPanel>
+                <materialDesign:PopupBox
+                        Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                        PlacementMode="LeftAndAlignMiddles"
+                        UnfurlOrientation="Horizontal"
+                        ToolTip="Управление производителями"
+                        ToolTipService.Placement="Top"
+                        Height="40" Width="40"
+                        Margin="0,0,10,5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
+                    <StackPanel Orientation="Horizontal">
+                        <Button
+                            ToolTip="Добавить" ToolTipService.Placement="Top"
+                                Command="{Binding Path=AddNewManufacturer}">
+                            <materialDesign:PackIcon Kind="PencilPlus" />
+                        </Button>
+                        <Button
+                            ToolTip="Редактировать" ToolTipService.Placement="Top"
+                                Command="{Binding Path=EditManufacturer}"
+                                CommandParameter="{Binding Path=SelectedManufacturer}">
+                            <materialDesign:PackIcon Kind="Pencil" />
+                        </Button>
+                        <Button
+                            ToolTip="Удалить" ToolTipService.Placement="Top" 
+                                Command="{Binding Path=RemoveManufacturer}"
+                                CommandParameter="{Binding Path=SelectedManufacturer}">
+                            <materialDesign:PackIcon Kind="Delete" />
+                        </Button>
+                    </StackPanel>
+                </materialDesign:PopupBox>
+                <DockPanel DockPanel.Dock="Top">
+                    <materialDesign:PackIcon DockPanel.Dock="Left" 
+                                             Height="25" 
+                                             Kind="Search"/>
+                    <TextBox DockPanel.Dock="Right"
+                             Text="{Binding Path=ManufacturerFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                </DockPanel>
+                <ListBox
+                         ItemsSource="{Binding Path=ManufacturersView, UpdateSourceTrigger=PropertyChanged}"
+                         SelectedItem="{Binding Path=SelectedManufacturer, UpdateSourceTrigger=PropertyChanged}"
+                         SelectedIndex="0">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <TextBlock
+                                    Text="{Binding Path=Product.Count, StringFormat=Товары ({0}), UpdateSourceTrigger=PropertyChanged}"
+                                    DockPanel.Dock="Right"/>
+                                <TextBlock 
+                                    Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
         </GroupBox>
         <GroupBox Header="Ед.измерения"
                   Grid.Column="2"

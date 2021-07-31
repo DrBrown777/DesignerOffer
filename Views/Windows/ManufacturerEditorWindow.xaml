@@ -1,4 +1,4 @@
-﻿<Window x:Class="Designer_Offer.Views.Windows.UnitEditorWindow"
+﻿<Window x:Class="Designer_Offer.Views.Windows.ManufacturerEditorWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,10 +7,10 @@
         xmlns:cmd="clr-namespace:Designer_Offer.Infrastructure.Commands" 
         xmlns:local="clr-namespace:Designer_Offer.Infrastructure.Validations"
         mc:Ignorable="d"
-        Title="Редактор ед.измерения"
+        Title="Редактор производителя"
         Height="200" Width="350"
         WindowStartupLocation="CenterScreen"
-        DataContext="{Binding UnitEditorView, Source={StaticResource Locator}}"
+        DataContext="{Binding ManufacturerEditorView, Source={StaticResource Locator}}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -30,7 +30,7 @@
             <Setter Property="Padding" Value="10,3"/>
             <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth2"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=UnitName}" Value="True">
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=ManufacturerName}" Value="True">
                     <Setter Property="IsEnabled" Value="False"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -76,12 +76,12 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <materialDesign:PackIcon 
-                Kind="Ruler"
+                Kind="TruckCheck"
                 Grid.Column="0"/>
             <TextBox Style="{StaticResource TextBox}"
-                x:Name="UnitName"
-                materialDesign:HintAssist.Hint="Наименование ед.измернения"
-                materialDesign:HintAssist.HelperText="введите наименование"
+                x:Name="ManufacturerName"
+                materialDesign:HintAssist.Hint="Название производителя"
+                materialDesign:HintAssist.HelperText="введите название"
                 Grid.Column="1" 
                 Grid.Row="0">
                 <TextBox.Text>

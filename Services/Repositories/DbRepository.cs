@@ -134,4 +134,12 @@ namespace Designer_Offer.Services.Repositories
 
         public SupplierRepository(PrimeContext db) : base(db) { }
     }
+
+    internal class ManufacturerRepository : DbRepository<Manufacturer>
+    {
+        public override IQueryable<Manufacturer> Items => base.Items
+            .Include(item => item.Product);
+
+        public ManufacturerRepository(PrimeContext db) : base(db) { }
+    }
 }

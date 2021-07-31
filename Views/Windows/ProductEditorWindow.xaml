@@ -9,7 +9,7 @@
         xmlns:cnv="clr-namespace:Designer_Offer.Infrastructure.Converters"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="Редактор товара" Height="500" Width="500"
+        Title="Редактор товара" Height="600" Width="500"
         WindowStartupLocation="CenterScreen"
         DataContext="{Binding ProductEditorView, Source={StaticResource Locator}}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -106,6 +106,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition />
                 <RowDefinition />
+                <RowDefinition />
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <materialDesign:PackIcon 
@@ -183,10 +184,21 @@
                 materialDesign:HintAssist.HelperText="категория"
                 IsSynchronizedWithCurrentItem="False"/>
             <materialDesign:PackIcon 
-                Kind="TruckDelivery"
+                Kind="TruckCheck"
                 Grid.Column="0" Grid.Row="5"/>
+            <ComboBox Style="{Binding Source={StaticResource ComboBox}}"
+                ItemsSource="{Binding Path=Manufacturers, UpdateSourceTrigger=PropertyChanged}"
+                SelectedItem="{Binding Path=SelectedManufacturer}"
+                Grid.Column="1" Grid.Row="5"
+                DisplayMemberPath="Name"
+                materialDesign:HintAssist.Hint="Выберите производителя"
+                materialDesign:HintAssist.HelperText="производитель"
+                IsSynchronizedWithCurrentItem="False"/>
+            <materialDesign:PackIcon 
+                Kind="TruckDelivery"
+                Grid.Column="0" Grid.Row="6"/>
             <ListBox x:Name="ProductSuppliers" Style="{StaticResource ListBox}" 
-                     Grid.Row="5" Grid.Column="1"
+                     Grid.Row="6" Grid.Column="1"
                      ItemsSource="{Binding Path=Suppliers, UpdateSourceTrigger=PropertyChanged}"
                      DisplayMemberPath="Name"
                      SelectionMode="Multiple">

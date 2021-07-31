@@ -57,6 +57,10 @@ namespace Designer_Offer.ViewModels
         /// Репозиторий категорий
         /// </summary>
         private readonly IRepository<Category> RepositoryCategories;
+        /// <summary>
+        /// Репозиторий производителей
+        /// </summary>
+        private readonly IRepository<Manufacturer> RepositoryManufacturers; 
         #endregion
 
         #endregion
@@ -286,6 +290,71 @@ namespace Designer_Offer.ViewModels
             get => _SelectedSupplier;
             set => Set(ref _SelectedSupplier, value);
         }
+
+        private ObservableCollection<Manufacturer> _Manufacturers;
+        /// <summary>
+        /// Коллекция производителей
+        /// </summary>
+        public ObservableCollection<Manufacturer> Manufacturers
+        {
+            get => _Manufacturers;
+            set
+            {
+                if (Set(ref _Manufacturers, value))
+                {
+                    {
+                        ManufacturersViewSource = new CollectionViewSource()
+                        {
+                            Source = value,
+                            SortDescriptions =
+                        {
+                            new SortDescription(nameof(Manufacturer.Name), ListSortDirection.Ascending)
+                        }
+
+                        };
+                        ManufacturersViewSource.Filter += ManufacturersViewSource_Filter;
+                        ManufacturersViewSource.View.Refresh();
+
+                        OnPropertyChanged(nameof(ManufacturersView));
+                    }
+                }
+            }
+        }
+        private string _ManufacturerFilter;
+        /// <summary>
+        /// Искомый производитель для фильтрации
+        /// </summary>
+        public string ManufacturerFilter
+        {
+            get => _ManufacturerFilter;
+            set
+            {
+                if (Set(ref _ManufacturerFilter, value))
+                {
+                    ManufacturersViewSource?.View.Refresh();
+                }
+            }
+        }
+        /// <summary>
+        /// Пользователская сортировка производителей
+        /// </summary>
+        public ICollectionView ManufacturersView => ManufacturersViewSource?.View;
+
+        /// <summary>
+        /// Прокси коллекция производителей
+        /// </summary>
+        private CollectionViewSource ManufacturersViewSource;
+
+        private Manufacturer _SelectedManufacturer;
+        /// <summary>
+        /// Выбранный производитель
+        /// </summary>
+        public Manufacturer SelectedManufacturer
+        {
+            get => _SelectedManufacturer;
+            set => Set(ref _SelectedManufacturer, value);
+        }
+
         private ObservableCollection<Unit> _Units;
         /// <summary>
         /// Коллекция единиц измерения
@@ -384,7 +453,8 @@ namespace Designer_Offer.ViewModels
         {
             if (RepositoryUsers == null || RepositoryProducts == null
                 || RepositoryInstalls == null || RepositorySuppliers == null
-                || RepositoryUnits == null || RepositoryCategories == null)
+                || RepositoryUnits == null || RepositoryCategories == null
+                || RepositoryManufacturers == null)
             {
                 return false;
             }
@@ -411,6 +481,8 @@ namespace Designer_Offer.ViewModels
                 Installs = new ObservableCollection<Install>(await RepositoryInstalls.Items.ToListAsync());
 
                 Suppliers = new ObservableCollection<Supplier>(await RepositorySuppliers.Items.ToListAsync());
+
+                Manufacturers = new ObservableCollection<Manufacturer>(await RepositoryManufacturers.Items.ToListAsync());
 
                 Units = new ObservableCollection<Unit>(await RepositoryUnits.Items.ToListAsync());
 
@@ -759,6 +831,8 @@ namespace Designer_Offer.ViewModels
                 {
                     Suppliers.SingleOrDefault(s => s.Id == item.Id)?.Product.Add(new_product);
                 }
+
+                Manufacturers.SingleOrDefault(m => m.Id == new_product.Manufacturer_Id)?.Product.Add(new_product);
             }
             catch (Exception e)
             {
@@ -768,7 +842,11 @@ namespace Designer_Offer.ViewModels
             {
                 SuppliersViewSource.View.Refresh();
 
+                ManufacturersViewSource.View.Refresh();
+
                 OnPropertyChanged(nameof(SuppliersView));
+
+                OnPropertyChanged(nameof(ManufacturersView));
 
                 SelectedProduct = new_product;
             }
@@ -802,6 +880,10 @@ namespace Designer_Offer.ViewModels
 
                     Suppliers.SingleOrDefault(s => s.Id == item.Id)?.Product.Add(product_to_edit);
                 }
+
+                Manufacturers.SingleOrDefault(m => ReferenceEquals(product_to_edit, m.Product))?.Product.Remove(product_to_edit);
+
+                Manufacturers.SingleOrDefault(m => m.Id == product_to_edit.Manufacturer_Id)?.Product.Add(product_to_edit);
             }
             catch (Exception e)
             {
@@ -813,7 +895,11 @@ namespace Designer_Offer.ViewModels
 
                 SuppliersViewSource.View.Refresh();
 
-                OnPropertyChanged(nameof(SuppliersView)); 
+                ManufacturersViewSource.View.Refresh();
+
+                OnPropertyChanged(nameof(SuppliersView));
+
+                OnPropertyChanged(nameof(ManufacturersView));
 
                 SelectedProduct = product_to_edit;
             }
@@ -845,6 +931,8 @@ namespace Designer_Offer.ViewModels
                 {
                     Suppliers.SingleOrDefault(s => ReferenceEquals(item.Product, product_to_remove))?.Product.Remove(product_to_remove);
                 }
+
+                Manufacturers.SingleOrDefault(m => ReferenceEquals(product_to_remove, m.Product))?.Product.Remove(product_to_remove);
             }
             catch (Exception e)
             {
@@ -854,7 +942,11 @@ namespace Designer_Offer.ViewModels
             {
                 SuppliersViewSource.View.Refresh();
 
+                ManufacturersViewSource.View.Refresh();
+
                 OnPropertyChanged(nameof(SuppliersView));
+
+                OnPropertyChanged(nameof(ManufacturersView));
 
                 if (ReferenceEquals(SelectedProduct, product_to_remove))
                 {
@@ -967,6 +1059,107 @@ namespace Designer_Offer.ViewModels
                 Installs.Remove(install_to_remove);
             }
         }
+        /// <summary>
+        /// Добавление нового поставщика
+        /// </summary>
+        public ICommand AddNewManufacturer { get; }
+
+        private bool CanAddAddNewManufacturer(object p) => true;
+
+        private void OnAddAddNewManufacturer(object p)
+        {
+            Manufacturer new_manufacturer = new Manufacturer();
+
+            if (!UserDialog.Edit(new_manufacturer))
+            {
+                return;
+            }
+
+            try
+            {
+                Manufacturers.Add(RepositoryManufacturers.Add(new_manufacturer));
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                SelectedManufacturer = new_manufacturer;
+            }
+        }
+        /// <summary>
+        /// Редактирование поставщика
+        /// </summary>
+        public ICommand EditManufacturer { get; }
+
+        private bool CanEditManufacturer(object p)
+        {
+            return (Manufacturer)p != null && SelectedManufacturer != null;
+        }
+
+        private void OnEditManufacturer(object p)
+        {
+            Manufacturer manufacturer_to_edit = (Manufacturer)p ?? SelectedManufacturer;
+
+            if (!UserDialog.Edit(manufacturer_to_edit))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositoryManufacturers.Update(manufacturer_to_edit);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                ManufacturersViewSource.View.Refresh();
+
+                SelectedManufacturer = manufacturer_to_edit;
+            }
+        }
+
+        /// <summary>
+        /// Удаление поставщика
+        /// </summary>
+        public ICommand RemoveManufacturer { get; }
+
+        private bool CanRemoveManufacturer(object p)
+        {
+            return (Manufacturer)p != null && SelectedManufacturer != null;
+        }
+
+        private void OnRemoveManufacturer(object p)
+        {
+            Manufacturer manufacturer_to_remove = (Manufacturer)p ?? SelectedManufacturer;
+
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить производителя {manufacturer_to_remove.Name}?", "Удаление производителя"))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositoryManufacturers.Remove(manufacturer_to_remove.Id);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                if (ReferenceEquals(manufacturer_to_remove, SelectedManufacturer))
+                {
+                    SelectedManufacturer = null;
+                }
+
+                Manufacturers.Remove(manufacturer_to_remove);
+            }
+        }
         #endregion
 
         #endregion
@@ -983,6 +1176,21 @@ namespace Designer_Offer.ViewModels
             }
 
             if (!supplier.Name.ToLower().Contains(SupplierFilter.ToLower()))
+            {
+                e.Accepted = false;
+            }
+        }
+        /// <summary>
+        /// Метод фильтрации производителей
+        /// </summary>
+        private void ManufacturersViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Manufacturer manufacturer) || string.IsNullOrEmpty(ManufacturerFilter))
+            {
+                return;
+            }
+
+            if (!manufacturer.Name.ToLower().Contains(ManufacturerFilter.ToLower()))
             {
                 e.Accepted = false;
             }
@@ -1042,7 +1250,8 @@ namespace Designer_Offer.ViewModels
             IRepository<Supplier> repaSuppliers,
             IRepository<Unit> repaUnits,
             IRepository<Category> repaCategories,
-            IRepository<Employee> repaUser)
+            IRepository<Employee> repaUser,
+            IRepository<Manufacturer> repaManufacturer)
         {
             Progress = true;
 
@@ -1050,6 +1259,7 @@ namespace Designer_Offer.ViewModels
             RepositoryProducts = repaProducts;
             RepositoryInstalls = repaInstalls;
             RepositorySuppliers = repaSuppliers;
+            RepositoryManufacturers = repaManufacturer;
             RepositoryUnits = repaUnits;
             RepositoryCategories = repaCategories;
 
@@ -1076,6 +1286,10 @@ namespace Designer_Offer.ViewModels
             AddNewInstall = new LambdaCommand(OnAddNewInstall, CanAddNewInstall);
             EditInstall = new LambdaCommand(OnEditInstall, CanEditInstall);
             RemoveInstall = new LambdaCommand(OnRemoveInstall, CanRemoveInstall);
+
+            AddNewManufacturer = new LambdaCommand(OnAddAddNewManufacturer, CanAddAddNewManufacturer);
+            EditManufacturer = new LambdaCommand(OnEditManufacturer, CanEditManufacturer);
+            RemoveManufacturer = new LambdaCommand(OnRemoveManufacturer, CanRemoveManufacturer);
         }
         #endregion
     }

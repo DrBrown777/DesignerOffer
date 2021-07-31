@@ -2,11 +2,8 @@
 using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -104,6 +101,25 @@ namespace Designer_Offer.ViewModels
             get => _SelectedCategory;
             set => Set(ref _SelectedCategory, value);
         }
+        private List<Manufacturer> _Manufacturers;
+        /// <summary>
+        /// Список всех производителей
+        /// </summary>
+        public List<Manufacturer> Manufacturers
+        {
+            get => _Manufacturers;
+            set => Set(ref _Manufacturers, value);
+        }
+
+        private Manufacturer _SelectedManufacturer;
+        /// <summary>
+        /// Выбранный производитель конкретного товара
+        /// </summary>
+        public Manufacturer SelectedManufacturer
+        {
+            get => _SelectedManufacturer;
+            set => Set(ref _SelectedManufacturer, value);
+        }
         #endregion
 
         #region КОМАНДЫ
@@ -150,11 +166,13 @@ namespace Designer_Offer.ViewModels
         #region КОНСТРУКТОРЫ
         public ProductEditorViewModel(IRepository<Unit> repaUnit,
                                       IRepository<Supplier> repaSuppliers,
-                                      IRepository<Category> repaCategories)
+                                      IRepository<Category> repaCategories,
+                                      IRepository<Manufacturer> repaManufacturers)
         {
             Units = repaUnit.Items.ToList();
             Suppliers = repaSuppliers.Items.ToList();
             Categories = repaCategories.Items.ToList();
+            Manufacturers = repaManufacturers.Items.ToList();
             ProductSuppliers = new List<Supplier>();
 
             ChoiceSuppliers = new LambdaCommand(OnChoiceSuppliers, CanChoiceSuppliers);

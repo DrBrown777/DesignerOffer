@@ -40,6 +40,8 @@ namespace Designer_Offer.Services
                     return EditProduct(product);
                 case Install install:
                     return EditInstall(install);
+                case Manufacturer manufacturer:
+                    return EditManufacturer(manufacturer);
                 default:
                     throw new NotSupportedException($"Редактирование обьекта типа {item.GetType().Name} не поддерживается.");
             }
@@ -259,6 +261,7 @@ namespace Designer_Offer.Services
             product_editor_model.EntryPrice = product.Entry_Price.Value;
             product_editor_model.SelectedUnit = product.Unit;
             product_editor_model.SelectedCategory = product.Category;
+            product_editor_model.SelectedManufacturer = product.Manufacturer;
             product_editor_model.ProductSuppliers = product.Supplier;
 
             product_editor_window.DataContext = product_editor_model;
@@ -270,6 +273,7 @@ namespace Designer_Offer.Services
             product.Entry_Price = product_editor_model.EntryPrice;
             product.Unit = product_editor_model.SelectedUnit;
             product.Category = product_editor_model.SelectedCategory;
+            product.Manufacturer = product_editor_model.SelectedManufacturer;
 
             return true;
         }
@@ -294,6 +298,24 @@ namespace Designer_Offer.Services
             install.Entry_Price = install_editor_model.EntryPrice;
             install.Unit = install_editor_model.SelectedUnit;
             install.Category = install_editor_model.SelectedCategory;
+
+            return true;
+        }
+
+        private static bool EditManufacturer(Manufacturer manufacturer)
+        {
+            var manufacturer_editor_window = App.Host.Services
+                                       .GetRequiredService<ManufacturerEditorWindow>();
+            var manufacturer_editor_model = App.Host.Services
+                                       .GetRequiredService<ManufacturerEditorViewModel>();
+
+            manufacturer_editor_model.Name = manufacturer.Name;
+
+            manufacturer_editor_window.DataContext = manufacturer_editor_model;
+
+            if (manufacturer_editor_window.ShowDialog() != true) return false;
+
+            manufacturer.Name = manufacturer_editor_model.Name;
 
             return true;
         }
