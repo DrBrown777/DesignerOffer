@@ -130,6 +130,7 @@ namespace Designer_Offer
             services.AddTransient<IRepository<Employee>, EmployeeRepository>();
             services.AddTransient<IRepository<Install>, DbRepository<Install>>();
             services.AddTransient<IRepository<InstallPart>, DbRepository<InstallPart>>();
+            services.AddTransient<IRepository<Manufacturer>, DbRepository<Manufacturer>>();
             services.AddTransient<IRepository<Offer>, DbRepository<Offer>>();
             services.AddTransient<IRepository<Part>, DbRepository<Part>>();
             services.AddTransient<IRepository<Position>, DbRepository<Position>>();

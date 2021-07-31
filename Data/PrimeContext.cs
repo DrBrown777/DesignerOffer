@@ -20,6 +20,7 @@ namespace Designer_Offer.Data
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<Install> Install { get; set; }
         public virtual DbSet<InstallPart> InstallPart { get; set; }
+        public virtual DbSet<Manufacturer> Manufacturer { get; set; }
         public virtual DbSet<Offer> Offer { get; set; }
         public virtual DbSet<Part> Part { get; set; }
         public virtual DbSet<Position> Position { get; set; }
@@ -83,6 +84,11 @@ namespace Designer_Offer.Data
                 .HasMany(e => e.InstallPart)
                 .WithRequired(e => e.Install)
                 .HasForeignKey(e => e.Install_Id);
+
+            modelBuilder.Entity<Manufacturer>()
+                .HasMany(e => e.Product)
+                .WithOptional(e => e.Manufacturer)
+                .HasForeignKey(e => e.Manufacturer_Id);
 
             modelBuilder.Entity<Offer>()
                 .HasOptional(e => e.Config)

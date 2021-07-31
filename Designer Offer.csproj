@@ -218,6 +218,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\InstallPart.cs" />
+    <Compile Include="Data\Manufacturer.cs" />
     <Compile Include="Data\PrimeContext.cs" />
     <Compile Include="Data\ProductPart.cs" />
     <Compile Include="Infrastructure\Commands\CloseApplicationCommand.cs" />

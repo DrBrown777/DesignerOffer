@@ -23,6 +23,8 @@ namespace Designer_Offer.Data
 
         public int? Unit_id { get; set; }
 
+        public int? Manufacturer_Id { get; set; }
+
         [Required]
         [StringLength(255)]
         public string Name { get; set; }
@@ -33,6 +35,8 @@ namespace Designer_Offer.Data
         public decimal? Entry_Price { get; set; }
 
         public virtual Category Category { get; set; }
+
+        public virtual Manufacturer Manufacturer { get; set; }
 
         public virtual Unit Unit { get; set; }
 
