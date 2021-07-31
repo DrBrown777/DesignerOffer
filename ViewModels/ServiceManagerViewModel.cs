@@ -9,6 +9,9 @@ using System.ComponentModel;
 using System.Data.Entity;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Designer_Offer.ViewModels
 {
@@ -751,6 +754,11 @@ namespace Designer_Offer.ViewModels
             try
             {
                 Products.Add(RepositoryProducts.Add(new_product));
+
+                foreach (var item in new_product.Supplier)
+                {
+                    Suppliers.SingleOrDefault(s => s.Id == item.Id)?.Product.Add(new_product);
+                }
             }
             catch (Exception e)
             {
@@ -758,6 +766,10 @@ namespace Designer_Offer.ViewModels
             }
             finally
             {
+                SuppliersViewSource.View.Refresh();
+
+                OnPropertyChanged(nameof(SuppliersView));
+
                 SelectedProduct = new_product;
             }
         }
@@ -783,6 +795,13 @@ namespace Designer_Offer.ViewModels
             try
             {
                 RepositoryProducts.Update(product_to_edit);
+
+                foreach (var item in product_to_edit.Supplier)
+                {
+                    Suppliers.SingleOrDefault(s => ReferenceEquals(item.Product, product_to_edit))?.Product.Remove(product_to_edit);
+
+                    Suppliers.SingleOrDefault(s => s.Id == item.Id)?.Product.Add(product_to_edit);
+                }
             }
             catch (Exception e)
             {
@@ -791,6 +810,10 @@ namespace Designer_Offer.ViewModels
             finally
             {
                 ProductsViewSource.View.Refresh();
+
+                SuppliersViewSource.View.Refresh();
+
+                OnPropertyChanged(nameof(SuppliersView)); 
 
                 SelectedProduct = product_to_edit;
             }
@@ -817,6 +840,11 @@ namespace Designer_Offer.ViewModels
             try
             {
                 RepositoryProducts.Remove(product_to_remove.Id);
+
+                foreach (var item in product_to_remove.Supplier)
+                {
+                    Suppliers.SingleOrDefault(s => ReferenceEquals(item.Product, product_to_remove))?.Product.Remove(product_to_remove);
+                }
             }
             catch (Exception e)
             {
@@ -824,6 +852,10 @@ namespace Designer_Offer.ViewModels
             }
             finally
             {
+                SuppliersViewSource.View.Refresh();
+
+                OnPropertyChanged(nameof(SuppliersView));
+
                 if (ReferenceEquals(SelectedProduct, product_to_remove))
                 {
                     SelectedProduct = null;

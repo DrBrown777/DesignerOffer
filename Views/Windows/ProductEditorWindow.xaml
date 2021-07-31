@@ -132,8 +132,8 @@
                      Grid.Row="1" Grid.Column="1"
                      AcceptsReturn="True"
                      VerticalScrollBarVisibility="Auto"
-                     materialDesign:HintAssist.Hint="Маркировка"
-                     materialDesign:HintAssist.HelperText="введите маркировку">
+                     materialDesign:HintAssist.Hint="Тип"
+                     materialDesign:HintAssist.HelperText="введите тип">
                 <TextBox.Text>
                     <Binding Path="Model" UpdateSourceTrigger="PropertyChanged"/>
                 </TextBox.Text>
@@ -183,7 +183,7 @@
                 materialDesign:HintAssist.HelperText="категория"
                 IsSynchronizedWithCurrentItem="False"/>
             <materialDesign:PackIcon 
-                Kind="AccountTie"
+                Kind="TruckDelivery"
                 Grid.Column="0" Grid.Row="5"/>
             <ListBox x:Name="ProductSuppliers" Style="{StaticResource ListBox}" 
                      Grid.Row="5" Grid.Column="1"
