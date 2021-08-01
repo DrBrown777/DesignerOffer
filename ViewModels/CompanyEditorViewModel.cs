@@ -1,7 +1,9 @@
 ﻿using Designer_Offer.Data;
 using Designer_Offer.Infrastructure.Commands;
+using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -50,24 +52,24 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Email, value);
         }
 
-        private ICollection<Position> _CompanyPosition;
+        private ICollection<Position> _CompanyPositions;
         /// <summary>
         /// Должности компании
         /// </summary>
-        public ICollection<Position> CompanyPosition
+        public ICollection<Position> CompanyPositions
         {
-            get => _CompanyPosition;
-            set => Set(ref _CompanyPosition, value);
+            get => _CompanyPositions;
+            set => Set(ref _CompanyPositions, value);
         }
 
-        private List<Position> _Position;
+        private List<Position> _Positions;
         /// <summary>
         /// Все должности
         /// </summary>
-        public List<Position> Position
+        public List<Position> Positions
         {
-            get => _Position;
-            set => Set(ref _Position, value);
+            get => _Positions;
+            set => Set(ref _Positions, value);
         }
         #endregion
 
@@ -83,11 +85,11 @@ namespace Designer_Offer.ViewModels
         {
             ListBox listBox = (ListBox)p;
 
-            CompanyPosition?.Clear();
+            CompanyPositions?.Clear();
 
             foreach (Position item in listBox.SelectedItems)
             {
-                CompanyPosition.Add(item);
+                CompanyPositions.Add(item);
             }
         }
         /// <summary>
@@ -103,7 +105,7 @@ namespace Designer_Offer.ViewModels
 
             foreach (Position item in listBox.Items)
             {
-                if (CompanyPosition.Contains(item))
+                if (CompanyPositions.Contains(item))
                 {
                     listBox.SelectedItems.Add(item);
                 }
@@ -112,11 +114,13 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОНСТРУКТОРЫ
-        public CompanyEditorViewModel()
+        public CompanyEditorViewModel(IRepository<Position> repaPositions)
         {
+            Positions = repaPositions.Items.ToList();
+            CompanyPositions = new List<Position>();
+
             ChoicePosition = new LambdaCommand(OnChoicePosition, CanChoicePosition);
             AddPosition = new LambdaCommand(OnAddPosition, CanAddPosition);
-            CompanyPosition = new List<Position>();
         }
         #endregion
     }

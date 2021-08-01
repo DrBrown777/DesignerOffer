@@ -4,7 +4,6 @@ using Designer_Offer.ViewModels;
 using Designer_Offer.Views.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
@@ -12,7 +11,7 @@ namespace Designer_Offer.Services
 {
     internal class UserDialogService : IUserDialog
     {
-        public bool Edit(object item, params object[] items)
+        public bool Edit(object item)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
 
@@ -23,9 +22,9 @@ namespace Designer_Offer.Services
                 case Build build:
                     return EditBuild(build);
                 case Company company:
-                    return EditCompany(company, (List<Position>)items[0]);
+                    return EditCompany(company);
                 case Employee employee:
-                    return EditEmploee(employee, (List<Company>)items[0]);
+                    return EditEmploee(employee);
                 case Position position:
                     return EditPosition(position);
                 case Section section:
@@ -94,7 +93,7 @@ namespace Designer_Offer.Services
             return true;
         }
 
-        private static bool EditCompany(Company company, List<Position> positions)
+        private static bool EditCompany(Company company)
         {
             var company_editor_window = App.Host.Services
                                         .GetRequiredService<CompanyEditorWindow>();
@@ -105,9 +104,7 @@ namespace Designer_Offer.Services
             company_editor_model.Address = company.Adress;
             company_editor_model.Phone = company.Phone;
             company_editor_model.Email = company.Mail;
-            company_editor_model.CompanyPosition = company.Position;
-
-            company_editor_model.Position = positions;
+            company_editor_model.CompanyPositions = company.Position;
 
             company_editor_window.DataContext = company_editor_model;
 
@@ -117,12 +114,12 @@ namespace Designer_Offer.Services
             company.Adress = company_editor_model.Address;
             company.Phone = company_editor_model.Phone;
             company.Mail = company_editor_model.Email;
-            company.Position = company_editor_model.CompanyPosition;
+            company.Position = company_editor_model.CompanyPositions;
 
             return true;
         }
 
-        private static bool EditEmploee(Employee employee, List<Company> companies)
+        private static bool EditEmploee(Employee employee)
         {
             var employee_editor_window = App.Host.Services
                                         .GetRequiredService<EmployeeEditorWindow>();
@@ -137,8 +134,6 @@ namespace Designer_Offer.Services
             employee_editor_model.UserPhone = employee.Phone;
             employee_editor_model.SelectedCompany = employee.Company;
             employee_editor_model.SelectedPosition = employee.Position;
-
-            employee_editor_model.Companies = companies;
 
             employee_editor_window.DataContext = employee_editor_model;
 

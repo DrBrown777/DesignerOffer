@@ -23,6 +23,7 @@ namespace Designer_Offer.ViewModels
         /// Репозиторий должностей
         /// </summary>
         private readonly IRepository<Position> PositionRepository;
+
         /// <summary>
         /// Сервис диалогов
         /// </summary>
@@ -30,7 +31,6 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region СВОЙСТВА
-
         private string _Title;
         /// <summary>
         /// Заголовок Окна
@@ -143,7 +143,6 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОМАНДЫ
-
         /// <summary>
         /// Команда загрузки страницы Логина
         /// </summary>
@@ -229,7 +228,6 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region МЕТОДЫ
-
         public void Update(List<Company> companies)
         {
             if (Equals(companies, Companies)) return;
@@ -249,7 +247,6 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОНСТРУКТОРЫ
-
         public RegistrationViewModel(
             IRepository<Employee> employeeRepository,
             IRepository<Position> positionRepository,

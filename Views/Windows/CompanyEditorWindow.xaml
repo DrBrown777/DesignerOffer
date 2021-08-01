@@ -177,7 +177,7 @@
                 Grid.Column="0" Grid.Row="4"/>
             <ListBox x:Name="CompanyPosition" Style="{StaticResource ListBox}" 
                      Grid.Row="4" Grid.Column="1"
-                     ItemsSource="{Binding Path=Position, UpdateSourceTrigger=PropertyChanged}"
+                     ItemsSource="{Binding Path=Positions, UpdateSourceTrigger=PropertyChanged}"
                      DisplayMemberPath="Name"
                      SelectionMode="Multiple">
                 <i:Interaction.Triggers>

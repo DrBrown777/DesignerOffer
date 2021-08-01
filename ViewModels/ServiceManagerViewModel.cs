@@ -9,9 +9,7 @@ using System.ComponentModel;
 using System.Data.Entity;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Designer_Offer.ViewModels
 {
@@ -19,14 +17,17 @@ namespace Designer_Offer.ViewModels
     {
         #region ПОЛЯ
         private static readonly string _title = " :: Управление услугами";
+
         /// <summary>
         /// Текущий пользователь
         /// </summary>
         private Employee CurrentUser;
+
         /// <summary>
         /// Текущая компания
         /// </summary>
         private Company CurrentCompany;
+
         /// <summary>
         /// Сервис диалогов
         /// </summary>

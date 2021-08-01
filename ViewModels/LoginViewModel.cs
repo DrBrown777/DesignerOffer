@@ -19,15 +19,16 @@ namespace Designer_Offer.ViewModels
     internal class LoginViewModel : ViewModel, ILoginService
     {
         #region ПОЛЯ
-
         /// <summary>
         /// Данные пользовтеля
         /// </summary>
         private UserData User;
+
         /// <summary>
         /// Репозиторий Юзеров
         /// </summary>
         private readonly IRepository<UserData> UserDataRepository;
+
         /// <summary>
         /// Сервис окна диалогов
         /// </summary>
@@ -35,7 +36,6 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region СВОЙСТВА
-
         private string _Title;
         /// <summary>
         /// Заголовок Окна
@@ -91,7 +91,6 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОМАНДЫ
-
         /// <summary>
         /// Команда загрузки страницы Регистрации
         /// </summary>
@@ -129,7 +128,6 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region МЕТОДЫ
-
         private async Task<bool> LoginSucces(PasswordBox passBox)
         {
             try
@@ -175,7 +173,6 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОНСТРУКТОРЫ
-
         public LoginViewModel(IRepository<UserData> userDataRepository, IUserDialog userDialog)
         {
             UserDialog = userDialog;

@@ -1,13 +1,12 @@
 ﻿using Designer_Offer.Data;
-using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Designer_Offer.ViewModels
 {
     internal class BuildEditorViewModel : ViewModel
     {
+        #region СВОЙСТВА
         private string _Name;
         /// <summary>
         /// Полное название стройки
@@ -57,5 +56,6 @@ namespace Designer_Offer.ViewModels
             get => _Project;
             set => Set(ref _Project, value);
         }
+        #endregion
     }
 }

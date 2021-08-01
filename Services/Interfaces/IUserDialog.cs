@@ -1,10 +1,8 @@
-﻿using Designer_Offer.Data;
-
-namespace Designer_Offer.Services.Interfaces
+﻿namespace Designer_Offer.Services.Interfaces
 {
     internal interface IUserDialog
     {
-        bool Edit(object item, params object[] items);
+        bool Edit(object item);
 
         bool ConfirmInformation(string Information, string Caption);
         bool ConfirmWarning(string Information, string Caption);

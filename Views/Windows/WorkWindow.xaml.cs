@@ -1,5 +1,4 @@
-﻿using Designer_Offer.ViewModels;
-using System.Windows;
+﻿using System.Windows;
 
 namespace Designer_Offer.Views.Windows
 {

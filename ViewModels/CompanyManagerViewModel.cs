@@ -2,6 +2,7 @@
 using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
@@ -14,14 +15,17 @@ namespace Designer_Offer.ViewModels
     {
         #region ПОЛЯ
         private static readonly string _title = " :: Управление компанией";
+
         /// <summary>
         /// Текущий пользователь
         /// </summary>
         private Employee CurrentUser;
+
         /// <summary>
         /// Текущая компания
         /// </summary>
         private Company CurrentCompany;
+
         /// <summary>
         /// Сервис диалогов
         /// </summary>
@@ -88,6 +92,7 @@ namespace Designer_Offer.ViewModels
             get => _Employees;
             set => Set(ref _Employees, value);
         }
+
         private Employee _SelectedEmployee;
         /// <summary>
         /// Выбранный сотрудник
@@ -107,6 +112,7 @@ namespace Designer_Offer.ViewModels
             get => _Companies;
             set => Set(ref _Companies, value);
         }
+
         private Company _SelectedCompany;
         /// <summary>
         /// Выбранная компания
@@ -126,6 +132,7 @@ namespace Designer_Offer.ViewModels
             get => _Positions;
             set => Set(ref _Positions, value);
         }
+
         private Position _SelectedPosition;
         /// <summary>
         /// Выбранная должность
@@ -145,6 +152,7 @@ namespace Designer_Offer.ViewModels
             get => _Sections;
             set => Set(ref _Sections, value);
         }
+
         private Section _SelectedSection;
         /// <summary>
         /// Выбранный раздел
@@ -219,7 +227,7 @@ namespace Designer_Offer.ViewModels
         {
             Company new_company = new Company();
 
-            if (!UserDialog.Edit(new_company, Positions.ToList()))
+            if (!UserDialog.Edit(new_company))
             {
                 return;
             }
@@ -251,7 +259,7 @@ namespace Designer_Offer.ViewModels
         {
             Company company_to_edit = (Company)p ?? SelectedCompany;
 
-            if (!UserDialog.Edit(company_to_edit, Positions.ToList()))
+            if (!UserDialog.Edit(company_to_edit))
             {
                 return;
             }
@@ -329,7 +337,7 @@ namespace Designer_Offer.ViewModels
                 UserData = new_user
             };
 
-            if (!UserDialog.Edit(new_employee, Companies.ToList()))
+            if (!UserDialog.Edit(new_employee))
             {
                 return;
             }
@@ -361,7 +369,7 @@ namespace Designer_Offer.ViewModels
         {
             Employee employee = (Employee)p ?? SelectedEmployee;
 
-            if (!UserDialog.Edit(employee, Companies.ToList()))
+            if (!UserDialog.Edit(employee))
             {
                 return;
             }

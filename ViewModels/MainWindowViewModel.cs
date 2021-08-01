@@ -16,7 +16,6 @@ namespace Designer_Offer.ViewModels
     internal class MainWindowViewModel : ViewModel
     {
         #region ПОЛЯ
-
         /// <summary>
         /// Интерфейс страницы Логин
         /// </summary>
@@ -26,6 +25,7 @@ namespace Designer_Offer.ViewModels
         /// Интерфейс страницы Регистрации
         /// </summary>
         private readonly IRegistrationService RegistrationView;
+
         /// <summary>
         /// Интерфейс окна диалога
         /// </summary>
@@ -33,7 +33,6 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region СВОЙСТВА
-
         private Page _AnyPage;
         /// <summary>
         /// Любая страница во Frame
@@ -56,7 +55,6 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОМАНДЫ
-
         /// <summary>
         /// Команда загрузки страницы Логина
         /// </summary>
@@ -89,7 +87,6 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region МЕТОДЫ
-
         private async void UpdateAllPages(IRepository<Company> companyRepository)
         {
             try
@@ -111,7 +108,6 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОНСТРУКТОРЫ
-
         public MainWindowViewModel(
             IRepository<Company> companyRepository,
             ILoginService loginView,

@@ -1,5 +1,4 @@
 ﻿using Designer_Offer.Infrastructure.Commands;
-using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows.Input;

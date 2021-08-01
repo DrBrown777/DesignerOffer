@@ -2,9 +2,7 @@
 using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
-using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Windows.Input;
 
@@ -12,17 +10,6 @@ namespace Designer_Offer.ViewModels
 {
     internal class EmployeeEditorViewModel : ViewModel
     {
-        #region ПОЛЯ
-        /// <summary>
-        /// Репозиторий должностей
-        /// </summary>
-        private readonly IRepository<Position> RepositoryPositions;
-        /// <summary>
-        /// Сервис диалогов
-        /// </summary>
-        private readonly IUserDialog UserDialog;
-        #endregion
-
         #region СВОЙСТВА
         private string _UserLogin;
         /// <summary>
@@ -96,7 +83,7 @@ namespace Designer_Offer.ViewModels
 
         private List<Position> _Positions;
         /// <summary>
-        /// Список должностей
+        /// Список должностей выбранной компании
         /// </summary>
         public List<Position> Positions
         {
@@ -133,29 +120,22 @@ namespace Designer_Offer.ViewModels
 
         private void OnLoadPositionCommand(object p)
         {
-            try
-            {
-                Positions = SelectedCompany.Position.ToList();
-            }
-            catch (Exception e)
-            {
-                UserDialog.ShowError(e.Message, "Ошибка");
-            }
+            Positions = SelectedCompany.Position.ToList();
         }
 
         private bool CanLoadPositionCommand(object p)
         {
-            return true && SelectedCompany != null;
+            return true && SelectedCompany != null && SelectedCompany.Position != null;
         }
         #endregion
 
         #region КОНСТРУКТОРЫ
         public EmployeeEditorViewModel(
-            IRepository<Position> repaPosition,
-            IUserDialog userDialog)
+            IRepository<Company> repaCompanies,
+            IRepository<Position> repaPositions)
         {
-            RepositoryPositions = repaPosition;
-            UserDialog = userDialog;
+            Companies = repaCompanies.Items.ToList();
+            Positions = repaPositions.Items.ToList();
 
             LoadPositionCommand = new LambdaCommand(OnLoadPositionCommand, CanLoadPositionCommand);
         }

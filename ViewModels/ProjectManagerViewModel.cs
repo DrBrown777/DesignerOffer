@@ -18,14 +18,17 @@ namespace Designer_Offer.ViewModels
     {
         #region ПОЛЯ
         private static readonly string _title = " :: Управление проектами";
+
         /// <summary>
         /// Текущий пользователь
         /// </summary>
         private Employee CurrentUser;
+
         /// <summary>
         /// Текущая компания
         /// </summary>
         private Company CurrentCompany;
+
         /// <summary>
         /// Сервис диалогов
         /// </summary>
@@ -36,14 +39,17 @@ namespace Designer_Offer.ViewModels
         /// Репозитории пользователей
         /// </summary>
         private readonly IRepository<Employee> RepositoryUsers;
+
         /// <summary>
         /// Репозиторий клиентов
         /// </summary>
         private readonly IRepository<Client> RepositoryClients;
+
         /// <summary>
         /// Репозиторий обьектов
         /// </summary>
         private readonly IRepository<Build> RepositoryBuilds;
+
         /// <summary>
         /// Репозиторий разделов
         /// </summary>
