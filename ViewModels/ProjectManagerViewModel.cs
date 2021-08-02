@@ -20,6 +20,21 @@ namespace Designer_Offer.ViewModels
         private static readonly string _title = " :: Управление проектами";
 
         /// <summary>
+        /// Коэфициент наценки на материал
+        /// </summary>
+        private const decimal _marginProduct = 1.20M;
+
+        /// <summary>
+        /// Коэфициент наценки на работы
+        /// </summary>
+        private const decimal _marginInstall = 1.40M;
+
+        /// <summary>
+        /// Коэфициент административных расходов
+        /// </summary>
+        private const decimal _marginAdmin = 0.05M;
+
+        /// <summary>
         /// Текущий пользователь
         /// </summary>
         private Employee CurrentUser;
@@ -49,6 +64,11 @@ namespace Designer_Offer.ViewModels
         /// Репозиторий обьектов
         /// </summary>
         private readonly IRepository<Build> RepositoryBuilds;
+
+        /// <summary>
+        /// Репозитоторий КП
+        /// </summary>
+        private readonly IRepository<Offer> RepositoryOffer;
 
         /// <summary>
         /// Репозиторий разделов
@@ -725,7 +745,51 @@ namespace Designer_Offer.ViewModels
                 }
             }
         }
+        /// <summary>
+        /// Добавление нового КП
+        /// </summary>
+        public ICommand AddOffer { get; }
 
+        private bool CanAddOffer(object p)
+        {
+            return (Build)p != null && SelectedBuild != null;
+        }
+
+        private void OnAddOffer(object p)
+        {
+            Config config = new Config()
+            {
+                Margin_Product = _marginProduct,
+                Margin_Work = _marginInstall,
+                Margin_Admin = _marginAdmin
+            };
+            Offer new_offer = new Offer()
+            {
+                Config = config,
+                Project = SelectedBuild.Project,
+                Date = DateTime.Today
+            };
+
+            if (!UserDialog.Edit(new_offer))
+            {
+                return;
+            }
+
+            try
+            {
+                Offers.Add(RepositoryOffer.Add(new_offer));
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                OnPropertyChanged(nameof(SelectedBuild.Project.Offer));
+
+                SelectedOffer = new_offer;
+            }
+        }
         #endregion
 
         #endregion
@@ -766,6 +830,7 @@ namespace Designer_Offer.ViewModels
             IRepository<Client> repaClient,
             IRepository<Section> repaSection,
             IRepository<Build> repaBuild,
+            IRepository<Offer> repaOffer,
             IUserDialog userDialog)
         {
             Progress = true;
@@ -773,6 +838,7 @@ namespace Designer_Offer.ViewModels
             RepositoryUsers = repaUser;
             RepositoryClients = repaClient; 
             RepositoryBuilds = repaBuild;
+            RepositoryOffer = repaOffer;
             RepositorySections = repaSection;
 
             UserDialog = userDialog;
@@ -792,6 +858,8 @@ namespace Designer_Offer.ViewModels
             AddBuild = new LambdaCommand(OnAddBuild, CanAddBuild);
             RemoveBuild = new LambdaCommand(OnRemoveBuild, CanRemoveBuild);
             EditBuild = new LambdaCommand(OnEditBuild, CanEditBuild);
+
+            AddOffer = new LambdaCommand(OnAddOffer, CanAddOffer);
 
             Builds = new ObservableCollection<Build>();
             Offers = new ObservableCollection<Offer>();

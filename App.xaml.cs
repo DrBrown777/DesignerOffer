@@ -84,6 +84,7 @@ namespace Designer_Offer
             services.AddTransient<ProductEditorWindow>();
             services.AddTransient<InstallEditorWindow>();
             services.AddTransient<ManufacturerEditorWindow>();
+            services.AddTransient<OfferInitWindow>();
 
             /*Регистрация моделей представлений окон*/
             services.AddSingleton<MainWindowViewModel>();
@@ -102,6 +103,7 @@ namespace Designer_Offer
             services.AddTransient<ProductEditorViewModel>();
             services.AddTransient<InstallEditorViewModel>();
             services.AddTransient<ManufacturerEditorViewModel>();
+            services.AddTransient<OfferInitViewModel>();
 
             /*Регистрация моделей представлений юзер контролов*/
             services.AddSingleton<ProjectManagerViewModel>();

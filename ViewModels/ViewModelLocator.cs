@@ -61,5 +61,8 @@ namespace Designer_Offer.ViewModels
 
         public ManufacturerEditorViewModel ManufacturerEditorView =>
             App.Host.Services.GetRequiredService<ManufacturerEditorViewModel>();
+
+        public OfferInitViewModel OfferInitView =>
+            App.Host.Services.GetRequiredService<OfferInitViewModel>();
     }
 }

@@ -326,7 +326,8 @@
                     <StackPanel Orientation="Horizontal">
                         <Button
                                 ToolTip="Добавить" ToolTipService.Placement="Top"
-                                Command="">
+                                Command="{Binding Path=AddOffer}"
+                                CommandParameter="{Binding Path=SelectedBuild}">
                             <materialDesign:PackIcon Kind="PlusBold" />
                         </Button>
                         <Button

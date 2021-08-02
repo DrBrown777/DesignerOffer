@@ -247,6 +247,7 @@
     <Compile Include="ViewModels\EmployeeEditorViewModel.cs" />
     <Compile Include="ViewModels\InstallEditorViewModel.cs" />
     <Compile Include="ViewModels\ManufacturerEditorViewModel.cs" />
+    <Compile Include="ViewModels\OfferInitViewModel.cs" />
     <Compile Include="ViewModels\PositionEditorViewModel.cs" />
     <Compile Include="ViewModels\ProductEditorViewModel.cs" />
     <Compile Include="ViewModels\ProjectManagerViewModel.cs" />
@@ -285,6 +286,9 @@
     </Compile>
     <Compile Include="Views\Windows\ManufacturerEditorWindow.xaml.cs">
       <DependentUpon>ManufacturerEditorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\OfferInitWindow.xaml.cs">
+      <DependentUpon>OfferInitWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\PositionEditorWindow.xaml.cs">
       <DependentUpon>PositionEditorWindow.xaml</DependentUpon>
@@ -390,6 +394,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\Windows\ManufacturerEditorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\OfferInitWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
