@@ -332,12 +332,14 @@
                         </Button>
                         <Button
                                 ToolTip="Редактировать" ToolTipService.Placement="Top"
-                                Command="">
+                                Command="{Binding Path=EditOffer}"
+                                CommandParameter="{Binding Path=SelectedOffer}">
                             <materialDesign:PackIcon Kind="Edit" />
                         </Button>
                         <Button
                                 ToolTip="Удалить" ToolTipService.Placement="Top" 
-                                Command="">
+                                Command="{Binding Path=RemoveOffer}"
+                                CommandParameter="{Binding Path=SelectedOffer}">
                             <materialDesign:PackIcon Kind="Delete" />
                         </Button>
                     </StackPanel>

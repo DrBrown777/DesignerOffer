@@ -9,6 +9,11 @@ namespace Designer_Offer.ViewModels
     internal class OfferInitViewModel : ViewModel
     {
         #region СВОЙСТВА
+        /// <summary>
+        /// Краткое название обьекта
+        /// </summary>
+        public string NameProject { get; set; }
+
         private string _Name;
         /// <summary>
         /// Название КП

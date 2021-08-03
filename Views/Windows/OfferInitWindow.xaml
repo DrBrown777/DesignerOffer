@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:Designer_Offer.Infrastructure.Validations"
         xmlns:cnv="clr-namespace:Designer_Offer.Infrastructure.Converters"
         mc:Ignorable="d"
-        Title="Добавление нового КП" Height="360" Width="500"
+        Title="Добавление нового КП" Height="391" Width="500"
         WindowStartupLocation="CenterScreen"
         DataContext="{Binding OfferInitView, Source={StaticResource Locator}}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -51,15 +51,9 @@
         <Style x:Key="TextBox" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
             <Setter Property="VerticalAlignment" Value="Stretch"/>
             <Setter Property="Height" Value="27"/>
-            <Setter Property="Margin" Value="10,15,3,5"/>
+            <Setter Property="Margin" Value="10,0,3,25"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
             <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>
-        </Style>
-        <Style x:Key="TextBoxOutline" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="Margin" Value="20,3,0,3"/>
-            <Setter Property="Width" Value="100"/>
         </Style>
         <Style TargetType="materialDesign:PackIcon">
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -70,7 +64,7 @@
         </Style>
         <Style x:Key="ComboBox" TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
             <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="Margin" Value="10,15,3,5"/>
+            <Setter Property="Margin" Value="10,10,3,5"/>
             <Setter Property="Width" Value="200"/>
         </Style>
     </Window.Resources>
@@ -78,7 +72,7 @@
         <UniformGrid Style="{StaticResource UniformGrid}"
             DockPanel.Dock="Bottom" Rows="1">
             <Button Style="{StaticResource ButtonValid}"
-                        Content="Добавить"
+                        Content="Сохранить"
                         Command="{StaticResource DialogResultCommand}"
                         CommandParameter="True"/>
             <Button Style="{StaticResource Button}"
@@ -92,15 +86,23 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="0.35*" />
+                <RowDefinition Height="0.4*"/>
+                <RowDefinition Height="0.8*"/>
+                <RowDefinition MaxHeight="50"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
             <materialDesign:PackIcon 
-                Kind="Offer"
+                Kind="Wall"
                 Grid.Column="0" Grid.Row="0"/>
+            <Label Style="{StaticResource MaterialDesignLabel}"
+                Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"
+                Content="{Binding Path=NameProject}"
+                FontWeight="DemiBold" FontSize="16"/>
+            <materialDesign:PackIcon 
+                Kind="Offer"
+                Grid.Column="0" Grid.Row="1"/>
             <TextBox x:Name="OfferName" Style="{StaticResource TextBox}"
-                     Grid.Row="0" Grid.Column="1"
+                     Grid.Row="1" Grid.Column="1"
                      AcceptsReturn="True"
                      VerticalScrollBarVisibility="Auto"
                      materialDesign:HintAssist.Hint="Название КП"
@@ -115,14 +117,15 @@
             </TextBox>
             <materialDesign:PackIcon 
                 Kind="Margin"
-                Grid.Column="0" Grid.Row="1"/>
+                Grid.Column="0" Grid.Row="2"/>
             <StackPanel 
                 Orientation="Horizontal"
-                Grid.Row="1" Grid.Column="1">
-                <TextBox x:Name="MarginProduct" Style="{StaticResource TextBoxOutline}"
+                Grid.Row="2" Grid.Column="1">
+                <TextBox x:Name="MarginProduct" Style="{StaticResource MaterialDesignOutlinedTextBox}"
                      AcceptsReturn="True"
                      ToolTip="Наценка на материалы"
-                     materialDesign:HintAssist.HelperText="наценка на материалы">
+                     materialDesign:HintAssist.Hint="Наценка товара" Width="135"
+                     materialDesign:HintAssist.HelperText="введите коэф." Margin="10,0,0,0">
                     <TextBox.Text>
                         <Binding Path="MarginProduct" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -135,10 +138,11 @@
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
-                <TextBox x:Name="MarginInstall" Style="{StaticResource TextBoxOutline}"
+                <TextBox x:Name="MarginInstall" Style="{StaticResource MaterialDesignOutlinedTextBox}"
                      AcceptsReturn="True"
-                     ToolTip="Наценка на работы"
-                     materialDesign:HintAssist.HelperText="наценка на работы">
+                     ToolTip="Наценка на услуги"
+                     materialDesign:HintAssist.Hint="Наценка услуг" Width="135"
+                     materialDesign:HintAssist.HelperText="введите коэф." Margin="10,0,0,0">
                     <TextBox.Text>
                         <Binding Path="MarginInstall" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -151,10 +155,11 @@
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
-                <TextBox x:Name="MarginAdmin" Style="{StaticResource TextBoxOutline}"
+                <TextBox x:Name="MarginAdmin" Style="{StaticResource MaterialDesignOutlinedTextBox}"
                      AcceptsReturn="True"
                      ToolTip="Админ расходы"
-                     materialDesign:HintAssist.HelperText="админ. расходы">
+                     materialDesign:HintAssist.Hint="Админ расходы" Width="135"
+                     materialDesign:HintAssist.HelperText="введите коэф." Margin="10,0,0,0">
                     <TextBox.Text>
                         <Binding Path="MarginAdmin" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>

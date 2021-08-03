@@ -785,9 +785,90 @@ namespace Designer_Offer.ViewModels
             }
             finally
             {
+                FilterBuild.Execute(null);
+
                 OnPropertyChanged(nameof(SelectedBuild.Project.Offer));
 
                 SelectedOffer = new_offer;
+            }
+        }
+        /// <summary>
+        /// Редактирование КП
+        /// </summary>
+        public ICommand EditOffer { get; }
+        
+        private bool CanEditOffer(object p)
+        {
+            return (Offer)p != null && SelectedBuild != null && SelectedOffer != null;
+        }
+
+        private void OnEditOffer(object p)
+        {
+            Offer offer_to_edit = (Offer)p ?? SelectedOffer;
+
+            if (!UserDialog.Edit(offer_to_edit))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositoryOffer.Update(offer_to_edit);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                offer_to_edit.Date = DateTime.Today;
+
+                FilterBuild.Execute(null);
+
+                OnPropertyChanged(nameof(SelectedBuild.Project.Offer));
+
+                SelectedOffer = offer_to_edit;
+            }
+        }
+        /// <summary>
+        /// Удаление КП
+        /// </summary>
+        public ICommand RemoveOffer { get; }
+
+        private bool CanRemoveOffer(object p)
+        {
+            return (Offer)p != null && SelectedBuild != null && SelectedOffer != null;
+        }
+
+        private void OnRemoveOffer(object p)
+        {
+            Offer offer_to_remove = (Offer)p ?? SelectedOffer;
+
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить {offer_to_remove.Name}?", "Удаление КП"))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositoryOffer.Remove(offer_to_remove.Id);
+
+                SelectedBuild.Project.Offer.Remove(offer_to_remove);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                FilterBuild.Execute(null);
+
+                OnPropertyChanged(nameof(SelectedBuild.Project.Offer));
+
+                if (ReferenceEquals(SelectedOffer, offer_to_remove))
+                {
+                    SelectedOffer = null;
+                }
             }
         }
         #endregion
@@ -860,6 +941,8 @@ namespace Designer_Offer.ViewModels
             EditBuild = new LambdaCommand(OnEditBuild, CanEditBuild);
 
             AddOffer = new LambdaCommand(OnAddOffer, CanAddOffer);
+            EditOffer = new LambdaCommand(OnEditOffer, CanEditOffer);
+            RemoveOffer = new LambdaCommand(OnRemoveOffer, CanRemoveOffer);
 
             Builds = new ObservableCollection<Build>();
             Offers = new ObservableCollection<Offer>();
