@@ -41,9 +41,37 @@ namespace Designer_Offer.Services
                     return EditInstall(install);
                 case Manufacturer manufacturer:
                     return EditManufacturer(manufacturer);
+                case Offer offer:
+                    return EditOffer(offer);
                 default:
                     throw new NotSupportedException($"Редактирование обьекта типа {item.GetType().Name} не поддерживается.");
             }
+        }
+
+        private bool EditOffer(Offer offer)
+        {
+            var offer_intit_window = App.Host.Services
+                                        .GetRequiredService<OfferInitWindow>();
+            var offer_init_model = App.Host.Services
+                                        .GetRequiredService<OfferInitViewModel>();
+
+            offer_init_model.Name = offer.Name;
+            offer_init_model.SelectedSection = offer.Section;
+            offer_init_model.MarginProduct = offer.Config.Margin_Product;
+            offer_init_model.MarginInstall = offer.Config.Margin_Work;
+            offer_init_model.MarginAdmin = offer.Config.Margin_Admin;
+
+            offer_intit_window.DataContext = offer_init_model;
+
+            if (offer_intit_window.ShowDialog() != true) return false;
+
+            offer.Name = offer_init_model.Name;
+            offer.Section = offer_init_model.SelectedSection;
+            offer.Config.Margin_Product = offer_init_model.MarginProduct;
+            offer.Config.Margin_Work = offer_init_model.MarginInstall;
+            offer.Config.Margin_Admin = offer_init_model.MarginAdmin;
+
+            return true;
         }
 
         private static bool EditClient(Client client)

@@ -7,9 +7,8 @@
         xmlns:cmd="clr-namespace:Designer_Offer.Infrastructure.Commands" 
         xmlns:local="clr-namespace:Designer_Offer.Infrastructure.Validations"
         xmlns:cnv="clr-namespace:Designer_Offer.Infrastructure.Converters"
-        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="Добавление нового КП" Height="600" Width="500"
+        Title="Добавление нового КП" Height="360" Width="500"
         WindowStartupLocation="CenterScreen"
         DataContext="{Binding OfferInitView, Source={StaticResource Locator}}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -19,7 +18,167 @@
         TextOptions.TextRenderingMode="Aliased"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
-    <Grid>
-        
-    </Grid>
+    <Window.Resources>
+        <cmd:DialogResultCommand x:Key="DialogResultCommand"/>
+        <Style x:Key="Button" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedDarkButton}">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Padding" Value="10,3"/>
+            <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth2"/>
+        </Style>
+        <Style x:Key="ButtonValid" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedDarkButton}">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Padding" Value="10,3"/>
+            <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth2"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=OfferName}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=MarginProduct}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=MarginInstall}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=MarginAdmin}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="UniformGrid" TargetType="UniformGrid">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+        <Style x:Key="TextBox" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="Height" Value="27"/>
+            <Setter Property="Margin" Value="10,15,3,5"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>
+        </Style>
+        <Style x:Key="TextBoxOutline" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Margin" Value="20,3,0,3"/>
+            <Setter Property="Width" Value="100"/>
+        </Style>
+        <Style TargetType="materialDesign:PackIcon">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Foreground" Value="#FF436EB1"/>
+        </Style>
+        <Style x:Key="ComboBox" TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="10,15,3,5"/>
+            <Setter Property="Width" Value="200"/>
+        </Style>
+    </Window.Resources>
+    <DockPanel Margin="3">
+        <UniformGrid Style="{StaticResource UniformGrid}"
+            DockPanel.Dock="Bottom" Rows="1">
+            <Button Style="{StaticResource ButtonValid}"
+                        Content="Добавить"
+                        Command="{StaticResource DialogResultCommand}"
+                        CommandParameter="True"/>
+            <Button Style="{StaticResource Button}"
+                        Content="Отмена"
+                        Command="{StaticResource DialogResultCommand}"
+                        CommandParameter="False"/>
+        </UniformGrid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="0.35*" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <materialDesign:PackIcon 
+                Kind="Offer"
+                Grid.Column="0" Grid.Row="0"/>
+            <TextBox x:Name="OfferName" Style="{StaticResource TextBox}"
+                     Grid.Row="0" Grid.Column="1"
+                     AcceptsReturn="True"
+                     VerticalScrollBarVisibility="Auto"
+                     materialDesign:HintAssist.Hint="Название КП"
+                     materialDesign:HintAssist.HelperText="введите название">
+                <TextBox.Text>
+                    <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <materialDesign:PackIcon 
+                Kind="Margin"
+                Grid.Column="0" Grid.Row="1"/>
+            <StackPanel 
+                Orientation="Horizontal"
+                Grid.Row="1" Grid.Column="1">
+                <TextBox x:Name="MarginProduct" Style="{StaticResource TextBoxOutline}"
+                     AcceptsReturn="True"
+                     ToolTip="Наценка на материалы"
+                     materialDesign:HintAssist.HelperText="наценка на материалы">
+                    <TextBox.Text>
+                        <Binding Path="MarginProduct" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                                <local:NotNumberValidationRule ValidatesOnTargetUpdated="True"/>
+                            </Binding.ValidationRules>
+                            <Binding.Converter>
+                                <cnv:DecimalToStringConverter/>
+                            </Binding.Converter>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox x:Name="MarginInstall" Style="{StaticResource TextBoxOutline}"
+                     AcceptsReturn="True"
+                     ToolTip="Наценка на работы"
+                     materialDesign:HintAssist.HelperText="наценка на работы">
+                    <TextBox.Text>
+                        <Binding Path="MarginInstall" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                                <local:NotNumberValidationRule ValidatesOnTargetUpdated="True"/>
+                            </Binding.ValidationRules>
+                            <Binding.Converter>
+                                <cnv:DecimalToStringConverter/>
+                            </Binding.Converter>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox x:Name="MarginAdmin" Style="{StaticResource TextBoxOutline}"
+                     AcceptsReturn="True"
+                     ToolTip="Админ расходы"
+                     materialDesign:HintAssist.HelperText="админ. расходы">
+                    <TextBox.Text>
+                        <Binding Path="MarginAdmin" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                                <local:NotNumberValidationRule ValidatesOnTargetUpdated="True"/>
+                            </Binding.ValidationRules>
+                            <Binding.Converter>
+                                <cnv:DecimalToStringConverter/>
+                            </Binding.Converter>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </StackPanel>
+            <materialDesign:PackIcon 
+                Kind="SetCenter"
+                Grid.Column="0" Grid.Row="3"/>
+            <ComboBox Style="{Binding Source={StaticResource ComboBox}}"
+                ItemsSource="{Binding Path=Sections, UpdateSourceTrigger=PropertyChanged}"
+                SelectedItem="{Binding Path=SelectedSection}"
+                Grid.Column="1" Grid.Row="3"
+                DisplayMemberPath="Name"
+                materialDesign:HintAssist.Hint="Выберите раздел"
+                materialDesign:HintAssist.HelperText="раздел"
+                IsSynchronizedWithCurrentItem="False"/>
+        </Grid>
+    </DockPanel>
 </Window>
