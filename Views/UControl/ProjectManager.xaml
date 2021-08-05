@@ -332,7 +332,9 @@
                         </Button>
                         <Button
                                 ToolTip="Редактировать" ToolTipService.Placement="Top"
-                                Command="{Binding Path=EditOffer}"
+                                Command="{Binding DataContext, 
+                                RelativeSource={RelativeSource FindAncestor, 
+                                AncestorType={x:Type Window}}}"
                                 CommandParameter="{Binding Path=SelectedOffer}">
                             <materialDesign:PackIcon Kind="Edit" />
                         </Button>

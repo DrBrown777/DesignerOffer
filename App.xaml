@@ -37,6 +37,10 @@
                 <view:ServiceManager />
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type vm:OfferManagerViewModel}">
+                <view:OfferManager />
+            </DataTemplate>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -248,6 +248,7 @@
     <Compile Include="ViewModels\InstallEditorViewModel.cs" />
     <Compile Include="ViewModels\ManufacturerEditorViewModel.cs" />
     <Compile Include="ViewModels\OfferInitViewModel.cs" />
+    <Compile Include="ViewModels\OfferManagerViewModel.cs" />
     <Compile Include="ViewModels\PositionEditorViewModel.cs" />
     <Compile Include="ViewModels\ProductEditorViewModel.cs" />
     <Compile Include="ViewModels\ProjectManagerViewModel.cs" />
@@ -259,6 +260,9 @@
     <Compile Include="ViewModels\WorkWindowViewModel.cs" />
     <Compile Include="Views\UControl\CompanyManager.xaml.cs">
       <DependentUpon>CompanyManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UControl\OfferManager.xaml.cs">
+      <DependentUpon>OfferManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UControl\ProjectManager.xaml.cs">
       <DependentUpon>ProjectManager.xaml</DependentUpon>
@@ -317,6 +321,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UControl\CompanyManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UControl\OfferManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

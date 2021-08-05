@@ -790,6 +790,9 @@ namespace Designer_Offer.ViewModels
                 OnPropertyChanged(nameof(SelectedBuild.Project.Offer));
 
                 SelectedOffer = new_offer;
+
+                App.Host.Services.GetRequiredService<WorkWindowViewModel>().CurrentModel =
+                    App.Host.Services.GetRequiredService<OfferManagerViewModel>();
             }
         }
         /// <summary>
@@ -828,6 +831,9 @@ namespace Designer_Offer.ViewModels
                 OnPropertyChanged(nameof(SelectedBuild.Project.Offer));
 
                 SelectedOffer = offer_to_edit;
+
+                App.Host.Services.GetRequiredService<WorkWindowViewModel>().CurrentModel =
+                    App.Host.Services.GetRequiredService<OfferManagerViewModel>();
             }
         }
         /// <summary>

@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="Designer_Offer.Views.UControl.OfferManager"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1000"
+             DataContext="{Binding OfferManagerView, Source={StaticResource Locator}}"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Aliased"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}">
+    <Grid>
+        <TabControl TabStripPlacement="left" materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True">
+            
+            <TabItem Header="Система1" Height="30">
+
+            </TabItem>
+            <TabItem Header="Система2"></TabItem>
+            <TabItem Header="Система2"></TabItem>
+            <TabItem Header="Система2"></TabItem>
+            <TabItem Header="Система2"></TabItem>
+            <TabItem Header="Система2"></TabItem>
+            <TabItem Header="Система2"></TabItem>
+            <TabItem Header="Система2"></TabItem>
+            <TabItem Header="Система2"></TabItem>
+            <TabItem Header="Система2"></TabItem>
+            <TabItem Header="Система2"></TabItem>
+            <TabItem Header="Система2"></TabItem>
+            <TabItem Header="Система2"></TabItem>
+            <TabItem Header="Система2"></TabItem>
+            
+        </TabControl>
+        <materialDesign:PopupBox
+                        Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                        PlacementMode="RightAndAlignMiddles"
+                        UnfurlOrientation="Horizontal"
+                        ToolTip="Редактировать системы"
+                        ToolTipService.Placement="Top"
+                        Height="40" Width="40"
+                        Margin="15,0,10,5"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal">
+                <Button
+                            ToolTip="Добавить" ToolTipService.Placement="Top"
+                                Command="">
+                    <materialDesign:PackIcon Kind="PlusBold" />
+                </Button>
+                <Button
+                            ToolTip="Редактировать" ToolTipService.Placement="Top"
+                                Command=""
+                                CommandParameter="">
+                    <materialDesign:PackIcon Kind="Edit" />
+                </Button>
+                <Button
+                            ToolTip="Удалить" ToolTipService.Placement="Top" 
+                                Command=""
+                                CommandParameter="">
+                    <materialDesign:PackIcon Kind="Delete" />
+                </Button>
+            </StackPanel>
+        </materialDesign:PopupBox>
+
+    </Grid>
+</UserControl>
