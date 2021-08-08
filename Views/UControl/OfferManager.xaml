@@ -15,7 +15,13 @@
              TextOptions.TextRenderingMode="Aliased"
              Background="{DynamicResource MaterialDesignPaper}"
              FontFamily="{DynamicResource MaterialDesignFont}">
-    <Grid>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding Path=LoadDataFromRepositories}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid Margin="3">
+        
         <TabControl TabStripPlacement="left" materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True">
             
             <TabItem Header="Система1" Height="30">

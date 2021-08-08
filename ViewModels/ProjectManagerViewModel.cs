@@ -312,7 +312,7 @@ namespace Designer_Offer.ViewModels
             {
                 Employees = new ObservableCollection<Employee>(await RepositoryUsers.Items.ToListAsync());
 
-                //CurrentUser = Employees.SingleOrDefault(e => e.Id == App.Host.Services.GetRequiredService<IEntity>().Id);
+                //CurrentUser = Employees.SingleOrDefault(e => e.Id == App.Host.Services.GetRequiredService<Employee>().Id);
 
                 CurrentUser = Employees.SingleOrDefault(e => e.Id == 21);
 
@@ -790,9 +790,6 @@ namespace Designer_Offer.ViewModels
                 OnPropertyChanged(nameof(SelectedBuild.Project.Offer));
 
                 SelectedOffer = new_offer;
-
-                App.Host.Services.GetRequiredService<WorkWindowViewModel>().CurrentModel =
-                    App.Host.Services.GetRequiredService<OfferManagerViewModel>();
             }
         }
         /// <summary>

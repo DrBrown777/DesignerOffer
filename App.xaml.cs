@@ -117,7 +117,9 @@ namespace Designer_Offer
             services.AddSingleton<IRegistrationService, RegistrationViewModel>();
 
             /*Сервис текущего пользователя*/
-            services.AddSingleton<IEntity, Employee>();
+            services.AddSingleton<Employee>();
+            /*Сервис текущего КП*/
+            services.AddSingleton<Offer>();
 
             /*Регистрация сервис диалогов*/
             services.AddTransient<IUserDialog, UserDialogService>();

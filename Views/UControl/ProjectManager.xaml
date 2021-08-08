@@ -332,7 +332,7 @@
                         </Button>
                         <Button
                                 ToolTip="Редактировать" ToolTipService.Placement="Top"
-                                Command="{Binding DataContext, 
+                                Command="{Binding DataContext.ShowOfferManager, 
                                 RelativeSource={RelativeSource FindAncestor, 
                                 AncestorType={x:Type Window}}}"
                                 CommandParameter="{Binding Path=SelectedOffer}">

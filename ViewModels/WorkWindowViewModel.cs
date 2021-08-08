@@ -1,4 +1,5 @@
-﻿using Designer_Offer.Infrastructure.Commands;
+﻿using Designer_Offer.Data;
+using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.ViewModels.Base;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows.Input;
@@ -71,6 +72,26 @@ namespace Designer_Offer.ViewModels
 
             return false;
         }
+        /// <summary>
+        /// Команда отображения Менеджера КП
+        /// </summary>
+        public ICommand ShowOfferManager { get; }
+
+        private void OnShowOfferManagerCommand(object p)
+        {
+            if (p != null && p is Offer)
+            {
+                Offer offer = (Offer)p;
+                App.Host.Services.GetRequiredService<Offer>().Id = offer.Id;
+            }
+                
+            CurrentModel = App.Host.Services.GetRequiredService<OfferManagerViewModel>();
+        }
+
+        private bool CanShowOfferManagerCommand(object p)
+        {
+            return p is Offer && !ReferenceEquals(CurrentModel, App.Host.Services.GetRequiredService<OfferManagerViewModel>());
+        }
         #endregion
 
         #region КОНСТРУКТОРЫ
@@ -79,6 +100,7 @@ namespace Designer_Offer.ViewModels
             ShowProjectManager = new LambdaCommand(OnShowProjectManagerCommand, CanShowProjectManagerCommand);
             ShowCompanyManager = new LambdaCommand(OnShowCompanyManagerCommand, CanShowCompanyManagerCommand);
             ShowServiceManager = new LambdaCommand(OnShowServiceManagerCommand, CanShowServiceManagerCommand);
+            ShowOfferManager = new LambdaCommand(OnShowOfferManagerCommand, CanShowOfferManagerCommand);
         }
         #endregion
     }

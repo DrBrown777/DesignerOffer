@@ -188,7 +188,7 @@ namespace Designer_Offer.ViewModels
             {
                 Employees = new ObservableCollection<Employee>(await RepositoryUsers.Items.ToListAsync());
 
-                //CurrentUser = Employees.SingleOrDefault(e => e.Id == App.Host.Services.GetRequiredService<IEntity>().Id);
+                //CurrentUser = Employees.SingleOrDefault(e => e.Id == App.Host.Services.GetRequiredService<Employee>().Id);
 
                 CurrentUser = Employees.SingleOrDefault(e => e.Id == 21);
 

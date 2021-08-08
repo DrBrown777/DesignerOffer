@@ -104,7 +104,7 @@ namespace Designer_Offer.ViewModels
         {
             if (LoginSucces((PasswordBox)p).Result)
             {
-                App.Host.Services.GetRequiredService<IEntity>().Id = User.Id;
+                App.Host.Services.GetRequiredService<Employee>().Id = User.Id;
 
                 var work = App.Host.Services.GetRequiredService<WorkWindow>();
 
