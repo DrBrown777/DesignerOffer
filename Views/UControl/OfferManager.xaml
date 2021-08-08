@@ -20,30 +20,77 @@
             <i:InvokeCommandAction Command="{Binding Path=LoadDataFromRepositories}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Grid Margin="3">
-        
-        <TabControl TabStripPlacement="left" materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True">
+    <UserControl.Resources>
+        <Style TargetType="materialDesign:PackIcon">
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="Height" Value="23"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="#FF436EB1"/>
+        </Style>
+        <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
+            <Setter Property="Margin" Value="5,2,5,5"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.13*"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <GroupBox Header="Информация о КП" 
+                  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+            <StackPanel 
+                    Orientation="Horizontal" VerticalAlignment="Center">
+                <materialDesign:PackIcon Kind="Wall" />
+                <TextBox Text="{Binding Path=CurrentOffer.Project.Name}" IsReadOnly="True"/>
+                <materialDesign:PackIcon Kind="Margin" />
+                <TextBox Text="{Binding Path=CurrentOffer.Config.Margin_Product}"
+                         materialDesign:HintAssist.Hint="введите коэф."
+                         materialDesign:HintAssist.HelperText="Наценка товара"/>
+                <materialDesign:PackIcon Kind="Margin" />
+                <TextBox Text="{Binding Path=CurrentOffer.Config.Margin_Work}" 
+                         materialDesign:HintAssist.Hint="введите коэф."
+                         materialDesign:HintAssist.HelperText="Наценка услуг"/>
+                <materialDesign:PackIcon Kind="Margin" />
+                <TextBox Text="{Binding Path=CurrentOffer.Config.Margin_Admin}" 
+                         materialDesign:HintAssist.Hint="введите коэф."
+                         materialDesign:HintAssist.HelperText="Админ расходы"/>
+                <materialDesign:PackIcon Kind="Offer" />
+                <TextBox Text="П-1" />
+                <materialDesign:PackIcon Kind="Offer" />
+                <TextBox Text="{Binding Path=CurrentOffer.Name}" />
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Материалы и работы"
+                  Grid.Row="1" Grid.Column="0">
             
-            <TabItem Header="Система1" Height="30">
+        </GroupBox>
+        <GroupBox Header="Системы" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+            
+            <TabControl 
+            TabStripPlacement="left" 
+            materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True">
 
-            </TabItem>
-            <TabItem Header="Система2"></TabItem>
-            <TabItem Header="Система2"></TabItem>
-            <TabItem Header="Система2"></TabItem>
-            <TabItem Header="Система2"></TabItem>
-            <TabItem Header="Система2"></TabItem>
-            <TabItem Header="Система2"></TabItem>
-            <TabItem Header="Система2"></TabItem>
-            <TabItem Header="Система2"></TabItem>
-            <TabItem Header="Система2"></TabItem>
-            <TabItem Header="Система2"></TabItem>
-            <TabItem Header="Система2"></TabItem>
-            <TabItem Header="Система2"></TabItem>
-            <TabItem Header="Система2"></TabItem>
+                <TabItem Header="Система1"/>
+                <TabItem Header="Система2"/>
+                <TabItem Header="Система2"/>
+                <TabItem Header="Система2"/>
+                <TabItem Header="Система2"/>
+                <TabItem Header="Система2"/>
+                <TabItem Header="Система2"/>
+                <TabItem Header="Система2"/>
+                <TabItem Header="Система2"/>
+                <TabItem Header="Система2"/>
+                
+            </TabControl>
             
-        </TabControl>
-        <materialDesign:PopupBox
-                        Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+        </GroupBox>
+        <materialDesign:PopupBox Grid.Row="1" Grid.Column="1"
+                       Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
                         PlacementMode="RightAndAlignMiddles"
                         UnfurlOrientation="Horizontal"
                         ToolTip="Редактировать системы"
@@ -54,24 +101,23 @@
                         VerticalAlignment="Bottom">
             <StackPanel Orientation="Horizontal">
                 <Button
-                            ToolTip="Добавить" ToolTipService.Placement="Top"
-                                Command="">
+                    ToolTip="Добавить" ToolTipService.Placement="Top"
+                    Command="">
                     <materialDesign:PackIcon Kind="PlusBold" />
                 </Button>
                 <Button
-                            ToolTip="Редактировать" ToolTipService.Placement="Top"
-                                Command=""
-                                CommandParameter="">
+                    ToolTip="Редактировать" ToolTipService.Placement="Top"
+                    Command=""
+                    CommandParameter="">
                     <materialDesign:PackIcon Kind="Edit" />
                 </Button>
                 <Button
-                            ToolTip="Удалить" ToolTipService.Placement="Top" 
-                                Command=""
-                                CommandParameter="">
+                    ToolTip="Удалить" ToolTipService.Placement="Top" 
+                    Command=""
+                    CommandParameter="">
                     <materialDesign:PackIcon Kind="Delete" />
                 </Button>
             </StackPanel>
         </materialDesign:PopupBox>
-
     </Grid>
 </UserControl>

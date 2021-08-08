@@ -142,4 +142,11 @@ namespace Designer_Offer.Services.Repositories
 
         public ManufacturerRepository(PrimeContext db) : base(db) { }
     }
+    
+    internal class OfferRepository : DbRepository<Offer>
+    {
+        public override IQueryable<Offer> Items => base.Items
+            .Include(item => item.Part);
+        public OfferRepository(PrimeContext db) : base(db) { }
+    }
 }
