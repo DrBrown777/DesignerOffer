@@ -41,6 +41,10 @@
                 <view:OfferManager />
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type vm:PartManagerViewModel}">
+                <view:PartManager />
+            </DataTemplate>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

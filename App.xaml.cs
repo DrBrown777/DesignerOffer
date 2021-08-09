@@ -72,6 +72,8 @@ namespace Designer_Offer
             services.AddSingleton<ServiceManager>();
             services.AddSingleton<OfferManager>();
 
+            services.AddTransient<PartManager>();
+
             /*Регистрация представлений редактирования данных*/
             services.AddTransient<ClientEditorWindow>();
             services.AddTransient<BuildEditorWindow>();
@@ -111,6 +113,8 @@ namespace Designer_Offer
             services.AddSingleton<CompanyManagerViewModel>();
             services.AddSingleton<ServiceManagerViewModel>();
             services.AddSingleton<OfferManagerViewModel>();
+
+            services.AddTransient<PartManagerViewModel>();
 
             /*Регистрация интерфейсов страниц*/
             services.AddSingleton<ILoginService, LoginViewModel>();

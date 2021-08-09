@@ -5,6 +5,7 @@ using Designer_Offer.ViewModels.Base;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -86,6 +87,26 @@ namespace Designer_Offer.ViewModels
             get => _CurrentOffer;
             set => Set(ref _CurrentOffer, value);
         }
+
+        private ObservableCollection<PartManagerViewModel> _Parts;
+        /// <summary>
+        /// Коллекция систем КП для TabItem
+        /// </summary>
+        public ObservableCollection<PartManagerViewModel> Parts
+        {
+            get => _Parts;
+            set => Set(ref _Parts, value);
+        }
+
+        private PartManagerViewModel _SelectedPart;
+        /// <summary>
+        /// Выбранная система
+        /// </summary>
+        public PartManagerViewModel SelectedPart
+        {
+            get => _SelectedPart;
+            set => Set(ref _SelectedPart, value);
+        }
         #endregion
 
         #region КОМАНДЫ
@@ -116,6 +137,18 @@ namespace Designer_Offer.ViewModels
                 Title = CurrentCompany?.Name + _title;
 
                 CurrentOffer = await RepositoryOffer.GetAsync(App.Host.Services.GetRequiredService<Offer>().Id);
+
+                if (CurrentOffer.Part.Count() != 0)
+                {
+                    foreach (Part item in CurrentOffer.Part)
+                    {
+                        PartManagerViewModel partManagerView = App.Host.Services.GetRequiredService<PartManagerViewModel>();
+
+                        partManagerView.Name = item.Name;
+
+                        Parts.Add(partManagerView);
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -137,6 +170,8 @@ namespace Designer_Offer.ViewModels
            IUserDialog userDialog)
         {
             Progress = true;
+
+            Parts = new ObservableCollection<PartManagerViewModel>();
 
             RepositoryUsers = repaEmployee;
             RepositoryOffer = repaOffer;

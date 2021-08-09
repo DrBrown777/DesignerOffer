@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:ucontrol="clr-namespace:Designer_Offer.Views.UControl"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1000"
              DataContext="{Binding OfferManagerView, Source={StaticResource Locator}}"
@@ -60,7 +61,7 @@
                          materialDesign:HintAssist.Hint="введите коэф."
                          materialDesign:HintAssist.HelperText="Админ расходы"/>
                 <materialDesign:PackIcon Kind="Offer" />
-                <TextBox Text="П-1" />
+                <TextBox Text="{Binding Path=SelectedPart.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <materialDesign:PackIcon Kind="Offer" />
                 <TextBox Text="{Binding Path=CurrentOffer.Name}" />
             </StackPanel>
@@ -71,20 +72,16 @@
         </GroupBox>
         <GroupBox Header="Системы" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
             
-            <TabControl 
-            TabStripPlacement="left" 
-            materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True">
-
-                <TabItem Header="Система1"/>
-                <TabItem Header="Система2"/>
-                <TabItem Header="Система2"/>
-                <TabItem Header="Система2"/>
-                <TabItem Header="Система2"/>
-                <TabItem Header="Система2"/>
-                <TabItem Header="Система2"/>
-                <TabItem Header="Система2"/>
-                <TabItem Header="Система2"/>
-                <TabItem Header="Система2"/>
+            <TabControl
+                ItemsSource="{Binding Path=Parts}"
+                SelectedItem="{Binding Path=SelectedPart}"
+                TabStripPlacement="left" 
+                materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True">
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <HeaderedContentControl Header="{Binding Path=Name, Mode=TwoWay}"/>
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
                 
             </TabControl>
             
