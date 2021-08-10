@@ -6,6 +6,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
              xmlns:ucontrol="clr-namespace:Designer_Offer.Views.UControl"
+             xmlns:vm="clr-namespace:Designer_Offer.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1000"
              DataContext="{Binding OfferManagerView, Source={StaticResource Locator}}"
@@ -82,7 +83,11 @@
                         <HeaderedContentControl Header="{Binding Path=Name, Mode=TwoWay}"/>
                     </DataTemplate>
                 </TabControl.ItemTemplate>
-                
+                <TabControl.Resources>
+                    <DataTemplate DataType="{x:Type vm:PartManagerViewModel}">
+                        <ucontrol:PartManager />
+                    </DataTemplate>
+                </TabControl.Resources>
             </TabControl>
             
         </GroupBox>
