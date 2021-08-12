@@ -82,9 +82,6 @@
                          materialDesign:HintAssist.Hint="введите коэф."
                          materialDesign:HintAssist.HelperText="Админ расходы"/>
                 <materialDesign:PackIcon Kind="Offer" />
-                <TextBox 
-                    Text="{Binding Path=SelectedPart.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <materialDesign:PackIcon Kind="Offer" />
                 <TextBox Text="{Binding Path=CurrentOffer.Name}" />
             </StackPanel>
         </GroupBox>
@@ -99,12 +96,15 @@
                 materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True">
                 <TabControl.ItemContainerStyle>
                     <Style TargetType="TabItem">
-                        <Setter Property="Header" 
-                                Value="{Binding Path=Name}" />
                         <Setter Property="MinWidth" Value="55"/>
                         <Setter Property="FontSize" Value="14"/>
                     </Style>
                 </TabControl.ItemContainerStyle>
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBox Text="{Binding Path=Name}"/>
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
                 <TabControl.ContentTemplate>
                     <DataTemplate DataType="{x:Type vm:PartManagerViewModel}">
                         <uc:PartManager />
