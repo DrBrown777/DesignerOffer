@@ -5,11 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
-             xmlns:ucontrol="clr-namespace:Designer_Offer.Views.UControl"
+             xmlns:uc="clr-namespace:Designer_Offer.Views.UControl"
              xmlns:vm="clr-namespace:Designer_Offer.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1000"
-             DataContext="{Binding OfferManagerView, Source={StaticResource Locator}}"
+             d:DataContext="{d:DesignInstance Type=vm:OfferManagerViewModel}"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              TextElement.FontWeight="Regular"
              TextElement.FontSize="13"
@@ -50,6 +50,7 @@
                     </Setter>
                 </Trigger>
             </Style.Triggers>
+            <Setter Property="TabStripPlacement" Value="Left"/>
         </Style>
     </UserControl.Resources>
     <Grid>
@@ -95,16 +96,20 @@
             <TabControl
                 ItemsSource="{Binding Path=Parts}"
                 SelectedItem="{Binding Path=SelectedPart}"
-                TabStripPlacement="left" 
                 materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True">
                 <TabControl.ItemContainerStyle>
                     <Style TargetType="TabItem">
                         <Setter Property="Header" 
-                                Value="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding Path=Name}" />
                         <Setter Property="MinWidth" Value="55"/>
                         <Setter Property="FontSize" Value="14"/>
                     </Style>
                 </TabControl.ItemContainerStyle>
+                <TabControl.ContentTemplate>
+                    <DataTemplate DataType="{x:Type vm:PartManagerViewModel}">
+                        <uc:PartManager />
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
             </TabControl>
         </GroupBox>
         <materialDesign:PopupBox Grid.Row="1" Grid.Column="1"

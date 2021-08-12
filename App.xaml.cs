@@ -70,8 +70,8 @@ namespace Designer_Offer
             services.AddSingleton<ProjectManager>();
             services.AddSingleton<CompanyManager>();
             services.AddSingleton<ServiceManager>();
-            services.AddSingleton<OfferManager>();
-
+            
+            services.AddTransient<OfferManager>();
             services.AddTransient<PartManager>();
 
             /*Регистрация представлений редактирования данных*/
@@ -112,8 +112,8 @@ namespace Designer_Offer
             services.AddSingleton<ProjectManagerViewModel>();
             services.AddSingleton<CompanyManagerViewModel>();
             services.AddSingleton<ServiceManagerViewModel>();
-            services.AddSingleton<OfferManagerViewModel>();
-
+            
+            services.AddTransient<OfferManagerViewModel>();
             services.AddTransient<PartManagerViewModel>();
 
             /*Регистрация интерфейсов страниц*/
