@@ -9,7 +9,7 @@ namespace Designer_Offer.ViewModels
 {
     internal class PartManagerViewModel : ViewModel
     {
-        private string _Name = "aaaaaaaaaaaaaaa";
+        private string _Name;
         /// <summary>
         /// Название системы
         /// </summary>

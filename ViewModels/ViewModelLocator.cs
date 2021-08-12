@@ -23,9 +23,6 @@ namespace Designer_Offer.ViewModels
         public OfferManagerViewModel OfferManagerView =>
             App.Host.Services.GetRequiredService<OfferManagerViewModel>();
 
-        public PartManagerViewModel PartManagerView =>
-            App.Host.Services.GetRequiredService<PartManagerViewModel>();
-
         public LoginViewModel LoginView =>
             (LoginViewModel)App.Host.Services.GetRequiredService<ILoginService>();
 

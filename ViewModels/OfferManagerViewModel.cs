@@ -2,6 +2,7 @@
 using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
+using Designer_Offer.Views.UControl;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -88,21 +89,21 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _CurrentOffer, value);
         }
 
-        private ObservableCollection<PartManagerViewModel> _Parts;
+        private ObservableCollection<ViewModel> _Parts;
         /// <summary>
         /// Коллекция систем КП для TabItem
         /// </summary>
-        public ObservableCollection<PartManagerViewModel> Parts
+        public ObservableCollection<ViewModel> Parts
         {
             get => _Parts;
             set => Set(ref _Parts, value);
         }
 
-        private PartManagerViewModel _SelectedPart;
+        private ViewModel _SelectedPart;
         /// <summary>
         /// Выбранная система
         /// </summary>
-        public PartManagerViewModel SelectedPart
+        public ViewModel SelectedPart
         {
             get => _SelectedPart;
             set => Set(ref _SelectedPart, value);
@@ -142,9 +143,13 @@ namespace Designer_Offer.ViewModels
                 {
                     foreach (Part item in CurrentOffer.Part)
                     {
-                        PartManagerViewModel partManagerView = App.Host.Services.GetRequiredService<PartManagerViewModel>();
+                        var partManagerView = App.Host.Services.GetRequiredService<PartManagerViewModel>();
+
+                        var partManagerUcontrol = App.Host.Services.GetRequiredService<PartManager>();
 
                         partManagerView.Name = item.Name;
+
+                        partManagerUcontrol.DataContext = partManagerView;
 
                         Parts.Add(partManagerView);
                     }
@@ -171,7 +176,7 @@ namespace Designer_Offer.ViewModels
         {
             Progress = true;
 
-            Parts = new ObservableCollection<PartManagerViewModel>();
+            Parts = new ObservableCollection<ViewModel>();
 
             RepositoryUsers = repaEmployee;
             RepositoryOffer = repaOffer;
