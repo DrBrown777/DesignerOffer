@@ -159,6 +159,39 @@ namespace Designer_Offer.ViewModels
         }
         #endregion
 
+        public ICommand AddNewPart { get; }
+
+        private bool CanAddNewPart(object p) => CurrentOffer != null;
+
+        private void OnAddNewPart(object p)
+        {
+            Part new_part = new Part()
+            {
+                Name = "Система"
+            };
+
+            CurrentOffer.Part.Add(new_part);
+
+            RepositoryOffer.Update(CurrentOffer);
+
+            var partManagerView = App.Host.Services.GetRequiredService<PartManagerViewModel>();
+
+            partManagerView.Name = new_part.Name;
+
+            Parts.Add(partManagerView);
+        }
+
+        public ICommand RemovePart { get; }
+
+        private bool CanRemovePart(object p) => CurrentOffer != null && SelectedPart != null;
+
+        private void OnRemovePart(object p)
+        {
+          
+
+            
+        }
+
         #endregion
 
         #region КОНСТРУКТОРЫ
@@ -177,6 +210,8 @@ namespace Designer_Offer.ViewModels
             UserDialog = userDialog;
 
             LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
+
+            AddNewPart = new LambdaCommand(OnAddNewPart, CanAddNewPart);
         }
         #endregion
     }
