@@ -331,6 +331,12 @@
                             <materialDesign:PackIcon Kind="PlusBold" />
                         </Button>
                         <Button
+                                ToolTip="Настроить" ToolTipService.Placement="Top" 
+                                Command="{Binding Path=EditOffer}"
+                                CommandParameter="{Binding Path=SelectedOffer}">
+                            <materialDesign:PackIcon Kind="Cog" />
+                        </Button>
+                        <Button
                                 ToolTip="Редактировать" ToolTipService.Placement="Top"
                                 Command="{Binding DataContext.ShowOfferManager, 
                                 RelativeSource={RelativeSource FindAncestor, 

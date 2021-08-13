@@ -44,6 +44,10 @@ namespace Designer_Offer.ViewModels
         /// Репозитоторий КП
         /// </summary>
         private readonly IRepository<Offer> RepositoryOffer;
+        /// <summary>
+        /// Репозитоторий Систем
+        /// </summary>
+        private readonly IRepository<Part> RepositoryPart;
         #endregion
 
         #endregion
@@ -139,9 +143,13 @@ namespace Designer_Offer.ViewModels
 
                 CurrentOffer = await RepositoryOffer.GetAsync(App.Host.Services.GetRequiredService<Offer>().Id);
 
+                if (CurrentOffer == null) return;
+
                 foreach (Part item in CurrentOffer.Part)
                 {
                     var partManagerView = App.Host.Services.GetRequiredService<PartManagerViewModel>();
+
+                    partManagerView.Id = item.Id;
 
                     partManagerView.Name = item.Name;
 
@@ -159,38 +167,75 @@ namespace Designer_Offer.ViewModels
         }
         #endregion
 
+        #region добавление удаление данных
+
+        /// <summary>
+        /// Добавление системы в КП
+        /// </summary>
         public ICommand AddNewPart { get; }
 
         private bool CanAddNewPart(object p) => CurrentOffer != null;
 
-        private void OnAddNewPart(object p)
+        private async void OnAddNewPart(object p)
         {
             Part new_part = new Part()
             {
-                Name = "Система"
+                Name = "Система",
+                Offer_Id = CurrentOffer.Id
             };
 
-            CurrentOffer.Part.Add(new_part);
+            try
+            {
+                new_part = await RepositoryPart.AddAsync(new_part);
 
-            RepositoryOffer.Update(CurrentOffer);
+                CurrentOffer.Part.Add(new_part);
 
-            var partManagerView = App.Host.Services.GetRequiredService<PartManagerViewModel>();
+                var partManagerView = App.Host.Services.GetRequiredService<PartManagerViewModel>();
 
-            partManagerView.Name = new_part.Name;
+                partManagerView.Id = new_part.Id;
 
-            Parts.Add(partManagerView);
+                partManagerView.Name = new_part.Name;
+
+                Parts.Add(partManagerView);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
         }
 
+        /// <summary>
+        /// Удаление системы из КП
+        /// </summary>
         public ICommand RemovePart { get; }
 
         private bool CanRemovePart(object p) => CurrentOffer != null && SelectedPart != null;
 
         private void OnRemovePart(object p)
         {
-          
+            Part part_to_remove = CurrentOffer.Part.FirstOrDefault(part => part.Id.Equals(SelectedPart.Id));
 
-            
+            if (part_to_remove == null) return;
+
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить систему {part_to_remove.Name}?", "Удаление системы"))
+            {
+                return;
+            }
+
+            try
+            {
+                RepositoryPart.Remove(part_to_remove.Id);
+
+                CurrentOffer.Part.Remove(part_to_remove);
+
+                Parts.Remove(SelectedPart);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
         }
+        #endregion
 
         #endregion
 
@@ -198,6 +243,7 @@ namespace Designer_Offer.ViewModels
         public OfferManagerViewModel(
            IRepository<Offer> repaOffer,
            IRepository<Employee> repaEmployee,
+           IRepository<Part> repaPart,
            IUserDialog userDialog)
         {
             Progress = true;
@@ -206,12 +252,14 @@ namespace Designer_Offer.ViewModels
 
             RepositoryUsers = repaEmployee;
             RepositoryOffer = repaOffer;
+            RepositoryPart = repaPart;
 
             UserDialog = userDialog;
 
             LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
 
             AddNewPart = new LambdaCommand(OnAddNewPart, CanAddNewPart);
+            RemovePart = new LambdaCommand(OnRemovePart, CanRemovePart);
         }
         #endregion
     }

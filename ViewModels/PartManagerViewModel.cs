@@ -9,6 +9,16 @@ namespace Designer_Offer.ViewModels
 {
     internal class PartManagerViewModel : ViewModel
     {
+        private int _Id;
+        /// <summary>
+        /// Id системы
+        /// </summary>
+        public int Id
+        {
+            get => _Id;
+            set => Set(ref _Id, value);
+        }
+
         private string _Name;
         /// <summary>
         /// Название системы

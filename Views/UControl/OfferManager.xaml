@@ -130,8 +130,7 @@
                 </Button>
                 <Button
                     ToolTip="Удалить" ToolTipService.Placement="Top" 
-                    Command=""
-                    CommandParameter="">
+                    Command="{Binding Path=RemovePart}">
                     <materialDesign:PackIcon Kind="Delete" />
                 </Button>
             </StackPanel>
