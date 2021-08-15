@@ -236,6 +236,36 @@ namespace Designer_Offer.ViewModels
             }
         }
         #endregion
+        /// <summary>
+        /// Сохранение/обновление текущего КП
+        /// </summary>
+        public ICommand UpdateOffer { get; }
+
+        private bool CanUpdateOffer(object p)
+        {
+            return RepositoryOffer != null && CurrentOffer != null;
+        }
+
+        private async void OnUpdateOffer(object p)
+        {
+            Progress = true;
+            try
+            {
+                foreach (var item in Parts)
+                {
+                    CurrentOffer.Part.FirstOrDefault(part => part.Id == item.Id).Name = item.Name;
+                }
+                await RepositoryOffer.UpdateAsync(CurrentOffer);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                Progress = false;
+            }
+        }
 
         #endregion
 
@@ -260,6 +290,8 @@ namespace Designer_Offer.ViewModels
 
             AddNewPart = new LambdaCommand(OnAddNewPart, CanAddNewPart);
             RemovePart = new LambdaCommand(OnRemovePart, CanRemovePart);
+            
+            UpdateOffer = new LambdaCommand(OnUpdateOffer, CanUpdateOffer);
         }
         #endregion
     }

@@ -4,9 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:Designer_Offer.Infrastructure.Validations"
+             xmlns:cnv="clr-namespace:Designer_Offer.Infrastructure.Converters"
              xmlns:uc="clr-namespace:Designer_Offer.Views.UControl"
-             xmlns:vm="clr-namespace:Designer_Offer.ViewModels"
+             xmlns:vm="clr-namespace:Designer_Offer.ViewModels" 
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1000"
              d:DataContext="{d:DesignInstance Type=vm:OfferManagerViewModel}"
@@ -23,11 +25,27 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <UserControl.Resources>
-        <Style TargetType="materialDesign:PackIcon">
-            <Setter Property="Width" Value="Auto"/>
-            <Setter Property="Height" Value="23"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Foreground" Value="#FF436EB1"/>
+        <Style x:Key="Button" TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatLightBgButton}">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Padding" Value="10,3"/>
+            <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth2"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=OfferName}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=PartName}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=MarginProduct}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=MarginInstall}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=MarginAdmin}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
         <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
             <Setter Property="Margin" Value="5,2,5,5"/>
@@ -52,6 +70,12 @@
             </Style.Triggers>
             <Setter Property="TabStripPlacement" Value="Left"/>
         </Style>
+        <Style TargetType="materialDesign:PackIcon">
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="Height" Value="23"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="#FF436EB1"/>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -60,34 +84,105 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.13*"/>
+            <RowDefinition Height="0.15*"/>
             <RowDefinition />
         </Grid.RowDefinitions>
         <GroupBox Header="Информация о КП" 
                   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
-            <StackPanel 
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Left"
                     Orientation="Horizontal" VerticalAlignment="Center">
-                <materialDesign:PackIcon Kind="Wall" />
-                <TextBox Text="{Binding Path=CurrentOffer.Project.Name}" IsReadOnly="True"/>
-                <materialDesign:PackIcon Kind="Margin" />
-                <TextBox Text="{Binding Path=CurrentOffer.Config.Margin_Product}"
-                         materialDesign:HintAssist.Hint="введите коэф."
-                         materialDesign:HintAssist.HelperText="Наценка товара"/>
-                <materialDesign:PackIcon Kind="Margin" />
-                <TextBox Text="{Binding Path=CurrentOffer.Config.Margin_Work}" 
-                         materialDesign:HintAssist.Hint="введите коэф."
-                         materialDesign:HintAssist.HelperText="Наценка услуг"/>
-                <materialDesign:PackIcon Kind="Margin" />
-                <TextBox Text="{Binding Path=CurrentOffer.Config.Margin_Admin}" 
-                         materialDesign:HintAssist.Hint="введите коэф."
-                         materialDesign:HintAssist.HelperText="Админ расходы"/>
-                <materialDesign:PackIcon Kind="Offer" />
-                <TextBox Text="{Binding Path=CurrentOffer.Name}" />
-            </StackPanel>
+                    <materialDesign:PackIcon Kind="Wall" />
+                    <TextBox Text="{Binding Path=CurrentOffer.Project.Name}" IsReadOnly="True"/>
+                    <materialDesign:PackIcon Kind="PipeWrench" />
+                    <TextBox Text="{Binding Path=CurrentOffer.Section.Name}" IsReadOnly="True"/>
+                    <materialDesign:PackIcon Kind="Margin" />
+                    <TextBox x:Name="MarginProduct"
+                            materialDesign:HintAssist.Hint="введите коэф."
+                            materialDesign:HintAssist.HelperText="Наценка товара">
+                            <TextBox.Text>
+                                <Binding Path="CurrentOffer.Config.Margin_Product" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:NotEmptyValidationRule ValidatesOnTargetUpdated="False"/>
+                                        <local:NotNumberValidationRule ValidatesOnTargetUpdated="False"/>
+                                    </Binding.ValidationRules>
+                                    <Binding.Converter>
+                                        <cnv:DecimalToStringConverter/>
+                                    </Binding.Converter>
+                                </Binding>
+                            </TextBox.Text>
+                    </TextBox>
+                    <materialDesign:PackIcon Kind="Margin" />
+                    <TextBox x:Name="MarginInstall"
+                            materialDesign:HintAssist.Hint="введите коэф."
+                            materialDesign:HintAssist.HelperText="Наценка услуг">
+                            <TextBox.Text>
+                                <Binding Path="CurrentOffer.Config.Margin_Work" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:NotEmptyValidationRule ValidatesOnTargetUpdated="False"/>
+                                        <local:NotNumberValidationRule ValidatesOnTargetUpdated="False"/>
+                                    </Binding.ValidationRules>
+                                    <Binding.Converter>
+                                        <cnv:DecimalToStringConverter/>
+                                    </Binding.Converter>
+                                </Binding>
+                            </TextBox.Text>
+                    </TextBox>
+                    <materialDesign:PackIcon Kind="Margin" />
+                    <TextBox x:Name="MarginAdmin"
+                            materialDesign:HintAssist.Hint="введите коэф."
+                            materialDesign:HintAssist.HelperText="Админ расходы">
+                            <TextBox.Text>
+                                <Binding Path="CurrentOffer.Config.Margin_Admin" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:NotEmptyValidationRule ValidatesOnTargetUpdated="False"/>
+                                        <local:NotNumberValidationRule ValidatesOnTargetUpdated="False"/>
+                                    </Binding.ValidationRules>
+                                    <Binding.Converter>
+                                        <cnv:DecimalToStringConverter/>
+                                    </Binding.Converter>
+                                </Binding>
+                            </TextBox.Text>
+                    </TextBox>
+                    <materialDesign:PackIcon Kind="Offer" />
+                    <TextBox x:Name="OfferName"
+                            materialDesign:HintAssist.Hint="введите название"
+                            materialDesign:HintAssist.HelperText="Название КП">
+                            <TextBox.Text>
+                                <Binding Path="CurrentOffer.Name" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:NotEmptyValidationRule ValidatesOnTargetUpdated="False"/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                    </TextBox>
+                    <materialDesign:PackIcon Kind="SetCenter" />
+                    <TextBox x:Name="PartName"
+                            materialDesign:HintAssist.Hint="введите название"
+                            materialDesign:HintAssist.HelperText="Название системы">
+                            <TextBox.Text>
+                                <Binding Path="SelectedPart.Name" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:NotEmptyValidationRule ValidatesOnTargetUpdated="False"/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+                <UniformGrid Rows="1" DockPanel.Dock="Right" HorizontalAlignment="Right">
+                    <Button Style="{StaticResource Button}"
+                            Command="{Binding Path=UpdateOffer}"
+                            ToolTip="Сохранить КП" 
+                            ToolTipService.Placement="MousePoint">
+                            <materialDesign:PackIcon Kind="ContentSave" 
+                            Foreground="White" />
+                    </Button>
+                </UniformGrid>
+            </DockPanel>
         </GroupBox>
         <GroupBox Header="Материалы и работы"
                   Grid.Row="1" Grid.Column="0">
-            
+
         </GroupBox>
         <GroupBox Header="Системы" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
             <TabControl
@@ -102,7 +197,7 @@
                 </TabControl.ItemContainerStyle>
                 <TabControl.ItemTemplate>
                     <DataTemplate>
-                        <TextBox Text="{Binding Path=Name}"/>
+                        <TextBlock Text="{Binding Path=Name}"/>
                     </DataTemplate>
                 </TabControl.ItemTemplate>
                 <TabControl.ContentTemplate>
@@ -113,7 +208,7 @@
             </TabControl>
         </GroupBox>
         <materialDesign:PopupBox Grid.Row="1" Grid.Column="1"
-                       Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                        Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
                         PlacementMode="RightAndAlignMiddles"
                         UnfurlOrientation="Horizontal"
                         ToolTip="Редактировать системы"
@@ -126,12 +221,17 @@
                 <Button
                     ToolTip="Добавить" ToolTipService.Placement="Top"
                     Command="{Binding Path=AddNewPart}">
-                    <materialDesign:PackIcon Kind="PlusBold" />
+                    <materialDesign:PackIcon Kind="PlusBold"
+                                             Foreground="White" 
+                                             FontWeight="Light"
+                                             Height="18" Width="18"/>
                 </Button>
                 <Button
                     ToolTip="Удалить" ToolTipService.Placement="Top" 
                     Command="{Binding Path=RemovePart}">
-                    <materialDesign:PackIcon Kind="Delete" />
+                    <materialDesign:PackIcon Kind="Delete" 
+                                             Foreground="White"
+                                             Height="18" Width="18"/>
                 </Button>
             </StackPanel>
         </materialDesign:PopupBox>
