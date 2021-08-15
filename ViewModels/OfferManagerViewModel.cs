@@ -2,14 +2,14 @@
 using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
-using Designer_Offer.Views.UControl;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Designer_Offer.ViewModels
@@ -39,7 +39,6 @@ namespace Designer_Offer.ViewModels
         /// Репозитории пользователей
         /// </summary>
         private readonly IRepository<Employee> RepositoryUsers;
-
         /// <summary>
         /// Репозитоторий КП
         /// </summary>
@@ -48,6 +47,14 @@ namespace Designer_Offer.ViewModels
         /// Репозитоторий Систем
         /// </summary>
         private readonly IRepository<Part> RepositoryPart;
+        /// <summary>
+        /// Репозиторий товаров
+        /// </summary>
+        private readonly IRepository<Product> RepositoryProduct;
+        /// <summary>
+        /// Репозиторий услуг
+        /// </summary>
+        private readonly IRepository<Install> RepositoryInstall;
         #endregion
 
         #endregion
@@ -112,6 +119,134 @@ namespace Designer_Offer.ViewModels
             get => _SelectedPart;
             set => Set(ref _SelectedPart, value);
         }
+
+        private List<Product> _Products;
+        /// <summary>
+        /// Товары выбранного раздела КП
+        /// </summary>
+        public List<Product> Products
+        {
+            get => _Products;
+            set
+            {
+                if (Set(ref _Products, value))
+                {
+                    {
+                        ProductsViewSource = new CollectionViewSource()
+                        {
+                            Source = value,
+                            SortDescriptions =
+                        {
+                            new SortDescription(nameof(Product.Name), ListSortDirection.Ascending)
+                        }
+
+                        };
+                        ProductsViewSource.Filter += ProductsViewSource_Filter;
+                        ProductsViewSource.View.Refresh();
+
+                        OnPropertyChanged(nameof(ProductsView));
+                    }
+                }
+            }
+        }
+        private string _ProductFilter;
+        /// <summary>
+        /// Искомый товар для фильтрации
+        /// </summary>
+        public string ProductFilter
+        {
+            get => _ProductFilter;
+            set
+            {
+                if (Set(ref _ProductFilter, value))
+                {
+                    ProductsViewSource?.View.Refresh();
+                }
+            }
+        }
+        /// <summary>
+        /// Пользователская сортировка товаров
+        /// </summary>
+        public ICollectionView ProductsView => ProductsViewSource?.View;
+
+        /// <summary>
+        /// Прокси коллекция товаров
+        /// </summary>
+        private CollectionViewSource ProductsViewSource;
+
+        private Product _SelectedProduct;
+        /// <summary>
+        /// Выбранный товар
+        /// </summary>
+        public Product SelectedProduct
+        {
+            get => _SelectedProduct;
+            set => Set(ref _SelectedProduct, value);
+        }
+
+        private List<Install> _Installs;
+        /// <summary>
+        /// Услуги выбранного раздела КП
+        /// </summary>
+        public List<Install> Installs
+        {
+            get => _Installs;
+            set
+            {
+                if (Set(ref _Installs, value))
+                {
+                    {
+                        InstallsViewSource = new CollectionViewSource()
+                        {
+                            Source = value,
+                            SortDescriptions =
+                        {
+                            new SortDescription(nameof(Install.Name), ListSortDirection.Ascending)
+                        }
+
+                        };
+                        InstallsViewSource.Filter += InstallsViewSource_Filter;
+                        InstallsViewSource.View.Refresh();
+
+                        OnPropertyChanged(nameof(InstallsView));
+                    }
+                }
+            }
+        }
+        private string _InstallFilter;
+        /// <summary>
+        /// Искомая услуга для фильтрации
+        /// </summary>
+        public string InstallFilter
+        {
+            get => _InstallFilter;
+            set
+            {
+                if (Set(ref _InstallFilter, value))
+                {
+                    InstallsViewSource?.View.Refresh();
+                }
+            }
+        }
+        /// <summary>
+        /// Пользователская сортировка услуг
+        /// </summary>
+        public ICollectionView InstallsView => InstallsViewSource?.View;
+
+        /// <summary>
+        /// Прокси коллекция услуг
+        /// </summary>
+        private CollectionViewSource InstallsViewSource;
+
+        private Install _SelectedInstall;
+        /// <summary>
+        /// Выбранная услуга
+        /// </summary>
+        public Install SelectedInstall
+        {
+            get => _SelectedInstall;
+            set => Set(ref _SelectedInstall, value);
+        }
         #endregion
 
         #region КОМАНДЫ
@@ -144,6 +279,16 @@ namespace Designer_Offer.ViewModels
                 CurrentOffer = await RepositoryOffer.GetAsync(App.Host.Services.GetRequiredService<Offer>().Id);
 
                 if (CurrentOffer == null) return;
+
+                Products = await RepositoryProduct.Items
+                    .Where(prod => prod.Category.Section
+                    .Any(sec => sec.Id == CurrentOffer.Section.Id))
+                    .ToListAsync();
+
+                Installs = await RepositoryInstall.Items
+                    .Where(prod => prod.Category.Section
+                    .Any(sec => sec.Id == CurrentOffer.Section.Id))
+                    .ToListAsync();
 
                 foreach (Part item in CurrentOffer.Part)
                 {
@@ -235,7 +380,7 @@ namespace Designer_Offer.ViewModels
                 UserDialog.ShowError(e.Message, "Ошибка");
             }
         }
-        #endregion
+
         /// <summary>
         /// Сохранение/обновление текущего КП
         /// </summary>
@@ -266,23 +411,63 @@ namespace Designer_Offer.ViewModels
                 Progress = false;
             }
         }
+        #endregion
 
+        #endregion
+
+        #region МЕТОДЫ
+        /// <summary>
+        /// Метод сортировки товаров
+        /// </summary>
+        private void ProductsViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Product product) || string.IsNullOrEmpty(ProductFilter))
+            {
+                return;
+            }
+
+            if (!product.Name.ToLower().Contains(ProductFilter.ToLower()))
+            {
+                e.Accepted = false;
+            }
+        }
+        /// <summary>
+        /// Метод сортировки услуг
+        /// </summary>
+        private void InstallsViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Install install) || string.IsNullOrEmpty(InstallFilter))
+            {
+                return;
+            }
+
+            if (!install.Name.ToLower().Contains(InstallFilter.ToLower()))
+            {
+                e.Accepted = false;
+            }
+        }
         #endregion
 
         #region КОНСТРУКТОРЫ
         public OfferManagerViewModel(
            IRepository<Offer> repaOffer,
            IRepository<Employee> repaEmployee,
-           IRepository<Part> repaPart,
+           IRepository<Part> repaPart, 
+           IRepository<Product> repaProduct, 
+           IRepository<Install> repaInstall,
            IUserDialog userDialog)
         {
             Progress = true;
 
             Parts = new ObservableCollection<PartManagerViewModel>();
+            Products = new List<Product>();
+            Installs = new List<Install>();
 
             RepositoryUsers = repaEmployee;
             RepositoryOffer = repaOffer;
             RepositoryPart = repaPart;
+            RepositoryProduct = repaProduct;
+            RepositoryInstall = repaInstall;
 
             UserDialog = userDialog;
 

@@ -16,11 +16,31 @@
              TextOptions.TextRenderingMode="Aliased"
              Background="{DynamicResource MaterialDesignPaper}"
              FontFamily="{DynamicResource MaterialDesignFont}">
-    <Grid>
-        <Label Content="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-               HorizontalAlignment="Center" 
-               VerticalAlignment="Center"
-               FontSize="35"
-               FontWeight="Bold"/>
+    <UserControl.Resources>
+        <Style TargetType="DataGrid" BasedOn="{StaticResource MaterialDesignDataGrid}">
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="Margin" Value="0,5,0,5"/>
+            <Style.Triggers>
+                <Trigger Property="HasItems" Value="False">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <TextBlock
+                                        HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center"
+                                        FontSize="35"
+                                        FontWeight="Bold">данные не найдены</TextBlock>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid Margin="3">
+        <DataGrid Grid.Row="0" Grid.Column="0">
+            
+            
+        </DataGrid>
     </Grid>
 </UserControl>

@@ -85,7 +85,8 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.15*"/>
-            <RowDefinition />
+            <RowDefinition Height="0.42*"/>
+            <RowDefinition Height="0.43*"/>
         </Grid.RowDefinitions>
         <GroupBox Header="Информация о КП" 
                   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
@@ -180,11 +181,38 @@
                 </UniformGrid>
             </DockPanel>
         </GroupBox>
-        <GroupBox Header="Материалы и работы"
+        <GroupBox Header="Материалы"
                   Grid.Row="1" Grid.Column="0">
-
+            <DockPanel>
+                <DockPanel DockPanel.Dock="Top">
+                    <materialDesign:PackIcon DockPanel.Dock="Left" 
+                                             Height="25" 
+                                             Kind="Search"/>
+                    <TextBox DockPanel.Dock="Right"
+                             Text="{Binding Path=ProductFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                </DockPanel>
+                <ListBox DockPanel.Dock="Top"
+                    ItemsSource="{Binding Path=ProductsView, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding Path=SelectedProduct, UpdateSourceTrigger=PropertyChanged}"
+                    DisplayMemberPath="Name"/>
+            </DockPanel>
         </GroupBox>
-        <GroupBox Header="Системы" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+        <GroupBox Header="Услуги" Grid.Row="2" Grid.Column="0">
+            <DockPanel>
+                <DockPanel DockPanel.Dock="Top">
+                    <materialDesign:PackIcon DockPanel.Dock="Left" 
+                                             Height="25" 
+                                             Kind="Search"/>
+                    <TextBox DockPanel.Dock="Right"
+                             Text="{Binding Path=InstallFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                </DockPanel>
+                <ListBox DockPanel.Dock="Top"
+                    ItemsSource="{Binding Path=InstallsView, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding Path=SelectedInstall, UpdateSourceTrigger=PropertyChanged}"
+                    DisplayMemberPath="Name"/>
+            </DockPanel>
+        </GroupBox>
+        <GroupBox Header="Системы" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2">
             <TabControl
                 ItemsSource="{Binding Path=Parts}"
                 SelectedItem="{Binding Path=SelectedPart}"
@@ -207,7 +235,7 @@
                 </TabControl.ContentTemplate>
             </TabControl>
         </GroupBox>
-        <materialDesign:PopupBox Grid.Row="1" Grid.Column="1"
+        <materialDesign:PopupBox Grid.Row="2" Grid.Column="1"
                         Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
                         PlacementMode="RightAndAlignMiddles"
                         UnfurlOrientation="Horizontal"

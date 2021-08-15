@@ -9,6 +9,7 @@ namespace Designer_Offer.ViewModels
 {
     internal class PartManagerViewModel : ViewModel
     {
+        #region СВОЙСТВА
         private int _Id;
         /// <summary>
         /// Id системы
@@ -28,5 +29,7 @@ namespace Designer_Offer.ViewModels
             get => _Name;
             set => Set(ref _Name, value);
         }
+        #endregion
+
     }
 }
