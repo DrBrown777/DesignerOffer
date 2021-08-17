@@ -38,9 +38,20 @@
         </Style>
     </UserControl.Resources>
     <Grid Margin="3">
-        <DataGrid Grid.Row="0" Grid.Column="0">
-            
-            
+        <DataGrid Grid.Row="0" Grid.Column="0" 
+                  ItemsSource="{Binding Path=Products}" 
+                  SelectedItem="{Binding Path=SelectedProduct}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Path=Product.Name}"/>
+                <DataGridTextColumn Header="Тип" Binding="{Binding Path=Product.Model}"/>
+                <DataGridTextColumn Header="Ед.изм" Binding="{Binding Path=Product.Unit.Name}"/>
+                <DataGridTextColumn Header="Цена вх" Binding="{Binding Path=Product.Entry_Price}"/>
+                <DataGridTextColumn Header="Сумма вх"/>
+                <DataGridTextColumn Header="Кол-во" Binding="{Binding Path=Count_Product}"/>
+                <DataGridTextColumn Header="Цена вых"/>
+                <DataGridTextColumn Header="Сумма вых"/>
+                <DataGridTextColumn Header="Примечание" Binding="{Binding Path=Note}"/>
+            </DataGrid.Columns>
         </DataGrid>
     </Grid>
 </UserControl>

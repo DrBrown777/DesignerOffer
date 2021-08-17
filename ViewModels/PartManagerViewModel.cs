@@ -1,6 +1,8 @@
-﻿using Designer_Offer.ViewModels.Base;
+﻿using Designer_Offer.Data;
+using Designer_Offer.ViewModels.Base;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +31,30 @@ namespace Designer_Offer.ViewModels
             get => _Name;
             set => Set(ref _Name, value);
         }
-        #endregion
 
+        private ObservableCollection<ProductPart> _Products;
+        /// <summary>
+        /// Коллекция 
+        /// </summary>
+        public ObservableCollection<ProductPart> Products
+        {
+            get => _Products;
+            set => Set(ref _Products, value);
+        }
+
+        private ProductPart _SelectedProduct;
+        /// <summary>
+        /// 
+        /// </summary>
+        public ProductPart SelectedProduct
+        {
+            get => _SelectedProduct;
+            set => Set(ref _SelectedProduct, value);
+        }
+        #endregion
+        public PartManagerViewModel()
+        {
+            
+        }
     }
 }
