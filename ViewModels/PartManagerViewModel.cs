@@ -53,10 +53,9 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _SelectedProduct, value);
         }
         #endregion
-        public PartManagerViewModel()
+        public PartManagerViewModel(IRepository<Product> repaProduct)
         {
-
-            Products = new ObservableCollection<ProductPart>();
+            Products = new ObservableCollection<ProductPart>((List<ProductPart>)repaProduct.Items.Select(pp => pp.ProductPart));
         }
     }
 }

@@ -421,17 +421,16 @@ namespace Designer_Offer.ViewModels
 
         private void OnAddProduct(object p)
         {
-            ProductPart productPart = new ProductPart
+            ProductPart productPart = new ProductPart()
             {
-                //Id = SelectedPart.Id,
-                Product = SelectedProduct
+                Part_Id = SelectedPart.Id
             };
 
-            //productPart = RepositoryProductPart.Add(productPart);
+            SelectedProduct.ProductPart.Add(productPart);
 
-            //SelectedProduct.ProductPart.Add(productPart);
+            RepositoryProduct.Update(SelectedProduct);
 
-            //SelectedPart.Products.Add(productPart);
+            SelectedPart.Products.Add(productPart);
         }
         #endregion
 
