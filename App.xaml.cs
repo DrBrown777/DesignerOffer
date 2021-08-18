@@ -141,7 +141,7 @@ namespace Designer_Offer
             //services.AddTransient<IRepository<Employee>, DbRepository<Employee>>();
             services.AddTransient<IRepository<Employee>, EmployeeRepository>();
             services.AddTransient<IRepository<Install>, DbRepository<Install>>();
-            services.AddTransient<IRepository<InstallPart>, DbRepository<InstallPart>>();
+            //services.AddTransient<IRepository<InstallPart>, DbRepository<InstallPart>>();
             //services.AddTransient<IRepository<Manufacturer>, DbRepository<Manufacturer>>();
             services.AddTransient<IRepository<Manufacturer>, ManufacturerRepository>();
             //services.AddTransient<IRepository<Offer>, DbRepository<Offer>>();
@@ -150,7 +150,7 @@ namespace Designer_Offer
             services.AddTransient<IRepository<Position>, DbRepository<Position>>();
             //services.AddTransient<IRepository<Product>, DbRepository<Product>>();
             services.AddTransient<IRepository<Product>, ProductRepository>();
-            services.AddTransient<IRepository<ProductPart>, DbRepository<ProductPart>>();
+            //services.AddTransient<IRepository<ProductPart>, DbRepository<ProductPart>>();
             services.AddTransient<IRepository<Project>, DbRepository<Project>>();
             services.AddTransient<IRepository<Section>, DbRepository<Section>>();
             //services.AddTransient<IRepository<Supplier>, DbRepository<Supplier>>();

@@ -1,6 +1,5 @@
 namespace Designer_Offer.Data
 {
-    using Designer_Offer.Services.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -8,11 +7,16 @@ namespace Designer_Offer.Data
     using System.Data.Entity.Spatial;
 
     [Table("InstallPart")]
-    public partial class InstallPart : IEntity
+    public partial class InstallPart
     {
+        [Key]
+        [Column(Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Id { get; set; }
+        public int Part_Id { get; set; }
 
+        [Key]
+        [Column(Order = 1)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Install_Id { get; set; }
 
         public decimal? Count_Install { get; set; }

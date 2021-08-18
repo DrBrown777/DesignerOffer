@@ -1,4 +1,5 @@
 ﻿using Designer_Offer.Data;
+using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
 using System;
 using System.Collections.Generic;
@@ -54,6 +55,7 @@ namespace Designer_Offer.ViewModels
         #endregion
         public PartManagerViewModel()
         {
+
             Products = new ObservableCollection<ProductPart>();
         }
     }

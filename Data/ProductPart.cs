@@ -1,6 +1,5 @@
 namespace Designer_Offer.Data
 {
-    using Designer_Offer.Services.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -8,11 +7,16 @@ namespace Designer_Offer.Data
     using System.Data.Entity.Spatial;
 
     [Table("ProductPart")]
-    public partial class ProductPart : IEntity
+    public partial class ProductPart
     {
+        [Key]
+        [Column(Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Id { get; set; }
+        public int Part_Id { get; set; }
 
+        [Key]
+        [Column(Order = 1)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Product_Id { get; set; }
 
         public decimal? Count_Product { get; set; }

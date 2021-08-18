@@ -101,14 +101,14 @@ namespace Designer_Offer.Data
                 .HasForeignKey(e => e.Offer_Id);
 
             modelBuilder.Entity<Part>()
-                .HasOptional(e => e.InstallPart)
+                .HasMany(e => e.InstallPart)
                 .WithRequired(e => e.Part)
-                .WillCascadeOnDelete();
+                .HasForeignKey(e => e.Part_Id);
 
             modelBuilder.Entity<Part>()
-                .HasOptional(e => e.ProductPart)
+                .HasMany(e => e.ProductPart)
                 .WithRequired(e => e.Part)
-                .WillCascadeOnDelete();
+                .HasForeignKey(e => e.Part_Id);
 
             modelBuilder.Entity<Position>()
                 .HasMany(e => e.Employee)

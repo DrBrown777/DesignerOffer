@@ -423,12 +423,15 @@ namespace Designer_Offer.ViewModels
         {
             ProductPart productPart = new ProductPart
             {
+                //Id = SelectedPart.Id,
                 Product = SelectedProduct
             };
 
-            RepositoryProduct.Update(SelectedProduct);
+            //productPart = RepositoryProductPart.Add(productPart);
 
-            SelectedPart.Products.Add(productPart);
+            //SelectedProduct.ProductPart.Add(productPart);
+
+            //SelectedPart.Products.Add(productPart);
         }
         #endregion
 
