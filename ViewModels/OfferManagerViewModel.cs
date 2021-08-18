@@ -411,6 +411,25 @@ namespace Designer_Offer.ViewModels
                 Progress = false;
             }
         }
+
+        public ICommand AddProduct { get; }
+
+        private bool CanAddProduct(object p)
+        {
+            return true;
+        }
+
+        private void OnAddProduct(object p)
+        {
+            ProductPart productPart = new ProductPart
+            {
+                Product = SelectedProduct
+            };
+
+            RepositoryProduct.Update(SelectedProduct);
+
+            SelectedPart.Products.Add(productPart);
+        }
         #endregion
 
         #endregion
@@ -477,6 +496,8 @@ namespace Designer_Offer.ViewModels
             RemovePart = new LambdaCommand(OnRemovePart, CanRemovePart);
             
             UpdateOffer = new LambdaCommand(OnUpdateOffer, CanUpdateOffer);
+
+            AddProduct = new LambdaCommand(OnAddProduct, CanAddProduct);
         }
         #endregion
     }

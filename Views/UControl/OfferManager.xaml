@@ -194,7 +194,13 @@
                 <ListBox DockPanel.Dock="Top"
                     ItemsSource="{Binding Path=ProductsView, UpdateSourceTrigger=PropertyChanged}"
                     SelectedItem="{Binding Path=SelectedProduct, UpdateSourceTrigger=PropertyChanged}"
-                    DisplayMemberPath="Name"/>
+                    DisplayMemberPath="Name">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding Path=AddProduct}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ListBox>
             </DockPanel>
         </GroupBox>
         <GroupBox Header="Услуги" Grid.Row="2" Grid.Column="0">

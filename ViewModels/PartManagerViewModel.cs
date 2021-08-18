@@ -54,7 +54,7 @@ namespace Designer_Offer.ViewModels
         #endregion
         public PartManagerViewModel()
         {
-            
+            Products = new ObservableCollection<ProductPart>();
         }
     }
 }
