@@ -1,17 +1,24 @@
 ﻿using Designer_Offer.Data;
+using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Designer_Offer.ViewModels
 {
     internal class PartManagerViewModel : ViewModel
     {
+        private readonly IRepository<Part> RepositoryPart;
+
+        private readonly IUserDialog UserDialog;
+
         #region СВОЙСТВА
         private int _Id;
         /// <summary>
@@ -53,9 +60,37 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _SelectedProduct, value);
         }
         #endregion
-        public PartManagerViewModel(IRepository<Product> repaProduct)
+
+        #region загрузка данных из репозиториев
+        /// <summary>
+        /// Загрузка данных из репозиториев
+        /// </summary>
+        public ICommand LoadDataFromRepositories { get; }
+
+        private bool CanLoadDataFromRepositories(object p)
         {
-            Products = new ObservableCollection<ProductPart>((List<ProductPart>)repaProduct.Items.Select(pp => pp.ProductPart));
+            return true;
+        }
+
+        private void OnLoadDataFromRepositories(object p)
+        {
+            try
+            {
+                Products = new ObservableCollection<ProductPart>(RepositoryPart.Get(Id).ProductPart);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+        }
+        #endregion
+
+        public PartManagerViewModel(IRepository<Part> repaPart, IUserDialog userDialog)
+        {
+            RepositoryPart = repaPart;
+            UserDialog = userDialog;
+
+            LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
         }
     }
 }
