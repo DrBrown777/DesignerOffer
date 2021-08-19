@@ -298,6 +298,8 @@ namespace Designer_Offer.ViewModels
 
                     partManagerView.Name = item.Name;
 
+                    partManagerView.LoadDataFromRepositories.Execute(item.Id);
+
                     Parts.Add(partManagerView);
                 }
             }
@@ -411,26 +413,37 @@ namespace Designer_Offer.ViewModels
                 Progress = false;
             }
         }
-
+        /// <summary>
+        /// Добавление товара в систему
+        /// </summary>
         public ICommand AddProduct { get; }
 
         private bool CanAddProduct(object p)
         {
-            return true;
+            return SelectedPart != null;
         }
 
         private void OnAddProduct(object p)
         {
-            ProductPart productPart = new ProductPart()
+            ProductPart productPart = SelectedProduct.ProductPart.FirstOrDefault(pp => pp.Part_Id.Equals(SelectedPart.Id));
+
+            if (SelectedPart.Products.Contains(productPart))
+            {
+                UserDialog.ShowInformation("В данной системе уже есть такой товар", "Информация");
+
+                return;
+            }
+
+            ProductPart new_productPart = new ProductPart()
             {
                 Part_Id = SelectedPart.Id
             };
 
-            SelectedProduct.ProductPart.Add(productPart);
+            SelectedProduct.ProductPart.Add(new_productPart);
 
             RepositoryProduct.Update(SelectedProduct);
 
-            SelectedPart.Products.Add(productPart);
+            SelectedPart.Products.Add(new_productPart);
         }
         #endregion
 
@@ -473,8 +486,8 @@ namespace Designer_Offer.ViewModels
         public OfferManagerViewModel(
            IRepository<Offer> repaOffer,
            IRepository<Employee> repaEmployee,
-           IRepository<Part> repaPart, 
-           IRepository<Product> repaProduct, 
+           IRepository<Part> repaPart,
+           IRepository<Product> repaProduct,
            IRepository<Install> repaInstall,
            IUserDialog userDialog)
         {
@@ -496,7 +509,7 @@ namespace Designer_Offer.ViewModels
 
             AddNewPart = new LambdaCommand(OnAddNewPart, CanAddNewPart);
             RemovePart = new LambdaCommand(OnRemovePart, CanRemovePart);
-            
+
             UpdateOffer = new LambdaCommand(OnUpdateOffer, CanUpdateOffer);
 
             AddProduct = new LambdaCommand(OnAddProduct, CanAddProduct);

@@ -15,9 +15,16 @@ namespace Designer_Offer.ViewModels
 {
     internal class PartManagerViewModel : ViewModel
     {
+        #region ПОЛЯ
+        /// <summary>
+        /// Репозиторий систем
+        /// </summary>
         private readonly IRepository<Part> RepositoryPart;
-
+        /// <summary>
+        /// Сервис Диалогов с пользователем
+        /// </summary>
         private readonly IUserDialog UserDialog;
+        #endregion
 
         #region СВОЙСТВА
         private int _Id;
@@ -61,6 +68,8 @@ namespace Designer_Offer.ViewModels
         }
         #endregion
 
+        #region КОМАНДЫ
+
         #region загрузка данных из репозиториев
         /// <summary>
         /// Загрузка данных из репозиториев
@@ -69,14 +78,17 @@ namespace Designer_Offer.ViewModels
 
         private bool CanLoadDataFromRepositories(object p)
         {
-            return true;
+            return RepositoryPart != null && p != null;
         }
 
         private void OnLoadDataFromRepositories(object p)
         {
             try
             {
-                Products = new ObservableCollection<ProductPart>(RepositoryPart.Get(Id).ProductPart);
+                foreach (ProductPart item in RepositoryPart.Get((int)p).ProductPart)
+                {
+                    Products.Add(item);
+                }
             }
             catch (Exception e)
             {
@@ -85,12 +97,20 @@ namespace Designer_Offer.ViewModels
         }
         #endregion
 
-        public PartManagerViewModel(IRepository<Part> repaPart, IUserDialog userDialog)
+        #endregion
+
+        #region КОНСТРУКТОРЫ
+        public PartManagerViewModel(
+            IRepository<Part> repaPart,
+            IUserDialog userDialog)
         {
             RepositoryPart = repaPart;
             UserDialog = userDialog;
 
+            Products = new ObservableCollection<ProductPart>();
+
             LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
         }
+        #endregion
     }
 }
