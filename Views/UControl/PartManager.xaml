@@ -36,17 +36,23 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="PriceIn" TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+            <Setter Property="Background" Value="BurlyWood"></Setter>
+        </Style>
     </UserControl.Resources>
     <Grid Margin="3">
-        <DataGrid Grid.Row="0" Grid.Column="0" 
+        <DataGrid Grid.Row="0" Grid.Column="0"
                   ItemsSource="{Binding Path=Products}" 
                   SelectedItem="{Binding Path=SelectedProduct}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Наименование" Binding="{Binding Path=Product.Name}"/>
                 <DataGridTextColumn Header="Тип" Binding="{Binding Path=Product.Model}"/>
                 <DataGridTextColumn Header="Ед.изм" Binding="{Binding Path=Product.Unit.Name}"/>
-                <DataGridTextColumn Header="Цена вх" Binding="{Binding Path=Product.Entry_Price}"/>
-                <DataGridTextColumn Header="Сумма вх"/>
+                <DataGridTextColumn CellStyle="{StaticResource ResourceKey=PriceIn}" 
+                                    Header="Цена вх" 
+                                    Binding="{Binding Path=Product.Entry_Price}"/>
+                <DataGridTextColumn CellStyle="{StaticResource ResourceKey=PriceIn}"
+                                    Header="Сумма вх"/>
                 <DataGridTextColumn Header="Кол-во" Binding="{Binding Path=Count_Product}"/>
                 <DataGridTextColumn Header="Цена вых"/>
                 <DataGridTextColumn Header="Сумма вых"/>
