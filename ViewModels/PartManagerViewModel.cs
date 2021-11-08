@@ -49,7 +49,7 @@ namespace Designer_Offer.ViewModels
 
         private ObservableCollection<ProductPart> _Products;
         /// <summary>
-        /// Коллекция 
+        /// Коллекция товаров в системе
         /// </summary>
         public ObservableCollection<ProductPart> Products
         {
@@ -59,7 +59,7 @@ namespace Designer_Offer.ViewModels
 
         private ProductPart _SelectedProduct;
         /// <summary>
-        /// 
+        /// Выбранный товар в системе
         /// </summary>
         public ProductPart SelectedProduct
         {
@@ -97,6 +97,29 @@ namespace Designer_Offer.ViewModels
         }
         #endregion
 
+        public ICommand CalculatePrices { get; }
+
+        private bool CanCalculatePrices(object p)
+        {
+            return SelectedProduct != null && SelectedProduct.Entry_Price != null && SelectedProduct.Amount != null;
+        }
+
+        private void OnCalculatePrices(object p)
+        {
+            decimal magin_product = SelectedProduct.Part.Offer.Config.Margin_Product;
+
+            try
+            {
+                SelectedProduct.Out_Price = SelectedProduct.Entry_Price * magin_product;
+                SelectedProduct.Entry_Summ = SelectedProduct.Amount * SelectedProduct.Entry_Price;
+                SelectedProduct.Out_Summ = SelectedProduct.Amount * SelectedProduct.Out_Price;
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+        }
+
         #endregion
 
         #region КОНСТРУКТОРЫ
@@ -110,6 +133,7 @@ namespace Designer_Offer.ViewModels
             Products = new ObservableCollection<ProductPart>();
 
             LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
+            CalculatePrices = new LambdaCommand(OnCalculatePrices, CanCalculatePrices);
         }
         #endregion
     }

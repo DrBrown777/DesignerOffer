@@ -299,9 +299,11 @@
                         Width="0.1*"/>
                     <DataGridTextColumn
                         Header="Вход"
+                        Binding="{Binding Path=Entry_Cost}"
                         Width="0.2*"/>
                     <DataGridTextColumn
                         Header="Выход"
+                        Binding="{Binding Path=Out_Cost}"
                         Width="0.2*"/>
                     <DataGridTextColumn
                         Header="Доход"

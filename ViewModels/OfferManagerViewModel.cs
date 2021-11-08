@@ -420,7 +420,7 @@ namespace Designer_Offer.ViewModels
 
         private bool CanAddProduct(object p)
         {
-            return SelectedPart != null;
+            return SelectedPart != null && SelectedProduct != null;
         }
 
         private void OnAddProduct(object p)
@@ -436,7 +436,8 @@ namespace Designer_Offer.ViewModels
 
             ProductPart new_productPart = new ProductPart()
             {
-                Part_Id = SelectedPart.Id
+                Part_Id = SelectedPart.Id,
+                Entry_Price = SelectedProduct.Entry_Price
             };
 
             SelectedProduct.ProductPart.Add(new_productPart);

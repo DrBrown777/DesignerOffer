@@ -19,7 +19,15 @@ namespace Designer_Offer.Data
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Install_Id { get; set; }
 
-        public decimal? Count_Install { get; set; }
+        public decimal? Entry_Price { get; set; }
+
+        public decimal? Entry_Summ { get; set; }
+
+        public decimal? Out_Price { get; set; }
+
+        public decimal? Out_Summ { get; set; }
+
+        public decimal? Amount { get; set; }
 
         [StringLength(500)]
         public string Note { get; set; }

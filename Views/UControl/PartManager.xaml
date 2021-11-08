@@ -42,22 +42,37 @@
     </UserControl.Resources>
     <Grid Margin="3">
         <DataGrid Grid.Row="0" Grid.Column="0"
-                  ItemsSource="{Binding Path=Products}" 
-                  SelectedItem="{Binding Path=SelectedProduct}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Наименование" Binding="{Binding Path=Product.Name}"/>
-                <DataGridTextColumn Header="Тип" Binding="{Binding Path=Product.Model}"/>
-                <DataGridTextColumn Header="Ед.изм" Binding="{Binding Path=Product.Unit.Name}"/>
+                  ItemsSource="{Binding Path=Products, Mode=TwoWay}" 
+                  SelectedItem="{Binding Path=SelectedProduct, Mode=TwoWay}">
+        <DataGrid.Columns>
+                <DataGridTextColumn Header="Наименование" IsReadOnly="True" 
+                                    Binding="{Binding Path=Product.Name}"/>
+                <DataGridTextColumn Header="Тип" IsReadOnly="True" 
+                                    Binding="{Binding Path=Product.Model}"/>
+                <DataGridTextColumn Header="Ед.изм" IsReadOnly="True" 
+                                    Binding="{Binding Path=Product.Unit.Name}"/>
                 <DataGridTextColumn CellStyle="{StaticResource ResourceKey=PriceIn}" 
                                     Header="Цена вх" 
-                                    Binding="{Binding Path=Product.Entry_Price}"/>
+                                    Binding="{Binding Path=Entry_Price, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn CellStyle="{StaticResource ResourceKey=PriceIn}"
-                                    Header="Сумма вх"/>
-                <DataGridTextColumn Header="Кол-во" Binding="{Binding Path=Count_Product}"/>
-                <DataGridTextColumn Header="Цена вых"/>
-                <DataGridTextColumn Header="Сумма вых"/>
-                <DataGridTextColumn Header="Примечание" Binding="{Binding Path=Note}"/>
+                                    Header="Сумма вх" IsReadOnly="True" 
+                                    Binding="{Binding Path=Entry_Summ, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Кол-во" 
+                                    Binding="{Binding Path=Amount, UpdateSourceTrigger=PropertyChanged}">
+                    <i:Interaction.Triggers>
+                        <i:KeyTrigger Key="Enter" FiredOn="KeyUp">
+                            <i:InvokeCommandAction Command="{Binding Path=CalculatePrices}"/>
+                        </i:KeyTrigger>
+                    </i:Interaction.Triggers>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Цена вых" IsReadOnly="True" 
+                                    Binding="{Binding Path=Out_Price, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Сумма вых" IsReadOnly="True" 
+                                    Binding="{Binding Path=Out_Summ, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Примечание" 
+                                    Binding="{Binding Path=Note, UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>
+            
         </DataGrid>
     </Grid>
 </UserControl>
