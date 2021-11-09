@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
-             xmlns:vm="clr-namespace:Designer_Offer.ViewModels"
+             xmlns:vm="clr-namespace:Designer_Offer.ViewModels" 
+             xmlns:local="clr-namespace:Designer_Offer.Infrastructure.Validations" 
+             xmlns:cnv="clr-namespace:Designer_Offer.Infrastructure.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1000"
              d:DataContext="{d:DesignInstance Type=vm:PartManagerViewModel}"
@@ -39,12 +41,16 @@
         <Style x:Key="PriceIn" TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
             <Setter Property="Background" Value="BurlyWood"></Setter>
         </Style>
+        <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
+            <Setter Property="Margin" Value="5,2,5,5"/>
+        </Style>
     </UserControl.Resources>
     <Grid Margin="3">
+        <!--
         <DataGrid Grid.Row="0" Grid.Column="0"
-                  ItemsSource="{Binding Path=Products, Mode=TwoWay}" 
-                  SelectedItem="{Binding Path=SelectedProduct, Mode=TwoWay}">
-        <DataGrid.Columns>
+                  ItemsSource="{Binding Path=Products}" 
+                  SelectedItem="{Binding Path=SelectedProduct, UpdateSourceTrigger=PropertyChanged}">
+            <DataGrid.Columns>
                 <DataGridTextColumn Header="Наименование" IsReadOnly="True" 
                                     Binding="{Binding Path=Product.Name}"/>
                 <DataGridTextColumn Header="Тип" IsReadOnly="True" 
@@ -53,26 +59,81 @@
                                     Binding="{Binding Path=Product.Unit.Name}"/>
                 <DataGridTextColumn CellStyle="{StaticResource ResourceKey=PriceIn}" 
                                     Header="Цена вх" 
-                                    Binding="{Binding Path=Entry_Price, UpdateSourceTrigger=PropertyChanged}"/>
+                                    Binding="{Binding Path=Entry_Price}"/>
                 <DataGridTextColumn CellStyle="{StaticResource ResourceKey=PriceIn}"
                                     Header="Сумма вх" IsReadOnly="True" 
-                                    Binding="{Binding Path=Entry_Summ, UpdateSourceTrigger=PropertyChanged}"/>
+                                    Binding="{Binding Path=Entry_Summ}"/>
                 <DataGridTextColumn Header="Кол-во" 
-                                    Binding="{Binding Path=Amount, UpdateSourceTrigger=PropertyChanged}">
-                    <i:Interaction.Triggers>
-                        <i:KeyTrigger Key="Enter" FiredOn="KeyUp">
-                            <i:InvokeCommandAction Command="{Binding Path=CalculatePrices}"/>
-                        </i:KeyTrigger>
-                    </i:Interaction.Triggers>
-                </DataGridTextColumn>
+                                    Binding="{Binding Path=Amount}"/>
                 <DataGridTextColumn Header="Цена вых" IsReadOnly="True" 
-                                    Binding="{Binding Path=Out_Price, UpdateSourceTrigger=PropertyChanged}"/>
+                                    Binding="{Binding Path=Out_Price}"/>
                 <DataGridTextColumn Header="Сумма вых" IsReadOnly="True" 
-                                    Binding="{Binding Path=Out_Summ, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    Binding="{Binding Path=Out_Summ}"/>
                 <DataGridTextColumn Header="Примечание" 
-                                    Binding="{Binding Path=Note, UpdateSourceTrigger=PropertyChanged}"/>
+                                    Binding="{Binding Path=Note}"/>
             </DataGrid.Columns>
-            
+            <i:Interaction.Triggers>
+                <i:KeyTrigger Key="Enter" FiredOn="KeyUp">
+                    <i:InvokeCommandAction Command="{Binding Path=CalculatePrices}"/>
+                </i:KeyTrigger>
+            </i:Interaction.Triggers>
         </DataGrid>
+        -->
+        <ListView Grid.Row="0" Grid.Column="0" 
+                  ItemsSource="{Binding Path=Products}" 
+                  SelectedItem="{Binding Path=SelectedProduct, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <i:Interaction.Triggers>
+                <i:KeyTrigger Key="Enter">
+                    <i:InvokeCommandAction Command="{Binding Path=CalculatePrices}"/> 
+                </i:KeyTrigger> 
+            </i:Interaction.Triggers>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Наименование" 
+                                    DisplayMemberBinding="{Binding Path=Product.Name}"/>
+                    <GridViewColumn Header="Тип"
+                                    DisplayMemberBinding="{Binding Path=Product.Model}"/>
+                    <GridViewColumn Header="Ед.Изм" 
+                                    DisplayMemberBinding="{Binding Path=Product.Unit.Name}"/>
+                    <GridViewColumn Header="Цена вход" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Path=Entry_Price, UpdateSourceTrigger=PropertyChanged}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Сумма вход"
+                                    DisplayMemberBinding="{Binding Path=Entry_Summ, UpdateSourceTrigger=PropertyChanged}"/>
+                    <GridViewColumn Header="Кол-во" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox>
+                                    <TextBox.Text>
+                                        <Binding Path="Amount" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <local:NotEmptyValidationRule ValidatesOnTargetUpdated="False"/>
+                                                <local:NotNumberValidationRule ValidatesOnTargetUpdated="False"/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Цена выход"
+                                    DisplayMemberBinding="{Binding Path=Out_Price, UpdateSourceTrigger=PropertyChanged}"/>
+                    <GridViewColumn Header="Сумма выход"
+                                    DisplayMemberBinding="{Binding Path=Out_Summ, UpdateSourceTrigger=PropertyChanged}"/>
+                    <GridViewColumn Header="Примечание">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Path=Note, UpdateSourceTrigger=PropertyChanged}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+            
+        </ListView>
     </Grid>
 </UserControl>
