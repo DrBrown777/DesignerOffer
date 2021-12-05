@@ -36,6 +36,12 @@
                         </Setter.Value>
                     </Setter>
                 </Trigger>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=Amount}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=Entry_Price}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="PriceIn" TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
@@ -82,11 +88,6 @@
         <ListView Grid.Row="0" Grid.Column="0" 
                   ItemsSource="{Binding Path=Products}" 
                   SelectedItem="{Binding Path=SelectedProduct, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <i:Interaction.Triggers>
-                <i:KeyTrigger Key="Enter">
-                    <i:InvokeCommandAction Command="{Binding Path=CalculatePrices}"/> 
-                </i:KeyTrigger> 
-            </i:Interaction.Triggers>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Наименование" 
@@ -98,7 +99,24 @@
                     <GridViewColumn Header="Цена вход" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Path=Entry_Price, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBox x:Name="Entry_Price"
+                                         materialDesign:HintAssist.Hint="введите цену">
+                                    <TextBox.Text>
+                                        <Binding Path="Entry_Price" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <local:NotEmptyValidationRule ValidatesOnTargetUpdated="False"/>
+                                                <local:NotNumberValidationRule ValidatesOnTargetUpdated="False"/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction  Command="{Binding DataContext.CalculatePrices, 
+                                                    RelativeSource={RelativeSource FindAncestor, 
+                                                    AncestorType={x:Type UserControl}}}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -107,7 +125,8 @@
                     <GridViewColumn Header="Кол-во" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox>
+                                <TextBox x:Name="Amount"
+                                         materialDesign:HintAssist.Hint="введите кол-во">
                                     <TextBox.Text>
                                         <Binding Path="Amount" UpdateSourceTrigger="PropertyChanged">
                                             <Binding.ValidationRules>
@@ -116,6 +135,13 @@
                                             </Binding.ValidationRules>
                                         </Binding>
                                     </TextBox.Text>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction  Command="{Binding DataContext.CalculatePrices, 
+                                                    RelativeSource={RelativeSource FindAncestor, 
+                                                    AncestorType={x:Type UserControl}}}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
                                 </TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -127,7 +153,8 @@
                     <GridViewColumn Header="Примечание">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Path=Note, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBox materialDesign:HintAssist.Hint="          "
+                                         Text="{Binding Path=Note, UpdateSourceTrigger=PropertyChanged}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

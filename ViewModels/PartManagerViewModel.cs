@@ -2,6 +2,7 @@
 using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
+using Designer_Offer.Views.UControl;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -89,6 +90,7 @@ namespace Designer_Offer.ViewModels
                 {
                     Products.Add(item);
                 }
+                SelectedProduct = Products.First();
             }
             catch (Exception e)
             {
@@ -113,6 +115,12 @@ namespace Designer_Offer.ViewModels
                 SelectedProduct.Out_Price = SelectedProduct.Entry_Price * magin_product;
                 SelectedProduct.Entry_Summ = SelectedProduct.Amount * SelectedProduct.Entry_Price;
                 SelectedProduct.Out_Summ = SelectedProduct.Amount * SelectedProduct.Out_Price;
+                /*костыль*/
+                ProductPart newProduct = SelectedProduct;
+                int indexNewProduct = Products.IndexOf(SelectedProduct);
+                _ = Products.Remove(SelectedProduct);
+                Products.Insert(indexNewProduct, newProduct);
+                SelectedProduct = newProduct;
             }
             catch (Exception e)
             {
