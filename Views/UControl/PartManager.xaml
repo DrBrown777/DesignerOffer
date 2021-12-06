@@ -50,6 +50,12 @@
         <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
             <Setter Property="Margin" Value="5,2,5,5"/>
         </Style>
+        <Style x:Key="Button" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton }">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Padding" Value="3,0,3,0"/>
+            <Setter Property="Height" Value="26 px"/>
+            <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth2"/>
+        </Style>
     </UserControl.Resources>
     <Grid Margin="3">
         <!--
@@ -155,6 +161,35 @@
                             <DataTemplate>
                                 <TextBox materialDesign:HintAssist.Hint="          "
                                          Text="{Binding Path=Note, UpdateSourceTrigger=PropertyChanged}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="" Width="200px">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <DockPanel>
+                                    <Button DockPanel.Dock="Left" Style="{StaticResource Button}"
+                                        Command=""
+                                        ToolTip="Строку вверх" 
+                                        ToolTipService.Placement="Top">
+                                        <materialDesign:PackIcon Kind="ChevronUp" 
+                                         Foreground="#DDCFBABA" />
+                                    </Button>
+                                    <Button DockPanel.Dock="Left" Style="{StaticResource Button}"
+                                        Command=""
+                                        ToolTip="Строку вниз" 
+                                        ToolTipService.Placement="Top">
+                                        <materialDesign:PackIcon Kind="ChevronDown" 
+                                        Foreground="#DDCFBABA" />
+                                    </Button>
+                                    <Button DockPanel.Dock="Left" Style="{StaticResource Button}"
+                                        Command=""
+                                        ToolTip="Удалить" 
+                                        ToolTipService.Placement="Top">
+                                        <materialDesign:PackIcon Kind="DeleteForever" 
+                                        Foreground="#DDCFBABA" />
+                                    </Button>
+                                </DockPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
