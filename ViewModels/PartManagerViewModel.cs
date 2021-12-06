@@ -115,20 +115,50 @@ namespace Designer_Offer.ViewModels
                 SelectedProduct.Out_Price = SelectedProduct.Entry_Price * magin_product;
                 SelectedProduct.Entry_Summ = SelectedProduct.Amount * SelectedProduct.Entry_Price;
                 SelectedProduct.Out_Summ = SelectedProduct.Amount * SelectedProduct.Out_Price;
-                /*костыль*/
-                ProductPart newProduct = SelectedProduct;
-                int indexNewProduct = Products.IndexOf(SelectedProduct);
-                _ = Products.Remove(SelectedProduct);
-                Products.Insert(indexNewProduct, newProduct);
-                SelectedProduct = newProduct;
+
+                SelectedProduct = UpdateCollection(Products, SelectedProduct);
             }
             catch (Exception e)
             {
                 UserDialog.ShowError(e.Message, "Ошибка");
             }
         }
-
         #endregion
+
+        #region МЕТОДЫ
+        private T UpdateCollection<T>(ObservableCollection<T> collection, T oldItem)
+        {
+            if (collection == null)
+            {
+                return oldItem;
+            }
+
+            T newItem = oldItem;
+
+            int indexNewItem = collection.IndexOf(oldItem);
+
+            if (collection.Remove(oldItem))
+            {
+                collection.Insert(indexNewItem, newItem);
+            }
+
+            return newItem;
+        }
+
+        private decimal RoundDecimal(decimal? number)
+        {
+            try
+            {
+                return decimal.Round((decimal)number, 2, MidpointRounding.AwayFromZero);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+                return (decimal)number;
+            }
+        }
+        #endregion
+
 
         #region КОНСТРУКТОРЫ
         public PartManagerViewModel(
