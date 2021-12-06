@@ -51,11 +51,39 @@
             <Setter Property="Margin" Value="5,2,5,5"/>
         </Style>
         <Style x:Key="Button" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton }">
-            <Setter Property="Margin" Value="3"/>
-            <Setter Property="Padding" Value="3,0,3,0"/>
-            <Setter Property="Height" Value="26 px"/>
+            <Setter Property="Margin" Value="3,0"/>
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="Height" Value="28 px"/>
             <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth2"/>
         </Style>
+        <Style TargetType="ListView" BasedOn="{StaticResource MaterialDesignListView}">
+            <Setter Property="Margin" Value="0,5,0,5"/>
+            <Style.Triggers>
+                <Trigger Property="HasItems" Value="False">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <TextBlock 
+                                HorizontalAlignment="Center" 
+                                VerticalAlignment="Center"
+                                FontSize="25"
+                                FontWeight="Medium">данные не найдены        
+                            </TextBlock>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!--
+        <Style TargetType="ListViewItem">
+            <Style.Triggers>
+                <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                    <Setter Property="IsSelected" Value="True"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        -->
     </UserControl.Resources>
     <Grid Margin="3">
         <!--
@@ -91,9 +119,9 @@
             </i:Interaction.Triggers>
         </DataGrid>
         -->
-        <ListView Grid.Row="0" Grid.Column="0" 
+        <ListView Grid.Row="0" Grid.Column="0"
                   ItemsSource="{Binding Path=Products}" 
-                  SelectedItem="{Binding Path=SelectedProduct, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                  SelectedItem="{Binding Path=SelectedProduct, UpdateSourceTrigger=PropertyChanged}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Наименование" 
@@ -164,7 +192,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="" Width="200px">
+                    <GridViewColumn Width="180px">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <DockPanel>
@@ -175,18 +203,18 @@
                                         <materialDesign:PackIcon Kind="ChevronUp" 
                                          Foreground="#DDCFBABA" />
                                     </Button>
-                                    <Button DockPanel.Dock="Left" Style="{StaticResource Button}"
+                                    <Button Style="{StaticResource Button}"
                                         Command=""
                                         ToolTip="Строку вниз" 
                                         ToolTipService.Placement="Top">
                                         <materialDesign:PackIcon Kind="ChevronDown" 
                                         Foreground="#DDCFBABA" />
                                     </Button>
-                                    <Button DockPanel.Dock="Left" Style="{StaticResource Button}"
+                                    <Button Style="{StaticResource Button}"
                                         Command=""
                                         ToolTip="Удалить" 
                                         ToolTipService.Placement="Top">
-                                        <materialDesign:PackIcon Kind="DeleteForever" 
+                                        <materialDesign:PackIcon Kind="Close" 
                                         Foreground="#DDCFBABA" />
                                     </Button>
                                 </DockPanel>
@@ -195,7 +223,6 @@
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
-            
         </ListView>
     </Grid>
 </UserControl>

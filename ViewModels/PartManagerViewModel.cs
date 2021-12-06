@@ -112,9 +112,9 @@ namespace Designer_Offer.ViewModels
 
             try
             {
-                SelectedProduct.Out_Price = SelectedProduct.Entry_Price * magin_product;
-                SelectedProduct.Entry_Summ = SelectedProduct.Amount * SelectedProduct.Entry_Price;
-                SelectedProduct.Out_Summ = SelectedProduct.Amount * SelectedProduct.Out_Price;
+                SelectedProduct.Out_Price = RoundDecimal(SelectedProduct.Entry_Price * magin_product);
+                SelectedProduct.Entry_Summ = RoundDecimal(SelectedProduct.Amount * SelectedProduct.Entry_Price);
+                SelectedProduct.Out_Summ = RoundDecimal(SelectedProduct.Amount * SelectedProduct.Out_Price);
 
                 SelectedProduct = UpdateCollection(Products, SelectedProduct);
             }
@@ -158,7 +158,6 @@ namespace Designer_Offer.ViewModels
             }
         }
         #endregion
-
 
         #region КОНСТРУКТОРЫ
         public PartManagerViewModel(

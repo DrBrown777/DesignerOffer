@@ -172,10 +172,17 @@
                 </StackPanel>
                 <UniformGrid Rows="1" DockPanel.Dock="Right" HorizontalAlignment="Right">
                     <Button Style="{StaticResource Button}"
+                            Command="{Binding Path=CalculateProductsPrice}"
+                            ToolTip="Пересчитать цены" 
+                            ToolTipService.Placement="MousePoint">
+                        <materialDesign:PackIcon Kind="Money" 
+                            Foreground="White" />
+                    </Button>
+                    <Button Style="{StaticResource Button}"
                             Command="{Binding Path=UpdateOffer}"
                             ToolTip="Сохранить КП" 
                             ToolTipService.Placement="MousePoint">
-                            <materialDesign:PackIcon Kind="ContentSave" 
+                        <materialDesign:PackIcon Kind="ContentSave" 
                             Foreground="White" />
                     </Button>
                 </UniformGrid>

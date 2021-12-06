@@ -89,7 +89,7 @@ namespace Designer_Offer.ViewModels
             get => _Progress;
             set => Set(ref _Progress, value);
         }
-        
+
         private Offer _CurrentOffer;
         /// <summary>
         /// Теккущее КП
@@ -448,6 +448,39 @@ namespace Designer_Offer.ViewModels
         }
         #endregion
 
+        #region калькуляция цен
+        /// <summary>
+        /// Пересчет цен в КП при изменении коэф. наценки на материалы
+        /// </summary>
+        public ICommand CalculateProductsPrice { get; }
+
+        private bool CanCalculateProductsPrice(object p)
+        {
+            return true;
+        }
+
+        private void OnCalculateProductsPrice(object p)
+        {
+            foreach (Part part in CurrentOffer.Part)
+            {
+                foreach (ProductPart item in part.ProductPart)
+                {
+                    item.Out_Price = RoundDecimal(item.Entry_Price * CurrentOffer.Config.Margin_Product);
+                    item.Entry_Summ = RoundDecimal(item.Amount * item.Entry_Price);
+                    item.Out_Summ = RoundDecimal(item.Amount * item.Out_Price);
+                }
+            }
+
+            foreach (PartManagerViewModel item in Parts)
+            {
+                item.Products.Clear();
+                item.LoadDataFromRepositories.Execute(item.Id);
+            }
+
+            UpdateOffer.Execute(null);
+        }
+        #endregion
+
         #endregion
 
         #region МЕТОДЫ
@@ -479,6 +512,21 @@ namespace Designer_Offer.ViewModels
             if (!install.Name.ToLower().Contains(InstallFilter.ToLower()))
             {
                 e.Accepted = false;
+            }
+        }
+        /// <summary>
+        /// Правила огругления цен
+        /// </summary>
+        private decimal RoundDecimal(decimal? number)
+        {
+            try
+            {
+                return decimal.Round((decimal)number, 2, MidpointRounding.AwayFromZero);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+                return (decimal)number;
             }
         }
         #endregion
@@ -514,6 +562,8 @@ namespace Designer_Offer.ViewModels
             UpdateOffer = new LambdaCommand(OnUpdateOffer, CanUpdateOffer);
 
             AddProduct = new LambdaCommand(OnAddProduct, CanAddProduct);
+
+            CalculateProductsPrice = new LambdaCommand(OnCalculateProductsPrice, CanCalculateProductsPrice);
         }
         #endregion
     }
