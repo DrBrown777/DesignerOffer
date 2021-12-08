@@ -99,6 +99,9 @@ namespace Designer_Offer.ViewModels
         }
         #endregion
 
+        /// <summary>
+        /// Расчет цены в строке по 1-й позиции
+        /// </summary>
         public ICommand CalculatePrices { get; }
 
         private bool CanCalculatePrices(object p)
@@ -123,9 +126,46 @@ namespace Designer_Offer.ViewModels
                 UserDialog.ShowError(e.Message, "Ошибка");
             }
         }
+        /// <summary>
+        /// Замена меставми элементов
+        /// </summary>
+        public ICommand SwappingElement { get; }
+
+        private bool CanSwappingElement(object p)
+        {
+            bool res = bool.Parse((string)p);
+
+            int index = Products.IndexOf(SelectedProduct);
+
+            return SelectedProduct != null &&
+                !((index + 1) > (Products.Count - 1) && res) &&
+                !((index - 1) < 0 && res == false);
+        }
+
+        private void OnCanSwappingElement(object p)
+        {
+            bool res = bool.Parse((string)p);
+
+            int index = Products.IndexOf(SelectedProduct);
+
+            if (res)
+            {
+                Products.Move(index, index + 1);
+                return;
+            }
+
+            Products.Move(index, index - 1);
+        }
         #endregion
 
         #region МЕТОДЫ
+        /// <summary>
+        /// Обновление коллекции 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collection"></param>
+        /// <param name="oldItem"></param>
+        /// <returns></returns>
         private T UpdateCollection<T>(ObservableCollection<T> collection, T oldItem)
         {
             if (collection == null)
@@ -144,7 +184,11 @@ namespace Designer_Offer.ViewModels
 
             return newItem;
         }
-
+        /// <summary>
+        /// Округление цены
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
         private decimal RoundDecimal(decimal? number)
         {
             try
@@ -171,6 +215,7 @@ namespace Designer_Offer.ViewModels
 
             LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
             CalculatePrices = new LambdaCommand(OnCalculatePrices, CanCalculatePrices);
+            SwappingElement = new LambdaCommand(OnCanSwappingElement, CanSwappingElement);
         }
         #endregion
     }

@@ -86,39 +86,6 @@
         -->
     </UserControl.Resources>
     <Grid Margin="3">
-        <!--
-        <DataGrid Grid.Row="0" Grid.Column="0"
-                  ItemsSource="{Binding Path=Products}" 
-                  SelectedItem="{Binding Path=SelectedProduct, UpdateSourceTrigger=PropertyChanged}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Наименование" IsReadOnly="True" 
-                                    Binding="{Binding Path=Product.Name}"/>
-                <DataGridTextColumn Header="Тип" IsReadOnly="True" 
-                                    Binding="{Binding Path=Product.Model}"/>
-                <DataGridTextColumn Header="Ед.изм" IsReadOnly="True" 
-                                    Binding="{Binding Path=Product.Unit.Name}"/>
-                <DataGridTextColumn CellStyle="{StaticResource ResourceKey=PriceIn}" 
-                                    Header="Цена вх" 
-                                    Binding="{Binding Path=Entry_Price}"/>
-                <DataGridTextColumn CellStyle="{StaticResource ResourceKey=PriceIn}"
-                                    Header="Сумма вх" IsReadOnly="True" 
-                                    Binding="{Binding Path=Entry_Summ}"/>
-                <DataGridTextColumn Header="Кол-во" 
-                                    Binding="{Binding Path=Amount}"/>
-                <DataGridTextColumn Header="Цена вых" IsReadOnly="True" 
-                                    Binding="{Binding Path=Out_Price}"/>
-                <DataGridTextColumn Header="Сумма вых" IsReadOnly="True" 
-                                    Binding="{Binding Path=Out_Summ}"/>
-                <DataGridTextColumn Header="Примечание" 
-                                    Binding="{Binding Path=Note}"/>
-            </DataGrid.Columns>
-            <i:Interaction.Triggers>
-                <i:KeyTrigger Key="Enter" FiredOn="KeyUp">
-                    <i:InvokeCommandAction Command="{Binding Path=CalculatePrices}"/>
-                </i:KeyTrigger>
-            </i:Interaction.Triggers>
-        </DataGrid>
-        -->
         <ListView Grid.Row="0" Grid.Column="0"
                   ItemsSource="{Binding Path=Products}" 
                   SelectedItem="{Binding Path=SelectedProduct, UpdateSourceTrigger=PropertyChanged}">
@@ -187,38 +154,45 @@
                     <GridViewColumn Header="Примечание">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox materialDesign:HintAssist.Hint="          "
+                                <TextBox Width="100px"
                                          Text="{Binding Path=Note, UpdateSourceTrigger=PropertyChanged}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="180px">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <DockPanel>
-                                    <Button DockPanel.Dock="Left" Style="{StaticResource Button}"
-                                        Command=""
+                    <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <DockPanel>
+                                <Button DockPanel.Dock="Left" Style="{StaticResource Button}"
+                                        Command="{Binding DataContext.SwappingElement,
+                                                    RelativeSource={RelativeSource FindAncestor, 
+                                                    AncestorType={x:Type UserControl}}}"
+                                        CommandParameter="false"
                                         ToolTip="Строку вверх" 
                                         ToolTipService.Placement="Top">
-                                        <materialDesign:PackIcon Kind="ChevronUp" 
-                                         Foreground="#DDCFBABA" />
-                                    </Button>
-                                    <Button Style="{StaticResource Button}"
-                                        Command=""
+                                    <materialDesign:PackIcon Kind="ChevronUp" 
+                                         Foreground="White" />
+                                </Button>
+                                <Button Style="{StaticResource Button}"
+                                        Command="{Binding DataContext.SwappingElement,
+                                                    RelativeSource={RelativeSource FindAncestor, 
+                                                    AncestorType={x:Type UserControl}}}"
+                                        CommandParameter="true"
                                         ToolTip="Строку вниз" 
                                         ToolTipService.Placement="Top">
-                                        <materialDesign:PackIcon Kind="ChevronDown" 
-                                        Foreground="#DDCFBABA" />
-                                    </Button>
-                                    <Button Style="{StaticResource Button}"
+                                    <materialDesign:PackIcon Kind="ChevronDown" 
+                                        Foreground="White" />
+                                </Button>
+                                <Button Style="{StaticResource Button}"
                                         Command=""
                                         ToolTip="Удалить" 
                                         ToolTipService.Placement="Top">
-                                        <materialDesign:PackIcon Kind="Close" 
-                                        Foreground="#DDCFBABA" />
-                                    </Button>
-                                </DockPanel>
-                            </DataTemplate>
+                                    <materialDesign:PackIcon Kind="Close" 
+                                        Foreground="White" />
+                                </Button>
+                            </DockPanel>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate />
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                 </GridView>
