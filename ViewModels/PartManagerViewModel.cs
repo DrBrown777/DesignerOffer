@@ -86,7 +86,7 @@ namespace Designer_Offer.ViewModels
         {
             try
             {
-                foreach (ProductPart item in RepositoryPart.Get((int)p).ProductPart)
+                foreach (ProductPart item in RepositoryPart.Get((int)p).ProductPart.OrderBy(it => it.Sort_Order))
                 {
                     Products.Add(item);
                 }
@@ -142,7 +142,7 @@ namespace Designer_Offer.ViewModels
                 !((index - 1) < 0 && res == false);
         }
 
-        private void OnCanSwappingElement(object p)
+        private void OnSwappingElement(object p)
         {
             bool res = bool.Parse((string)p);
 
@@ -151,10 +151,14 @@ namespace Designer_Offer.ViewModels
             if (res)
             {
                 Products.Move(index, index + 1);
+                Products.ElementAt(index + 1).Sort_Order = index + 1;
+                Products.ElementAt(index).Sort_Order = index;
                 return;
             }
 
             Products.Move(index, index - 1);
+            Products.ElementAt(index - 1).Sort_Order = index - 1;
+            Products.ElementAt(index).Sort_Order = index;
         }
         #endregion
 
@@ -215,7 +219,7 @@ namespace Designer_Offer.ViewModels
 
             LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
             CalculatePrices = new LambdaCommand(OnCalculatePrices, CanCalculatePrices);
-            SwappingElement = new LambdaCommand(OnCanSwappingElement, CanSwappingElement);
+            SwappingElement = new LambdaCommand(OnSwappingElement, CanSwappingElement);
         }
         #endregion
     }

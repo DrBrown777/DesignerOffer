@@ -437,7 +437,8 @@ namespace Designer_Offer.ViewModels
             ProductPart new_productPart = new ProductPart()
             {
                 Part_Id = SelectedPart.Id,
-                Entry_Price = SelectedProduct.Entry_Price
+                Entry_Price = SelectedProduct.Entry_Price,
+                Sort_Order = SelectedPart.Products.Count
             };
 
             SelectedProduct.ProductPart.Add(new_productPart);

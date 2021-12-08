@@ -32,6 +32,8 @@ namespace Designer_Offer.Data
         [StringLength(500)]
         public string Note { get; set; }
 
+        public int? Sort_Order { get; set; }
+
         public virtual Install Install { get; set; }
 
         public virtual Part Part { get; set; }
