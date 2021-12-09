@@ -101,6 +101,46 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         /// <summary>
+        /// Удаление товара из системы
+        /// </summary>
+        public ICommand RemoveProduct { get; }
+
+        private bool CanRemoveProduct(object p)
+        {
+            return p != null && SelectedProduct != null;
+        }
+
+        private void OnRemoveProduct(object p)
+        {
+            ProductPart remove_to_product = (ProductPart)p ?? SelectedProduct;
+
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить товар {remove_to_product.Product.Name}?", "Удаление товара"))
+            {
+                return;
+            }
+
+            try
+            {
+                Part CurrentPart = RepositoryPart.Get(Id);
+
+                CurrentPart.ProductPart.Remove(remove_to_product);
+
+                Products.Remove(remove_to_product);
+
+                UpdateSortOrder(Products);
+
+                RepositoryPart.Update(CurrentPart);
+
+                if (Products.Count != 0)
+                    SelectedProduct = Products.First();
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+        }
+
+        /// <summary>
         /// Расчет цены в строке по 1-й позиции
         /// </summary>
         public ICommand CalculatePrices { get; }
@@ -128,7 +168,7 @@ namespace Designer_Offer.ViewModels
             }
         }
         /// <summary>
-        /// Замена меставми элементов
+        /// Пользовательская сортировка товаров в системе
         /// </summary>
         public ICommand SwappingElement { get; }
 
@@ -139,7 +179,7 @@ namespace Designer_Offer.ViewModels
             int index = Products.IndexOf(SelectedProduct);
 
             return SelectedProduct != null &&
-                !((index + 1) > (Products.Count - 1) && res) &&
+                !((index + 1) == Products.Count && res) &&
                 !((index - 1) < 0 && res == false);
         }
 
@@ -152,14 +192,12 @@ namespace Designer_Offer.ViewModels
             if (res)
             {
                 Products.Move(index, index + 1);
-                Products.ElementAt(index + 1).Sort_Order = index + 1;
-                Products.ElementAt(index).Sort_Order = index;
+                UpdateSortOrder(Products);
                 return;
             }
 
             Products.Move(index, index - 1);
-            Products.ElementAt(index - 1).Sort_Order = index - 1;
-            Products.ElementAt(index).Sort_Order = index;
+            UpdateSortOrder(Products);
         }
         #endregion
 
@@ -206,6 +244,24 @@ namespace Designer_Offer.ViewModels
                 return (decimal)number;
             }
         }
+        /// <summary>
+        /// Обновление в коллекции индекса сортировки
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collection"></param>
+        private void UpdateSortOrder<T>(ObservableCollection<T> collection)
+        {
+            foreach (var item in collection)
+            {
+                int index = collection.IndexOf(item);
+
+                if (item is ProductPart product)
+                    product.Sort_Order = index;
+
+                if (item is InstallPart install)
+                    install.Sort_Order = index;
+            }
+        }
         #endregion
 
         #region КОНСТРУКТОРЫ
@@ -221,6 +277,7 @@ namespace Designer_Offer.ViewModels
             LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
             CalculatePrices = new LambdaCommand(OnCalculatePrices, CanCalculatePrices);
             SwappingElement = new LambdaCommand(OnSwappingElement, CanSwappingElement);
+            RemoveProduct = new LambdaCommand(OnRemoveProduct, CanRemoveProduct);
         }
         #endregion
     }

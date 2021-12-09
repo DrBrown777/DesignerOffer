@@ -163,9 +163,7 @@
                         <GridViewColumn.Header>
                             <DockPanel>
                                 <Button DockPanel.Dock="Left" Style="{StaticResource Button}"
-                                        Command="{Binding DataContext.SwappingElement,
-                                                    RelativeSource={RelativeSource FindAncestor, 
-                                                    AncestorType={x:Type UserControl}}}"
+                                        Command="{Binding Path=SwappingElement}"
                                         CommandParameter="false"
                                         ToolTip="Строку вверх" 
                                         ToolTipService.Placement="Top">
@@ -173,9 +171,7 @@
                                          Foreground="White" />
                                 </Button>
                                 <Button Style="{StaticResource Button}"
-                                        Command="{Binding DataContext.SwappingElement,
-                                                    RelativeSource={RelativeSource FindAncestor, 
-                                                    AncestorType={x:Type UserControl}}}"
+                                        Command="{Binding Path=SwappingElement}"
                                         CommandParameter="true"
                                         ToolTip="Строку вниз" 
                                         ToolTipService.Placement="Top">
@@ -183,7 +179,8 @@
                                         Foreground="White" />
                                 </Button>
                                 <Button Style="{StaticResource Button}"
-                                        Command=""
+                                        Command="{Binding Path=RemoveProduct}"
+                                        CommandParameter="{Binding Path=SelectedProduct}"
                                         ToolTip="Удалить" 
                                         ToolTipService.Placement="Top">
                                     <materialDesign:PackIcon Kind="Close" 

@@ -344,6 +344,8 @@ namespace Designer_Offer.ViewModels
                 partManagerView.Name = new_part.Name;
 
                 Parts.Add(partManagerView);
+
+                SelectedPart = partManagerView;
             }
             catch (Exception e)
             {
@@ -423,7 +425,7 @@ namespace Designer_Offer.ViewModels
             return SelectedPart != null && SelectedProduct != null;
         }
 
-        private void OnAddProduct(object p)
+        private async void OnAddProduct(object p)
         {
             ProductPart productPart = SelectedProduct.ProductPart.FirstOrDefault(pp => pp.Part_Id.Equals(SelectedPart.Id));
 
@@ -443,7 +445,7 @@ namespace Designer_Offer.ViewModels
 
             SelectedProduct.ProductPart.Add(new_productPart);
 
-            RepositoryProduct.Update(SelectedProduct);
+            await RepositoryProduct.UpdateAsync(SelectedProduct);
 
             SelectedPart.Products.Add(new_productPart);
         }
