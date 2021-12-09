@@ -457,7 +457,7 @@ namespace Designer_Offer.ViewModels
 
         private bool CanCalculateProductsPrice(object p)
         {
-            return true;
+            return CurrentOffer != null && CurrentOffer.Part != null && CurrentOffer.Part.Count != 0;
         }
 
         private void OnCalculateProductsPrice(object p)
@@ -466,14 +466,18 @@ namespace Designer_Offer.ViewModels
             {
                 foreach (ProductPart item in part.ProductPart)
                 {
-                    item.Out_Price = RoundDecimal(item.Entry_Price * CurrentOffer.Config.Margin_Product);
-                    item.Entry_Summ = RoundDecimal(item.Amount * item.Entry_Price);
-                    item.Out_Summ = RoundDecimal(item.Amount * item.Out_Price);
+                    if (item.Out_Price != null)
+                        item.Out_Price = RoundDecimal(item.Entry_Price * CurrentOffer.Config.Margin_Product);
+                    if (item.Entry_Summ != null)
+                        item.Entry_Summ = RoundDecimal(item.Amount * item.Entry_Price);
+                    if (item.Out_Summ != null)
+                        item.Out_Summ = RoundDecimal(item.Amount * item.Out_Price);
                 }
             }
 
             foreach (PartManagerViewModel item in Parts)
             {
+                if (item.Products.Count == 0) continue;
                 item.Products.Clear();
                 item.LoadDataFromRepositories.Execute(item.Id);
             }

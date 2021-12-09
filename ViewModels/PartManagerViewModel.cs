@@ -90,7 +90,8 @@ namespace Designer_Offer.ViewModels
                 {
                     Products.Add(item);
                 }
-                SelectedProduct = Products.First();
+                if (Products.Count != 0)
+                    SelectedProduct = Products.First();
             }
             catch (Exception e)
             {
