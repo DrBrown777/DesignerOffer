@@ -228,8 +228,7 @@
         <GroupBox Header="Системы" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2">
             <TabControl
                 ItemsSource="{Binding Path=Parts}"
-                SelectedItem="{Binding Path=SelectedPart}"
-                materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True">
+                SelectedItem="{Binding Path=SelectedPart}">
                 <TabControl.ItemContainerStyle>
                     <Style TargetType="TabItem">
                         <Setter Property="MinWidth" Value="55"/>
@@ -243,7 +242,9 @@
                 </TabControl.ItemTemplate>
                 <TabControl.ContentTemplate>
                     <DataTemplate DataType="{x:Type vm:PartManagerViewModel}">
-                        <uc:PartManager />
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <uc:PartManager />
+                        </ScrollViewer>
                     </DataTemplate>
                 </TabControl.ContentTemplate>
             </TabControl>

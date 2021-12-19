@@ -75,6 +75,11 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="{x:Type TextBlock}" x:Key="HorizontalExpanderContentTextBlock">
+            <Setter Property="Opacity" Value=".68"/>
+            <Setter Property="Text" Value="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
         <!--
         <Style TargetType="ListViewItem">
             <Style.Triggers>
@@ -86,114 +91,259 @@
         -->
     </UserControl.Resources>
     <Grid Margin="3">
-        <ListView Grid.Row="0" Grid.Column="0"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <DockPanel>
+            <ListView Grid.Row="0" Grid.Column="0" DockPanel.Dock="Top"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
                   ItemsSource="{Binding Path=Products}" 
                   SelectedItem="{Binding Path=SelectedProduct, UpdateSourceTrigger=PropertyChanged}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Наименование" 
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Наименование" 
                                     DisplayMemberBinding="{Binding Path=Product.Name}"/>
-                    <GridViewColumn Header="Тип"
+                        <GridViewColumn Header="Тип"
                                     DisplayMemberBinding="{Binding Path=Product.Model}"/>
-                    <GridViewColumn Header="Ед.Изм" 
+                        <GridViewColumn Header="Ед.Изм" 
                                     DisplayMemberBinding="{Binding Path=Product.Unit.Name}"/>
-                    <GridViewColumn Header="Цена вход" >
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox x:Name="Entry_Price"
+                        <GridViewColumn Header="Цена вход" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox x:Name="Entry_Price"
                                          materialDesign:HintAssist.Hint="введите цену">
-                                    <TextBox.Text>
-                                        <Binding Path="Entry_Price" UpdateSourceTrigger="PropertyChanged">
-                                            <Binding.ValidationRules>
-                                                <local:NotEmptyValidationRule ValidatesOnTargetUpdated="False"/>
-                                                <local:NotNumberValidationRule ValidatesOnTargetUpdated="False"/>
-                                            </Binding.ValidationRules>
-                                        </Binding>
-                                    </TextBox.Text>
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="LostFocus">
-                                            <i:InvokeCommandAction  Command="{Binding DataContext.CalculatePrices, 
+                                        <TextBox.Text>
+                                            <Binding Path="Entry_Price" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <local:NotEmptyValidationRule ValidatesOnTargetUpdated="False"/>
+                                                    <local:NotNumberValidationRule ValidatesOnTargetUpdated="False"/>
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox.Text>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="LostFocus">
+                                                <i:InvokeCommandAction  Command="{Binding DataContext.CalculatePrices, 
                                                     RelativeSource={RelativeSource FindAncestor, 
                                                     AncestorType={x:Type UserControl}}}"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </TextBox>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Сумма вход"
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Сумма вход"
                                     DisplayMemberBinding="{Binding Path=Entry_Summ, UpdateSourceTrigger=PropertyChanged}"/>
-                    <GridViewColumn Header="Кол-во" >
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox x:Name="Amount"
+                        <GridViewColumn Header="Кол-во" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox x:Name="Amount"
                                          materialDesign:HintAssist.Hint="введите кол-во">
-                                    <TextBox.Text>
-                                        <Binding Path="Amount" UpdateSourceTrigger="PropertyChanged">
-                                            <Binding.ValidationRules>
-                                                <local:NotEmptyValidationRule ValidatesOnTargetUpdated="False"/>
-                                                <local:NotNumberValidationRule ValidatesOnTargetUpdated="False"/>
-                                            </Binding.ValidationRules>
-                                        </Binding>
-                                    </TextBox.Text>
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="LostFocus">
-                                            <i:InvokeCommandAction  Command="{Binding DataContext.CalculatePrices, 
+                                        <TextBox.Text>
+                                            <Binding Path="Amount" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <local:NotEmptyValidationRule ValidatesOnTargetUpdated="False"/>
+                                                    <local:NotNumberValidationRule ValidatesOnTargetUpdated="False"/>
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox.Text>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="LostFocus">
+                                                <i:InvokeCommandAction  Command="{Binding DataContext.CalculatePrices, 
                                                     RelativeSource={RelativeSource FindAncestor, 
                                                     AncestorType={x:Type UserControl}}}"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </TextBox>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Цена выход"
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Цена выход"
                                     DisplayMemberBinding="{Binding Path=Out_Price, UpdateSourceTrigger=PropertyChanged}"/>
-                    <GridViewColumn Header="Сумма выход"
+                        <GridViewColumn Header="Сумма выход"
                                     DisplayMemberBinding="{Binding Path=Out_Summ, UpdateSourceTrigger=PropertyChanged}"/>
-                    <GridViewColumn Header="Примечание">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox Width="100px"
+                        <GridViewColumn Header="Примечание">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Width="100px"
                                          Text="{Binding Path=Note, UpdateSourceTrigger=PropertyChanged}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn>
-                        <GridViewColumn.Header>
-                            <DockPanel>
-                                <Button DockPanel.Dock="Left" Style="{StaticResource Button}"
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.Header>
+                                <DockPanel>
+                                    <Button DockPanel.Dock="Left" Style="{StaticResource Button}"
                                         Command="{Binding Path=SwappingElement}"
                                         CommandParameter="false"
                                         ToolTip="Строку вверх" 
                                         ToolTipService.Placement="Top">
-                                    <materialDesign:PackIcon Kind="ChevronUp" 
+                                        <materialDesign:PackIcon Kind="ChevronUp" 
                                          Foreground="White" />
-                                </Button>
-                                <Button Style="{StaticResource Button}"
+                                    </Button>
+                                    <Button Style="{StaticResource Button}"
                                         Command="{Binding Path=SwappingElement}"
                                         CommandParameter="true"
                                         ToolTip="Строку вниз" 
                                         ToolTipService.Placement="Top">
-                                    <materialDesign:PackIcon Kind="ChevronDown" 
+                                        <materialDesign:PackIcon Kind="ChevronDown" 
                                         Foreground="White" />
-                                </Button>
-                                <Button Style="{StaticResource Button}"
+                                    </Button>
+                                    <Button Style="{StaticResource Button}"
                                         Command="{Binding Path=RemoveProduct}"
                                         CommandParameter="{Binding Path=SelectedProduct}"
                                         ToolTip="Удалить" 
                                         ToolTipService.Placement="Top">
-                                    <materialDesign:PackIcon Kind="Close" 
+                                        <materialDesign:PackIcon Kind="Close" 
                                         Foreground="White" />
-                                </Button>
-                            </DockPanel>
-                        </GridViewColumn.Header>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate />
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
+                                    </Button>
+                                </DockPanel>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate />
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Expander Grid.Column="0" Grid.Row="0" DockPanel.Dock="Top" 
+                      HorizontalAlignment="Stretch" 
+                      Header="Итого стоимость материалов">
+                <StackPanel 
+                    Orientation="Vertical" 
+                    TextBlock.Foreground="{DynamicResource MaterialDesignBody}" 
+                    Margin="24,8,24,16">
+                    <TextBlock 
+                        Text="Your Content" />
+                    <TextBlock 
+                        Style="{StaticResource HorizontalExpanderContentTextBlock}" />
+                </StackPanel>
+            </Expander>
+            <ListView Grid.Row="0" Grid.Column="0" DockPanel.Dock="Top" 
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                  ItemsSource="{Binding Path=Products}" 
+                  SelectedItem="{Binding Path=SelectedProduct, UpdateSourceTrigger=PropertyChanged}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Наименование" 
+                                    DisplayMemberBinding="{Binding Path=Product.Name}"/>
+                        <GridViewColumn Header="Тип"
+                                    DisplayMemberBinding="{Binding Path=Product.Model}"/>
+                        <GridViewColumn Header="Ед.Изм" 
+                                    DisplayMemberBinding="{Binding Path=Product.Unit.Name}"/>
+                        <GridViewColumn Header="Цена вход" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox x:Name="Entry_Price"
+                                         materialDesign:HintAssist.Hint="введите цену">
+                                        <TextBox.Text>
+                                            <Binding Path="Entry_Price" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <local:NotEmptyValidationRule ValidatesOnTargetUpdated="False"/>
+                                                    <local:NotNumberValidationRule ValidatesOnTargetUpdated="False"/>
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox.Text>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="LostFocus">
+                                                <i:InvokeCommandAction  Command="{Binding DataContext.CalculatePrices, 
+                                                    RelativeSource={RelativeSource FindAncestor, 
+                                                    AncestorType={x:Type UserControl}}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Сумма вход"
+                                    DisplayMemberBinding="{Binding Path=Entry_Summ, UpdateSourceTrigger=PropertyChanged}"/>
+                        <GridViewColumn Header="Кол-во" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox x:Name="Amount"
+                                         materialDesign:HintAssist.Hint="введите кол-во">
+                                        <TextBox.Text>
+                                            <Binding Path="Amount" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <local:NotEmptyValidationRule ValidatesOnTargetUpdated="False"/>
+                                                    <local:NotNumberValidationRule ValidatesOnTargetUpdated="False"/>
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox.Text>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="LostFocus">
+                                                <i:InvokeCommandAction  Command="{Binding DataContext.CalculatePrices, 
+                                                    RelativeSource={RelativeSource FindAncestor, 
+                                                    AncestorType={x:Type UserControl}}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Цена выход"
+                                    DisplayMemberBinding="{Binding Path=Out_Price, UpdateSourceTrigger=PropertyChanged}"/>
+                        <GridViewColumn Header="Сумма выход"
+                                    DisplayMemberBinding="{Binding Path=Out_Summ, UpdateSourceTrigger=PropertyChanged}"/>
+                        <GridViewColumn Header="Примечание">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Width="100px"
+                                         Text="{Binding Path=Note, UpdateSourceTrigger=PropertyChanged}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.Header>
+                                <DockPanel>
+                                    <Button DockPanel.Dock="Left" Style="{StaticResource Button}"
+                                        Command="{Binding Path=SwappingElement}"
+                                        CommandParameter="false"
+                                        ToolTip="Строку вверх" 
+                                        ToolTipService.Placement="Top">
+                                        <materialDesign:PackIcon Kind="ChevronUp" 
+                                         Foreground="White" />
+                                    </Button>
+                                    <Button Style="{StaticResource Button}"
+                                        Command="{Binding Path=SwappingElement}"
+                                        CommandParameter="true"
+                                        ToolTip="Строку вниз" 
+                                        ToolTipService.Placement="Top">
+                                        <materialDesign:PackIcon Kind="ChevronDown" 
+                                        Foreground="White" />
+                                    </Button>
+                                    <Button Style="{StaticResource Button}"
+                                        Command="{Binding Path=RemoveProduct}"
+                                        CommandParameter="{Binding Path=SelectedProduct}"
+                                        ToolTip="Удалить" 
+                                        ToolTipService.Placement="Top">
+                                        <materialDesign:PackIcon Kind="Close" 
+                                        Foreground="White" />
+                                    </Button>
+                                </DockPanel>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate />
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Expander Grid.Column="0" Grid.Row="0" DockPanel.Dock="Top" 
+                      HorizontalAlignment="Stretch" 
+                      Header="Итого стоимость работ">
+                <StackPanel 
+                    Orientation="Vertical" 
+                    TextBlock.Foreground="{DynamicResource MaterialDesignBody}" 
+                    Margin="24,8,24,16">
+                    <TextBlock 
+                        Text="Your Content" />
+                    <TextBlock 
+                        Style="{StaticResource HorizontalExpanderContentTextBlock}" />
+                </StackPanel>
+            </Expander>
+        </DockPanel>
     </Grid>
 </UserControl>
