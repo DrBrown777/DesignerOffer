@@ -233,6 +233,7 @@
     <Compile Include="Infrastructure\Validations\UniqPhoneValidationRule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Services\ILoginService.cs" />
+    <Compile Include="Services\Interfaces\ICalculator.cs" />
     <Compile Include="Services\Interfaces\IEntity.cs" />
     <Compile Include="Services\Interfaces\IRepository.cs" />
     <Compile Include="Services\Interfaces\IUserDialog.cs" />
