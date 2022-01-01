@@ -48,6 +48,47 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Name, value);
         }
 
+        private decimal _ProductProfit;
+        /// <summary>
+        /// Прибыль в % материалов
+        /// </summary>
+        public decimal ProductProfit
+        {
+            get => _ProductProfit;
+            set => Set(ref _ProductProfit, value);
+        }
+
+        private decimal _ProductProceeds;
+        /// <summary>
+        /// Доход по материалам
+        /// </summary>
+        public decimal ProductProceeds
+        {
+            get => _ProductProceeds;
+            set => Set(ref _ProductProceeds, value);
+        }
+
+        private decimal _ProductEntrySumm;
+        /// <summary>
+        /// Итоговый вход по материалам
+        /// </summary>
+        public decimal ProductEntrySumm
+        {
+            get => _ProductEntrySumm;
+            set => Set(ref _ProductEntrySumm, value);
+        }
+
+        private decimal _ProductOutSumm;
+        /// <summary>
+        /// Итоговый выход по материалам
+        /// </summary>
+        public decimal ProductOutSumm
+        {
+            get => _ProductOutSumm;
+            set => Set(ref _ProductOutSumm, value);
+        }
+
+
         private ObservableCollection<ProductPart> _Products;
         /// <summary>
         /// Коллекция товаров в системе
@@ -97,6 +138,11 @@ namespace Designer_Offer.ViewModels
             {
                 UserDialog.ShowError(e.Message, "Ошибка");
             }
+
+            if (CalculateGeneralPrice.CanExecute(null))
+            {
+                CalculateGeneralPrice.Execute(null);
+            }
         }
         #endregion
 
@@ -138,6 +184,11 @@ namespace Designer_Offer.ViewModels
             {
                 UserDialog.ShowError(e.Message, "Ошибка");
             }
+
+            if (CalculateGeneralPrice.CanExecute(null))
+            {
+                CalculateGeneralPrice.Execute(null);
+            }
         }
 
         /// <summary>
@@ -166,7 +217,42 @@ namespace Designer_Offer.ViewModels
             {
                 UserDialog.ShowError(e.Message, "Ошибка");
             }
+
+            if (CalculateGeneralPrice.CanExecute(null))
+            {
+                CalculateGeneralPrice.Execute(null);
+            }
         }
+
+        /// <summary>
+        /// Вычесление общей суммы системы (материалы и работы)
+        /// </summary>
+        public ICommand CalculateGeneralPrice { get; }
+
+        private bool CanCalculateGeneralPrice(object p)
+        {
+            return Products.Count != 0;
+        }
+
+        private void OnCalculateGeneralPrice(object p)
+        {
+            try
+            {
+                ProductEntrySumm = (decimal)Products.Sum(pp => pp.Entry_Summ);
+                ProductOutSumm = (decimal)Products.Sum(pp => pp.Out_Summ);
+                ProductProceeds = ProductOutSumm - ProductEntrySumm;
+
+                if (ProductOutSumm != 0)
+                {
+                    ProductProfit = RoundDecimal((ProductOutSumm - ProductEntrySumm) / ProductOutSumm * 100);
+                }
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+        }
+
         /// <summary>
         /// Пользовательская сортировка товаров в системе
         /// </summary>
@@ -276,6 +362,7 @@ namespace Designer_Offer.ViewModels
 
             LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
             CalculatePrices = new LambdaCommand(OnCalculatePrices, CanCalculatePrices);
+            CalculateGeneralPrice = new LambdaCommand(OnCalculateGeneralPrice, CanCalculateGeneralPrice);
             SwappingElement = new LambdaCommand(OnSwappingElement, CanSwappingElement);
             RemoveProduct = new LambdaCommand(OnRemoveProduct, CanRemoveProduct);
         }

@@ -77,8 +77,13 @@
         </Style>
         <Style TargetType="{x:Type TextBlock}" x:Key="HorizontalExpanderContentTextBlock">
             <Setter Property="Opacity" Value=".68"/>
-            <Setter Property="Text" Value="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+        <Style x:Key="TextBlockPrice" TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignTextBlock}">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="14px"/>
+        </Style>
+        <Style TargetType="Label" BasedOn="{StaticResource MaterialDesignLabel}">
+            <Setter Property="FontWeight" Value="Bold"/>
         </Style>
         <!--
         <Style TargetType="ListViewItem">
@@ -210,15 +215,41 @@
             </ListView>
             <Expander Grid.Column="0" Grid.Row="0" DockPanel.Dock="Top" 
                       HorizontalAlignment="Stretch" 
-                      Header="Итого стоимость материалов">
+                      Header="Всего стоимость материалов">
                 <StackPanel 
                     Orientation="Vertical" 
                     TextBlock.Foreground="{DynamicResource MaterialDesignBody}" 
                     Margin="24,8,24,16">
-                    <TextBlock 
-                        Text="Your Content" />
-                    <TextBlock 
-                        Style="{StaticResource HorizontalExpanderContentTextBlock}" />
+                    <Grid Margin="5px">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.5*"/>
+                            <RowDefinition Height="0.5*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Прибыль %:" Grid.Column="0" Grid.Row="0"/>
+                        <TextBlock Text="{Binding Path=ProductProfit, UpdateSourceTrigger=PropertyChanged}" 
+                                   Grid.Column="1" Grid.Row="0" 
+                                   Style="{StaticResource TextBlockPrice}" />
+                        <Label Content="Всего вход:" Grid.Column="2" Grid.Row="0"/>
+                        <TextBlock Text="{Binding Path=ProductEntrySumm, UpdateSourceTrigger=PropertyChanged}" 
+                                   Grid.Column="3" Grid.Row="0"
+                                   Style="{StaticResource TextBlockPrice}" />
+                        <Label Content="Всего выход:" Grid.Column="4" Grid.Row="0"/>
+                        <TextBlock Text="{Binding Path=ProductOutSumm, UpdateSourceTrigger=PropertyChanged}"
+                                   Grid.Column="5" Grid.Row="0"
+                                   Style="{StaticResource TextBlockPrice}" />
+                        <Label Content="Доход:" Grid.Column="0" Grid.Row="1"/>
+                        <TextBlock Text="{Binding Path=ProductProceeds, UpdateSourceTrigger=PropertyChanged}"
+                                    Grid.Column="1" Grid.Row="1" 
+                                   Style="{StaticResource TextBlockPrice}" />
+                    </Grid>
                 </StackPanel>
             </Expander>
             <ListView Grid.Row="0" Grid.Column="0" DockPanel.Dock="Top" 
@@ -333,15 +364,36 @@
             </ListView>
             <Expander Grid.Column="0" Grid.Row="0" DockPanel.Dock="Top" 
                       HorizontalAlignment="Stretch" 
-                      Header="Итого стоимость работ">
+                      Header="Всего стоимость работ">
                 <StackPanel 
                     Orientation="Vertical" 
                     TextBlock.Foreground="{DynamicResource MaterialDesignBody}" 
                     Margin="24,8,24,16">
-                    <TextBlock 
-                        Text="Your Content" />
-                    <TextBlock 
-                        Style="{StaticResource HorizontalExpanderContentTextBlock}" />
+                    <Grid Margin="5px">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.5*"/>
+                            <RowDefinition Height="0.5*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Прибыль %:" Grid.Column="0" Grid.Row="0"/>
+                        <TextBlock Text="19" Grid.Column="1" Grid.Row="0" Style="{StaticResource TextBlockPrice}" />
+                        <Label Content="Всего вход:" Grid.Column="2" Grid.Row="0"/>
+                        <TextBlock Text="325" Style="{StaticResource TextBlockPrice}" Grid.Column="3" Grid.Row="0"/>
+                        <Label Content="Всего выход:" Grid.Column="4" Grid.Row="0"/>
+                        <TextBlock Text="525" Style="{StaticResource TextBlockPrice}" Grid.Column="5" Grid.Row="0" />
+                        <Label Content="Доход:" Grid.Column="0" Grid.Row="1"/>
+                        <TextBlock Text="200" Style="{StaticResource TextBlockPrice}" Grid.Column="1" Grid.Row="1" />
+                        <Label Content="Админ и проч расходы" Grid.Column="2" Grid.Row="1"/>
+                        <TextBlock Text="75" Style="{StaticResource TextBlockPrice}" Grid.Column="3" Grid.Row="1" />
+                        <TextBlock Text="100" Style="{StaticResource TextBlockPrice}" Grid.Column="5" Grid.Row="1" />
+                    </Grid>
                 </StackPanel>
             </Expander>
         </DockPanel>
