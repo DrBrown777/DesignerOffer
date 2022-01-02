@@ -88,7 +88,6 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _ProductOutSumm, value);
         }
 
-
         private ObservableCollection<ProductPart> _Products;
         /// <summary>
         /// Коллекция товаров в системе
@@ -107,6 +106,26 @@ namespace Designer_Offer.ViewModels
         {
             get => _SelectedProduct;
             set => Set(ref _SelectedProduct, value);
+        }
+
+        private ObservableCollection<InstallPart> _Installs;
+        /// <summary>
+        /// Коллекция работ в системе
+        /// </summary>
+        public ObservableCollection<InstallPart> Installs
+        {
+            get => _Installs;
+            set => Set(ref _Installs, value);
+        }
+
+        private InstallPart _SelectedInstall;
+        /// <summary>
+        /// Выбранная услуга в системе
+        /// </summary>
+        public InstallPart SelectedInstall
+        {
+            get => _SelectedInstall;
+            set => Set(ref _SelectedInstall, value);
         }
         #endregion
 
@@ -131,8 +150,17 @@ namespace Designer_Offer.ViewModels
                 {
                     Products.Add(item);
                 }
+
                 if (Products.Count != 0)
                     SelectedProduct = Products.First();
+
+                foreach (InstallPart item in RepositoryPart.Get((int)p).InstallPart.OrderBy(it => it.Sort_Order))
+                {
+                    Installs.Add(item);
+                }
+
+                if (Installs.Count != 0)
+                    SelectedInstall = Installs.First();
             }
             catch (Exception e)
             {
@@ -178,7 +206,16 @@ namespace Designer_Offer.ViewModels
                 RepositoryPart.Update(CurrentPart);
 
                 if (Products.Count != 0)
+                {
                     SelectedProduct = Products.First();
+                }
+                else
+                {
+                    ProductEntrySumm = 0;
+                    ProductOutSumm = 0;
+                    ProductProceeds = 0;
+                    ProductProfit = 0;
+                }
             }
             catch (Exception e)
             {
@@ -190,7 +227,58 @@ namespace Designer_Offer.ViewModels
                 CalculateGeneralPrice.Execute(null);
             }
         }
+        /// <summary>
+        /// Удаление услуги из системы
+        /// </summary>
+        public ICommand RemoveInstall { get; }
 
+        private bool CanRemoveInstall(object p)
+        {
+            return p != null && SelectedInstall != null;
+        }
+
+        private void OnRemoveInstall(object p)
+        {
+            InstallPart remove_to_install = (InstallPart)p ?? SelectedInstall;
+
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить услугу {remove_to_install.Install.Name}?", "Удаление услуги"))
+            {
+                return;
+            }
+
+            try
+            {
+                Part CurrentPart = RepositoryPart.Get(Id);
+
+                CurrentPart.InstallPart.Remove(remove_to_install);
+
+                Installs.Remove(remove_to_install);
+
+                UpdateSortOrder(Installs);
+
+                RepositoryPart.Update(CurrentPart);
+
+                if (Installs.Count != 0)
+                {
+                    SelectedInstall = Installs.First();
+                }
+                else
+                {
+                    /*Обнулить ценники*/
+                }
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            /*
+             *дописать пересчет цены, или оставить эту команду
+            if (CalculateGeneralPrice.CanExecute(null))
+            {
+                CalculateGeneralPrice.Execute(null);
+            }
+            */
+        }
         /// <summary>
         /// Расчет цены в строке по 1-й позиции
         /// </summary>
@@ -256,9 +344,9 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Пользовательская сортировка товаров в системе
         /// </summary>
-        public ICommand SwappingElement { get; }
+        public ICommand SwappingElementProduct { get; }
 
-        private bool CanSwappingElement(object p)
+        private bool CanSwappingElementProduct(object p)
         {
             bool res = bool.Parse((string)p);
 
@@ -269,7 +357,7 @@ namespace Designer_Offer.ViewModels
                 !((index - 1) < 0 && res == false);
         }
 
-        private void OnSwappingElement(object p)
+        private void OnSwappingElementProduct(object p)
         {
             bool res = bool.Parse((string)p);
 
@@ -284,6 +372,38 @@ namespace Designer_Offer.ViewModels
 
             Products.Move(index, index - 1);
             UpdateSortOrder(Products);
+        }
+        /// <summary>
+        /// Пользовательская сортировка услуг в системе
+        /// </summary>
+        public ICommand SwappingElementInstall { get; }
+
+        private bool CanSwappingElementInstall(object p)
+        {
+            bool res = bool.Parse((string)p);
+
+            int index = Installs.IndexOf(SelectedInstall);
+
+            return SelectedInstall != null &&
+                !((index + 1) == Installs.Count && res) &&
+                !((index - 1) < 0 && res == false);
+        }
+
+        private void OnSwappingElementInstall(object p)
+        {
+            bool res = bool.Parse((string)p);
+
+            int index = Installs.IndexOf(SelectedInstall);
+
+            if (res)
+            {
+                Installs.Move(index, index + 1);
+                UpdateSortOrder(Installs);
+                return;
+            }
+
+            Installs.Move(index, index - 1);
+            UpdateSortOrder(Installs);
         }
         #endregion
 
@@ -359,12 +479,15 @@ namespace Designer_Offer.ViewModels
             UserDialog = userDialog;
 
             Products = new ObservableCollection<ProductPart>();
+            Installs = new ObservableCollection<InstallPart>();
 
             LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
             CalculatePrices = new LambdaCommand(OnCalculatePrices, CanCalculatePrices);
             CalculateGeneralPrice = new LambdaCommand(OnCalculateGeneralPrice, CanCalculateGeneralPrice);
-            SwappingElement = new LambdaCommand(OnSwappingElement, CanSwappingElement);
+            SwappingElementProduct = new LambdaCommand(OnSwappingElementProduct, CanSwappingElementProduct);
+            SwappingElementInstall = new LambdaCommand(OnSwappingElementInstall, CanSwappingElementInstall);
             RemoveProduct = new LambdaCommand(OnRemoveProduct, CanRemoveProduct);
+            RemoveInstall = new LambdaCommand(OnRemoveInstall, CanRemoveInstall);
         }
         #endregion
     }

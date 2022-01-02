@@ -298,9 +298,12 @@ namespace Designer_Offer.ViewModels
 
                     partManagerView.Name = item.Name;
 
-                    partManagerView.LoadDataFromRepositories.Execute(item.Id);
+                    if (partManagerView.LoadDataFromRepositories.CanExecute(item.Id))
+                    {
+                        partManagerView.LoadDataFromRepositories.Execute(item.Id);
 
-                    Parts.Add(partManagerView);
+                        Parts.Add(partManagerView);
+                    }
                 }
             }
             catch (Exception e)
@@ -449,6 +452,40 @@ namespace Designer_Offer.ViewModels
 
             SelectedPart.Products.Add(new_productPart);
         }
+        /// <summary>
+        /// Добавление услуги в систему
+        /// </summary>
+        public ICommand AddInstall { get; }
+
+        private bool CanAddInstall(object p)
+        {
+            return SelectedPart != null && SelectedInstall != null;
+        }
+
+        private async void OnAddInstall(object p)
+        {
+            InstallPart installPart = SelectedInstall.InstallPart.FirstOrDefault(ip => ip.Part_Id.Equals(SelectedPart.Id));
+
+            if (SelectedPart.Installs.Contains(installPart))
+            {
+                UserDialog.ShowInformation("В данной системе уже есть такая услуга", "Информация");
+
+                return;
+            }
+
+            InstallPart new_installPart = new InstallPart()
+            {
+                Part_Id = SelectedPart.Id,
+                Entry_Price = SelectedInstall.Entry_Price,
+                Sort_Order = SelectedPart.Installs.Count
+            };
+
+            SelectedInstall.InstallPart.Add(new_installPart);
+
+            await RepositoryInstall.UpdateAsync(SelectedInstall);
+
+            SelectedPart.Installs.Add(new_installPart);
+        }
         #endregion
 
         #region калькуляция цен
@@ -469,22 +506,36 @@ namespace Designer_Offer.ViewModels
                 foreach (ProductPart item in part.ProductPart)
                 {
                     if (item.Out_Price != null)
+                    {
                         item.Out_Price = RoundDecimal(item.Entry_Price * CurrentOffer.Config.Margin_Product);
+                    }
                     if (item.Entry_Summ != null)
+                    {
                         item.Entry_Summ = RoundDecimal(item.Amount * item.Entry_Price);
+                    }
                     if (item.Out_Summ != null)
+                    {
                         item.Out_Summ = RoundDecimal(item.Amount * item.Out_Price);
+                    }
                 }
             }
 
             foreach (PartManagerViewModel item in Parts)
             {
                 if (item.Products.Count == 0) continue;
+
                 item.Products.Clear();
-                item.LoadDataFromRepositories.Execute(item.Id);
+
+                if (item.LoadDataFromRepositories.CanExecute(item.Id))
+                {
+                    item.LoadDataFromRepositories.Execute(item.Id);
+                }
             }
 
-            UpdateOffer.Execute(null);
+            if (UpdateOffer.CanExecute(null))
+            {
+                UpdateOffer.Execute(null);
+            }
         }
         #endregion
 
@@ -569,6 +620,7 @@ namespace Designer_Offer.ViewModels
             UpdateOffer = new LambdaCommand(OnUpdateOffer, CanUpdateOffer);
 
             AddProduct = new LambdaCommand(OnAddProduct, CanAddProduct);
+            AddInstall = new LambdaCommand(OnAddInstall, CanAddInstall);
 
             CalculateProductsPrice = new LambdaCommand(OnCalculateProductsPrice, CanCalculateProductsPrice);
         }

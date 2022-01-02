@@ -222,7 +222,13 @@
                 <ListBox DockPanel.Dock="Top"
                     ItemsSource="{Binding Path=InstallsView, UpdateSourceTrigger=PropertyChanged}"
                     SelectedItem="{Binding Path=SelectedInstall, UpdateSourceTrigger=PropertyChanged}"
-                    DisplayMemberPath="Name"/>
+                    DisplayMemberPath="Name">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding Path=AddInstall}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ListBox>
             </DockPanel>
         </GroupBox>
         <GroupBox Header="Системы" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2">

@@ -31,7 +31,7 @@
                                         HorizontalAlignment="Center" 
                                         VerticalAlignment="Center"
                                         FontSize="35"
-                                        FontWeight="Bold">данные не найдены</TextBlock>
+                                        FontWeight="Bold">Данные не найдены</TextBlock>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -63,12 +63,11 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate>
-                            <TextBlock 
-                                HorizontalAlignment="Center" 
-                                VerticalAlignment="Center"
-                                FontSize="25"
-                                FontWeight="Medium">данные не найдены        
-                            </TextBlock>
+                                <TextBlock Margin="5" HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center" 
+                                           FontSize="18" FontWeight="Light">
+                                    Данные не найдены
+                                </TextBlock>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
@@ -181,7 +180,7 @@
                             <GridViewColumn.Header>
                                 <DockPanel>
                                     <Button DockPanel.Dock="Left" Style="{StaticResource Button}"
-                                        Command="{Binding Path=SwappingElement}"
+                                        Command="{Binding Path=SwappingElementProduct}"
                                         CommandParameter="false"
                                         ToolTip="Строку вверх" 
                                         ToolTipService.Placement="Top">
@@ -189,7 +188,7 @@
                                          Foreground="White" />
                                     </Button>
                                     <Button Style="{StaticResource Button}"
-                                        Command="{Binding Path=SwappingElement}"
+                                        Command="{Binding Path=SwappingElementProduct}"
                                         CommandParameter="true"
                                         ToolTip="Строку вниз" 
                                         ToolTipService.Placement="Top">
@@ -254,16 +253,14 @@
             </Expander>
             <ListView Grid.Row="0" Grid.Column="0" DockPanel.Dock="Top" 
                       ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                  ItemsSource="{Binding Path=Products}" 
-                  SelectedItem="{Binding Path=SelectedProduct, UpdateSourceTrigger=PropertyChanged}">
+                  ItemsSource="{Binding Path=Installs}" 
+                  SelectedItem="{Binding Path=SelectedInstall, UpdateSourceTrigger=PropertyChanged}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Наименование" 
-                                    DisplayMemberBinding="{Binding Path=Product.Name}"/>
-                        <GridViewColumn Header="Тип"
-                                    DisplayMemberBinding="{Binding Path=Product.Model}"/>
+                                    DisplayMemberBinding="{Binding Path=Install.Name}"/>
                         <GridViewColumn Header="Ед.Изм" 
-                                    DisplayMemberBinding="{Binding Path=Product.Unit.Name}"/>
+                                    DisplayMemberBinding="{Binding Path=Install.Unit.Name}"/>
                         <GridViewColumn Header="Цена вход" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -330,7 +327,7 @@
                             <GridViewColumn.Header>
                                 <DockPanel>
                                     <Button DockPanel.Dock="Left" Style="{StaticResource Button}"
-                                        Command="{Binding Path=SwappingElement}"
+                                        Command="{Binding Path=SwappingElementInstall}"
                                         CommandParameter="false"
                                         ToolTip="Строку вверх" 
                                         ToolTipService.Placement="Top">
@@ -338,7 +335,7 @@
                                          Foreground="White" />
                                     </Button>
                                     <Button Style="{StaticResource Button}"
-                                        Command="{Binding Path=SwappingElement}"
+                                        Command="{Binding Path=SwappingElementInstall}"
                                         CommandParameter="true"
                                         ToolTip="Строку вниз" 
                                         ToolTipService.Placement="Top">
@@ -346,8 +343,8 @@
                                         Foreground="White" />
                                     </Button>
                                     <Button Style="{StaticResource Button}"
-                                        Command="{Binding Path=RemoveProduct}"
-                                        CommandParameter="{Binding Path=SelectedProduct}"
+                                        Command="{Binding Path=RemoveInstall}"
+                                        CommandParameter="{Binding Path=SelectedInstall}"
                                         ToolTip="Удалить" 
                                         ToolTipService.Placement="Top">
                                         <materialDesign:PackIcon Kind="Close" 
@@ -383,16 +380,16 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Label Content="Прибыль %:" Grid.Column="0" Grid.Row="0"/>
-                        <TextBlock Text="19" Grid.Column="1" Grid.Row="0" Style="{StaticResource TextBlockPrice}" />
+                        <TextBlock Text=" " Grid.Column="1" Grid.Row="0" Style="{StaticResource TextBlockPrice}" />
                         <Label Content="Всего вход:" Grid.Column="2" Grid.Row="0"/>
-                        <TextBlock Text="325" Style="{StaticResource TextBlockPrice}" Grid.Column="3" Grid.Row="0"/>
+                        <TextBlock Text=" " Style="{StaticResource TextBlockPrice}" Grid.Column="3" Grid.Row="0"/>
                         <Label Content="Всего выход:" Grid.Column="4" Grid.Row="0"/>
-                        <TextBlock Text="525" Style="{StaticResource TextBlockPrice}" Grid.Column="5" Grid.Row="0" />
+                        <TextBlock Text=" " Style="{StaticResource TextBlockPrice}" Grid.Column="5" Grid.Row="0" />
                         <Label Content="Доход:" Grid.Column="0" Grid.Row="1"/>
-                        <TextBlock Text="200" Style="{StaticResource TextBlockPrice}" Grid.Column="1" Grid.Row="1" />
+                        <TextBlock Text=" " Style="{StaticResource TextBlockPrice}" Grid.Column="1" Grid.Row="1" />
                         <Label Content="Админ и проч расходы" Grid.Column="2" Grid.Row="1"/>
-                        <TextBlock Text="75" Style="{StaticResource TextBlockPrice}" Grid.Column="3" Grid.Row="1" />
-                        <TextBlock Text="100" Style="{StaticResource TextBlockPrice}" Grid.Column="5" Grid.Row="1" />
+                        <TextBlock Text=" " Style="{StaticResource TextBlockPrice}" Grid.Column="3" Grid.Row="1" />
+                        <TextBlock Text=" " Style="{StaticResource TextBlockPrice}" Grid.Column="5" Grid.Row="1" />
                     </Grid>
                 </StackPanel>
             </Expander>
