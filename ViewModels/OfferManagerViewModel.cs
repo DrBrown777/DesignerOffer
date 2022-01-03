@@ -477,8 +477,18 @@ namespace Designer_Offer.ViewModels
             {
                 Part_Id = SelectedPart.Id,
                 Entry_Price = SelectedInstall.Entry_Price,
-                Sort_Order = SelectedPart.Installs.Count
+                Sort_Order = SelectedPart.Installs.Count,
+                Amount = 0
             };
+
+            /*проверка правильности перебора для формирования кол-ва услуг*/
+            foreach (var item in SelectedPart.Products)
+            {
+                if (item.Product.Category_Id.Equals(SelectedInstall.Category_Id) && SelectedInstall.Name.Contains(item.Product.Model))
+                {
+                    new_installPart.Amount += item.Amount;
+                }
+            }
 
             SelectedInstall.InstallPart.Add(new_installPart);
 

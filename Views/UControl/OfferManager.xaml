@@ -200,13 +200,32 @@
                 </DockPanel>
                 <ListBox DockPanel.Dock="Top"
                     ItemsSource="{Binding Path=ProductsView, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedItem="{Binding Path=SelectedProduct, UpdateSourceTrigger=PropertyChanged}"
-                    DisplayMemberPath="Name">
+                    SelectedItem="{Binding Path=SelectedProduct, UpdateSourceTrigger=PropertyChanged}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDoubleClick">
                             <i:InvokeCommandAction Command="{Binding Path=AddProduct}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <TextBlock DockPanel.Dock="Right">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{} ({0})">
+                                            <Binding Path="Model" UpdateSourceTrigger="PropertyChanged"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                                <TextBlock
+                                   Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
                 </ListBox>
             </DockPanel>
         </GroupBox>
