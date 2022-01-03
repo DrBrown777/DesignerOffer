@@ -490,16 +490,16 @@ namespace Designer_Offer.ViewModels
 
         #region калькуляция цен
         /// <summary>
-        /// Пересчет цен в КП при изменении коэф. наценки на материалы
+        /// Пересчет цен в КП при изменении коэф. наценок
         /// </summary>
-        public ICommand CalculateProductsPrice { get; }
+        public ICommand CalculateAllPrice { get; }
 
-        private bool CanCalculateProductsPrice(object p)
+        private bool CanCalculateAllPrice(object p)
         {
             return CurrentOffer != null && CurrentOffer.Part != null && CurrentOffer.Part.Count != 0;
         }
 
-        private void OnCalculateProductsPrice(object p)
+        private void OnCalculateAllPrice(object p)
         {
             foreach (Part part in CurrentOffer.Part)
             {
@@ -518,13 +518,34 @@ namespace Designer_Offer.ViewModels
                         item.Out_Summ = RoundDecimal(item.Amount * item.Out_Price);
                     }
                 }
+                foreach (InstallPart item in part.InstallPart)
+                {
+                    if (item.Out_Price != null)
+                    {
+                        item.Out_Price = RoundDecimal(item.Entry_Price * CurrentOffer.Config.Margin_Work);
+                    }
+                    if (item.Entry_Summ != null)
+                    {
+                        item.Entry_Summ = RoundDecimal(item.Amount * item.Entry_Price);
+                    }
+                    if (item.Out_Summ != null)
+                    {
+                        item.Out_Summ = RoundDecimal(item.Amount * item.Out_Price);
+                    }
+                }
             }
 
             foreach (PartManagerViewModel item in Parts)
             {
-                if (item.Products.Count == 0) continue;
+                if (item.Products.Count != 0)
+                {
+                    item.Products.Clear();
+                }
 
-                item.Products.Clear();
+                if (item.Installs.Count != 0)
+                {
+                    item.Installs.Clear();
+                }
 
                 if (item.LoadDataFromRepositories.CanExecute(item.Id))
                 {
@@ -622,7 +643,7 @@ namespace Designer_Offer.ViewModels
             AddProduct = new LambdaCommand(OnAddProduct, CanAddProduct);
             AddInstall = new LambdaCommand(OnAddInstall, CanAddInstall);
 
-            CalculateProductsPrice = new LambdaCommand(OnCalculateProductsPrice, CanCalculateProductsPrice);
+            CalculateAllPrice = new LambdaCommand(OnCalculateAllPrice, CanCalculateAllPrice);
         }
         #endregion
     }

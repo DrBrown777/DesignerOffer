@@ -172,7 +172,7 @@
                 </StackPanel>
                 <UniformGrid Rows="1" DockPanel.Dock="Right" HorizontalAlignment="Right">
                     <Button Style="{StaticResource Button}"
-                            Command="{Binding Path=CalculateProductsPrice}"
+                            Command="{Binding Path=CalculateAllPrice}"
                             ToolTip="Пересчитать цены" 
                             ToolTipService.Placement="MousePoint">
                         <materialDesign:PackIcon Kind="Money" 

@@ -108,6 +108,66 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _SelectedProduct, value);
         }
 
+        private decimal _InstallProfit;
+        /// <summary>
+        /// Прибыль в % всех работ
+        /// </summary>
+        public decimal InstallProfit
+        {
+            get => _InstallProfit;
+            set => Set(ref _InstallProfit, value);
+        }
+
+        private decimal _InstallProceeds;
+        /// <summary>
+        /// Доход по работам
+        /// </summary>
+        public decimal InstallProceeds
+        {
+            get => _InstallProceeds;
+            set => Set(ref _InstallProceeds, value);
+        }
+
+        private decimal _InstallEntrySumm;
+        /// <summary>
+        /// Итоговый вход по работам
+        /// </summary>
+        public decimal InstallEntrySumm
+        {
+            get => _InstallEntrySumm;
+            set => Set(ref _InstallEntrySumm, value);
+        }
+
+        private decimal _InstallOutSumm;
+        /// <summary>
+        /// Итоговый выход по работам
+        /// </summary>
+        public decimal InstallOutSumm
+        {
+            get => _InstallOutSumm;
+            set => Set(ref _InstallOutSumm, value);
+        }
+
+        private decimal _AdminOutSumm;
+        /// <summary>
+        /// Выход по админ расходам
+        /// </summary>
+        public decimal AdminOutSumm
+        {
+            get => _AdminOutSumm;
+            set => Set(ref _AdminOutSumm, value);
+        }
+
+        private decimal _AdminEntrySumm;
+        /// <summary>
+        /// Вход по админ расходам
+        /// </summary>
+        public decimal AdminEntrySumm
+        {
+            get => _AdminEntrySumm;
+            set => Set(ref _AdminEntrySumm, value);
+        }
+
         private ObservableCollection<InstallPart> _Installs;
         /// <summary>
         /// Коллекция работ в системе
@@ -167,9 +227,14 @@ namespace Designer_Offer.ViewModels
                 UserDialog.ShowError(e.Message, "Ошибка");
             }
 
-            if (CalculateGeneralPrice.CanExecute(null))
+            if (CalculateGeneralPriceProduct.CanExecute(null))
             {
-                CalculateGeneralPrice.Execute(null);
+                CalculateGeneralPriceProduct.Execute(null);
+            }
+
+            if (CalculateGeneralPriceInstall.CanExecute(null))
+            {
+                CalculateGeneralPriceInstall.Execute(null);
             }
         }
         #endregion
@@ -222,9 +287,9 @@ namespace Designer_Offer.ViewModels
                 UserDialog.ShowError(e.Message, "Ошибка");
             }
 
-            if (CalculateGeneralPrice.CanExecute(null))
+            if (CalculateGeneralPriceProduct.CanExecute(null))
             {
-                CalculateGeneralPrice.Execute(null);
+                CalculateGeneralPriceProduct.Execute(null);
             }
         }
         /// <summary>
@@ -264,38 +329,41 @@ namespace Designer_Offer.ViewModels
                 }
                 else
                 {
-                    /*Обнулить ценники*/
+                    InstallEntrySumm = 0;
+                    InstallOutSumm = 0;
+                    InstallProceeds = 0;
+                    InstallProfit = 0;
+                    AdminEntrySumm = 0;
+                    AdminOutSumm = 0;
                 }
             }
             catch (Exception e)
             {
                 UserDialog.ShowError(e.Message, "Ошибка");
             }
-            /*
-             *дописать пересчет цены, или оставить эту команду
-            if (CalculateGeneralPrice.CanExecute(null))
+
+            if (CalculateGeneralPriceInstall.CanExecute(null))
             {
-                CalculateGeneralPrice.Execute(null);
+                CalculateGeneralPriceInstall.Execute(null);
             }
-            */
         }
         /// <summary>
-        /// Расчет цены в строке по 1-й позиции
+        /// Расчет цены в строке по 1-й позиции товара
         /// </summary>
-        public ICommand CalculatePrices { get; }
+        public ICommand CalculatePricesProduct { get; }
 
-        private bool CanCalculatePrices(object p)
+        private bool CanCalculatePricesProduct(object p)
         {
             return SelectedProduct != null && SelectedProduct.Entry_Price != null && SelectedProduct.Amount != null;
         }
 
-        private void OnCalculatePrices(object p)
+        private void OnCalculatePricesProduct(object p)
         {
-            decimal magin_product = SelectedProduct.Part.Offer.Config.Margin_Product;
-
             try
             {
-                SelectedProduct.Out_Price = RoundDecimal(SelectedProduct.Entry_Price * magin_product);
+                decimal margin_product = RepositoryPart.Get(Id).Offer.Config.Margin_Product;
+
+                SelectedProduct.Out_Price = RoundDecimal(SelectedProduct.Entry_Price * margin_product);
                 SelectedProduct.Entry_Summ = RoundDecimal(SelectedProduct.Amount * SelectedProduct.Entry_Price);
                 SelectedProduct.Out_Summ = RoundDecimal(SelectedProduct.Amount * SelectedProduct.Out_Price);
 
@@ -306,23 +374,55 @@ namespace Designer_Offer.ViewModels
                 UserDialog.ShowError(e.Message, "Ошибка");
             }
 
-            if (CalculateGeneralPrice.CanExecute(null))
+            if (CalculateGeneralPriceProduct.CanExecute(null))
             {
-                CalculateGeneralPrice.Execute(null);
+                CalculateGeneralPriceProduct.Execute(null);
+            }
+        }
+        /// <summary>
+        /// Расчет цены в строке по 1-й позиции услуги
+        /// </summary>
+        public ICommand CalculatePricesInstall { get; }
+
+        private bool CanCalculatePricesInstall(object p)
+        {
+            return SelectedInstall != null && SelectedInstall.Entry_Price != null && SelectedInstall.Amount != null;
+        }
+
+        private void OnCalculatePricesInstall(object p)
+        {
+            try
+            {
+                decimal margin_install = RepositoryPart.Get(Id).Offer.Config.Margin_Work;
+
+                SelectedInstall.Out_Price = RoundDecimal(SelectedInstall.Entry_Price * margin_install);
+                SelectedInstall.Entry_Summ = RoundDecimal(SelectedInstall.Amount * SelectedInstall.Entry_Price);
+                SelectedInstall.Out_Summ = RoundDecimal(SelectedInstall.Amount * SelectedInstall.Out_Price);
+
+                SelectedInstall = UpdateCollection(Installs, SelectedInstall);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+
+            if (CalculateGeneralPriceInstall.CanExecute(null))
+            {
+                CalculateGeneralPriceInstall.Execute(null);
             }
         }
 
         /// <summary>
-        /// Вычесление общей суммы системы (материалы и работы)
+        /// Вычесление итоговой суммы материалов
         /// </summary>
-        public ICommand CalculateGeneralPrice { get; }
+        public ICommand CalculateGeneralPriceProduct { get; }
 
-        private bool CanCalculateGeneralPrice(object p)
+        private bool CanCalculateGeneralPriceProduct(object p)
         {
             return Products.Count != 0;
         }
 
-        private void OnCalculateGeneralPrice(object p)
+        private void OnCalculateGeneralPriceProduct(object p)
         {
             try
             {
@@ -334,6 +434,41 @@ namespace Designer_Offer.ViewModels
                 {
                     ProductProfit = RoundDecimal((ProductOutSumm - ProductEntrySumm) / ProductOutSumm * 100);
                 }
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+        }
+
+        /// <summary>
+        /// Вычесление итоговой суммы работ и админ расходов
+        /// </summary>
+        public ICommand CalculateGeneralPriceInstall { get; }
+
+        private bool CanCalculateGeneralPriceInstall(object p)
+        {
+            return Installs.Count != 0;
+        }
+
+        private void OnCalculateGeneralPriceInstall(object p)
+        {
+            try
+            {
+                decimal margin_product = RepositoryPart.Get(Id).Offer.Config.Margin_Product;
+                decimal margin_admin = RepositoryPart.Get(Id).Offer.Config.Margin_Admin;
+
+                InstallEntrySumm = (decimal)Installs.Sum(ip => ip.Entry_Summ);
+                InstallOutSumm = (decimal)Installs.Sum(ip => ip.Out_Summ);
+                InstallProceeds = InstallOutSumm - InstallEntrySumm;
+
+                if (InstallOutSumm != 0)
+                {
+                    InstallProfit = RoundDecimal((InstallOutSumm - InstallEntrySumm) / InstallOutSumm * 100);
+                }
+
+                AdminEntrySumm = RoundDecimal(InstallEntrySumm * margin_admin);
+                AdminOutSumm = RoundDecimal(AdminEntrySumm * margin_product);
             }
             catch (Exception e)
             {
@@ -482,10 +617,15 @@ namespace Designer_Offer.ViewModels
             Installs = new ObservableCollection<InstallPart>();
 
             LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
-            CalculatePrices = new LambdaCommand(OnCalculatePrices, CanCalculatePrices);
-            CalculateGeneralPrice = new LambdaCommand(OnCalculateGeneralPrice, CanCalculateGeneralPrice);
+
+            CalculatePricesProduct = new LambdaCommand(OnCalculatePricesProduct, CanCalculatePricesProduct);
+            CalculatePricesInstall = new LambdaCommand(OnCalculatePricesInstall, CanCalculatePricesInstall);
+            CalculateGeneralPriceProduct = new LambdaCommand(OnCalculateGeneralPriceProduct, CanCalculateGeneralPriceProduct);
+            CalculateGeneralPriceInstall = new LambdaCommand(OnCalculateGeneralPriceInstall, CanCalculateGeneralPriceInstall);
+
             SwappingElementProduct = new LambdaCommand(OnSwappingElementProduct, CanSwappingElementProduct);
             SwappingElementInstall = new LambdaCommand(OnSwappingElementInstall, CanSwappingElementInstall);
+
             RemoveProduct = new LambdaCommand(OnRemoveProduct, CanRemoveProduct);
             RemoveInstall = new LambdaCommand(OnRemoveInstall, CanRemoveInstall);
         }
