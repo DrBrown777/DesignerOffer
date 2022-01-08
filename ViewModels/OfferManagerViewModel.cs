@@ -561,6 +561,9 @@ namespace Designer_Offer.ViewModels
                 {
                     item.LoadDataFromRepositories.Execute(item.Id);
                 }
+
+                CurrentOffer.Part.FirstOrDefault(part => part.Id == item.Id).Entry_Cost = item.AdminEntrySumm + item.InstallEntrySumm + item.ProductEntrySumm;
+                CurrentOffer.Part.FirstOrDefault(part => part.Id == item.Id).Out_Cost = item.AdminOutSumm + item.InstallOutSumm + item.ProductOutSumm;
             }
 
             if (UpdateOffer.CanExecute(null))
