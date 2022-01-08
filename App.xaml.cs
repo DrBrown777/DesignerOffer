@@ -129,7 +129,7 @@ namespace Designer_Offer
             services.AddTransient<IUserDialog, UserDialogService>();
 
             /*Регистрация сервиса калькулятора*/
-            services.AddTransient<ICalculator, CalculalatorService>();
+            services.AddTransient<ICalculator, CalculatorService>();
 
             /*Регистрация репозиториев сущностей базы данных*/
             services.AddSingleton<PrimeContext>();

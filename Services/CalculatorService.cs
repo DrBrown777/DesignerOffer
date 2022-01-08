@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Designer_Offer.Services
 {
-    internal class CalculalatorService : ICalculator
+    internal class CalculatorService : ICalculator
     {
         #region ПОЛЯ
         /// <summary>
@@ -56,7 +56,7 @@ namespace Designer_Offer.Services
             throw new NotImplementedException();
         }
 
-        public CalculalatorService(IRepository<Offer> repaOffer, IRepository<Part> repaPart)
+        public CalculatorService(IRepository<Offer> repaOffer, IRepository<Part> repaPart)
         {
             RepositoryOffer = repaOffer;
             RepositoryPart = repaPart;
