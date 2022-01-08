@@ -392,10 +392,19 @@
                 </DataGrid>
             </DockPanel>
         </GroupBox>
-        <GroupBox  Header="Стоимость" 
+        <GroupBox  Header="Стоимость КП" 
                        Grid.Column="2" 
                        Grid.Row="1">
-
+            <StackPanel Margin="5px" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <Label Content="Вход:"/>
+                <TextBlock Text="{Binding Path=OfferPrice.OfferEntryCost, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="Выход:"/>
+                <TextBlock Text="{Binding Path=OfferPrice.OfferOutCost, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="% наценки:"/>
+                <TextBlock Text="{Binding Path=OfferPrice.OfferProffit, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="Доходность:"/>
+                <TextBlock Text="{Binding Path=OfferPrice.OfferProceeds, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
         </GroupBox>
     </Grid>
 </UserControl>

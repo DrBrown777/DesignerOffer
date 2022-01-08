@@ -1,5 +1,6 @@
 ﻿using Designer_Offer.Data;
 using Designer_Offer.Infrastructure.Commands;
+using Designer_Offer.Services;
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,6 +49,10 @@ namespace Designer_Offer.ViewModels
         /// Сервис диалогов
         /// </summary>
         private readonly IUserDialog UserDialog;
+        /// <summary>
+        /// Сервис калькуляции цен
+        /// </summary>
+        private readonly ICalculator CalculatorService;
 
         #region Репозитории 
         /// <summary>
@@ -228,7 +233,26 @@ namespace Designer_Offer.ViewModels
         public Offer SelectedOffer
         {
             get => _SelectedOffer;
-            set => Set(ref _SelectedOffer, value);
+            set
+            {
+                if (Set(ref _SelectedOffer, value))
+                {
+                    if (_SelectedOffer != null)
+                    {
+                        OfferPrice = CalculatorService.CalculateOfferPrice(_SelectedOffer.Id);
+                    }
+                }
+            }
+        }
+
+        private OfferPrice _offerPrice;
+        /// <summary>
+        /// Суммарные стоимости выбранного КП
+        /// </summary>
+        public OfferPrice OfferPrice
+        {
+            get => _offerPrice;
+            set => Set(ref _offerPrice, value);
         }
 
         private ObservableCollection<Project> _Project;
@@ -912,7 +936,7 @@ namespace Designer_Offer.ViewModels
             IRepository<Section> repaSection,
             IRepository<Build> repaBuild,
             IRepository<Offer> repaOffer,
-            IUserDialog userDialog)
+            IUserDialog userDialog, ICalculator calcService)
         {
             Progress = true;
 
@@ -923,6 +947,7 @@ namespace Designer_Offer.ViewModels
             RepositorySections = repaSection;
 
             UserDialog = userDialog;
+            CalculatorService = calcService;
 
             LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
             FilterBuild = new LambdaCommand(OnFilterBuild, CanFilterBuild);

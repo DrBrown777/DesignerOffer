@@ -21,16 +21,17 @@ namespace Designer_Offer.Services
         private readonly IRepository<Part> RepositoryPart;
         #endregion
 
-        public Tuple<decimal?, decimal?> CalculateOfferPrice(int offerId)
+        public OfferPrice CalculateOfferPrice(int offerId)
         {
             Offer offer = RepositoryOffer.Get(offerId);
 
-            Tuple<decimal?, decimal?> prices = new Tuple<decimal?, decimal?>(
-                    offer.Part.Sum(it => it.Entry_Cost),
-                    offer.Part.Sum(it => it.Out_Cost)
-                );
+            OfferPrice offerPrice = new OfferPrice()
+            {
+                OfferEntryCost = offer.Part.Sum(it => it.Entry_Cost),
+                OfferOutCost = offer.Part.Sum(it => it.Out_Cost),
+            };
 
-            return prices;/*возвращать нужно % нацеки еще + доходность*/
+            return offerPrice;
         }
 
         public void CalculatePartPrice(int partId)
@@ -60,6 +61,36 @@ namespace Designer_Offer.Services
         {
             RepositoryOffer = repaOffer;
             RepositoryPart = repaPart;
+        }
+    }
+    internal struct OfferPrice
+    {
+        /// <summary>
+        /// Входящаяя цена КП
+        /// </summary>
+        public decimal? OfferEntryCost { get; set; }
+        /// <summary>
+        /// Исходящая цена КП
+        /// </summary>
+        public decimal? OfferOutCost { get; set; }
+        /// <summary>
+        /// Доходность КП в деньгах
+        /// </summary>
+        public decimal? OfferProceeds => OfferOutCost - OfferEntryCost;
+        /// <summary>
+        /// Доходность КП в %
+        /// </summary>
+        public decimal? OfferProffit => OfferOutCost != null && OfferOutCost != 0
+            ? RoundDecimal((OfferOutCost - OfferEntryCost) / OfferOutCost * 100)
+            : 0;
+        /// <summary>
+        /// Округление цены
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        private decimal RoundDecimal(decimal? number)
+        {
+            return decimal.Round((decimal)number, 2, MidpointRounding.AwayFromZero);
         }
     }
 }
