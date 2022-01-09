@@ -8,9 +8,9 @@ namespace Designer_Offer.Services.Interfaces
 {
     internal interface ICalculator
     {
-        OfferPrice CalculateOfferPrice(int offerId);
+        OfferPrice CalculateOfferPrice(Offer offer);
 
-        ObservableCollection<PartPrice> CalculatePartPrice(ICollection<Part> parts);
+        List<PartPrice> CalculatePartPrice(ICollection<Part> parts);
 
         void CalculateOneProductPrice(int productId);
 

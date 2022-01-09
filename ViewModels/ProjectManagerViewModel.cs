@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -240,7 +241,7 @@ namespace Designer_Offer.ViewModels
                 {
                     if (_SelectedOffer != null)
                     {
-                        OfferPrice = CalculatorService.CalculateOfferPrice(_SelectedOffer.Id);
+                        OfferPrice = CalculatorService.CalculateOfferPrice(_SelectedOffer);
                     }
                 }
             }
@@ -454,9 +455,9 @@ namespace Designer_Offer.ViewModels
 
         private void OnFilterPart(object p)
         {
-            Parts = CalculatorService.CalculatePartPrice(SelectedOffer.Part);
+            List<PartPrice> items = CalculatorService.CalculatePartPrice(SelectedOffer.Part);
 
-            //UpdateCollection(Parts, items);
+            UpdateCollection(Parts, items);
         }
         /// <summary>
         /// Выборка КП по разделу
@@ -474,7 +475,7 @@ namespace Designer_Offer.ViewModels
                 .Where(o => o.Section_Id == SelectedSection.Id)
                 .Where(o => o.Project.Id == SelectedBuild.Id)
                 .ToList();
-            
+
             UpdateCollection(Offers, items);
 
             if (Offers.Count != 0)

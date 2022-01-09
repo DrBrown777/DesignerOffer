@@ -291,7 +291,7 @@
                 SelectedIndex="-1">
                 <DataGrid.Columns>
                     <DataGridTextColumn
-                        Header="Название"
+                        Header="№"
                         Binding="{Binding Path=PartName, UpdateSourceTrigger=PropertyChanged}"
                         Width="0.2*"/>
                     <DataGridTextColumn
