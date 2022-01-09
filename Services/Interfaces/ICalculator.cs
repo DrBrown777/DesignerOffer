@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Designer_Offer.Data;
+using Designer_Offer.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace Designer_Offer.Services.Interfaces
@@ -9,8 +9,11 @@ namespace Designer_Offer.Services.Interfaces
     internal interface ICalculator
     {
         OfferPrice CalculateOfferPrice(int offerId);
-        void CalculateOneProductPrice(int productId, int installId);
-        void CalculateOneInstallPrice(int productId, int installId);
-        void CalculatePartPrice(int partId);
+
+        ObservableCollection<PartPrice> CalculatePartPrice(ICollection<Part> parts);
+
+        void CalculateOneProductPrice(int productId);
+
+        void CalculateOneInstallPrice(int installId);
     }
 }

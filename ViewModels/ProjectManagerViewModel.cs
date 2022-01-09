@@ -1,5 +1,6 @@
 ﻿using Designer_Offer.Data;
 using Designer_Offer.Infrastructure.Commands;
+using Designer_Offer.Models;
 using Designer_Offer.Services;
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
@@ -265,11 +266,11 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Project, value);
         }
 
-        private ObservableCollection<Part> _Parts;
+        private ObservableCollection<PartPrice> _Parts;
         /// <summary>
         /// Коллекция систем
         /// </summary>
-        public ObservableCollection<Part> Parts
+        public ObservableCollection<PartPrice> Parts
         {
             get => _Parts;
             set => Set(ref _Parts, value);
@@ -453,11 +454,9 @@ namespace Designer_Offer.ViewModels
 
         private void OnFilterPart(object p)
         {
-            List<Part> items = SelectedOffer.Part
-                .Where(part => part.Offer_Id == SelectedOffer.Id)
-                .ToList();
+            Parts = CalculatorService.CalculatePartPrice(SelectedOffer.Part);
 
-            UpdateCollection(Parts, items);
+            //UpdateCollection(Parts, items);
         }
         /// <summary>
         /// Выборка КП по разделу
@@ -922,7 +921,7 @@ namespace Designer_Offer.ViewModels
 
             collection.Clear();
 
-            foreach (var item in list)
+            foreach (T item in list)
             {
                 collection.Add(item);
             }
@@ -971,7 +970,7 @@ namespace Designer_Offer.ViewModels
 
             Builds = new ObservableCollection<Build>();
             Offers = new ObservableCollection<Offer>();
-            Parts = new ObservableCollection<Part>();
+            Parts = new ObservableCollection<PartPrice>();
             Project = new ObservableCollection<Project>();
 
             StartSelectedDate = DateTime.Now;

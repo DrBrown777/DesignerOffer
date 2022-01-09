@@ -286,27 +286,29 @@
         <GroupBox Header="Системы" 
                       Grid.Column="3" 
                       Grid.Row="1">
-            <DataGrid IsEnabled="False"
+            <DataGrid
                 ItemsSource="{Binding Path=Parts}"
                 SelectedIndex="-1">
                 <DataGrid.Columns>
                     <DataGridTextColumn
                         Header="Название"
-                        Binding="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"
-                        Width="0.25*"/>
+                        Binding="{Binding Path=PartName, UpdateSourceTrigger=PropertyChanged}"
+                        Width="0.2*"/>
                     <DataGridTextColumn
                         Header="%"
-                        Width="0.1*"/>
+                        Binding="{Binding Path=Proffit}"
+                        Width="0.15*"/>
                     <DataGridTextColumn
                         Header="Вход"
-                        Binding="{Binding Path=Entry_Cost}"
+                        Binding="{Binding Path=EntryCost}"
                         Width="0.2*"/>
                     <DataGridTextColumn
                         Header="Выход"
-                        Binding="{Binding Path=Out_Cost}"
+                        Binding="{Binding Path=OutCost}"
                         Width="0.2*"/>
                     <DataGridTextColumn
                         Header="Доход"
+                        Binding="{Binding Path=Proceeds}"
                         Width="0.25*"/>
                 </DataGrid.Columns>
             </DataGrid>
@@ -397,13 +399,13 @@
                        Grid.Row="1">
             <StackPanel Margin="5px" ScrollViewer.VerticalScrollBarVisibility="Auto">
                 <Label Content="Вход:"/>
-                <TextBlock Text="{Binding Path=OfferPrice.OfferEntryCost, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="{Binding Path=OfferPrice.EntryCost, UpdateSourceTrigger=PropertyChanged}"/>
                 <Label Content="Выход:"/>
-                <TextBlock Text="{Binding Path=OfferPrice.OfferOutCost, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="{Binding Path=OfferPrice.OutCost, UpdateSourceTrigger=PropertyChanged}"/>
                 <Label Content="% наценки:"/>
-                <TextBlock Text="{Binding Path=OfferPrice.OfferProffit, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="{Binding Path=OfferPrice.Proffit, UpdateSourceTrigger=PropertyChanged}"/>
                 <Label Content="Доходность:"/>
-                <TextBlock Text="{Binding Path=OfferPrice.OfferProceeds, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="{Binding Path=OfferPrice.Proceeds, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
         </GroupBox>
     </Grid>

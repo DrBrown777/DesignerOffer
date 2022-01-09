@@ -231,6 +231,9 @@
     <Compile Include="Infrastructure\Validations\UniqEmailValidationRule.cs" />
     <Compile Include="Infrastructure\Validations\UniqLoginValidationRule.cs" />
     <Compile Include="Infrastructure\Validations\UniqPhoneValidationRule.cs" />
+    <Compile Include="Models\OfferPrice.cs" />
+    <Compile Include="Models\PartPrice.cs" />
+    <Compile Include="Models\Price.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Services\CalculatorService.cs" />
     <Compile Include="Services\ILoginService.cs" />
@@ -465,7 +468,6 @@
     <None Include="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Models\.gitkeep" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
