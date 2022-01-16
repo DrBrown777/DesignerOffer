@@ -20,7 +20,7 @@
 
         public override decimal? OutCost { get; set; }
 
-        public override decimal? Proceeds => OutCost - EntryCost;
+        public override decimal? Proceeds => OutCost - EntryCost + (AdminOutCost - AdminEntryCost);
 
         public override decimal? Proffit => OutCost != null && OutCost != 0
             ? RoundDecimal((OutCost - EntryCost) / OutCost * 100)

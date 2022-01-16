@@ -15,10 +15,12 @@ namespace Designer_Offer.Services
         /// <returns></returns>
         public OfferPrice CalculateOfferPrice(Offer offer)
         {
+            List<PartPrice> partPrice = CalculatePartPrice(offer.Part);
+
             OfferPrice offerPrice = new OfferPrice()
             {
-                EntryCost = offer.Part.Sum(it => it.Entry_Cost),
-                OutCost = offer.Part.Sum(it => it.Out_Cost),
+                EntryCost = partPrice.Sum(it => it.EntryCost),
+                OutCost = partPrice.Sum(it => it.OutCost)
             };
 
             return offerPrice;
