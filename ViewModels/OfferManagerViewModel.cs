@@ -562,8 +562,13 @@ namespace Designer_Offer.ViewModels
                     item.LoadDataFromRepositories.Execute(item.Id);
                 }
 
-                CurrentOffer.Part.FirstOrDefault(part => part.Id == item.Id).Entry_Cost = item.AdminEntrySumm + item.InstallEntrySumm + item.ProductEntrySumm;
-                CurrentOffer.Part.FirstOrDefault(part => part.Id == item.Id).Out_Cost = item.AdminOutSumm + item.InstallOutSumm + item.ProductOutSumm;
+                CurrentOffer.Part.FirstOrDefault(part => part.Id == item.Id).Entry_Cost =
+                    (item.TotalInstallPrice != null ? item.TotalInstallPrice.AdminEntryCost + item.TotalInstallPrice.EntryCost : 0) +
+                    (item.TotalProductPrice != null ? item.TotalProductPrice.EntryCost : 0);
+
+                CurrentOffer.Part.FirstOrDefault(part => part.Id == item.Id).Out_Cost =
+                    (item.TotalInstallPrice != null ? item.TotalInstallPrice.AdminOutCost + item.TotalInstallPrice.OutCost : 0) +
+                    (item.TotalProductPrice != null ? item.TotalProductPrice.OutCost : 0);
             }
 
             if (UpdateOffer.CanExecute(null))

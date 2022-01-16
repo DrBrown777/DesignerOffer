@@ -245,7 +245,7 @@
                 <StackPanel>
                     <Label Content="Название: "/>
                     <TextBox Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Label Content="Кол-во сотруников: "/>
+                    <Label Content="Кол-во сотрудников: "/>
                     <TextBox Text="{Binding Path=Employee.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Кол-во компаний: "/>
                     <TextBox Text="{Binding Path=Company.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>

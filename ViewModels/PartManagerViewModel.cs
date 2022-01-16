@@ -1,5 +1,6 @@
 ﻿using Designer_Offer.Data;
 using Designer_Offer.Infrastructure.Commands;
+using Designer_Offer.Models;
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
 using System;
@@ -20,6 +21,10 @@ namespace Designer_Offer.ViewModels
         /// Сервис Диалогов с пользователем
         /// </summary>
         private readonly IUserDialog UserDialog;
+        /// <summary>
+        /// Сервис калькуляции цен
+        /// </summary>
+        private readonly ICalculator CalculatorService;
         #endregion
 
         #region СВОЙСТВА
@@ -43,44 +48,14 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Name, value);
         }
 
-        private decimal _ProductProfit;
+        private TotalProductPrice _TotalProductPrice;
         /// <summary>
-        /// Прибыль в % материалов
+        /// Общая стоимость материалов в системе
         /// </summary>
-        public decimal ProductProfit
+        public TotalProductPrice TotalProductPrice
         {
-            get => _ProductProfit;
-            set => Set(ref _ProductProfit, value);
-        }
-
-        private decimal _ProductProceeds;
-        /// <summary>
-        /// Доход по материалам
-        /// </summary>
-        public decimal ProductProceeds
-        {
-            get => _ProductProceeds;
-            set => Set(ref _ProductProceeds, value);
-        }
-
-        private decimal _ProductEntrySumm;
-        /// <summary>
-        /// Итоговый вход по материалам
-        /// </summary>
-        public decimal ProductEntrySumm
-        {
-            get => _ProductEntrySumm;
-            set => Set(ref _ProductEntrySumm, value);
-        }
-
-        private decimal _ProductOutSumm;
-        /// <summary>
-        /// Итоговый выход по материалам
-        /// </summary>
-        public decimal ProductOutSumm
-        {
-            get => _ProductOutSumm;
-            set => Set(ref _ProductOutSumm, value);
+            get => _TotalProductPrice;
+            set => Set(ref _TotalProductPrice, value);
         }
 
         private ObservableCollection<ProductPart> _Products;
@@ -103,64 +78,14 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _SelectedProduct, value);
         }
 
-        private decimal _InstallProfit;
+        private TotalInstallPrice _TotalInstallPrice;
         /// <summary>
-        /// Прибыль в % всех работ
+        /// Общая стоимость работ и админ расходов в системе
         /// </summary>
-        public decimal InstallProfit
+        public TotalInstallPrice TotalInstallPrice
         {
-            get => _InstallProfit;
-            set => Set(ref _InstallProfit, value);
-        }
-
-        private decimal _InstallProceeds;
-        /// <summary>
-        /// Доход по работам
-        /// </summary>
-        public decimal InstallProceeds
-        {
-            get => _InstallProceeds;
-            set => Set(ref _InstallProceeds, value);
-        }
-
-        private decimal _InstallEntrySumm;
-        /// <summary>
-        /// Итоговый вход по работам
-        /// </summary>
-        public decimal InstallEntrySumm
-        {
-            get => _InstallEntrySumm;
-            set => Set(ref _InstallEntrySumm, value);
-        }
-
-        private decimal _InstallOutSumm;
-        /// <summary>
-        /// Итоговый выход по работам
-        /// </summary>
-        public decimal InstallOutSumm
-        {
-            get => _InstallOutSumm;
-            set => Set(ref _InstallOutSumm, value);
-        }
-
-        private decimal _AdminOutSumm;
-        /// <summary>
-        /// Выход по админ расходам
-        /// </summary>
-        public decimal AdminOutSumm
-        {
-            get => _AdminOutSumm;
-            set => Set(ref _AdminOutSumm, value);
-        }
-
-        private decimal _AdminEntrySumm;
-        /// <summary>
-        /// Вход по админ расходам
-        /// </summary>
-        public decimal AdminEntrySumm
-        {
-            get => _AdminEntrySumm;
-            set => Set(ref _AdminEntrySumm, value);
+            get => _TotalInstallPrice;
+            set => Set(ref _TotalInstallPrice, value);
         }
 
         private ObservableCollection<InstallPart> _Installs;
@@ -271,10 +196,7 @@ namespace Designer_Offer.ViewModels
                 }
                 else
                 {
-                    ProductEntrySumm = 0;
-                    ProductOutSumm = 0;
-                    ProductProceeds = 0;
-                    ProductProfit = 0;
+                    TotalProductPrice = null;
                 }
             }
             catch (Exception e)
@@ -324,12 +246,7 @@ namespace Designer_Offer.ViewModels
                 }
                 else
                 {
-                    InstallEntrySumm = 0;
-                    InstallOutSumm = 0;
-                    InstallProceeds = 0;
-                    InstallProfit = 0;
-                    AdminEntrySumm = 0;
-                    AdminOutSumm = 0;
+                    TotalInstallPrice = null;
                 }
             }
             catch (Exception e)
@@ -414,21 +331,14 @@ namespace Designer_Offer.ViewModels
 
         private bool CanCalculateGeneralPriceProduct(object p)
         {
-            return Products.Count != 0;
+            return Products.Count != 0 && CalculatorService != null;
         }
 
         private void OnCalculateGeneralPriceProduct(object p)
         {
             try
             {
-                ProductEntrySumm = (decimal)Products.Sum(pp => pp.Entry_Summ);
-                ProductOutSumm = (decimal)Products.Sum(pp => pp.Out_Summ);
-                ProductProceeds = ProductOutSumm - ProductEntrySumm;
-
-                if (ProductOutSumm != 0)
-                {
-                    ProductProfit = RoundDecimal((ProductOutSumm - ProductEntrySumm) / ProductOutSumm * 100);
-                }
+                TotalProductPrice = CalculatorService.CalculateTotalProductPrice(Products);
             }
             catch (Exception e)
             {
@@ -443,27 +353,14 @@ namespace Designer_Offer.ViewModels
 
         private bool CanCalculateGeneralPriceInstall(object p)
         {
-            return Installs.Count != 0;
+            return Installs.Count != 0 && CalculatorService != null;
         }
 
         private void OnCalculateGeneralPriceInstall(object p)
         {
             try
             {
-                decimal margin_product = RepositoryPart.Get(Id).Offer.Config.Margin_Product;
-                decimal margin_admin = RepositoryPart.Get(Id).Offer.Config.Margin_Admin;
-
-                InstallEntrySumm = (decimal)Installs.Sum(ip => ip.Entry_Summ);
-                InstallOutSumm = (decimal)Installs.Sum(ip => ip.Out_Summ);
-                InstallProceeds = InstallOutSumm - InstallEntrySumm;
-
-                if (InstallOutSumm != 0)
-                {
-                    InstallProfit = RoundDecimal((InstallOutSumm - InstallEntrySumm) / InstallOutSumm * 100);
-                }
-
-                AdminEntrySumm = RoundDecimal(InstallEntrySumm * margin_admin);
-                AdminOutSumm = RoundDecimal(AdminEntrySumm * margin_product);
+                TotalInstallPrice = CalculatorService.CalculateTotalInstallPrice(Installs);
             }
             catch (Exception e)
             {
@@ -603,10 +500,12 @@ namespace Designer_Offer.ViewModels
         #region КОНСТРУКТОРЫ
         public PartManagerViewModel(
             IRepository<Part> repaPart,
-            IUserDialog userDialog)
+            IUserDialog userDialog,
+            ICalculator calcService)
         {
             RepositoryPart = repaPart;
             UserDialog = userDialog;
+            CalculatorService = calcService;
 
             Products = new ObservableCollection<ProductPart>();
             Installs = new ObservableCollection<InstallPart>();

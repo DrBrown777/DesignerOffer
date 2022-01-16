@@ -234,6 +234,8 @@
     <Compile Include="Models\OfferPrice.cs" />
     <Compile Include="Models\PartPrice.cs" />
     <Compile Include="Models\Price.cs" />
+    <Compile Include="Models\TotalInstallPrice.cs" />
+    <Compile Include="Models\TotalProductPrice.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Services\CalculatorService.cs" />
     <Compile Include="Services\ILoginService.cs" />

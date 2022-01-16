@@ -1,21 +1,17 @@
 ﻿using Designer_Offer.Data;
 using Designer_Offer.Models;
 using Designer_Offer.Services.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Designer_Offer.Services
 {
     internal class CalculatorService : ICalculator
     {
         /// <summary>
-        /// Расчет цены одного отдельного КП
+        /// Расчет общей стоимости одного отдельного КП
         /// </summary>
-        /// <param name="offerId"></param>
+        /// <param name="offer"></param>
         /// <returns></returns>
         public OfferPrice CalculateOfferPrice(Offer offer)
         {
@@ -29,9 +25,10 @@ namespace Designer_Offer.Services
         }
 
         /// <summary>
-        /// Расчет цены одной отдельной системы
+        /// Расчет общей стоимости одной отдельной системы
         /// </summary>
-        /// <param name="partId"></param>
+        /// <param name="parts"></param>
+        /// <returns></returns>
         public List<PartPrice> CalculatePartPrice(ICollection<Part> parts)
         {
             List<PartPrice> partPrices = new List<PartPrice>();
@@ -50,15 +47,38 @@ namespace Designer_Offer.Services
 
             return partPrices;
         }
-
-        public void CalculateOneInstallPrice(int installId)
+        /// <summary>
+        /// Расчет общей стоимости материалов в системе
+        /// </summary>
+        /// <param name="products"></param>
+        /// <returns></returns>
+        public TotalProductPrice CalculateTotalProductPrice(ICollection<ProductPart> products)
         {
-            throw new NotImplementedException();
+            TotalProductPrice productPrice = new TotalProductPrice()
+            {
+                EntryCost = products.Sum(it => it.Entry_Summ),
+                OutCost = products.Sum(it => it.Out_Summ)
+            };
+
+            return productPrice;
         }
-
-        public void CalculateOneProductPrice(int productId)
+        /// <summary>
+        /// Расчет общей стоимости работ в системе
+        /// </summary>
+        /// <param name="installs"></param>
+        /// <returns></returns>
+        public TotalInstallPrice CalculateTotalInstallPrice(ICollection<InstallPart> installs)
         {
-            throw new NotImplementedException();
+            decimal mrgAdm = installs.First().Part.Offer.Config.Margin_Admin;
+            decimal mrgProd = installs.First().Part.Offer.Config.Margin_Product;
+
+            TotalInstallPrice installPrice = new TotalInstallPrice(mrgAdm, mrgProd)
+            {
+                EntryCost = installs.Sum(it => it.Entry_Summ),
+                OutCost = installs.Sum(it => it.Out_Summ)
+            };
+
+            return installPrice;
         }
     }
 }

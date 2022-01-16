@@ -1,8 +1,6 @@
 ﻿using Designer_Offer.Data;
 using Designer_Offer.Models;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 
 namespace Designer_Offer.Services.Interfaces
 {
@@ -12,8 +10,8 @@ namespace Designer_Offer.Services.Interfaces
 
         List<PartPrice> CalculatePartPrice(ICollection<Part> parts);
 
-        void CalculateOneProductPrice(int productId);
+        TotalProductPrice CalculateTotalProductPrice(ICollection<ProductPart> products);
 
-        void CalculateOneInstallPrice(int installId);
+        TotalInstallPrice CalculateTotalInstallPrice(ICollection<InstallPart> installs);
     }
 }
