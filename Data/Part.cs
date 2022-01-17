@@ -25,10 +25,6 @@ namespace Designer_Offer.Data
         [StringLength(100)]
         public string Name { get; set; }
 
-        public decimal? Entry_Cost { get; set; }
-
-        public decimal? Out_Cost { get; set; }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InstallPart> InstallPart { get; set; }
 

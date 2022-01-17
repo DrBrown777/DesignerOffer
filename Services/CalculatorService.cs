@@ -42,9 +42,6 @@ namespace Designer_Offer.Services
                     item.InstallPart.Sum(it => it.Out_Summ), item.ProductPart.Sum(it => it.Out_Summ)) { PartName = item.Name };
 
                 partPrices.Add(partPrice);
-
-                item.Entry_Cost = partPrice.EntryCost;
-                item.Out_Cost = partPrice.OutCost;
             }
 
             return partPrices;

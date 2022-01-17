@@ -8,7 +8,7 @@ namespace Designer_Offer.Data
     using System.Data.Entity.Spatial;
 
     [Table("Build")]
-    public partial class Build : IEntity
+    public partial class Build : IEntity 
     {
         public int Id { get; set; }
 
