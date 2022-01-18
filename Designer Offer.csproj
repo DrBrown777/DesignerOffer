@@ -231,6 +231,7 @@
     <Compile Include="Infrastructure\Validations\UniqEmailValidationRule.cs" />
     <Compile Include="Infrastructure\Validations\UniqLoginValidationRule.cs" />
     <Compile Include="Infrastructure\Validations\UniqPhoneValidationRule.cs" />
+    <Compile Include="Models\Base\Model.cs" />
     <Compile Include="Models\OfferPrice.cs" />
     <Compile Include="Models\PartPrice.cs" />
     <Compile Include="Models\Price.cs" />
