@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Designer_Offer.Models.Base
 {
-    internal abstract class Model : INotifyPropertyChanged
+    public abstract class Model : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

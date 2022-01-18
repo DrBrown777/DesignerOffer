@@ -1,5 +1,6 @@
 namespace Designer_Offer.Data
 {
+    using Designer_Offer.Models.Base;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -7,7 +8,7 @@ namespace Designer_Offer.Data
     using System.Data.Entity.Spatial;
 
     [Table("ProductPart")]
-    public partial class ProductPart
+    public partial class ProductPart : Model
     {
         [Key]
         [Column(Order = 0)]
@@ -23,9 +24,11 @@ namespace Designer_Offer.Data
 
         public decimal? Entry_Summ { get; set; }
 
-        public decimal? Out_Price { get; set; }
+        private decimal? _Out_Price;
+        public decimal? Out_Price { get => _Out_Price; set => Set(ref _Out_Price, value); }
 
-        public decimal? Out_Summ { get; set; }
+        private decimal? _Out_Summ;
+        public decimal? Out_Summ { get => _Out_Summ; set => Set(ref _Out_Summ, value); }
 
         public decimal? Amount { get; set; }
 

@@ -527,7 +527,7 @@ namespace Designer_Offer.ViewModels
                     {
                         item.Out_Summ = RoundDecimal(item.Amount * item.Out_Price);
                     }
-                    /* реализовать PropertyChanged
+                    //реализовать PropertyChanged
                     var partView = Parts.First(it => it.Id == item.Part_Id);
 
                     var prPart = partView.Products.First(it => it.Part_Id == item.Part_Id);
@@ -537,7 +537,7 @@ namespace Designer_Offer.ViewModels
                     prPart.Out_Summ = item.Out_Summ;
 
                     partView.CalculateGeneralPriceProduct.Execute(null);
-                    */
+                    
                 }
                 foreach (InstallPart item in part.InstallPart)
                 {
@@ -553,7 +553,7 @@ namespace Designer_Offer.ViewModels
                     {
                         item.Out_Summ = RoundDecimal(item.Amount * item.Out_Price);
                     }
-                    /*реализовать PropertyChanged
+                    //реализовать PropertyChanged
                     var partView = Parts.First(it => it.Id == item.Part_Id);
 
                     var insPart = partView.Installs.First(it => it.Part_Id == item.Part_Id);
@@ -562,10 +562,11 @@ namespace Designer_Offer.ViewModels
                     insPart.Out_Summ = item.Out_Summ;
 
                     partView.CalculateGeneralPriceInstall.Execute(null);
-                    */
+                    
                 }
             }
             //Этот перебор не нужен
+            /*
             foreach (PartManagerViewModel item in Parts)
             {
                 if (item.Products.Count != 0)
@@ -583,7 +584,7 @@ namespace Designer_Offer.ViewModels
                     item.LoadDataFromRepositories.Execute(item.Id);
                 }
             }
-
+            */
             if (UpdateOffer.CanExecute(null))
             {
                 UpdateOffer.Execute(null);
