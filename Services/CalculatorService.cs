@@ -13,9 +13,9 @@ namespace Designer_Offer.Services
         /// </summary>
         /// <param name="offer"></param>
         /// <returns></returns>
-        public OfferPrice CalculateOfferPrice(Offer offer)
+        public OfferPrice CalculateOfferPrice(Offers offer)
         {
-            List<PartPrice> partPrice = CalculatePartPrice(offer.Part);
+            List<PartPrice> partPrice = CalculatePartPrice(offer.Parts);
 
             OfferPrice offerPrice = new OfferPrice()
             {
@@ -31,13 +31,13 @@ namespace Designer_Offer.Services
         /// </summary>
         /// <param name="parts"></param>
         /// <returns></returns>
-        public List<PartPrice> CalculatePartPrice(ICollection<Part> parts)
+        public List<PartPrice> CalculatePartPrice(ICollection<Parts> parts)
         {
             List<PartPrice> partPrices = new List<PartPrice>();
 
-            foreach (Part item in parts)
+            foreach (Parts item in parts)
             {
-               PartPrice partPrice = new PartPrice(item.Offer.Config.Margin_Admin, item.Offer.Config.Margin_Product,
+               PartPrice partPrice = new PartPrice(item.Offers.Configs.Margin_Admin, item.Offers.Configs.Margin_Product,
                     item.InstallPart.Sum(it => it.Entry_Summ), item.ProductPart.Sum(it => it.Entry_Summ),
                     item.InstallPart.Sum(it => it.Out_Summ), item.ProductPart.Sum(it => it.Out_Summ)) { PartName = item.Name };
 
@@ -68,8 +68,8 @@ namespace Designer_Offer.Services
         /// <returns></returns>
         public TotalInstallPrice CalculateTotalInstallPrice(ICollection<InstallPart> installs)
         {
-            decimal mrgAdm = installs.First().Part.Offer.Config.Margin_Admin;
-            decimal mrgProd = installs.First().Part.Offer.Config.Margin_Product;
+            decimal mrgAdm = installs.First().Parts.Offers.Configs.Margin_Admin;
+            decimal mrgProd = installs.First().Parts.Offers.Configs.Margin_Product;
 
             TotalInstallPrice installPrice = new TotalInstallPrice(mrgAdm, mrgProd)
             {

@@ -40,12 +40,12 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Текущий пользователь
         /// </summary>
-        private Employee CurrentUser;
+        private Employees CurrentUser;
 
         /// <summary>
         /// Текущая компания
         /// </summary>
-        private Company CurrentCompany;
+        private Companies CurrentCompany;
 
         /// <summary>
         /// Сервис диалогов
@@ -60,27 +60,27 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Репозитории пользователей
         /// </summary>
-        private readonly IRepository<Employee> RepositoryUsers;
+        private readonly IRepository<Employees> RepositoryUsers;
 
         /// <summary>
         /// Репозиторий клиентов
         /// </summary>
-        private readonly IRepository<Client> RepositoryClients;
+        private readonly IRepository<Clients> RepositoryClients;
 
         /// <summary>
         /// Репозиторий обьектов
         /// </summary>
-        private readonly IRepository<Build> RepositoryBuilds;
+        private readonly IRepository<Builds> RepositoryBuilds;
 
         /// <summary>
         /// Репозитоторий КП
         /// </summary>
-        private readonly IRepository<Offer> RepositoryOffer;
+        private readonly IRepository<Offers> RepositoryOffer;
 
         /// <summary>
         /// Репозиторий разделов
         /// </summary>
-        private readonly IRepository<Section> RepositorySections;
+        private readonly IRepository<Sections> RepositorySections;
         #endregion
 
         #endregion
@@ -116,11 +116,11 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Progress, value);
         }
 
-        private ObservableCollection<Client> _Clients;
+        private ObservableCollection<Clients> _Clients;
         /// <summary>
         /// Коллекция клиентов
         /// </summary>
-        public ObservableCollection<Client> Clients
+        public ObservableCollection<Clients> Clients
         {
             get => _Clients;
             set
@@ -132,7 +132,7 @@ namespace Designer_Offer.ViewModels
                         Source = value,
                         SortDescriptions =
                         {
-                            new SortDescription(nameof(Client.Name), ListSortDirection.Ascending)
+                            new SortDescription(nameof(Data.Clients.Name), ListSortDirection.Ascending)
                         }
 
                     };
@@ -168,71 +168,71 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         private CollectionViewSource ClientsViewSource;
 
-        private Client _SelectedClient;
+        private Clients _SelectedClient;
         /// <summary>
         /// Выбранный клиент
         /// </summary>
-        public Client SelectedClient
+        public Clients SelectedClient
         {
             get => _SelectedClient;
             set => Set(ref _SelectedClient, value);
         }
 
-        private ObservableCollection<Build> _Builds;
+        private ObservableCollection<Builds> _Builds;
         /// <summary>
         /// Колекция обьектов клиентов
         /// </summary>
-        public ObservableCollection<Build> Builds
+        public ObservableCollection<Builds> Builds
         {
             get => _Builds;
             set => Set(ref _Builds, value);
         }
 
-        private Build _SelectedBuild;
+        private Builds _SelectedBuild;
         /// <summary>
         /// Выбранный обьект
         /// </summary>
-        public Build SelectedBuild
+        public Builds SelectedBuild
         {
             get => _SelectedBuild;
             set => Set(ref _SelectedBuild, value);
         }
 
-        private ObservableCollection<Section> _Sections;
+        private ObservableCollection<Sections> _Sections;
         /// <summary>
         /// Разделы КП
         /// </summary>
-        public ObservableCollection<Section> Sections
+        public ObservableCollection<Sections> Sections
         {
             get => _Sections;
             set => Set(ref _Sections, value);
         }
 
-        private ObservableCollection<Employee> _Employees;
+        private ObservableCollection<Employees> _Employees;
         /// <summary>
         /// Сотрудники
         /// </summary>
-        public ObservableCollection<Employee> Employees
+        public ObservableCollection<Employees> Employees
         {
             get => _Employees;
             set => Set(ref _Employees, value);
         }
 
-        private ObservableCollection<Offer> _Offers;
+        private ObservableCollection<Offers> _Offers;
         /// <summary>
         /// Колекция КП
         /// </summary>
-        public ObservableCollection<Offer> Offers
+        public ObservableCollection<Offers> Offers
         {
             get => _Offers;
             set => Set(ref _Offers, value);
         }
 
-        private Offer _SelectedOffer;
+        private Offers _SelectedOffer;
         /// <summary>
         /// Выбранное КП
         /// </summary>
-        public Offer SelectedOffer
+        public Offers SelectedOffer
         {
             get => _SelectedOffer;
             set
@@ -257,11 +257,11 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _offerPrice, value);
         }
 
-        private ObservableCollection<Project> _Project;
+        private ObservableCollection<Projects> _Project;
         /// <summary>
         /// Текущий проект обьекта
         /// </summary>
-        public ObservableCollection<Project> Project
+        public ObservableCollection<Projects> Project
         {
             get => _Project;
             set => Set(ref _Project, value);
@@ -294,20 +294,20 @@ namespace Designer_Offer.ViewModels
             get => _EndSelectedDate;
             set => Set(ref _EndSelectedDate, value);
         }
-        private Section _SelectedSection;
+        private Sections _SelectedSection;
         /// <summary>
         /// Выбранный раздел
         /// </summary>
-        public Section SelectedSection
+        public Sections SelectedSection
         {
             get => _SelectedSection;
             set => Set(ref _SelectedSection, value);
         }
-        private Employee _SelectedManager;
+        private Employees _SelectedManager;
         /// <summary>
         /// Выбранный менеджер
         /// </summary>
-        public Employee SelectedManager
+        public Employees SelectedManager
         {
             get => _SelectedManager;
             set => Set(ref _SelectedManager, value);
@@ -336,7 +336,7 @@ namespace Designer_Offer.ViewModels
         {
             try
             {
-                Employees = new ObservableCollection<Employee>(await RepositoryUsers.Items.ToListAsync());
+                Employees = new ObservableCollection<Employees>(await RepositoryUsers.Items.ToListAsync());
 
                 //CurrentUser = Employees.SingleOrDefault(e => e.Id == App.Host.Services.GetRequiredService<Employee>().Id);
 
@@ -344,15 +344,15 @@ namespace Designer_Offer.ViewModels
 
                 Status = CurrentUser.First_Name + " " + CurrentUser.Last_Name;
 
-                CurrentCompany = CurrentUser.Company;
+                CurrentCompany = CurrentUser.Companies;
 
                 Title = CurrentCompany?.Name + _title;
 
-                Clients = new ObservableCollection<Client>(await RepositoryClients.Items.ToListAsync());
+                Clients = new ObservableCollection<Clients>(await RepositoryClients.Items.ToListAsync());
 
                 FilterBuild.Execute(null);
 
-                Sections = new ObservableCollection<Section>(await RepositorySections.Items.ToListAsync());
+                Sections = new ObservableCollection<Sections>(await RepositorySections.Items.ToListAsync());
             }
             catch (Exception e)
             {
@@ -378,7 +378,7 @@ namespace Designer_Offer.ViewModels
 
         private void OnFilterBuild(object p)
         {
-            List<Build> items = SelectedClient.Build
+            List<Builds> items = SelectedClient.Builds
                 .Where(b => b.Client_Id == SelectedClient.Id)
                 .ToList();
 
@@ -405,7 +405,7 @@ namespace Designer_Offer.ViewModels
                 Project?.Clear();
             }
 
-            if (SelectedBuild == null || SelectedBuild.Project == null)
+            if (SelectedBuild == null || SelectedBuild.Projects == null)
             {
                 if (Offers?.Count != 0)
                 {
@@ -419,17 +419,17 @@ namespace Designer_Offer.ViewModels
 
         private void OnFilterOffer(object p)
         {
-            Project?.Add(SelectedBuild.Project);
+            Project?.Add(SelectedBuild.Projects);
 
-            List<Offer> items = SelectedBuild.Project.Offer
+            List<Offers> items = SelectedBuild.Projects.Offers
                 .Where(o => o.Project_Id == SelectedBuild.Id)
                 .ToList();
 
             UpdateCollection(Offers, items);
 
-            if (SelectedBuild.Project.Offer != null)
+            if (SelectedBuild.Projects.Offers != null)
             {
-                if (SelectedBuild.Project.Offer.Count != 0)
+                if (SelectedBuild.Projects.Offers.Count != 0)
                 {
                     SelectedOffer = Offers[0];
                 }
@@ -455,7 +455,7 @@ namespace Designer_Offer.ViewModels
 
         private void OnFilterPart(object p)
         {
-            List<PartPrice> items = CalculatorService.CalculatePartPrice(SelectedOffer.Part);
+            List<PartPrice> items = CalculatorService.CalculatePartPrice(SelectedOffer.Parts);
 
             UpdateCollection(Parts, items);
         }
@@ -471,9 +471,9 @@ namespace Designer_Offer.ViewModels
 
         private void OnFilterSection(object p)
         {
-            List<Offer> items = SelectedBuild.Project.Offer
+            List<Offers> items = SelectedBuild.Projects.Offers
                 .Where(o => o.Section_Id == SelectedSection.Id)
-                .Where(o => o.Project.Id == SelectedBuild.Id)
+                .Where(o => o.Projects.Id == SelectedBuild.Id)
                 .ToList();
 
             UpdateCollection(Offers, items);
@@ -495,8 +495,8 @@ namespace Designer_Offer.ViewModels
 
         private void OnFilterManager(object p)
         {
-            List<Build> items = SelectedClient.Build
-                .Where(b => b.Project.Employee_Id == SelectedManager.Id)
+            List<Builds> items = SelectedClient.Builds
+                .Where(b => b.Projects.Employee_Id == SelectedManager.Id)
                 .Where(b => b.Client_Id == SelectedClient.Id)
                 .ToList();
 
@@ -520,7 +520,7 @@ namespace Designer_Offer.ViewModels
 
         public void OnFilterDateDiff(object p)
         {
-            List<Offer> items = SelectedBuild.Project.Offer
+            List<Offers> items = SelectedBuild.Projects.Offers
                 .Where(o => o.Date <= EndSelectedDate && o.Date >= StartSelectedDate)
                 .ToList();
 
@@ -543,7 +543,7 @@ namespace Designer_Offer.ViewModels
 
         private void OnAddClient(object p)
         {
-            var new_client = new Client();
+            var new_client = new Clients();
 
             if (!UserDialog.Edit(new_client))
             {
@@ -570,12 +570,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanEditClient(object p)
         {
-            return (Client)p != null && SelectedClient != null;
+            return (Clients)p != null && SelectedClient != null;
         }
 
         private void OnEditClient(object p)
         {
-            Client client_to_edit = (Client)p ?? SelectedClient;
+            Clients client_to_edit = (Clients)p ?? SelectedClient;
 
             if (!UserDialog.Edit(client_to_edit))
             {
@@ -604,12 +604,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanRemoveClient(object p)
         {
-            return (Client)p != null && SelectedClient != null;
+            return (Clients)p != null && SelectedClient != null;
         }
 
         private void OnRemoveClient(object p)
         {
-            Client client_to_remove = (Client)p ?? SelectedClient;
+            Clients client_to_remove = (Clients)p ?? SelectedClient;
 
             if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить клента {client_to_remove.Name}?", "Удаление клиента"))
             {
@@ -642,20 +642,20 @@ namespace Designer_Offer.ViewModels
 
         private bool CanAddBuild(object p)
         {
-            return (Client)p != null && SelectedClient != null;
+            return (Clients)p != null && SelectedClient != null;
         }
 
         private void OnAddBuild(object p)
         {
-            Project new_project = new Project
+            Projects new_project = new Projects
             {
                 Employee_Id = CurrentUser.Id,
                 Date = DateTime.Today,
             };
 
-            Build new_build = new Build()
+            Builds new_build = new Builds()
             {
-                Project = new_project,
+                Projects = new_project,
                 Client_Id = SelectedClient.Id,
             };
 
@@ -666,7 +666,7 @@ namespace Designer_Offer.ViewModels
 
             try
             {
-                SelectedClient.Build.Add(new_build);
+                SelectedClient.Builds.Add(new_build);
 
                 RepositoryClients.Update(SelectedClient);
             }
@@ -692,12 +692,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanEditBuild (object p)
         {
-            return (Build)p != null && SelectedBuild != null && SelectedClient != null;
+            return (Builds)p != null && SelectedBuild != null && SelectedClient != null;
         }
 
         private void OnEditBuild (object p)
         {
-            Build build_to_edit = (Build)p ?? SelectedBuild;
+            Builds build_to_edit = (Builds)p ?? SelectedBuild;
 
             if (!UserDialog.Edit(build_to_edit))
             {
@@ -706,7 +706,7 @@ namespace Designer_Offer.ViewModels
 
             try
             {
-                RepositoryClients.Update(build_to_edit.Client);
+                RepositoryClients.Update(build_to_edit.Clients);
             }
             catch (Exception e)
             {
@@ -720,7 +720,7 @@ namespace Designer_Offer.ViewModels
 
                 OnPropertyChanged(nameof(ClientsView));
 
-                SelectedClient = build_to_edit.Client;
+                SelectedClient = build_to_edit.Clients;
                 SelectedBuild = build_to_edit;
             }
         }
@@ -731,21 +731,21 @@ namespace Designer_Offer.ViewModels
 
         private bool CanRemoveBuild (object p)
         {
-            return (Build)p != null && SelectedBuild != null && SelectedClient != null;
+            return (Builds)p != null && SelectedBuild != null && SelectedClient != null;
         }
 
         private void OnRemoveBuild (object p)
         {
-            Build build_to_remove = (Build)p ?? SelectedBuild;
+            Builds build_to_remove = (Builds)p ?? SelectedBuild;
 
-            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить обьект {build_to_remove.Project.Name}?", "Удаление обьекта"))
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить обьект {build_to_remove.Projects.Name}?", "Удаление обьекта"))
             {
                 return;
             }
 
             try
             {
-                SelectedClient.Build.Remove(build_to_remove);
+                SelectedClient.Builds.Remove(build_to_remove);
 
                 RepositoryClients.Update(SelectedClient);
 
@@ -776,21 +776,21 @@ namespace Designer_Offer.ViewModels
 
         private bool CanAddOffer(object p)
         {
-            return (Build)p != null && SelectedBuild != null;
+            return (Builds)p != null && SelectedBuild != null;
         }
 
         private void OnAddOffer(object p)
         {
-            Config config = new Config()
+            Configs config = new Configs()
             {
                 Margin_Product = _marginProduct,
                 Margin_Work = _marginInstall,
                 Margin_Admin = _marginAdmin
             };
-            Offer new_offer = new Offer()
+            Offers new_offer = new Offers()
             {
-                Config = config,
-                Project = SelectedBuild.Project,
+                Configs = config,
+                Projects = SelectedBuild.Projects,
                 Date = DateTime.Today
             };
 
@@ -811,7 +811,7 @@ namespace Designer_Offer.ViewModels
             {
                 FilterBuild.Execute(null);
 
-                OnPropertyChanged(nameof(SelectedBuild.Project.Offer));
+                OnPropertyChanged(nameof(SelectedBuild.Projects.Offers));
 
                 SelectedOffer = new_offer;
             }
@@ -823,12 +823,12 @@ namespace Designer_Offer.ViewModels
         
         private bool CanEditOffer(object p)
         {
-            return (Offer)p != null && SelectedBuild != null && SelectedOffer != null;
+            return (Offers)p != null && SelectedBuild != null && SelectedOffer != null;
         }
 
         private void OnEditOffer(object p)
         {
-            Offer offer_to_edit = (Offer)p ?? SelectedOffer;
+            Offers offer_to_edit = (Offers)p ?? SelectedOffer;
 
             if (!UserDialog.Edit(offer_to_edit))
             {
@@ -849,7 +849,7 @@ namespace Designer_Offer.ViewModels
 
                 FilterBuild.Execute(null);
 
-                OnPropertyChanged(nameof(SelectedBuild.Project.Offer));
+                OnPropertyChanged(nameof(SelectedBuild.Projects.Offers));
 
                 SelectedOffer = offer_to_edit;
             }
@@ -861,12 +861,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanRemoveOffer(object p)
         {
-            return (Offer)p != null && SelectedBuild != null && SelectedOffer != null;
+            return (Offers)p != null && SelectedBuild != null && SelectedOffer != null;
         }
 
         private void OnRemoveOffer(object p)
         {
-            Offer offer_to_remove = (Offer)p ?? SelectedOffer;
+            Offers offer_to_remove = (Offers)p ?? SelectedOffer;
 
             if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить {offer_to_remove.Name}?", "Удаление КП"))
             {
@@ -877,7 +877,7 @@ namespace Designer_Offer.ViewModels
             {
                 RepositoryOffer.Remove(offer_to_remove.Id);
 
-                SelectedBuild.Project.Offer.Remove(offer_to_remove);
+                SelectedBuild.Projects.Offers.Remove(offer_to_remove);
             }
             catch (Exception e)
             {
@@ -887,7 +887,7 @@ namespace Designer_Offer.ViewModels
             {
                 FilterBuild.Execute(null);
 
-                OnPropertyChanged(nameof(SelectedBuild.Project.Offer));
+                OnPropertyChanged(nameof(SelectedBuild.Projects.Offers));
 
                 if (ReferenceEquals(SelectedOffer, offer_to_remove))
                 {
@@ -902,7 +902,7 @@ namespace Designer_Offer.ViewModels
         #region МЕТОДЫ
         private void OnClientFilter(object sender, FilterEventArgs e)
         {
-            if (!(e.Item is Client client) || string.IsNullOrEmpty(ClientFilter))
+            if (!(e.Item is Clients client) || string.IsNullOrEmpty(ClientFilter))
             {
                 return;
             }
@@ -931,11 +931,11 @@ namespace Designer_Offer.ViewModels
 
         #region КОНСТРУКТОРЫ
         public ProjectManagerViewModel(
-            IRepository<Employee> repaUser,
-            IRepository<Client> repaClient,
-            IRepository<Section> repaSection,
-            IRepository<Build> repaBuild,
-            IRepository<Offer> repaOffer,
+            IRepository<Employees> repaUser,
+            IRepository<Clients> repaClient,
+            IRepository<Sections> repaSection,
+            IRepository<Builds> repaBuild,
+            IRepository<Offers> repaOffer,
             IUserDialog userDialog, ICalculator calcService)
         {
             Progress = true;
@@ -969,10 +969,10 @@ namespace Designer_Offer.ViewModels
             EditOffer = new LambdaCommand(OnEditOffer, CanEditOffer);
             RemoveOffer = new LambdaCommand(OnRemoveOffer, CanRemoveOffer);
 
-            Builds = new ObservableCollection<Build>();
-            Offers = new ObservableCollection<Offer>();
+            Builds = new ObservableCollection<Builds>();
+            Offers = new ObservableCollection<Offers>();
             Parts = new ObservableCollection<PartPrice>();
-            Project = new ObservableCollection<Project>();
+            Project = new ObservableCollection<Projects>();
 
             StartSelectedDate = DateTime.Now;
             EndSelectedDate = DateTime.Now;

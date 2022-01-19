@@ -17,38 +17,38 @@ namespace Designer_Offer.Services
 
             switch (item)
             {
-                case Client client:
+                case Clients client:
                     return EditClient(client);
-                case Build build:
+                case Builds build:
                     return EditBuild(build);
-                case Company company:
+                case Companies company:
                     return EditCompany(company);
-                case Employee employee:
+                case Employees employee:
                     return EditEmploee(employee);
-                case Position position:
+                case Positions position:
                     return EditPosition(position);
-                case Section section:
+                case Sections section:
                     return EditSection(section);
-                case Unit unit:
+                case Units unit:
                     return EditUnit(unit);
-                case Supplier supplier:
+                case Suppliers supplier:
                     return EditSupplier(supplier);
-                case Category category:
+                case Categories category:
                     return EditCategory(category);
-                case Product product:
+                case Products product:
                     return EditProduct(product);
-                case Install install:
+                case Installs install:
                     return EditInstall(install);
-                case Manufacturer manufacturer:
+                case Manufacturers manufacturer:
                     return EditManufacturer(manufacturer);
-                case Offer offer:
+                case Offers offer:
                     return EditOffer(offer);
                 default:
                     throw new NotSupportedException($"Редактирование обьекта типа {item.GetType().Name} не поддерживается.");
             }
         }
 
-        private static bool EditClient(Client client)
+        private static bool EditClient(Clients client)
         {
             var client_editor_window = App.Host.Services
                                         .GetRequiredService<ClientEditorWindow>();
@@ -66,7 +66,7 @@ namespace Designer_Offer.Services
             return true;
         }
 
-        private static bool EditBuild(Build build)
+        private static bool EditBuild(Builds build)
         {
             var build_editor_window = App.Host.Services
                                         .GetRequiredService<BuildEditorWindow>();
@@ -79,7 +79,7 @@ namespace Designer_Offer.Services
                                         .GetRequiredService<ProjectManagerViewModel>()
                                         .Clients;
 
-            build_editor_model.Project = build.Project;
+            build_editor_model.Project = build.Projects;
             build_editor_model.SelectedClient = build_editor_model.Clients
                                         .SingleOrDefault(c => c.Id == build.Client_Id);
 
@@ -89,13 +89,13 @@ namespace Designer_Offer.Services
 
             build.Name = build_editor_model.Name;
             build.Adress = build_editor_model.Adress;
-            build.Project = build_editor_model.Project;
+            build.Projects = build_editor_model.Project;
             build.Client_Id = build_editor_model.SelectedClient.Id;
 
             return true;
         }
 
-        private static bool EditCompany(Company company)
+        private static bool EditCompany(Companies company)
         {
             var company_editor_window = App.Host.Services
                                         .GetRequiredService<CompanyEditorWindow>();
@@ -106,7 +106,7 @@ namespace Designer_Offer.Services
             company_editor_model.Address = company.Adress;
             company_editor_model.Phone = company.Phone;
             company_editor_model.Email = company.Mail;
-            company_editor_model.CompanyPositions = company.Position;
+            company_editor_model.CompanyPositions = company.Positions;
 
             company_editor_window.DataContext = company_editor_model;
 
@@ -116,44 +116,44 @@ namespace Designer_Offer.Services
             company.Adress = company_editor_model.Address;
             company.Phone = company_editor_model.Phone;
             company.Mail = company_editor_model.Email;
-            company.Position = company_editor_model.CompanyPositions;
+            company.Positions = company_editor_model.CompanyPositions;
 
             return true;
         }
 
-        private static bool EditEmploee(Employee employee)
+        private static bool EditEmploee(Employees employee)
         {
             var employee_editor_window = App.Host.Services
                                         .GetRequiredService<EmployeeEditorWindow>();
             var employee_editor_model = App.Host.Services
                                         .GetRequiredService<EmployeeEditorViewModel>();
 
-            employee_editor_model.UserLogin = employee.UserData.Login;
-            employee_editor_model.UserPassword = employee.UserData.Password;
+            employee_editor_model.UserLogin = employee.UsersData.Login;
+            employee_editor_model.UserPassword = employee.UsersData.Password;
             employee_editor_model.UserName = employee.First_Name;
             employee_editor_model.UserSurName = employee.Last_Name;
             employee_editor_model.UserEmail = employee.Mail;
             employee_editor_model.UserPhone = employee.Phone;
-            employee_editor_model.SelectedCompany = employee.Company;
-            employee_editor_model.SelectedPosition = employee.Position;
+            employee_editor_model.SelectedCompany = employee.Companies;
+            employee_editor_model.SelectedPosition = employee.Positions;
 
             employee_editor_window.DataContext = employee_editor_model;
 
             if (employee_editor_window.ShowDialog() != true) return false;
 
-            employee.UserData.Login = employee_editor_model.UserLogin;
-            employee.UserData.Password = employee_editor_model.UserPassword;
+            employee.UsersData.Login = employee_editor_model.UserLogin;
+            employee.UsersData.Password = employee_editor_model.UserPassword;
             employee.First_Name = employee_editor_model.UserName;
             employee.Last_Name = employee_editor_model.UserSurName;
             employee.Mail = employee_editor_model.UserEmail;
             employee.Phone = employee_editor_model.UserPhone;
-            employee.Company = employee_editor_model.SelectedCompany;
-            employee.Position = employee_editor_model.SelectedPosition;
+            employee.Companies = employee_editor_model.SelectedCompany;
+            employee.Positions = employee_editor_model.SelectedPosition;
 
             return true;
         }
 
-        private static bool EditPosition(Position position)
+        private static bool EditPosition(Positions position)
         {
             var position_editor_window = App.Host.Services
                                             .GetRequiredService<PositionEditorWindow>();
@@ -172,7 +172,7 @@ namespace Designer_Offer.Services
             return true;
         }
 
-        private static bool EditSection(Section section)
+        private static bool EditSection(Sections section)
         {
             var section_editor_window = App.Host.Services
                                         .GetRequiredService<SectionEditorWindow>();
@@ -190,7 +190,7 @@ namespace Designer_Offer.Services
             return true;
         }
 
-        private static bool EditUnit(Unit unit)
+        private static bool EditUnit(Units unit)
         {
             var unit_editor_window = App.Host.Services
                                        .GetRequiredService<UnitEditorWindow>();
@@ -208,7 +208,7 @@ namespace Designer_Offer.Services
             return true;
         }
 
-        private static bool EditSupplier(Supplier supplier)
+        private static bool EditSupplier(Suppliers supplier)
         {
             var supplier_editor_window = App.Host.Services
                                             .GetRequiredService<SupplierEditorWindow>();
@@ -226,7 +226,7 @@ namespace Designer_Offer.Services
             return true;
         }
 
-        private static bool EditCategory(Category category)
+        private static bool EditCategory(Categories category)
         {
             var category_editor_window = App.Host.Services
                                        .GetRequiredService<CategoryEditorWindow>();
@@ -234,19 +234,19 @@ namespace Designer_Offer.Services
                                         .GetRequiredService<CategoryEditorViewModel>();
 
             category_editor_model.Name = category.Name;
-            category_editor_model.CategorySections = category.Section;
+            category_editor_model.CategorySections = category.Sections;
 
             category_editor_window.DataContext = category_editor_model;
 
             if (category_editor_window.ShowDialog() != true) return false;
 
             category.Name = category_editor_model.Name;
-            category.Section = category_editor_model.CategorySections;
+            category.Sections = category_editor_model.CategorySections;
 
             return true;
         }
 
-        private static bool EditProduct(Product product)
+        private static bool EditProduct(Products product)
         {
             var product_editor_window = App.Host.Services
                                        .GetRequiredService<ProductEditorWindow>();
@@ -256,10 +256,10 @@ namespace Designer_Offer.Services
             product_editor_model.Name = product.Name;
             product_editor_model.Model = product.Model;
             product_editor_model.EntryPrice = product.Entry_Price.Value;
-            product_editor_model.SelectedUnit = product.Unit;
-            product_editor_model.SelectedCategory = product.Category;
-            product_editor_model.SelectedManufacturer = product.Manufacturer;
-            product_editor_model.ProductSuppliers = product.Supplier;
+            product_editor_model.SelectedUnit = product.Units;
+            product_editor_model.SelectedCategory = product.Categories;
+            product_editor_model.SelectedManufacturer = product.Manufacturers;
+            product_editor_model.ProductSuppliers = product.Suppliers;
 
             product_editor_window.DataContext = product_editor_model;
 
@@ -268,14 +268,14 @@ namespace Designer_Offer.Services
             product.Name = product_editor_model.Name;
             product.Model = product_editor_model.Model;
             product.Entry_Price = product_editor_model.EntryPrice;
-            product.Unit = product_editor_model.SelectedUnit;
-            product.Category = product_editor_model.SelectedCategory;
-            product.Manufacturer = product_editor_model.SelectedManufacturer;
+            product.Units = product_editor_model.SelectedUnit;
+            product.Categories = product_editor_model.SelectedCategory;
+            product.Manufacturers = product_editor_model.SelectedManufacturer;
 
             return true;
         }
 
-        private static bool EditInstall(Install install)
+        private static bool EditInstall(Installs install)
         {
             var install_editor_window = App.Host.Services
                                        .GetRequiredService<InstallEditorWindow>();
@@ -284,8 +284,8 @@ namespace Designer_Offer.Services
 
             install_editor_model.Name = install.Name;
             install_editor_model.EntryPrice = install.Entry_Price.Value;
-            install_editor_model.SelectedUnit = install.Unit;
-            install_editor_model.SelectedCategory = install.Category;
+            install_editor_model.SelectedUnit = install.Units;
+            install_editor_model.SelectedCategory = install.Categories;
 
             install_editor_window.DataContext = install_editor_model;
 
@@ -293,13 +293,13 @@ namespace Designer_Offer.Services
 
             install.Name = install_editor_model.Name;
             install.Entry_Price = install_editor_model.EntryPrice;
-            install.Unit = install_editor_model.SelectedUnit;
-            install.Category = install_editor_model.SelectedCategory;
+            install.Units = install_editor_model.SelectedUnit;
+            install.Categories = install_editor_model.SelectedCategory;
 
             return true;
         }
 
-        private static bool EditManufacturer(Manufacturer manufacturer)
+        private static bool EditManufacturer(Manufacturers manufacturer)
         {
             var manufacturer_editor_window = App.Host.Services
                                        .GetRequiredService<ManufacturerEditorWindow>();
@@ -317,29 +317,29 @@ namespace Designer_Offer.Services
             return true;
         }
 
-        private static bool EditOffer(Offer offer)
+        private static bool EditOffer(Offers offer)
         {
             var offer_intit_window = App.Host.Services
                                         .GetRequiredService<OfferInitWindow>();
             var offer_init_model = App.Host.Services
                                         .GetRequiredService<OfferInitViewModel>();
 
-            offer_init_model.NameProject = offer.Project.Name;
+            offer_init_model.NameProject = offer.Projects.Name;
             offer_init_model.Name = offer.Name;
-            offer_init_model.SelectedSection = offer.Section;
-            offer_init_model.MarginProduct = offer.Config.Margin_Product;
-            offer_init_model.MarginInstall = offer.Config.Margin_Work;
-            offer_init_model.MarginAdmin = offer.Config.Margin_Admin;
+            offer_init_model.SelectedSection = offer.Sections;
+            offer_init_model.MarginProduct = offer.Configs.Margin_Product;
+            offer_init_model.MarginInstall = offer.Configs.Margin_Work;
+            offer_init_model.MarginAdmin = offer.Configs.Margin_Admin;
 
             offer_intit_window.DataContext = offer_init_model;
 
             if (offer_intit_window.ShowDialog() != true) return false;
 
             offer.Name = offer_init_model.Name;
-            offer.Section = offer_init_model.SelectedSection;
-            offer.Config.Margin_Product = offer_init_model.MarginProduct;
-            offer.Config.Margin_Work = offer_init_model.MarginInstall;
-            offer.Config.Margin_Admin = offer_init_model.MarginAdmin;
+            offer.Sections = offer_init_model.SelectedSection;
+            offer.Configs.Margin_Product = offer_init_model.MarginProduct;
+            offer.Configs.Margin_Work = offer_init_model.MarginInstall;
+            offer.Configs.Margin_Admin = offer_init_model.MarginAdmin;
 
             return true;
         }

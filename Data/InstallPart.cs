@@ -23,7 +23,7 @@ namespace Designer_Offer.Data
         public decimal? Entry_Price { get; set; }
 
         public decimal? Entry_Summ { get; set; }
-        
+
         private decimal? _Out_Price;
         public decimal? Out_Price { get => _Out_Price; set => Set(ref _Out_Price, value); }
 
@@ -37,8 +37,8 @@ namespace Designer_Offer.Data
 
         public int? Sort_Order { get; set; }
 
-        public virtual Install Install { get; set; }
+        public virtual Parts Parts { get; set; }
 
-        public virtual Part Part { get; set; }
+        public virtual Installs Installs { get; set; }
     }
 }

@@ -79,10 +79,10 @@ namespace Designer_Offer.ViewModels
 
         private void OnShowOfferManagerCommand(object p)
         {
-            if (p != null && p is Offer)
+            if (p != null && p is Offers)
             {
-                Offer offer = (Offer)p;
-                App.Host.Services.GetRequiredService<Offer>().Id = offer.Id;
+                Offers offer = (Offers)p;
+                App.Host.Services.GetRequiredService<Offers>().Id = offer.Id;
             }
                 
             CurrentModel = App.Host.Services.GetRequiredService<OfferManagerViewModel>();
@@ -90,7 +90,7 @@ namespace Designer_Offer.ViewModels
 
         private bool CanShowOfferManagerCommand(object p)
         {
-            return p is Offer && !ReferenceEquals(CurrentModel, App.Host.Services.GetRequiredService<OfferManagerViewModel>());
+            return p is Offers && !ReferenceEquals(CurrentModel, App.Host.Services.GetRequiredService<OfferManagerViewModel>());
         }
         #endregion
 

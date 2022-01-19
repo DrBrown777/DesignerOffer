@@ -22,21 +22,21 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Name, value);
         }
 
-        private ICollection<Section> _CategorySections;
+        private ICollection<Sections> _CategorySections;
         /// <summary>
         /// Разделы выбранной категории
         /// </summary>
-        public ICollection<Section> CategorySections
+        public ICollection<Sections> CategorySections
         {
             get => _CategorySections;
             set => Set(ref _CategorySections, value);
         }
 
-        private List<Section> _Sections;
+        private List<Sections> _Sections;
         /// <summary>
         /// Все разделы
         /// </summary>
-        public List<Section> Sections
+        public List<Sections> Sections
         {
             get => _Sections;
             set => Set(ref _Sections, value);
@@ -57,7 +57,7 @@ namespace Designer_Offer.ViewModels
 
             CategorySections?.Clear();
 
-            foreach (Section item in listBox.SelectedItems)
+            foreach (Sections item in listBox.SelectedItems)
             {
                 CategorySections.Add(item);
             }
@@ -74,7 +74,7 @@ namespace Designer_Offer.ViewModels
         {
             ListBox listBox = (ListBox)p;
 
-            foreach (Section item in listBox.Items)
+            foreach (Sections item in listBox.Items)
             {
                 if (CategorySections.Contains(item))
                 {
@@ -85,7 +85,7 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОНСТРУКТОРЫ
-        public CategoryEditorViewModel(IRepository<Section> repaSection)
+        public CategoryEditorViewModel(IRepository<Sections> repaSection)
         {
             Sections = repaSection.Items.ToList();
 

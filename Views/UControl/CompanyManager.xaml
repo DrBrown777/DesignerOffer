@@ -118,9 +118,9 @@
                     <Label Content="Телефон: "/>
                     <TextBox Text="{Binding Path=Phone, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Кол-во сотрудников: "/>
-                    <TextBox Text="{Binding Path=Employee.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Text="{Binding Path=Employees.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Кол-во должностей: "/>
-                    <TextBox Text="{Binding Path=Position.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Text="{Binding Path=Positions.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </ScrollViewer>
         </GroupBox>
@@ -184,11 +184,11 @@
                     <Label Content="Телефон: "/>
                     <TextBox Text="{Binding Path=Phone, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Должность: "/>
-                    <TextBox Text="{Binding Path=Position.Name, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Text="{Binding Path=Positions.Name, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Компания: "/>
-                    <TextBox Text="{Binding Path=Company.Name, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Text="{Binding Path=Companies.Name, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Кол-во обьектов: "/>
-                    <TextBox Text="{Binding Path=Project.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Text="{Binding Path=Projects.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </ScrollViewer>
         </GroupBox>
@@ -246,9 +246,9 @@
                     <Label Content="Название: "/>
                     <TextBox Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Кол-во сотрудников: "/>
-                    <TextBox Text="{Binding Path=Employee.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Text="{Binding Path=Employees.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Кол-во компаний: "/>
-                    <TextBox Text="{Binding Path=Company.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Text="{Binding Path=Companies.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </ScrollViewer>
         </GroupBox>
@@ -306,7 +306,7 @@
                     <Label Content="Название: "/>
                     <TextBox Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Кол-во КП: "/>
-                    <TextBox Text="{Binding Path=Offer.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Text="{Binding Path=Offers.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </ScrollViewer>
         </GroupBox>

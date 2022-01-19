@@ -7,22 +7,29 @@ namespace Designer_Offer.Data
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Client")]
-    public partial class Client : IEntity
+    public partial class Parts : IEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Client()
+        public Parts()
         {
-            Build = new HashSet<Build>();
+            InstallPart = new HashSet<InstallPart>();
+            ProductPart = new HashSet<ProductPart>();
         }
 
         public int Id { get; set; }
 
+        public int Offer_Id { get; set; }
+
         [Required]
-        [StringLength(500)]
+        [StringLength(100)]
         public string Name { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Build> Build { get; set; }
+        public virtual ICollection<InstallPart> InstallPart { get; set; }
+
+        public virtual Offers Offers { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductPart> ProductPart { get; set; }
     }
 }

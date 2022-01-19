@@ -54,21 +54,21 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _MarginAdmin, value);
         }
 
-        private List<Section> _Sections;
+        private List<Sections> _Sections;
         /// <summary>
         /// Все разделы
         /// </summary>
-        public List<Section> Sections
+        public List<Sections> Sections
         {
             get => _Sections;
             set => Set(ref _Sections, value);
         }
 
-        private Section _SelectedSection;
+        private Sections _SelectedSection;
         /// <summary>
         /// Выбранный раздел
         /// </summary>
-        public Section SelectedSection
+        public Sections SelectedSection
         {
             get => _SelectedSection;
             set => Set(ref _SelectedSection, value);
@@ -76,7 +76,7 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОНСТРУКТОРЫ
-        public OfferInitViewModel(IRepository<Section> repaSections)
+        public OfferInitViewModel(IRepository<Sections> repaSections)
         {
             Sections = repaSections.Items.ToList();
         }

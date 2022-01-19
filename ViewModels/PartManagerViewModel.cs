@@ -16,7 +16,7 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Репозиторий систем
         /// </summary>
-        private readonly IRepository<Part> RepositoryPart;
+        private readonly IRepository<Parts> RepositoryPart;
         /// <summary>
         /// Сервис Диалогов с пользователем
         /// </summary>
@@ -173,14 +173,14 @@ namespace Designer_Offer.ViewModels
         {
             ProductPart remove_to_product = (ProductPart)p ?? SelectedProduct;
 
-            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить товар {remove_to_product.Product.Name}?", "Удаление товара"))
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить товар {remove_to_product.Products.Name}?", "Удаление товара"))
             {
                 return;
             }
 
             try
             {
-                Part CurrentPart = RepositoryPart.Get(Id);
+                Parts CurrentPart = RepositoryPart.Get(Id);
 
                 CurrentPart.ProductPart.Remove(remove_to_product);
 
@@ -223,14 +223,14 @@ namespace Designer_Offer.ViewModels
         {
             InstallPart remove_to_install = (InstallPart)p ?? SelectedInstall;
 
-            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить услугу {remove_to_install.Install.Name}?", "Удаление услуги"))
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить услугу {remove_to_install.Installs.Name}?", "Удаление услуги"))
             {
                 return;
             }
 
             try
             {
-                Part CurrentPart = RepositoryPart.Get(Id);
+                Parts CurrentPart = RepositoryPart.Get(Id);
 
                 CurrentPart.InstallPart.Remove(remove_to_install);
 
@@ -273,7 +273,7 @@ namespace Designer_Offer.ViewModels
         {
             try
             {
-                decimal margin_product = RepositoryPart.Get(Id).Offer.Config.Margin_Product;
+                decimal margin_product = RepositoryPart.Get(Id).Offers.Configs.Margin_Product;
 
                 SelectedProduct.Out_Price = RoundDecimal(SelectedProduct.Entry_Price * margin_product);
                 SelectedProduct.Entry_Summ = RoundDecimal(SelectedProduct.Amount * SelectedProduct.Entry_Price);
@@ -305,7 +305,7 @@ namespace Designer_Offer.ViewModels
         {
             try
             {
-                decimal margin_install = RepositoryPart.Get(Id).Offer.Config.Margin_Work;
+                decimal margin_install = RepositoryPart.Get(Id).Offers.Configs.Margin_Work;
 
                 SelectedInstall.Out_Price = RoundDecimal(SelectedInstall.Entry_Price * margin_install);
                 SelectedInstall.Entry_Summ = RoundDecimal(SelectedInstall.Amount * SelectedInstall.Entry_Price);
@@ -499,7 +499,7 @@ namespace Designer_Offer.ViewModels
 
         #region КОНСТРУКТОРЫ
         public PartManagerViewModel(
-            IRepository<Part> repaPart,
+            IRepository<Parts> repaPart,
             IUserDialog userDialog,
             ICalculator calcService)
         {

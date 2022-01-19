@@ -121,9 +121,9 @@ namespace Designer_Offer
             services.AddSingleton<IRegistrationService, RegistrationViewModel>();
 
             /*Сервис текущего пользователя*/
-            services.AddSingleton<Employee>();
+            services.AddSingleton<Employees>();
             /*Сервис текущего КП*/
-            services.AddSingleton<Offer>();
+            services.AddSingleton<Offers>();
 
             /*Регистрация сервис диалогов*/
             services.AddTransient<IUserDialog, UserDialogService>();
@@ -135,31 +135,31 @@ namespace Designer_Offer
             services.AddSingleton<PrimeContext>();
 
             //services.AddTransient<IRepository<Build>, DbRepository<Build>>();
-            services.AddTransient<IRepository<Build>, BuildRepository>();
-            services.AddTransient<IRepository<Category>, DbRepository<Category>>();
+            services.AddTransient<IRepository<Builds>, BuildRepository>();
+            services.AddTransient<IRepository<Categories>, DbRepository<Categories>>();
             //services.AddTransient<IRepository<Client>, DbRepository<Client>>();
-            services.AddTransient<IRepository<Client>, ClientRepository>();
-            services.AddTransient<IRepository<Company>, DbRepository<Company>>();
-            services.AddTransient<IRepository<Config>, DbRepository<Config>>();
+            services.AddTransient<IRepository<Clients>, ClientRepository>();
+            services.AddTransient<IRepository<Companies>, DbRepository<Companies>>();
+            services.AddTransient<IRepository<Configs>, DbRepository<Configs>>();
             //services.AddTransient<IRepository<Employee>, DbRepository<Employee>>();
-            services.AddTransient<IRepository<Employee>, EmployeeRepository>();
-            services.AddTransient<IRepository<Install>, DbRepository<Install>>();
+            services.AddTransient<IRepository<Employees>, EmployeeRepository>();
+            services.AddTransient<IRepository<Installs>, DbRepository<Installs>>();
             //services.AddTransient<IRepository<InstallPart>, DbRepository<InstallPart>>();
             //services.AddTransient<IRepository<Manufacturer>, DbRepository<Manufacturer>>();
-            services.AddTransient<IRepository<Manufacturer>, ManufacturerRepository>();
+            services.AddTransient<IRepository<Manufacturers>, ManufacturerRepository>();
             //services.AddTransient<IRepository<Offer>, DbRepository<Offer>>();
-            services.AddTransient<IRepository<Offer>, OfferRepository>();
-            services.AddTransient<IRepository<Part>, DbRepository<Part>>();
-            services.AddTransient<IRepository<Position>, DbRepository<Position>>();
+            services.AddTransient<IRepository<Offers>, OfferRepository>();
+            services.AddTransient<IRepository<Parts>, DbRepository<Parts>>();
+            services.AddTransient<IRepository<Positions>, DbRepository<Positions>>();
             //services.AddTransient<IRepository<Product>, DbRepository<Product>>();
-            services.AddTransient<IRepository<Product>, ProductRepository>();
+            services.AddTransient<IRepository<Products>, ProductRepository>();
             //services.AddTransient<IRepository<ProductPart>, DbRepository<ProductPart>>();
-            services.AddTransient<IRepository<Project>, DbRepository<Project>>();
-            services.AddTransient<IRepository<Section>, DbRepository<Section>>();
+            services.AddTransient<IRepository<Projects>, DbRepository<Projects>>();
+            services.AddTransient<IRepository<Sections>, DbRepository<Sections>>();
             //services.AddTransient<IRepository<Supplier>, DbRepository<Supplier>>();
-            services.AddTransient<IRepository<Supplier>, SupplierRepository>();
-            services.AddTransient<IRepository<Unit>, DbRepository<Unit>>();
-            services.AddTransient<IRepository<UserData>, DbRepository<UserData>>();
+            services.AddTransient<IRepository<Suppliers>, SupplierRepository>();
+            services.AddTransient<IRepository<Units>, DbRepository<Units>>();
+            services.AddTransient<IRepository<UsersData>, DbRepository<UsersData>>();
         }
 
         public static string CurrentDirectory => IsDesignMode

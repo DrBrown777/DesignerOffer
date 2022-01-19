@@ -100,60 +100,60 @@ namespace Designer_Offer.Services.Repositories
         }
     }
 
-    internal class BuildRepository : DbRepository<Build>
+    internal class BuildRepository : DbRepository<Builds>
     {
-        public override IQueryable<Build> Items => base.Items
-            .Include(item => item.Client)
-            .Include(item => item.Project)
-            .Include(item => item.Project.Employee)
-            .Include(item => item.Project.Offer);
+        public override IQueryable<Builds> Items => base.Items
+            .Include(item => item.Clients)
+            .Include(item => item.Projects)
+            .Include(item => item.Projects.Employees)
+            .Include(item => item.Projects.Offers);
 
         public BuildRepository(PrimeContext db) : base(db) { }
     }
 
-    internal class ClientRepository : DbRepository<Client>
+    internal class ClientRepository : DbRepository<Clients>
     {
-        public override IQueryable<Client> Items => base.Items
-            .Include(item => item.Build);
+        public override IQueryable<Clients> Items => base.Items
+            .Include(item => item.Builds);
 
         public ClientRepository(PrimeContext db) : base(db) { }
     }
 
-    internal class EmployeeRepository : DbRepository<Employee>
+    internal class EmployeeRepository : DbRepository<Employees>
     {
-        public override IQueryable<Employee> Items => base.Items
-            .Include(item => item.UserData);
+        public override IQueryable<Employees> Items => base.Items
+            .Include(item => item.UsersData);
 
         public EmployeeRepository(PrimeContext db) : base(db) { }
     }
 
-    internal class SupplierRepository : DbRepository<Supplier>
+    internal class SupplierRepository : DbRepository<Suppliers>
     {
-        public override IQueryable<Supplier> Items => base.Items
-            .Include(item => item.Product);
+        public override IQueryable<Suppliers> Items => base.Items
+            .Include(item => item.Products);
 
         public SupplierRepository(PrimeContext db) : base(db) { }
     }
 
-    internal class ManufacturerRepository : DbRepository<Manufacturer>
+    internal class ManufacturerRepository : DbRepository<Manufacturers>
     {
-        public override IQueryable<Manufacturer> Items => base.Items
-            .Include(item => item.Product);
+        public override IQueryable<Manufacturers> Items => base.Items
+            .Include(item => item.Products);
 
         public ManufacturerRepository(PrimeContext db) : base(db) { }
     }
     
-    internal class OfferRepository : DbRepository<Offer>
+    internal class OfferRepository : DbRepository<Offers>
     {
-        public override IQueryable<Offer> Items => base.Items
-            .Include(item => item.Part);
+        public override IQueryable<Offers> Items => base.Items
+            .Include(item => item.Parts);
         public OfferRepository(PrimeContext db) : base(db) { }
     }
 
-    internal class ProductRepository : DbRepository<Product>
+    internal class ProductRepository : DbRepository<Products>
     {
-        public override IQueryable<Product> Items => base.Items
-            .Include(item => item.Category.Section);
+        public override IQueryable<Products> Items => base.Items
+            .Include(item => item.Categories.Sections);
 
         public ProductRepository(PrimeContext db) : base(db) { }
     }

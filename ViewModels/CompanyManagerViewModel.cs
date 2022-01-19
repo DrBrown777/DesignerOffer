@@ -19,12 +19,12 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Текущий пользователь
         /// </summary>
-        private Employee CurrentUser;
+        private Employees CurrentUser;
 
         /// <summary>
         /// Текущая компания
         /// </summary>
-        private Company CurrentCompany;
+        private Companies CurrentCompany;
 
         /// <summary>
         /// Сервис диалогов
@@ -35,19 +35,19 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Репозиторий пользователей
         /// </summary>
-        private readonly IRepository<Employee> RepositoryUsers;
+        private readonly IRepository<Employees> RepositoryUsers;
         /// <summary>
         /// Репозиторий компаний
         /// </summary>
-        private readonly IRepository<Company> RepositoryCompanies;
+        private readonly IRepository<Companies> RepositoryCompanies;
         /// <summary>
         /// Репозиторий должностей
         /// </summary>
-        private readonly IRepository<Position> RepositoryPositions;
+        private readonly IRepository<Positions> RepositoryPositions;
         /// <summary>
         /// Репозиторий разделов
         /// </summary>
-        private readonly IRepository<Section> RepositorySections;
+        private readonly IRepository<Sections> RepositorySections;
         #endregion
 
         #endregion
@@ -83,81 +83,81 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Progress, value);
         }
 
-        private ObservableCollection<Employee> _Employees;
+        private ObservableCollection<Employees> _Employees;
         /// <summary>
         /// Сотрудники
         /// </summary>
-        public ObservableCollection<Employee> Employees
+        public ObservableCollection<Employees> Employees
         {
             get => _Employees;
             set => Set(ref _Employees, value);
         }
 
-        private Employee _SelectedEmployee;
+        private Employees _SelectedEmployee;
         /// <summary>
         /// Выбранный сотрудник
         /// </summary>
-        public Employee SelectedEmployee
+        public Employees SelectedEmployee
         {
             get => _SelectedEmployee;
             set => Set(ref _SelectedEmployee, value);
         }
 
-        private ObservableCollection<Company> _Companies;
+        private ObservableCollection<Companies> _Companies;
         /// <summary>
         /// Компании
         /// </summary>
-        public ObservableCollection<Company> Companies
+        public ObservableCollection<Companies> Companies
         {
             get => _Companies;
             set => Set(ref _Companies, value);
         }
 
-        private Company _SelectedCompany;
+        private Companies _SelectedCompany;
         /// <summary>
         /// Выбранная компания
         /// </summary>
-        public Company SelectedCompany
+        public Companies SelectedCompany
         {
             get => _SelectedCompany;
             set => Set(ref _SelectedCompany, value);
         }
 
-        private ObservableCollection<Position> _Positions;
+        private ObservableCollection<Positions> _Positions;
         /// <summary>
         /// Должности
         /// </summary>
-        public ObservableCollection<Position> Positions
+        public ObservableCollection<Positions> Positions
         {
             get => _Positions;
             set => Set(ref _Positions, value);
         }
 
-        private Position _SelectedPosition;
+        private Positions _SelectedPosition;
         /// <summary>
         /// Выбранная должность
         /// </summary>
-        public Position SelectedPosition
+        public Positions SelectedPosition
         {
             get => _SelectedPosition;
             set => Set(ref _SelectedPosition, value);
         }
 
-        private ObservableCollection<Section> _Sections;
+        private ObservableCollection<Sections> _Sections;
         /// <summary>
         /// Разделы
         /// </summary>
-        public ObservableCollection<Section> Sections
+        public ObservableCollection<Sections> Sections
         {
             get => _Sections;
             set => Set(ref _Sections, value);
         }
 
-        private Section _SelectedSection;
+        private Sections _SelectedSection;
         /// <summary>
         /// Выбранный раздел
         /// </summary>
-        public Section SelectedSection
+        public Sections SelectedSection
         {
             get => _SelectedSection;
             set => Set(ref _SelectedSection, value);
@@ -186,7 +186,7 @@ namespace Designer_Offer.ViewModels
         {
             try
             {
-                Employees = new ObservableCollection<Employee>(await RepositoryUsers.Items.ToListAsync());
+                Employees = new ObservableCollection<Employees>(await RepositoryUsers.Items.ToListAsync());
 
                 //CurrentUser = Employees.SingleOrDefault(e => e.Id == App.Host.Services.GetRequiredService<Employee>().Id);
 
@@ -194,15 +194,15 @@ namespace Designer_Offer.ViewModels
 
                 Status = CurrentUser.First_Name + " " + CurrentUser.Last_Name;
 
-                CurrentCompany = CurrentUser.Company;
+                CurrentCompany = CurrentUser.Companies;
 
                 Title = CurrentCompany?.Name + _title;
 
-                Companies = new ObservableCollection<Company>(await RepositoryCompanies.Items.ToListAsync());
+                Companies = new ObservableCollection<Companies>(await RepositoryCompanies.Items.ToListAsync());
 
-                Positions = new ObservableCollection<Position>(await RepositoryPositions.Items.ToListAsync());
+                Positions = new ObservableCollection<Positions>(await RepositoryPositions.Items.ToListAsync());
 
-                Sections = new ObservableCollection<Section>(await RepositorySections.Items.ToListAsync());
+                Sections = new ObservableCollection<Sections>(await RepositorySections.Items.ToListAsync());
             }
             catch (Exception e)
             {
@@ -225,7 +225,7 @@ namespace Designer_Offer.ViewModels
 
         private void OnAddNewCompany(object p)
         {
-            Company new_company = new Company();
+            Companies new_company = new Companies();
 
             if (!UserDialog.Edit(new_company))
             {
@@ -252,12 +252,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanEditCompany(object p)
         {
-            return (Company)p != null && SelectedCompany != null;
+            return (Companies)p != null && SelectedCompany != null;
         }
 
         private void OnEditCompany(object p)
         {
-            Company company_to_edit = (Company)p ?? SelectedCompany;
+            Companies company_to_edit = (Companies)p ?? SelectedCompany;
 
             if (!UserDialog.Edit(company_to_edit))
             {
@@ -290,12 +290,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanRemoveCompany(object p)
         {
-            return (Company)p != null && SelectedCompany != null;
+            return (Companies)p != null && SelectedCompany != null;
         }
 
         private void OnRemoveCompany(object p)
         {
-            Company company_to_remove = (Company)p ?? SelectedCompany;
+            Companies company_to_remove = (Companies)p ?? SelectedCompany;
 
             if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить компанию {company_to_remove.Name}?", "Удаление компании"))
             {
@@ -330,11 +330,11 @@ namespace Designer_Offer.ViewModels
 
         private void OnAddNewUser(object p)
         {
-            UserData new_user = new UserData();
+            UsersData new_user = new UsersData();
 
-            Employee new_employee = new Employee
+            Employees new_employee = new Employees
             {
-                UserData = new_user
+                UsersData = new_user
             };
 
             if (!UserDialog.Edit(new_employee))
@@ -362,12 +362,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanEditUser(object p)
         {
-            return true && (Employee)p != null && SelectedEmployee != null;
+            return true && (Employees)p != null && SelectedEmployee != null;
         }
 
         private void OnEditUser(object p)
         {
-            Employee employee = (Employee)p ?? SelectedEmployee;
+            Employees employee = (Employees)p ?? SelectedEmployee;
 
             if (!UserDialog.Edit(employee))
             {
@@ -401,12 +401,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanRemoveUser(object p)
         {
-            return (Employee)p != null && SelectedEmployee != null;
+            return (Employees)p != null && SelectedEmployee != null;
         }
 
         private void OnRemoveUser(object p)
         {
-            Employee user_to_remove = (Employee)p ?? SelectedEmployee;
+            Employees user_to_remove = (Employees)p ?? SelectedEmployee;
 
             if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить сотрудника {user_to_remove.Last_Name}?", "Удаление сотрудника"))
             {
@@ -440,7 +440,7 @@ namespace Designer_Offer.ViewModels
 
         private void OnAddNewPosition(object p)
         {
-            Position new_position = new Position();
+            Positions new_position = new Positions();
             
             if (!UserDialog.Edit(new_position))
             {
@@ -467,12 +467,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanEditPosition(object p)
         {
-            return true && SelectedPosition != null && (Position)p != null;
+            return true && SelectedPosition != null && (Positions)p != null;
         }
 
         private void OnEditPosition(object p)
         {
-            Position position = SelectedPosition ?? (Position)p;
+            Positions position = SelectedPosition ?? (Positions)p;
 
             if (!UserDialog.Edit(position))
             {
@@ -504,12 +504,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanRemovePosition(object p)
         {
-            return true && SelectedPosition != null && (Position)p != null;
+            return true && SelectedPosition != null && (Positions)p != null;
         }
 
         private void OnRemovePosition(object p)
         {
-            Position position_to_remove = SelectedPosition ?? (Position)p;
+            Positions position_to_remove = SelectedPosition ?? (Positions)p;
 
             if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить должность {position_to_remove.Name}?", "Удаление должности"))
             {
@@ -543,7 +543,7 @@ namespace Designer_Offer.ViewModels
 
         private void OnAddNewSection(object p)
         {
-            Section new_section = new Section();
+            Sections new_section = new Sections();
 
             if (!UserDialog.Edit(new_section))
             {
@@ -570,12 +570,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanEditSection(object p)
         {
-            return true && SelectedSection != null && (Section)p != null;
+            return true && SelectedSection != null && (Sections)p != null;
         }
 
         private void OnEditSection(object p)
         {
-            Section section = SelectedSection ?? (Section)p;
+            Sections section = SelectedSection ?? (Sections)p;
 
             if (!UserDialog.Edit(section))
             {
@@ -607,12 +607,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanRemoveSection(object p)
         {
-            return true && SelectedSection != null && (Section)p != null;
+            return true && SelectedSection != null && (Sections)p != null;
         }
 
         private void OnRemoveSection(object p)
         {
-            Section section_to_remove = SelectedSection ?? (Section)p;
+            Sections section_to_remove = SelectedSection ?? (Sections)p;
 
             if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить раздел {section_to_remove.Name}?", "Удаление раздела"))
             {
@@ -643,10 +643,10 @@ namespace Designer_Offer.ViewModels
 
         #region КОНСТРУКТОРЫ
         public CompanyManagerViewModel(
-            IRepository<Employee> repaUser,
-            IRepository<Company> repaCompany,
-            IRepository<Position> repaPosition,
-            IRepository<Section> repaSections,
+            IRepository<Employees> repaUser,
+            IRepository<Companies> repaCompany,
+            IRepository<Positions> repaPosition,
+            IRepository<Sections> repaSections,
             IUserDialog userDialog)
         {
             Progress = true;

@@ -27,31 +27,31 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Adress, value);
         }
 
-        private ObservableCollection<Client> _Clients;
+        private ObservableCollection<Clients> _Clients;
         /// <summary>
         /// Список Клиентов
         /// </summary>
-        public ObservableCollection<Client> Clients
+        public ObservableCollection<Clients> Clients
         {
             get => _Clients;
             set => Set(ref _Clients, value);
         }
 
-        private Client _SelectedClient;
+        private Clients _SelectedClient;
         /// <summary>
         /// Выбранный клиент
         /// </summary>
-        public Client SelectedClient
+        public Clients SelectedClient
         {
             get => _SelectedClient;
             set => Set(ref _SelectedClient, value);
         }
 
-        private Project _Project;
+        private Projects _Project;
         /// <summary>
         /// Проект для обьекта
         /// </summary>
-        public Project Project
+        public Projects Project
         {
             get => _Project;
             set => Set(ref _Project, value);

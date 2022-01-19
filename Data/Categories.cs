@@ -7,14 +7,14 @@ namespace Designer_Offer.Data
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Section")]
-    public partial class Section : IEntity
+    public partial class Categories : IEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Section()
+        public Categories()
         {
-            Offer = new HashSet<Offer>();
-            Category = new HashSet<Category>();
+            Installs = new HashSet<Installs>();
+            Products = new HashSet<Products>();
+            Sections = new HashSet<Sections>();
         }
 
         public int Id { get; set; }
@@ -24,9 +24,12 @@ namespace Designer_Offer.Data
         public string Name { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Offer> Offer { get; set; }
+        public virtual ICollection<Installs> Installs { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Category> Category { get; set; }
+        public virtual ICollection<Products> Products { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Sections> Sections { get; set; }
     }
 }

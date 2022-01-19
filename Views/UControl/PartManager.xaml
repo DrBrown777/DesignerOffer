@@ -99,11 +99,11 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Наименование" 
-                                    DisplayMemberBinding="{Binding Path=Product.Name}"/>
+                                    DisplayMemberBinding="{Binding Path=Products.Name}"/>
                         <GridViewColumn Header="Тип"
-                                    DisplayMemberBinding="{Binding Path=Product.Model}"/>
+                                    DisplayMemberBinding="{Binding Path=Products.Model}"/>
                         <GridViewColumn Header="Ед.Изм" 
-                                    DisplayMemberBinding="{Binding Path=Product.Unit.Name}"/>
+                                    DisplayMemberBinding="{Binding Path=Products.Units.Name}"/>
                         <GridViewColumn Header="Цена вход" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -252,9 +252,9 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Наименование" 
-                                    DisplayMemberBinding="{Binding Path=Install.Name}"/>
+                                    DisplayMemberBinding="{Binding Path=Installs.Name}"/>
                         <GridViewColumn Header="Ед.Изм" 
-                                    DisplayMemberBinding="{Binding Path=Install.Unit.Name}"/>
+                                    DisplayMemberBinding="{Binding Path=Installs.Units.Name}"/>
                         <GridViewColumn Header="Цена вход" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>

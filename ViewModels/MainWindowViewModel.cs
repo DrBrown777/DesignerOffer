@@ -87,7 +87,7 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region МЕТОДЫ
-        private async void UpdateAllPages(IRepository<Company> companyRepository)
+        private async void UpdateAllPages(IRepository<Companies> companyRepository)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace Designer_Offer.ViewModels
 
         #region КОНСТРУКТОРЫ
         public MainWindowViewModel(
-            IRepository<Company> companyRepository,
+            IRepository<Companies> companyRepository,
             ILoginService loginView,
             IRegistrationService registrationView,
             IUserDialog userDialog)

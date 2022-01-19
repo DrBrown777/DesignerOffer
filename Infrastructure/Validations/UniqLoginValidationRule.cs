@@ -17,7 +17,7 @@ namespace Designer_Offer.Infrastructure.Validations
         {
             try
             {
-                if (context.UserData.AsNoTracking().Where(u => u.Login == value.ToString().Trim()).Any())
+                if (context.UsersData.AsNoTracking().Where(u => u.Login == value.ToString().Trim()).Any())
                 {
                     return new ValidationResult(false, "логин должен быть уникален");
                 }

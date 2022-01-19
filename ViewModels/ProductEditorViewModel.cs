@@ -42,80 +42,80 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _EntryPrice, value);
         }
 
-        private ICollection<Supplier> _ProductSuppliers;
+        private ICollection<Suppliers> _ProductSuppliers;
         /// <summary>
         /// Поставщики конкретного товара
         /// </summary>
-        public ICollection<Supplier> ProductSuppliers
+        public ICollection<Suppliers> ProductSuppliers
         {
             get => _ProductSuppliers;
             set => Set(ref _ProductSuppliers, value);
         }
 
-        private List<Unit> _Units;
+        private List<Units> _Units;
         /// <summary>
         /// Список всех ед.измерения
         /// </summary>
-        public List<Unit> Units
+        public List<Units> Units
         {
             get => _Units;
             set => Set(ref _Units, value);
         }
 
-        private Unit _SelectedUnit;
+        private Units _SelectedUnit;
         /// <summary>
         /// Выбранная ед. измерения для товара
         /// </summary>
-        public Unit SelectedUnit
+        public Units SelectedUnit
         {
             get => _SelectedUnit;
             set => Set(ref _SelectedUnit, value);
         }
 
-        private List<Supplier> _Suppliers;
+        private List<Suppliers> _Suppliers;
         /// <summary>
         /// Список всех поставщиков
         /// </summary>
-        public List<Supplier> Suppliers
+        public List<Suppliers> Suppliers
         {
             get => _Suppliers;
             set => Set(ref _Suppliers, value);
         }
 
-        private List<Category> _Categories;
+        private List<Categories> _Categories;
         /// <summary>
         /// Список всех категорий
         /// </summary>
-        public List<Category> Categories
+        public List<Categories> Categories
         {
             get => _Categories;
             set => Set(ref _Categories, value);
         }
 
-        private Category _SelectedCategory;
+        private Categories _SelectedCategory;
         /// <summary>
         /// Выбранная категория конкретного товара
         /// </summary>
-        public Category SelectedCategory
+        public Categories SelectedCategory
         {
             get => _SelectedCategory;
             set => Set(ref _SelectedCategory, value);
         }
-        private List<Manufacturer> _Manufacturers;
+        private List<Manufacturers> _Manufacturers;
         /// <summary>
         /// Список всех производителей
         /// </summary>
-        public List<Manufacturer> Manufacturers
+        public List<Manufacturers> Manufacturers
         {
             get => _Manufacturers;
             set => Set(ref _Manufacturers, value);
         }
 
-        private Manufacturer _SelectedManufacturer;
+        private Manufacturers _SelectedManufacturer;
         /// <summary>
         /// Выбранный производитель конкретного товара
         /// </summary>
-        public Manufacturer SelectedManufacturer
+        public Manufacturers SelectedManufacturer
         {
             get => _SelectedManufacturer;
             set => Set(ref _SelectedManufacturer, value);
@@ -136,7 +136,7 @@ namespace Designer_Offer.ViewModels
 
             ProductSuppliers?.Clear();
 
-            foreach (Supplier item in listBox.SelectedItems)
+            foreach (Suppliers item in listBox.SelectedItems)
             {
                 ProductSuppliers.Add(item);
             }
@@ -153,7 +153,7 @@ namespace Designer_Offer.ViewModels
         {
             ListBox listBox = (ListBox)p;
 
-            foreach (Supplier item in listBox.Items)
+            foreach (Suppliers item in listBox.Items)
             {
                 if (ProductSuppliers.Contains(item))
                 {
@@ -164,16 +164,16 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОНСТРУКТОРЫ
-        public ProductEditorViewModel(IRepository<Unit> repaUnit,
-                                      IRepository<Supplier> repaSuppliers,
-                                      IRepository<Category> repaCategories,
-                                      IRepository<Manufacturer> repaManufacturers)
+        public ProductEditorViewModel(IRepository<Units> repaUnit,
+                                      IRepository<Suppliers> repaSuppliers,
+                                      IRepository<Categories> repaCategories,
+                                      IRepository<Manufacturers> repaManufacturers)
         {
             Units = repaUnit.Items.ToList();
             Suppliers = repaSuppliers.Items.ToList();
             Categories = repaCategories.Items.ToList();
             Manufacturers = repaManufacturers.Items.ToList();
-            ProductSuppliers = new List<Supplier>();
+            ProductSuppliers = new List<Suppliers>();
 
             ChoiceSuppliers = new LambdaCommand(OnChoiceSuppliers, CanChoiceSuppliers);
             AddSuppliers = new LambdaCommand(OnAddSuppliers, CanAddSuppliers);

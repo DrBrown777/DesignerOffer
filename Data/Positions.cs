@@ -7,14 +7,13 @@ namespace Designer_Offer.Data
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Position")]
-    public partial class Position : IEntity
+    public partial class Positions : IEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Position()
+        public Positions()
         {
-            Employee = new HashSet<Employee>();
-            Company = new HashSet<Company>();
+            Employees = new HashSet<Employees>();
+            Companies = new HashSet<Companies>();
         }
 
         public int Id { get; set; }
@@ -24,9 +23,9 @@ namespace Designer_Offer.Data
         public string Name { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Employee> Employee { get; set; }
+        public virtual ICollection<Employees> Employees { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Company> Company { get; set; }
+        public virtual ICollection<Companies> Companies { get; set; }
     }
 }

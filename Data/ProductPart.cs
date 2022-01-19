@@ -37,8 +37,8 @@ namespace Designer_Offer.Data
 
         public int? Sort_Order { get; set; }
 
-        public virtual Part Part { get; set; }
+        public virtual Parts Parts { get; set; }
 
-        public virtual Product Product { get; set; }
+        public virtual Products Products { get; set; }
     }
 }

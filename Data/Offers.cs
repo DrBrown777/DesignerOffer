@@ -7,13 +7,12 @@ namespace Designer_Offer.Data
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Offer")]
-    public partial class Offer : IEntity
+    public partial class Offers : IEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Offer()
+        public Offers()
         {
-            Part = new HashSet<Part>();
+            Parts = new HashSet<Parts>();
         }
 
         public int Id { get; set; }
@@ -28,13 +27,13 @@ namespace Designer_Offer.Data
         [Column(TypeName = "date")]
         public DateTime Date { get; set; }
 
-        public virtual Config Config { get; set; }
+        public virtual Configs Configs { get; set; }
 
-        public virtual Project Project { get; set; }
+        public virtual Projects Projects { get; set; }
 
-        public virtual Section Section { get; set; }
+        public virtual Sections Sections { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Part> Part { get; set; }
+        public virtual ICollection<Parts> Parts { get; set; }
     }
 }

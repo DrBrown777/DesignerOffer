@@ -6,10 +6,10 @@ namespace Designer_Offer.ViewModels
 {
     internal interface IRegistrationService
     {
-        List<Company> Companies { get; set; }
+        List<Companies> Companies { get; set; }
 
         ICommand LoadLoginPageCommand { get; set; }
 
-        void Update(List<Company> companies);
+        void Update(List<Companies> companies);
     }
 }

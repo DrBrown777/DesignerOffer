@@ -22,12 +22,12 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Текущий пользователь
         /// </summary>
-        private Employee CurrentUser;
+        private Employees CurrentUser;
 
         /// <summary>
         /// Текущая компания
         /// </summary>
-        private Company CurrentCompany;
+        private Companies CurrentCompany;
 
         /// <summary>
         /// Сервис диалогов
@@ -38,23 +38,23 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Репозитории пользователей
         /// </summary>
-        private readonly IRepository<Employee> RepositoryUsers;
+        private readonly IRepository<Employees> RepositoryUsers;
         /// <summary>
         /// Репозитоторий КП
         /// </summary>
-        private readonly IRepository<Offer> RepositoryOffer;
+        private readonly IRepository<Offers> RepositoryOffer;
         /// <summary>
         /// Репозитоторий Систем
         /// </summary>
-        private readonly IRepository<Part> RepositoryPart;
+        private readonly IRepository<Parts> RepositoryPart;
         /// <summary>
         /// Репозиторий товаров
         /// </summary>
-        private readonly IRepository<Product> RepositoryProduct;
+        private readonly IRepository<Products> RepositoryProduct;
         /// <summary>
         /// Репозиторий услуг
         /// </summary>
-        private readonly IRepository<Install> RepositoryInstall;
+        private readonly IRepository<Installs> RepositoryInstall;
         #endregion
 
         #endregion
@@ -90,11 +90,11 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Progress, value);
         }
 
-        private Offer _CurrentOffer;
+        private Offers _CurrentOffer;
         /// <summary>
         /// Теккущее КП
         /// </summary>
-        public Offer CurrentOffer
+        public Offers CurrentOffer
         {
             get => _CurrentOffer;
             set => Set(ref _CurrentOffer, value);
@@ -120,11 +120,11 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _SelectedPart, value);
         }
 
-        private List<Product> _Products;
+        private List<Products> _Products;
         /// <summary>
         /// Товары выбранного раздела КП
         /// </summary>
-        public List<Product> Products
+        public List<Products> Products
         {
             get => _Products;
             set
@@ -137,7 +137,7 @@ namespace Designer_Offer.ViewModels
                             Source = value,
                             SortDescriptions =
                         {
-                            new SortDescription(nameof(Product.Name), ListSortDirection.Ascending)
+                            new SortDescription(nameof(Data.Products.Name), ListSortDirection.Ascending)
                         }
 
                         };
@@ -174,21 +174,21 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         private CollectionViewSource ProductsViewSource;
 
-        private Product _SelectedProduct;
+        private Products _SelectedProduct;
         /// <summary>
         /// Выбранный товар
         /// </summary>
-        public Product SelectedProduct
+        public Products SelectedProduct
         {
             get => _SelectedProduct;
             set => Set(ref _SelectedProduct, value);
         }
 
-        private List<Install> _Installs;
+        private List<Installs> _Installs;
         /// <summary>
         /// Услуги выбранного раздела КП
         /// </summary>
-        public List<Install> Installs
+        public List<Installs> Installs
         {
             get => _Installs;
             set
@@ -201,7 +201,7 @@ namespace Designer_Offer.ViewModels
                             Source = value,
                             SortDescriptions =
                         {
-                            new SortDescription(nameof(Install.Name), ListSortDirection.Ascending)
+                            new SortDescription(nameof(Data.Installs.Name), ListSortDirection.Ascending)
                         }
 
                         };
@@ -238,11 +238,11 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         private CollectionViewSource InstallsViewSource;
 
-        private Install _SelectedInstall;
+        private Installs _SelectedInstall;
         /// <summary>
         /// Выбранная услуга
         /// </summary>
-        public Install SelectedInstall
+        public Installs SelectedInstall
         {
             get => _SelectedInstall;
             set => Set(ref _SelectedInstall, value);
@@ -272,25 +272,25 @@ namespace Designer_Offer.ViewModels
 
                 Status = CurrentUser.First_Name + " " + CurrentUser.Last_Name;
 
-                CurrentCompany = CurrentUser.Company;
+                CurrentCompany = CurrentUser.Companies;
 
                 Title = CurrentCompany?.Name + _title;
 
-                CurrentOffer = await RepositoryOffer.GetAsync(App.Host.Services.GetRequiredService<Offer>().Id);
+                CurrentOffer = await RepositoryOffer.GetAsync(App.Host.Services.GetRequiredService<Offers>().Id);
 
                 if (CurrentOffer == null) return;
 
                 Products = await RepositoryProduct.Items
-                    .Where(prod => prod.Category.Section
-                    .Any(sec => sec.Id == CurrentOffer.Section.Id))
+                    .Where(prod => prod.Categories.Sections
+                    .Any(sec => sec.Id == CurrentOffer.Sections.Id))
                     .ToListAsync();
 
                 Installs = await RepositoryInstall.Items
-                    .Where(prod => prod.Category.Section
-                    .Any(sec => sec.Id == CurrentOffer.Section.Id))
+                    .Where(prod => prod.Categories.Sections
+                    .Any(sec => sec.Id == CurrentOffer.Sections.Id))
                     .ToListAsync();
 
-                foreach (Part item in CurrentOffer.Part)
+                foreach (Parts item in CurrentOffer.Parts)
                 {
                     var partManagerView = App.Host.Services.GetRequiredService<PartManagerViewModel>();
 
@@ -328,7 +328,7 @@ namespace Designer_Offer.ViewModels
 
         private async void OnAddNewPart(object p)
         {
-            Part new_part = new Part()
+            Parts new_part = new Parts()
             {
                 Name = "Система",
                 Offer_Id = CurrentOffer.Id
@@ -338,7 +338,7 @@ namespace Designer_Offer.ViewModels
             {
                 new_part = await RepositoryPart.AddAsync(new_part);
 
-                CurrentOffer.Part.Add(new_part);
+                CurrentOffer.Parts.Add(new_part);
 
                 var partManagerView = App.Host.Services.GetRequiredService<PartManagerViewModel>();
 
@@ -365,7 +365,7 @@ namespace Designer_Offer.ViewModels
 
         private void OnRemovePart(object p)
         {
-            Part part_to_remove = CurrentOffer.Part.FirstOrDefault(part => part.Id.Equals(SelectedPart.Id));
+            Parts part_to_remove = CurrentOffer.Parts.FirstOrDefault(part => part.Id.Equals(SelectedPart.Id));
 
             if (part_to_remove == null) return;
 
@@ -378,7 +378,7 @@ namespace Designer_Offer.ViewModels
             {
                 RepositoryPart.Remove(part_to_remove.Id);
 
-                CurrentOffer.Part.Remove(part_to_remove);
+                CurrentOffer.Parts.Remove(part_to_remove);
 
                 Parts.Remove(SelectedPart);
             }
@@ -405,7 +405,7 @@ namespace Designer_Offer.ViewModels
             {
                 foreach (var item in Parts)
                 {
-                    CurrentOffer.Part.FirstOrDefault(part => part.Id == item.Id).Name = item.Name;
+                    CurrentOffer.Parts.FirstOrDefault(part => part.Id == item.Id).Name = item.Name;
                 }
                 await RepositoryOffer.UpdateAsync(CurrentOffer);
             }
@@ -484,7 +484,7 @@ namespace Designer_Offer.ViewModels
             /*проверка правильности перебора для формирования кол-ва услуг*/
             foreach (var item in SelectedPart.Products)
             {
-                if (item.Product.Category_Id.Equals(SelectedInstall.Category_Id) && SelectedInstall.Name.Contains(item.Product.Model))
+                if (item.Products.Category_Id.Equals(SelectedInstall.Category_Id) && SelectedInstall.Name.Contains(item.Products.Model))
                 {
                     new_installPart.Amount += item.Amount;
                 }
@@ -506,18 +506,18 @@ namespace Designer_Offer.ViewModels
 
         private bool CanCalculateAllPrice(object p)
         {
-            return CurrentOffer != null && CurrentOffer.Part != null && CurrentOffer.Part.Count != 0;
+            return CurrentOffer != null && CurrentOffer.Parts != null && CurrentOffer.Parts.Count != 0;
         }
 
         private void OnCalculateAllPrice(object p)
         {
-            foreach (Part part in CurrentOffer.Part)
+            foreach (Parts part in CurrentOffer.Parts)
             {
                 foreach (ProductPart item in part.ProductPart)
                 {
                     if (item.Out_Price != null)
                     {
-                        item.Out_Price = RoundDecimal(item.Entry_Price * CurrentOffer.Config.Margin_Product);
+                        item.Out_Price = RoundDecimal(item.Entry_Price * CurrentOffer.Configs.Margin_Product);
                     }
                     if (item.Entry_Summ != null)
                     {
@@ -543,7 +543,7 @@ namespace Designer_Offer.ViewModels
                 {
                     if (item.Out_Price != null)
                     {
-                        item.Out_Price = RoundDecimal(item.Entry_Price * CurrentOffer.Config.Margin_Work);
+                        item.Out_Price = RoundDecimal(item.Entry_Price * CurrentOffer.Configs.Margin_Work);
                     }
                     if (item.Entry_Summ != null)
                     {
@@ -600,7 +600,7 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         private void ProductsViewSource_Filter(object sender, FilterEventArgs e)
         {
-            if (!(e.Item is Product product) || string.IsNullOrEmpty(ProductFilter))
+            if (!(e.Item is Products product) || string.IsNullOrEmpty(ProductFilter))
             {
                 return;
             }
@@ -615,7 +615,7 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         private void InstallsViewSource_Filter(object sender, FilterEventArgs e)
         {
-            if (!(e.Item is Install install) || string.IsNullOrEmpty(InstallFilter))
+            if (!(e.Item is Installs install) || string.IsNullOrEmpty(InstallFilter))
             {
                 return;
             }
@@ -644,18 +644,18 @@ namespace Designer_Offer.ViewModels
 
         #region КОНСТРУКТОРЫ
         public OfferManagerViewModel(
-           IRepository<Offer> repaOffer,
-           IRepository<Employee> repaEmployee,
-           IRepository<Part> repaPart,
-           IRepository<Product> repaProduct,
-           IRepository<Install> repaInstall,
+           IRepository<Offers> repaOffer,
+           IRepository<Employees> repaEmployee,
+           IRepository<Parts> repaPart,
+           IRepository<Products> repaProduct,
+           IRepository<Installs> repaInstall,
            IUserDialog userDialog)
         {
             Progress = true;
 
             Parts = new ObservableCollection<PartManagerViewModel>();
-            Products = new List<Product>();
-            Installs = new List<Install>();
+            Products = new List<Products>();
+            Installs = new List<Installs>();
 
             RepositoryUsers = repaEmployee;
             RepositoryOffer = repaOffer;

@@ -29,41 +29,41 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _EntryPrice, value);
         }
 
-        private List<Unit> _Units;
+        private List<Units> _Units;
         /// <summary>
         /// Список всех ед.измерения
         /// </summary>
-        public List<Unit> Units
+        public List<Units> Units
         {
             get => _Units;
             set => Set(ref _Units, value);
         }
 
-        private Unit _SelectedUnit;
+        private Units _SelectedUnit;
         /// <summary>
         /// Выбранная ед. измерения для услуги
         /// </summary>
-        public Unit SelectedUnit
+        public Units SelectedUnit
         {
             get => _SelectedUnit;
             set => Set(ref _SelectedUnit, value);
         }
 
-        private List<Category> _Categories;
+        private List<Categories> _Categories;
         /// <summary>
         /// Список всех категорий
         /// </summary>
-        public List<Category> Categories
+        public List<Categories> Categories
         {
             get => _Categories;
             set => Set(ref _Categories, value);
         }
 
-        private Category _SelectedCategory;
+        private Categories _SelectedCategory;
         /// <summary>
         /// Выбранная категория для услуги
         /// </summary>
-        public Category SelectedCategory
+        public Categories SelectedCategory
         {
             get => _SelectedCategory;
             set => Set(ref _SelectedCategory, value);
@@ -71,7 +71,7 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОНСТРУКТОРЫ
-        public InstallEditorViewModel(IRepository<Unit> repaUnit, IRepository<Category> repaCategories)
+        public InstallEditorViewModel(IRepository<Units> repaUnit, IRepository<Categories> repaCategories)
         {
             Units = repaUnit.Items.ToList();
             Categories = repaCategories.Items.ToList();

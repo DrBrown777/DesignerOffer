@@ -7,26 +7,42 @@ namespace Designer_Offer.Data
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Unit")]
-    public partial class Unit : IEntity
+    public partial class Products : IEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Unit()
+        public Products()
         {
-            Install = new HashSet<Install>();
-            Product = new HashSet<Product>();
+            ProductPart = new HashSet<ProductPart>();
+            Suppliers = new HashSet<Suppliers>();
         }
 
         public int Id { get; set; }
 
+        public int? Category_Id { get; set; }
+
+        public int? Unit_id { get; set; }
+
+        public int? Manufacturer_Id { get; set; }
+
         [Required]
-        [StringLength(20)]
+        [StringLength(255)]
         public string Name { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Install> Install { get; set; }
+        [StringLength(100)]
+        public string Model { get; set; }
+
+        public decimal? Entry_Price { get; set; }
+
+        public virtual Categories Categories { get; set; }
+
+        public virtual Manufacturers Manufacturers { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Product { get; set; }
+        public virtual ICollection<ProductPart> ProductPart { get; set; }
+
+        public virtual Units Units { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Suppliers> Suppliers { get; set; }
     }
 }

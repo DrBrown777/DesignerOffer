@@ -22,12 +22,12 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Данные пользовтеля
         /// </summary>
-        private UserData User;
+        private UsersData User;
 
         /// <summary>
         /// Репозиторий Юзеров
         /// </summary>
-        private readonly IRepository<UserData> UserDataRepository;
+        private readonly IRepository<UsersData> UserDataRepository;
 
         /// <summary>
         /// Сервис окна диалогов
@@ -59,11 +59,11 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Список компаний
         /// </summary>
-        private List<Company> _Companies;
+        private List<Companies> _Companies;
         /// <summary>
         /// Список компаний
         /// </summary>
-        public List<Company> Companies
+        public List<Companies> Companies
         {
             get => _Companies;
             set => Set(ref _Companies, value);
@@ -79,11 +79,11 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Login, value);
         }
 
-        private Company _SelectedComapany;
+        private Companies _SelectedComapany;
         /// <summary>
         /// Выбранная компания
         /// </summary>
-        public Company SelectedCompany
+        public Companies SelectedCompany
         {
             get => _SelectedComapany;
             set => Set(ref _SelectedComapany, value);
@@ -104,7 +104,7 @@ namespace Designer_Offer.ViewModels
         {
             if (LoginSucces((PasswordBox)p).Result)
             {
-                App.Host.Services.GetRequiredService<Employee>().Id = User.Id;
+                App.Host.Services.GetRequiredService<Employees>().Id = User.Id;
 
                 var work = App.Host.Services.GetRequiredService<WorkWindow>();
 
@@ -142,7 +142,7 @@ namespace Designer_Offer.ViewModels
                     Status = "Неправильный логин или пароль!";
                     return false;
                 }
-                else if (User.Employee.Company_Id != SelectedCompany.Id)
+                else if (User.Employees.Company_Id != SelectedCompany.Id)
                 {
                     Status = "Вы не работаете в этой компании!";
                     return false;
@@ -165,7 +165,7 @@ namespace Designer_Offer.ViewModels
             Status = p.ToString();
         }
 
-        public void Update(List<Company> companies)
+        public void Update(List<Companies> companies)
         {
             if (Equals(companies, Companies)) return;
             Companies = companies;
@@ -173,7 +173,7 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОНСТРУКТОРЫ
-        public LoginViewModel(IRepository<UserData> userDataRepository, IUserDialog userDialog)
+        public LoginViewModel(IRepository<UsersData> userDataRepository, IUserDialog userDialog)
         {
             UserDialog = userDialog;
             UserDataRepository = userDataRepository;

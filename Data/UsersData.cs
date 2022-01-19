@@ -7,8 +7,8 @@ namespace Designer_Offer.Data
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("UserData")]
-    public partial class UserData : IEntity
+    [Table("UsersData")]
+    public partial class UsersData : IEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
@@ -21,6 +21,6 @@ namespace Designer_Offer.Data
         [StringLength(32)]
         public string Password { get; set; }
 
-        public virtual Employee Employee { get; set; }
+        public virtual Employees Employees { get; set; }
     }
 }

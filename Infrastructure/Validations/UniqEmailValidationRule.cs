@@ -17,7 +17,7 @@ namespace Designer_Offer.Infrastructure.Validations
         {
             try
             {
-                if (context.Employee.AsNoTracking().Where(e => e.Mail == value.ToString().Trim()).Any())
+                if (context.Employees.AsNoTracking().Where(e => e.Mail == value.ToString().Trim()).Any())
                 {
                     return new ValidationResult(false, "email должен быть уникален");
                 }

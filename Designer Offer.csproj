@@ -218,7 +218,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\InstallPart.cs" />
-    <Compile Include="Data\Manufacturer.cs" />
+    <Compile Include="Data\Manufacturers.cs" />
     <Compile Include="Data\PrimeContext.cs" />
     <Compile Include="Data\ProductPart.cs" />
     <Compile Include="Infrastructure\Commands\CloseApplicationCommand.cs" />
@@ -384,22 +384,22 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Data\Build.cs" />
-    <Compile Include="Data\Category.cs" />
-    <Compile Include="Data\Client.cs" />
-    <Compile Include="Data\Company.cs" />
-    <Compile Include="Data\Config.cs" />
-    <Compile Include="Data\Employee.cs" />
-    <Compile Include="Data\Install.cs" />
-    <Compile Include="Data\Offer.cs" />
-    <Compile Include="Data\Part.cs" />
-    <Compile Include="Data\Position.cs" />
-    <Compile Include="Data\Product.cs" />
-    <Compile Include="Data\Project.cs" />
-    <Compile Include="Data\Section.cs" />
-    <Compile Include="Data\Supplier.cs" />
-    <Compile Include="Data\Unit.cs" />
-    <Compile Include="Data\UserData.cs" />
+    <Compile Include="Data\Builds.cs" />
+    <Compile Include="Data\Categories.cs" />
+    <Compile Include="Data\Clients.cs" />
+    <Compile Include="Data\Companies.cs" />
+    <Compile Include="Data\Configs.cs" />
+    <Compile Include="Data\Employees.cs" />
+    <Compile Include="Data\Installs.cs" />
+    <Compile Include="Data\Offers.cs" />
+    <Compile Include="Data\Parts.cs" />
+    <Compile Include="Data\Positions.cs" />
+    <Compile Include="Data\Products.cs" />
+    <Compile Include="Data\Projects.cs" />
+    <Compile Include="Data\Sections.cs" />
+    <Compile Include="Data\Suppliers.cs" />
+    <Compile Include="Data\Units.cs" />
+    <Compile Include="Data\UsersData.cs" />
     <Compile Include="Infrastructure\Commands\Base\Command.cs" />
     <Compile Include="Infrastructure\Commands\LambdaCommand.cs" />
     <Compile Include="Infrastructure\Validations\NotEmptyValidationRule.cs" />

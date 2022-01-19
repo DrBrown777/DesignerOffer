@@ -52,21 +52,21 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Email, value);
         }
 
-        private ICollection<Position> _CompanyPositions;
+        private ICollection<Positions> _CompanyPositions;
         /// <summary>
         /// Должности компании
         /// </summary>
-        public ICollection<Position> CompanyPositions
+        public ICollection<Positions> CompanyPositions
         {
             get => _CompanyPositions;
             set => Set(ref _CompanyPositions, value);
         }
 
-        private List<Position> _Positions;
+        private List<Positions> _Positions;
         /// <summary>
         /// Все должности
         /// </summary>
-        public List<Position> Positions
+        public List<Positions> Positions
         {
             get => _Positions;
             set => Set(ref _Positions, value);
@@ -87,7 +87,7 @@ namespace Designer_Offer.ViewModels
 
             CompanyPositions?.Clear();
 
-            foreach (Position item in listBox.SelectedItems)
+            foreach (Positions item in listBox.SelectedItems)
             {
                 CompanyPositions.Add(item);
             }
@@ -103,7 +103,7 @@ namespace Designer_Offer.ViewModels
         {
             ListBox listBox = (ListBox)p;
 
-            foreach (Position item in listBox.Items)
+            foreach (Positions item in listBox.Items)
             {
                 if (CompanyPositions.Contains(item))
                 {
@@ -114,10 +114,10 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region КОНСТРУКТОРЫ
-        public CompanyEditorViewModel(IRepository<Position> repaPositions)
+        public CompanyEditorViewModel(IRepository<Positions> repaPositions)
         {
             Positions = repaPositions.Items.ToList();
-            CompanyPositions = new List<Position>();
+            CompanyPositions = new List<Positions>();
 
             ChoicePosition = new LambdaCommand(OnChoicePosition, CanChoicePosition);
             AddPosition = new LambdaCommand(OnAddPosition, CanAddPosition);

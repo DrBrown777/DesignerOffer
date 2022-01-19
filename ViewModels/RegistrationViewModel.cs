@@ -17,12 +17,12 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Репозиторий Сотрудников
         /// </summary>
-        private readonly IRepository<Employee> EmployeeRepository;
+        private readonly IRepository<Employees> EmployeeRepository;
 
         /// <summary>
         /// Репозиторий должностей
         /// </summary>
-        private readonly IRepository<Position> PositionRepository;
+        private readonly IRepository<Positions> PositionRepository;
 
         /// <summary>
         /// Сервис диалогов
@@ -101,41 +101,41 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _UserPhone, value);
         }
 
-        private List<Company> _Companies;
+        private List<Companies> _Companies;
         /// <summary>
         /// Список компаний
         /// </summary>
-        public List<Company> Companies
+        public List<Companies> Companies
         {
             get => _Companies;
             set => Set(ref _Companies, value);
         }
 
-        private List<Position> _Positions;
+        private List<Positions> _Positions;
         /// <summary>
         /// Список должностей
         /// </summary>
-        public List<Position> Positions
+        public List<Positions> Positions
         {
             get => _Positions;
             set => Set(ref _Positions, value);
         }
 
-        private Company _SelectedComapany;
+        private Companies _SelectedComapany;
         /// <summary>
         /// Выбранная компания
         /// </summary>
-        public Company SelectedCompany
+        public Companies SelectedCompany
         {
             get => _SelectedComapany;
             set => Set(ref _SelectedComapany, value);
         }
 
-        private Position _SelectedPosition;
+        private Positions _SelectedPosition;
         /// <summary>
         /// Выбранная должность
         /// </summary>
-        public Position SelectedPosition
+        public Positions SelectedPosition
         {
             get => _SelectedPosition;
             set => Set(ref _SelectedPosition, value);
@@ -158,7 +158,7 @@ namespace Designer_Offer.ViewModels
             try
             {
                 Positions = await PositionRepository.Items
-                    .Where(pos => pos.Company
+                    .Where(pos => pos.Companies
                     .Any(com => com.Id == SelectedCompany.Id))
                     .AsNoTracking().ToListAsync().ConfigureAwait(false);
             }
@@ -181,13 +181,13 @@ namespace Designer_Offer.ViewModels
         {
             PasswordBox passBox = (PasswordBox)p;
 
-            UserData user = new UserData()
+            UsersData user = new UsersData()
             {
                 Login = UserLogin,
                 Password = passBox.Password.Trim()
             };
 
-            Employee employee = new Employee()
+            Employees employee = new Employees()
             {
                 First_Name = UserName,
                 Last_Name = UserSurName,
@@ -195,7 +195,7 @@ namespace Designer_Offer.ViewModels
                 Phone = UserPhone,
                 Company_Id = SelectedCompany.Id,
                 Position_Id = SelectedPosition.Id,
-                UserData = user
+                UsersData = user
             };
 
             try
@@ -228,7 +228,7 @@ namespace Designer_Offer.ViewModels
         #endregion
 
         #region МЕТОДЫ
-        public void Update(List<Company> companies)
+        public void Update(List<Companies> companies)
         {
             if (Equals(companies, Companies)) return;
             Companies = companies;
@@ -248,8 +248,8 @@ namespace Designer_Offer.ViewModels
 
         #region КОНСТРУКТОРЫ
         public RegistrationViewModel(
-            IRepository<Employee> employeeRepository,
-            IRepository<Position> positionRepository,
+            IRepository<Employees> employeeRepository,
+            IRepository<Positions> positionRepository,
             IUserDialog userDialog)
         {
             UserDialog = userDialog;

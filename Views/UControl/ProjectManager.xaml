@@ -117,7 +117,7 @@
                         <DataTemplate>
                             <DockPanel>
                                 <TextBlock Panel.ZIndex="0"
-                                    Text="{Binding Build.Count, StringFormat=Обьекты: ({0}), UpdateSourceTrigger=PropertyChanged}"
+                                    Text="{Binding Builds.Count, StringFormat=Обьекты: ({0}), UpdateSourceTrigger=PropertyChanged}"
                                     DockPanel.Dock="Right"/>
                                 <TextBlock 
                                     Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
@@ -142,7 +142,7 @@
                                         Binding="{Binding Path=Name}"
                                         Width="0.35*"/>
                 <DataGridTextColumn Header="Менеджер"
-                                        Binding="{Binding Path=Employee.Last_Name}"
+                                        Binding="{Binding Path=Employees.Last_Name}"
                                         Width="0.35*"/>
                 <DataGridTextColumn Header="Дата"
                                         Binding="{Binding Path=Date, StringFormat=dd/MM/yy}"
@@ -373,7 +373,7 @@
                         </DataGridTextColumn>
                         <DataGridTextColumn
                             Header="Раздел"
-                            Binding="{Binding Path=Section.Name}"
+                            Binding="{Binding Path=Sections.Name}"
                             Width="0.3*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">

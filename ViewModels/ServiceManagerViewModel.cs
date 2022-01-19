@@ -21,12 +21,12 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Текущий пользователь
         /// </summary>
-        private Employee CurrentUser;
+        private Employees CurrentUser;
 
         /// <summary>
         /// Текущая компания
         /// </summary>
-        private Company CurrentCompany;
+        private Companies CurrentCompany;
 
         /// <summary>
         /// Сервис диалогов
@@ -37,31 +37,31 @@ namespace Designer_Offer.ViewModels
         /// <summary>
         /// Репозиторий пользователей
         /// </summary>
-        private readonly IRepository<Employee> RepositoryUsers;
+        private readonly IRepository<Employees> RepositoryUsers;
         /// <summary>
         /// Репозиторий материалов
         /// </summary>
-        private readonly IRepository<Product> RepositoryProducts;
+        private readonly IRepository<Products> RepositoryProducts;
         /// <summary>
         /// Репозиторий услуг
         /// </summary>
-        private readonly IRepository<Install> RepositoryInstalls;
+        private readonly IRepository<Installs> RepositoryInstalls;
         /// <summary>
         /// Репозиторий поставщиков
         /// </summary>
-        private readonly IRepository<Supplier> RepositorySuppliers;
+        private readonly IRepository<Suppliers> RepositorySuppliers;
         /// <summary>
         /// Репозиторий единиц измерения
         /// </summary>
-        private readonly IRepository<Unit> RepositoryUnits;
+        private readonly IRepository<Units> RepositoryUnits;
         /// <summary>
         /// Репозиторий категорий
         /// </summary>
-        private readonly IRepository<Category> RepositoryCategories;
+        private readonly IRepository<Categories> RepositoryCategories;
         /// <summary>
         /// Репозиторий производителей
         /// </summary>
-        private readonly IRepository<Manufacturer> RepositoryManufacturers; 
+        private readonly IRepository<Manufacturers> RepositoryManufacturers; 
         #endregion
 
         #endregion
@@ -97,11 +97,11 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _Progress, value);
         }
 
-        private ObservableCollection<Product> _Products;
+        private ObservableCollection<Products> _Products;
         /// <summary>
         /// Коллекция материлов
         /// </summary>
-        public ObservableCollection<Product> Products
+        public ObservableCollection<Products> Products
         {
             get => _Products;
             set
@@ -114,7 +114,7 @@ namespace Designer_Offer.ViewModels
                             Source = value,
                             SortDescriptions =
                         {
-                            new SortDescription(nameof(Product.Name), ListSortDirection.Ascending)
+                            new SortDescription(nameof(Data.Products.Name), ListSortDirection.Ascending)
                         }
 
                         };
@@ -152,21 +152,21 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         private CollectionViewSource ProductsViewSource;
 
-        private Product _SelectedProduct;
+        private Products _SelectedProduct;
         /// <summary>
         /// Выбранный товар
         /// </summary>
-        public Product SelectedProduct
+        public Products SelectedProduct
         {
             get => _SelectedProduct;
             set => Set(ref _SelectedProduct, value);
         }
 
-        private ObservableCollection<Install> _Installs;
+        private ObservableCollection<Installs> _Installs;
         /// <summary>
         /// Коллекция услуг
         /// </summary>
-        public ObservableCollection<Install> Installs
+        public ObservableCollection<Installs> Installs
         {
             get => _Installs;
             set
@@ -179,7 +179,7 @@ namespace Designer_Offer.ViewModels
                             Source = value,
                             SortDescriptions =
                         {
-                            new SortDescription(nameof(Install.Name), ListSortDirection.Ascending)
+                            new SortDescription(nameof(Data.Installs.Name), ListSortDirection.Ascending)
                         }
 
                         };
@@ -217,21 +217,21 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         private CollectionViewSource InstallsViewSource;
 
-        private Install _SelectedInstall;
+        private Installs _SelectedInstall;
         /// <summary>
         /// Выбранная услуга
         /// </summary>
-        public Install SelectedInstall
+        public Installs SelectedInstall
         {
             get => _SelectedInstall;
             set => Set(ref _SelectedInstall, value);
         }
 
-        private ObservableCollection<Supplier> _Suppliers;
+        private ObservableCollection<Suppliers> _Suppliers;
         /// <summary>
         /// Коллекция поставшиков
         /// </summary>
-        public ObservableCollection<Supplier> Suppliers
+        public ObservableCollection<Suppliers> Suppliers
         {
             get => _Suppliers;
             set
@@ -244,7 +244,7 @@ namespace Designer_Offer.ViewModels
                             Source = value,
                             SortDescriptions =
                         {
-                            new SortDescription(nameof(Supplier.Name), ListSortDirection.Ascending)
+                            new SortDescription(nameof(Data.Suppliers.Name), ListSortDirection.Ascending)
                         }
 
                         };
@@ -282,21 +282,21 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         private CollectionViewSource SuppliersViewSource;
 
-        private Supplier _SelectedSupplier;
+        private Suppliers _SelectedSupplier;
         /// <summary>
         /// Выбранный поставщик
         /// </summary>
-        public Supplier SelectedSupplier
+        public Suppliers SelectedSupplier
         {
             get => _SelectedSupplier;
             set => Set(ref _SelectedSupplier, value);
         }
 
-        private ObservableCollection<Manufacturer> _Manufacturers;
+        private ObservableCollection<Manufacturers> _Manufacturers;
         /// <summary>
         /// Коллекция производителей
         /// </summary>
-        public ObservableCollection<Manufacturer> Manufacturers
+        public ObservableCollection<Manufacturers> Manufacturers
         {
             get => _Manufacturers;
             set
@@ -309,7 +309,7 @@ namespace Designer_Offer.ViewModels
                             Source = value,
                             SortDescriptions =
                         {
-                            new SortDescription(nameof(Manufacturer.Name), ListSortDirection.Ascending)
+                            new SortDescription(nameof(Data.Manufacturers.Name), ListSortDirection.Ascending)
                         }
 
                         };
@@ -346,41 +346,41 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         private CollectionViewSource ManufacturersViewSource;
 
-        private Manufacturer _SelectedManufacturer;
+        private Manufacturers _SelectedManufacturer;
         /// <summary>
         /// Выбранный производитель
         /// </summary>
-        public Manufacturer SelectedManufacturer
+        public Manufacturers SelectedManufacturer
         {
             get => _SelectedManufacturer;
             set => Set(ref _SelectedManufacturer, value);
         }
 
-        private ObservableCollection<Unit> _Units;
+        private ObservableCollection<Units> _Units;
         /// <summary>
         /// Коллекция единиц измерения
         /// </summary>
-        public ObservableCollection<Unit> Units
+        public ObservableCollection<Units> Units
         {
             get => _Units;
             set => Set(ref _Units, value);
         }
 
-        private Unit _SelectedUnit;
+        private Units _SelectedUnit;
         /// <summary>
         /// Выбранные единицы измерения
         /// </summary>
-        public Unit SelectedUnit
+        public Units SelectedUnit
         {
             get => _SelectedUnit;
             set => Set(ref _SelectedUnit, value);
         }
 
-        private ObservableCollection<Category> _Categories;
+        private ObservableCollection<Categories> _Categories;
         /// <summary>
         /// Коллекция категорий
         /// </summary>
-        public ObservableCollection<Category> Categories
+        public ObservableCollection<Categories> Categories
         {
             get => _Categories;
             set
@@ -393,7 +393,7 @@ namespace Designer_Offer.ViewModels
                             Source = value,
                             SortDescriptions =
                         {
-                            new SortDescription(nameof(Category.Name), ListSortDirection.Ascending)
+                            new SortDescription(nameof(Data.Categories.Name), ListSortDirection.Ascending)
                         }
 
                         };
@@ -431,11 +431,11 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         private CollectionViewSource CategoriesViewSource;
 
-        private Category _SelectedCategory;
+        private Categories _SelectedCategory;
         /// <summary>
         /// Выбранная категория
         /// </summary>
-        public Category SelectedCategory
+        public Categories SelectedCategory
         {
             get => _SelectedCategory;
             set => Set(ref _SelectedCategory, value);
@@ -473,21 +473,21 @@ namespace Designer_Offer.ViewModels
 
                 Status = CurrentUser.First_Name + " " + CurrentUser.Last_Name;
 
-                CurrentCompany = CurrentUser.Company;
+                CurrentCompany = CurrentUser.Companies;
 
                 Title = CurrentCompany?.Name + _title;
 
-                Products = new ObservableCollection<Product>(await RepositoryProducts.Items.ToListAsync());
+                Products = new ObservableCollection<Products>(await RepositoryProducts.Items.ToListAsync());
 
-                Installs = new ObservableCollection<Install>(await RepositoryInstalls.Items.ToListAsync());
+                Installs = new ObservableCollection<Installs>(await RepositoryInstalls.Items.ToListAsync());
 
-                Suppliers = new ObservableCollection<Supplier>(await RepositorySuppliers.Items.ToListAsync());
+                Suppliers = new ObservableCollection<Suppliers>(await RepositorySuppliers.Items.ToListAsync());
 
-                Manufacturers = new ObservableCollection<Manufacturer>(await RepositoryManufacturers.Items.ToListAsync());
+                Manufacturers = new ObservableCollection<Manufacturers>(await RepositoryManufacturers.Items.ToListAsync());
 
-                Units = new ObservableCollection<Unit>(await RepositoryUnits.Items.ToListAsync());
+                Units = new ObservableCollection<Units>(await RepositoryUnits.Items.ToListAsync());
 
-                Categories = new ObservableCollection<Category>(await RepositoryCategories.Items.ToListAsync());
+                Categories = new ObservableCollection<Categories>(await RepositoryCategories.Items.ToListAsync());
             }
             catch (Exception e)
             {
@@ -510,7 +510,7 @@ namespace Designer_Offer.ViewModels
 
         private void OnAddNewUnit(object p)
         {
-            Unit new_unit = new Unit();
+            Units new_unit = new Units();
 
             if (!UserDialog.Edit(new_unit))
             {
@@ -537,12 +537,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanEditUnit(object p)
         {
-            return (Unit)p != null && SelectedUnit != null;
+            return (Units)p != null && SelectedUnit != null;
         }
 
         private void OnEditUnit(object p)
         {
-            Unit edit_unit = (Unit)p ?? SelectedUnit;
+            Units edit_unit = (Units)p ?? SelectedUnit;
 
             if (!UserDialog.Edit(edit_unit))
             {
@@ -574,12 +574,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanRemoveUnit(object p)
         {
-            return (Unit)p != null && SelectedUnit != null;
+            return (Units)p != null && SelectedUnit != null;
         }
 
         private void OnRemoveUnit(object p)
         {
-            Unit unit_to_remove = (Unit)p ?? SelectedUnit;
+            Units unit_to_remove = (Units)p ?? SelectedUnit;
 
             if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить ед.измерения {unit_to_remove.Name}?", "Удаление ед.измерения"))
             {
@@ -613,7 +613,7 @@ namespace Designer_Offer.ViewModels
 
         private void OnAddNewSupplier(object p)
         {
-            Supplier new_supplier = new Supplier();
+            Suppliers new_supplier = new Suppliers();
 
             if (!UserDialog.Edit(new_supplier))
             {
@@ -640,12 +640,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanEditSupplier(object p)
         {
-            return (Supplier)p != null && SelectedSupplier != null;
+            return (Suppliers)p != null && SelectedSupplier != null;
         }
 
         private void OnEditSupplier(object p)
         {
-            Supplier supplier_to_edit = (Supplier)p ?? SelectedSupplier;
+            Suppliers supplier_to_edit = (Suppliers)p ?? SelectedSupplier;
 
             if (!UserDialog.Edit(supplier_to_edit))
             {
@@ -675,12 +675,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanRemoveSupplier(object p)
         {
-            return (Supplier)p != null && SelectedSupplier != null;
+            return (Suppliers)p != null && SelectedSupplier != null;
         }
 
         private void OnRemoveSupplier(object p)
         {
-            Supplier supplier_to_remove = (Supplier)p ?? SelectedSupplier;
+            Suppliers supplier_to_remove = (Suppliers)p ?? SelectedSupplier;
 
             if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить поставщика {supplier_to_remove.Name}?", "Удаление поставщика"))
             {
@@ -714,7 +714,7 @@ namespace Designer_Offer.ViewModels
 
         public void OnAddNewCategory(object p)
         {
-            Category new_category = new Category();
+            Categories new_category = new Categories();
 
             if (!UserDialog.Edit(new_category))
             {
@@ -741,12 +741,12 @@ namespace Designer_Offer.ViewModels
 
         public bool CanEditCategory(object p)
         {
-            return (Category)p != null && SelectedCategory != null;
+            return (Categories)p != null && SelectedCategory != null;
         }
 
         public void OnEditCategory(object p)
         {
-            Category category_to_edit = (Category)p ?? SelectedCategory;
+            Categories category_to_edit = (Categories)p ?? SelectedCategory;
 
             if (!UserDialog.Edit(category_to_edit))
             {
@@ -775,12 +775,12 @@ namespace Designer_Offer.ViewModels
 
         public bool CanRemoveCategory(object p)
         {
-            return (Category)p != null && SelectedCategory != null;
+            return (Categories)p != null && SelectedCategory != null;
         }
 
         public void OnRemoveCategory(object p)
         {
-            Category category_to_remove = (Category)p ?? SelectedCategory;
+            Categories category_to_remove = (Categories)p ?? SelectedCategory;
 
             if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить категорию {category_to_remove.Name}?", "Удаление категории"))
             {
@@ -814,7 +814,7 @@ namespace Designer_Offer.ViewModels
 
         private void OnAddNewProduct(object p)
         {
-            Product new_product = new Product
+            Products new_product = new Products
             {
                 Entry_Price = 0
             };
@@ -828,12 +828,12 @@ namespace Designer_Offer.ViewModels
             {
                 Products.Add(RepositoryProducts.Add(new_product));
 
-                foreach (var item in new_product.Supplier)
+                foreach (var item in new_product.Suppliers)
                 {
-                    Suppliers.SingleOrDefault(s => s.Id == item.Id)?.Product.Add(new_product);
+                    Suppliers.SingleOrDefault(s => s.Id == item.Id)?.Products.Add(new_product);
                 }
 
-                Manufacturers.SingleOrDefault(m => m.Id == new_product.Manufacturer_Id)?.Product.Add(new_product);
+                Manufacturers.SingleOrDefault(m => m.Id == new_product.Manufacturer_Id)?.Products.Add(new_product);
             }
             catch (Exception e)
             {
@@ -859,12 +859,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanEditProduct(object p)
         {
-            return (Product)p != null && SelectedProduct != null;
+            return (Products)p != null && SelectedProduct != null;
         }
 
         private void OnEditProduct(object p)
         {
-            Product product_to_edit = (Product)p ?? SelectedProduct;
+            Products product_to_edit = (Products)p ?? SelectedProduct;
 
             if (!UserDialog.Edit(product_to_edit))
             {
@@ -875,16 +875,16 @@ namespace Designer_Offer.ViewModels
             {
                 RepositoryProducts.Update(product_to_edit);
 
-                foreach (var item in product_to_edit.Supplier)
+                foreach (var item in product_to_edit.Suppliers)
                 {
-                    Suppliers.SingleOrDefault(s => ReferenceEquals(item.Product, product_to_edit))?.Product.Remove(product_to_edit);
+                    Suppliers.SingleOrDefault(s => ReferenceEquals(item.Products, product_to_edit))?.Products.Remove(product_to_edit);
 
-                    Suppliers.SingleOrDefault(s => s.Id == item.Id)?.Product.Add(product_to_edit);
+                    Suppliers.SingleOrDefault(s => s.Id == item.Id)?.Products.Add(product_to_edit);
                 }
 
-                Manufacturers.SingleOrDefault(m => ReferenceEquals(product_to_edit, m.Product))?.Product.Remove(product_to_edit);
+                Manufacturers.SingleOrDefault(m => ReferenceEquals(product_to_edit, m.Products))?.Products.Remove(product_to_edit);
 
-                Manufacturers.SingleOrDefault(m => m.Id == product_to_edit.Manufacturer_Id)?.Product.Add(product_to_edit);
+                Manufacturers.SingleOrDefault(m => m.Id == product_to_edit.Manufacturer_Id)?.Products.Add(product_to_edit);
             }
             catch (Exception e)
             {
@@ -912,12 +912,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanRemoveProduct(object p)
         {
-            return (Product)p != null && SelectedProduct != null;
+            return (Products)p != null && SelectedProduct != null;
         }
 
         private void OnRemoveProduct(object p)
         {
-            Product product_to_remove = (Product)p ?? SelectedProduct;
+            Products product_to_remove = (Products)p ?? SelectedProduct;
 
             if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить товар {product_to_remove.Name}?", "Удаление товара"))
             {
@@ -928,12 +928,12 @@ namespace Designer_Offer.ViewModels
             {
                 RepositoryProducts.Remove(product_to_remove.Id);
 
-                foreach (var item in product_to_remove.Supplier)
+                foreach (var item in product_to_remove.Suppliers)
                 {
-                    Suppliers.SingleOrDefault(s => ReferenceEquals(item.Product, product_to_remove))?.Product.Remove(product_to_remove);
+                    Suppliers.SingleOrDefault(s => ReferenceEquals(item.Products, product_to_remove))?.Products.Remove(product_to_remove);
                 }
 
-                Manufacturers.SingleOrDefault(m => ReferenceEquals(product_to_remove, m.Product))?.Product.Remove(product_to_remove);
+                Manufacturers.SingleOrDefault(m => ReferenceEquals(product_to_remove, m.Products))?.Products.Remove(product_to_remove);
             }
             catch (Exception e)
             {
@@ -966,7 +966,7 @@ namespace Designer_Offer.ViewModels
 
         private void OnAddNewInstall(object p)
         {
-            Install new_install = new Install
+            Installs new_install = new Installs
             {
                 Entry_Price = 0
             };
@@ -996,12 +996,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanEditInstall(object p)
         {
-            return (Install)p != null && SelectedInstall != null;
+            return (Installs)p != null && SelectedInstall != null;
         }
 
         private void OnEditInstall(object p)
         {
-            Install install_to_edit = (Install)p ?? SelectedInstall;
+            Installs install_to_edit = (Installs)p ?? SelectedInstall;
 
             if (!UserDialog.Edit(install_to_edit))
             {
@@ -1030,12 +1030,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanRemoveInstall(object p)
         {
-            return (Install)p != null && SelectedInstall != null;
+            return (Installs)p != null && SelectedInstall != null;
         }
 
         private void OnRemoveInstall(object p)
         {
-            Install install_to_remove = (Install)p ?? SelectedInstall;
+            Installs install_to_remove = (Installs)p ?? SelectedInstall;
 
             if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить услугу {install_to_remove.Name}?", "Удаление услуги"))
             {
@@ -1069,7 +1069,7 @@ namespace Designer_Offer.ViewModels
 
         private void OnAddAddNewManufacturer(object p)
         {
-            Manufacturer new_manufacturer = new Manufacturer();
+            Manufacturers new_manufacturer = new Manufacturers();
 
             if (!UserDialog.Edit(new_manufacturer))
             {
@@ -1096,12 +1096,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanEditManufacturer(object p)
         {
-            return (Manufacturer)p != null && SelectedManufacturer != null;
+            return (Manufacturers)p != null && SelectedManufacturer != null;
         }
 
         private void OnEditManufacturer(object p)
         {
-            Manufacturer manufacturer_to_edit = (Manufacturer)p ?? SelectedManufacturer;
+            Manufacturers manufacturer_to_edit = (Manufacturers)p ?? SelectedManufacturer;
 
             if (!UserDialog.Edit(manufacturer_to_edit))
             {
@@ -1131,12 +1131,12 @@ namespace Designer_Offer.ViewModels
 
         private bool CanRemoveManufacturer(object p)
         {
-            return (Manufacturer)p != null && SelectedManufacturer != null;
+            return (Manufacturers)p != null && SelectedManufacturer != null;
         }
 
         private void OnRemoveManufacturer(object p)
         {
-            Manufacturer manufacturer_to_remove = (Manufacturer)p ?? SelectedManufacturer;
+            Manufacturers manufacturer_to_remove = (Manufacturers)p ?? SelectedManufacturer;
 
             if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите удалить производителя {manufacturer_to_remove.Name}?", "Удаление производителя"))
             {
@@ -1171,7 +1171,7 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         private void SuppliersViewSource_Filter(object sender, FilterEventArgs e)
         {
-            if (!(e.Item is Supplier supplier) || string.IsNullOrEmpty(SupplierFilter))
+            if (!(e.Item is Suppliers supplier) || string.IsNullOrEmpty(SupplierFilter))
             {
                 return;
             }
@@ -1186,7 +1186,7 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         private void ManufacturersViewSource_Filter(object sender, FilterEventArgs e)
         {
-            if (!(e.Item is Manufacturer manufacturer) || string.IsNullOrEmpty(ManufacturerFilter))
+            if (!(e.Item is Manufacturers manufacturer) || string.IsNullOrEmpty(ManufacturerFilter))
             {
                 return;
             }
@@ -1201,7 +1201,7 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         private void CategoriesViewSource_Filter(object sender, FilterEventArgs e)
         {
-            if (!(e.Item is Category category) || string.IsNullOrEmpty(CategoryFilter))
+            if (!(e.Item is Categories category) || string.IsNullOrEmpty(CategoryFilter))
             {
                 return;
             }
@@ -1216,7 +1216,7 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         private void ProductsViewSource_Filter(object sender, FilterEventArgs e)
         {
-            if (!(e.Item is Product product) || string.IsNullOrEmpty(ProductFilter))
+            if (!(e.Item is Products product) || string.IsNullOrEmpty(ProductFilter))
             {
                 return;
             }
@@ -1231,7 +1231,7 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         private void InstallsViewSource_Filter(object sender, FilterEventArgs e)
         {
-            if (!(e.Item is Install install) || string.IsNullOrEmpty(InstallFilter))
+            if (!(e.Item is Installs install) || string.IsNullOrEmpty(InstallFilter))
             {
                 return;
             }
@@ -1246,13 +1246,13 @@ namespace Designer_Offer.ViewModels
         #region КОНСТРУКТОРЫ
         public ServiceManagerViewModel(
             IUserDialog userDialog,
-            IRepository<Product> repaProducts,
-            IRepository<Install> repaInstalls,
-            IRepository<Supplier> repaSuppliers,
-            IRepository<Unit> repaUnits,
-            IRepository<Category> repaCategories,
-            IRepository<Employee> repaUser,
-            IRepository<Manufacturer> repaManufacturer)
+            IRepository<Products> repaProducts,
+            IRepository<Installs> repaInstalls,
+            IRepository<Suppliers> repaSuppliers,
+            IRepository<Units> repaUnits,
+            IRepository<Categories> repaCategories,
+            IRepository<Employees> repaUser,
+            IRepository<Manufacturers> repaManufacturer)
         {
             Progress = true;
 

@@ -6,10 +6,10 @@ namespace Designer_Offer.Services
 {
     internal interface ILoginService
     {
-        List<Company> Companies { get; set; }
+        List<Companies> Companies { get; set; }
 
         ICommand LoadRegistarationPageCommand { get; set; }
 
-        void Update(List<Company> companies);
+        void Update(List<Companies> companies);
     }
 }

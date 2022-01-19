@@ -111,7 +111,7 @@
                         <DataTemplate>
                             <DockPanel>
                                 <TextBlock
-                                    Text="{Binding Path=Product.Count, StringFormat=Товары ({0}), UpdateSourceTrigger=PropertyChanged}"
+                                    Text="{Binding Path=Products.Count, StringFormat=Товары ({0}), UpdateSourceTrigger=PropertyChanged}"
                                     DockPanel.Dock="Right"/>
                                 <TextBlock 
                                     Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
@@ -363,7 +363,7 @@
                         <DataTemplate>
                             <DockPanel>
                                 <TextBlock
-                                    Text="{Binding Path=Product.Count, StringFormat=Товары ({0}), UpdateSourceTrigger=PropertyChanged}"
+                                    Text="{Binding Path=Products.Count, StringFormat=Товары ({0}), UpdateSourceTrigger=PropertyChanged}"
                                     DockPanel.Dock="Right"/>
                                 <TextBlock 
                                     Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>

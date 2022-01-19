@@ -71,41 +71,41 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _UserPhone, value);
         }
 
-        private List<Company> _Companies;
+        private List<Companies> _Companies;
         /// <summary>
         /// Список компаний
         /// </summary>
-        public List<Company> Companies
+        public List<Companies> Companies
         {
             get => _Companies;
             set => Set(ref _Companies, value);
         }
 
-        private List<Position> _Positions;
+        private List<Positions> _Positions;
         /// <summary>
         /// Список должностей выбранной компании
         /// </summary>
-        public List<Position> Positions
+        public List<Positions> Positions
         {
             get => _Positions;
             set => Set(ref _Positions, value);
         }
 
-        private Company _SelectedComapany;
+        private Companies _SelectedComapany;
         /// <summary>
         /// Выбранная компания
         /// </summary>
-        public Company SelectedCompany
+        public Companies SelectedCompany
         {
             get => _SelectedComapany;
             set => Set(ref _SelectedComapany, value);
         }
 
-        private Position _SelectedPosition;
+        private Positions _SelectedPosition;
         /// <summary>
         /// Выбранная должность
         /// </summary>
-        public Position SelectedPosition
+        public Positions SelectedPosition
         {
             get => _SelectedPosition;
             set => Set(ref _SelectedPosition, value);
@@ -120,19 +120,19 @@ namespace Designer_Offer.ViewModels
 
         private void OnLoadPositionCommand(object p)
         {
-            Positions = SelectedCompany.Position.ToList();
+            Positions = SelectedCompany.Positions.ToList();
         }
 
         private bool CanLoadPositionCommand(object p)
         {
-            return true && SelectedCompany != null && SelectedCompany.Position != null;
+            return true && SelectedCompany != null && SelectedCompany.Positions != null;
         }
         #endregion
 
         #region КОНСТРУКТОРЫ
         public EmployeeEditorViewModel(
-            IRepository<Company> repaCompanies,
-            IRepository<Position> repaPositions)
+            IRepository<Companies> repaCompanies,
+            IRepository<Positions> repaPositions)
         {
             Companies = repaCompanies.Items.ToList();
             Positions = repaPositions.Items.ToList();

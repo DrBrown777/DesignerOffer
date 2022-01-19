@@ -7,8 +7,7 @@ namespace Designer_Offer.Data
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Build")]
-    public partial class Build : IEntity 
+    public partial class Builds : IEntity
     {
         public int Id { get; set; }
 
@@ -22,8 +21,8 @@ namespace Designer_Offer.Data
         [StringLength(500)]
         public string Adress { get; set; }
 
-        public virtual Client Client { get; set; }
+        public virtual Clients Clients { get; set; }
 
-        public virtual Project Project { get; set; }
+        public virtual Projects Projects { get; set; }
     }
 }

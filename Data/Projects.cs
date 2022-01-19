@@ -7,32 +7,31 @@ namespace Designer_Offer.Data
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Install")]
-    public partial class Install : IEntity
+    public partial class Projects : IEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Install()
+        public Projects()
         {
-            InstallPart = new HashSet<InstallPart>();
+            Offers = new HashSet<Offers>();
         }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
-        public int? Category_Id { get; set; }
-
-        public int? Unit_Id { get; set; }
+        public int? Employee_Id { get; set; }
 
         [Required]
         [StringLength(100)]
         public string Name { get; set; }
 
-        public decimal? Entry_Price { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime Date { get; set; }
 
-        public virtual Category Category { get; set; }
+        public virtual Builds Builds { get; set; }
 
-        public virtual Unit Unit { get; set; }
+        public virtual Employees Employees { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InstallPart> InstallPart { get; set; }
+        public virtual ICollection<Offers> Offers { get; set; }
     }
 }

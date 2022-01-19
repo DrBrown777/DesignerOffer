@@ -94,15 +94,15 @@
                 <StackPanel DockPanel.Dock="Left"
                     Orientation="Horizontal" VerticalAlignment="Center">
                     <materialDesign:PackIcon Kind="Wall" />
-                    <TextBox Text="{Binding Path=CurrentOffer.Project.Name}" IsReadOnly="True"/>
+                    <TextBox Text="{Binding Path=CurrentOffer.Projects.Name}" IsReadOnly="True"/>
                     <materialDesign:PackIcon Kind="PipeWrench" />
-                    <TextBox Text="{Binding Path=CurrentOffer.Section.Name}" IsReadOnly="True"/>
+                    <TextBox Text="{Binding Path=CurrentOffer.Sections.Name}" IsReadOnly="True"/>
                     <materialDesign:PackIcon Kind="Margin" />
                     <TextBox x:Name="MarginProduct"
                             materialDesign:HintAssist.Hint="введите коэф."
                             materialDesign:HintAssist.HelperText="Наценка товара">
                             <TextBox.Text>
-                                <Binding Path="CurrentOffer.Config.Margin_Product" UpdateSourceTrigger="PropertyChanged">
+                                <Binding Path="CurrentOffer.Configs.Margin_Product" UpdateSourceTrigger="PropertyChanged">
                                     <Binding.ValidationRules>
                                         <local:NotEmptyValidationRule ValidatesOnTargetUpdated="False"/>
                                         <local:NotNumberValidationRule ValidatesOnTargetUpdated="False"/>
@@ -118,7 +118,7 @@
                             materialDesign:HintAssist.Hint="введите коэф."
                             materialDesign:HintAssist.HelperText="Наценка услуг">
                             <TextBox.Text>
-                                <Binding Path="CurrentOffer.Config.Margin_Work" UpdateSourceTrigger="PropertyChanged">
+                                <Binding Path="CurrentOffer.Configs.Margin_Work" UpdateSourceTrigger="PropertyChanged">
                                     <Binding.ValidationRules>
                                         <local:NotEmptyValidationRule ValidatesOnTargetUpdated="False"/>
                                         <local:NotNumberValidationRule ValidatesOnTargetUpdated="False"/>
@@ -134,7 +134,7 @@
                             materialDesign:HintAssist.Hint="введите коэф."
                             materialDesign:HintAssist.HelperText="Админ расходы">
                             <TextBox.Text>
-                                <Binding Path="CurrentOffer.Config.Margin_Admin" UpdateSourceTrigger="PropertyChanged">
+                                <Binding Path="CurrentOffer.Configs.Margin_Admin" UpdateSourceTrigger="PropertyChanged">
                                     <Binding.ValidationRules>
                                         <local:NotEmptyValidationRule ValidatesOnTargetUpdated="False"/>
                                         <local:NotNumberValidationRule ValidatesOnTargetUpdated="False"/>

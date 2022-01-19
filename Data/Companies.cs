@@ -7,28 +7,24 @@ namespace Designer_Offer.Data
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Employee")]
-    public partial class Employee : IEntity
+    public partial class Companies : IEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Employee()
+        public Companies()
         {
-            Project = new HashSet<Project>();
+            Employees = new HashSet<Employees>();
+            Positions = new HashSet<Positions>();
         }
 
         public int Id { get; set; }
 
-        public int? Company_Id { get; set; }
-
-        public int? Position_Id { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string Name { get; set; }
 
         [Required]
-        [StringLength(50)]
-        public string First_Name { get; set; }
-
-        [Required]
-        [StringLength(50)]
-        public string Last_Name { get; set; }
+        [StringLength(200)]
+        public string Adress { get; set; }
 
         [Required]
         [StringLength(20)]
@@ -38,13 +34,10 @@ namespace Designer_Offer.Data
         [StringLength(30)]
         public string Mail { get; set; }
 
-        public virtual Company Company { get; set; }
-
-        public virtual Position Position { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Employees> Employees { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Project> Project { get; set; }
-
-        public virtual UserData UserData { get; set; }
+        public virtual ICollection<Positions> Positions { get; set; }
     }
 }

@@ -6,9 +6,9 @@ namespace Designer_Offer.Services.Interfaces
 {
     internal interface ICalculator
     {
-        OfferPrice CalculateOfferPrice(Offer offer);
+        OfferPrice CalculateOfferPrice(Offers offer);
 
-        List<PartPrice> CalculatePartPrice(ICollection<Part> parts);
+        List<PartPrice> CalculatePartPrice(ICollection<Parts> parts);
 
         TotalProductPrice CalculateTotalProductPrice(ICollection<ProductPart> products);
 
