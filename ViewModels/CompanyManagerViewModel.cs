@@ -267,11 +267,6 @@ namespace Designer_Offer.ViewModels
             try
             {
                 RepositoryCompanies.Update(company_to_edit);
-
-                if (Companies.Remove(company_to_edit))
-                {
-                    Companies.Add(company_to_edit);
-                }
             }
             catch (Exception e)
             {
@@ -378,6 +373,7 @@ namespace Designer_Offer.ViewModels
             {
                 RepositoryUsers.Update(employee);
 
+                /*убрать*/
                 if (Employees.Remove(employee))
                 {
                     Employees.Add(employee);
@@ -483,6 +479,7 @@ namespace Designer_Offer.ViewModels
             {
                 RepositoryPositions.Update(position);
 
+                /*убрать*/
                 if (Positions.Remove(position))
                 {
                     Positions.Add(position);
@@ -586,6 +583,7 @@ namespace Designer_Offer.ViewModels
             {
                 RepositorySections.Update(section);
 
+                /*убрать*/
                 if (Sections.Remove(section))
                 {
                     Sections.Add(section);

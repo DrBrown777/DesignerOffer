@@ -559,11 +559,6 @@ namespace Designer_Offer.ViewModels
             }
             finally
             {
-                if (Units.Remove(edit_unit))
-                {
-                    Units.Add(edit_unit);
-                }
-
                 SelectedUnit = edit_unit;
             }
         }

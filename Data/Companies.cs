@@ -1,5 +1,6 @@
 namespace Designer_Offer.Data
 {
+    using Designer_Offer.Models.Base;
     using Designer_Offer.Services.Interfaces;
     using System;
     using System.Collections.Generic;
@@ -7,7 +8,7 @@ namespace Designer_Offer.Data
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Companies : IEntity
+    public partial class Companies : Model, IEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Companies()
@@ -18,21 +19,25 @@ namespace Designer_Offer.Data
 
         public int Id { get; set; }
 
+        private string _Name;
         [Required]
         [StringLength(100)]
-        public string Name { get; set; }
+        public string Name { get => _Name; set => Set(ref _Name, value); }
 
+        private string _Adress;
         [Required]
         [StringLength(200)]
-        public string Adress { get; set; }
+        public string Adress { get => _Adress; set => Set(ref _Adress, value); }
 
+        private string _Phone;
         [Required]
         [StringLength(20)]
-        public string Phone { get; set; }
+        public string Phone { get => _Phone; set => Set(ref _Phone, value); }
 
+        private string _Mail;
         [Required]
         [StringLength(30)]
-        public string Mail { get; set; }
+        public string Mail { get => _Mail; set => Set(ref _Mail, value); }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employees> Employees { get; set; }
