@@ -372,12 +372,6 @@ namespace Designer_Offer.ViewModels
             try
             {
                 RepositoryUsers.Update(employee);
-
-                /*убрать*/
-                if (Employees.Remove(employee))
-                {
-                    Employees.Add(employee);
-                }
             }
             catch (Exception e)
             {
@@ -478,12 +472,6 @@ namespace Designer_Offer.ViewModels
             try
             {
                 RepositoryPositions.Update(position);
-
-                /*убрать*/
-                if (Positions.Remove(position))
-                {
-                    Positions.Add(position);
-                }
             }
             catch (Exception e)
             {
@@ -582,12 +570,6 @@ namespace Designer_Offer.ViewModels
             try
             {
                 RepositorySections.Update(section);
-
-                /*убрать*/
-                if (Sections.Remove(section))
-                {
-                    Sections.Add(section);
-                }
             }
             catch (Exception e)
             {

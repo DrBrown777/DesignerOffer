@@ -1,5 +1,6 @@
 namespace Designer_Offer.Data
 {
+    using Designer_Offer.Models.Base;
     using Designer_Offer.Services.Interfaces;
     using System;
     using System.Collections.Generic;
@@ -7,7 +8,7 @@ namespace Designer_Offer.Data
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Sections : IEntity
+    public partial class Sections : Model, IEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Sections()
@@ -18,9 +19,14 @@ namespace Designer_Offer.Data
 
         public int Id { get; set; }
 
+        private string _Name;
         [Required]
         [StringLength(50)]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => _Name;
+            set => Set(ref _Name, value);
+        }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Offers> Offers { get; set; }
