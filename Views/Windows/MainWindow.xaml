@@ -38,7 +38,6 @@
             <Setter Property="Width" Value="594"/>
         </Style>
         <Style TargetType="ProgressBar" BasedOn="{StaticResource MaterialDesignLinearProgressBar}">
-            
             <Setter Property="Margin" Value="0,0,15,0"/>
             <Setter Property="Width" Value="200"/>
             <Setter Property="Height" Value="7"/>

@@ -52,6 +52,10 @@
         <Style TargetType="ListBox" BasedOn="{StaticResource MaterialDesignListBox}">
             <Setter Property="Margin" Value="0,5,0,5"/>
         </Style>
+        <Style TargetType="Label" BasedOn="{StaticResource MaterialDesignLabel}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -397,16 +401,57 @@
         <GroupBox  Header="Стоимость КП" 
                        Grid.Column="2" 
                        Grid.Row="1">
-            <StackPanel Margin="5px" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <Label Content="Вход:"/>
-                <TextBlock Text="{Binding Path=OfferPrice.EntryCost, UpdateSourceTrigger=PropertyChanged}"/>
-                <Label Content="Выход:"/>
-                <TextBlock Text="{Binding Path=OfferPrice.OutCost, UpdateSourceTrigger=PropertyChanged}"/>
-                <Label Content="% наценки:"/>
-                <TextBlock Text="{Binding Path=OfferPrice.Proffit, UpdateSourceTrigger=PropertyChanged}"/>
-                <Label Content="Доходность:"/>
-                <TextBlock Text="{Binding Path=OfferPrice.Proceeds, UpdateSourceTrigger=PropertyChanged}"/>
-            </StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                
+                <Border Background="#FFF0C364" Grid.Row="0" Grid.Column="0" BorderThickness="0.8" BorderBrush="LightGray"/>
+                <Border Background="#FF6FD3A1" Grid.Row="0" Grid.Column="1" BorderThickness="0.8" BorderBrush="LightGray"/>
+                <Border Background="#FFF0C364" Grid.Row="0" Grid.Column="2" BorderThickness="0.8" BorderBrush="LightGray"/>
+                <Border Background="#FF6FD3A1" Grid.Row="0" Grid.Column="3" BorderThickness="0.8" BorderBrush="LightGray"/>
+                <Border Background="#FF0277BD" Grid.Row="2" Grid.Column="0" BorderThickness="0.8" BorderBrush="LightGray"/>
+                <Border Background="#FF0277BD" Grid.Row="2" Grid.Column="1" BorderThickness="0.8" BorderBrush="LightGray"/>
+                <Border Background="#FF0277BD" Grid.Row="2" Grid.Column="2" BorderThickness="0.8" BorderBrush="LightGray"/>
+                <Border Grid.Row="1" Grid.Column="0" BorderThickness="0.8" BorderBrush="LightGray"/>
+                <Border Grid.Row="1" Grid.Column="1" BorderThickness="0.8" BorderBrush="LightGray"/>
+                <Border Grid.Row="1" Grid.Column="2" BorderThickness="0.8" BorderBrush="LightGray"/>
+                <Border Grid.Row="1" Grid.Column="3" Grid.RowSpan="3" BorderThickness="0.8" BorderBrush="LightGray"/>
+                <Border Grid.Row="3" Grid.Column="0" Grid.RowSpan="3" BorderThickness="0.8" BorderBrush="LightGray"/>
+                <Border Grid.Row="3" Grid.Column="1" Grid.RowSpan="3" BorderThickness="0.8" BorderBrush="LightGray"/>
+                <Border Grid.Row="3" Grid.Column="2" Grid.RowSpan="3" BorderThickness="0.8" BorderBrush="LightGray"/>
+                
+                <Label Content="Вход" Grid.Row="0" Grid.Column="0"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Text="{Binding Path=OfferPrice.EntryCost, UpdateSourceTrigger=PropertyChanged}" FontSize="16" />
+                <Label Content="Выход" Grid.Row="0" Grid.Column="1" />
+                <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Text="{Binding Path=OfferPrice.OutCost, UpdateSourceTrigger=PropertyChanged}" FontSize="16"/>
+                <Label Content="Доходность" Grid.Row="0" Grid.Column="2"/>
+                <TextBlock Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Text="{Binding Path=OfferPrice.Proceeds, UpdateSourceTrigger=PropertyChanged}" FontSize="16"/>
+                <Label Content="% Наценки" Grid.Row="0" Grid.Column="3"/>
+                <TextBlock Grid.Row="1" Grid.Column="3" Grid.RowSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Text="{Binding Path=OfferPrice.Proffit, UpdateSourceTrigger=PropertyChanged}" FontSize="25" Foreground="#FF42AC51"/>
+                <Label Content="% Материал" Grid.Row="2" Grid.Column="0" Foreground="AliceBlue"/>
+                <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Text="{Binding Path=SelectedOffer.Configs.Margin_Product, UpdateSourceTrigger=PropertyChanged}" FontSize="16"/>
+                <Label Content="% Работы" Grid.Row="2" Grid.Column="1" Foreground="AliceBlue"/>
+                <TextBlock Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Text="{Binding Path=SelectedOffer.Configs.Margin_Work, UpdateSourceTrigger=PropertyChanged}" FontSize="16"/>
+                <Label Content="% Админ" Grid.Row="2" Grid.Column="2" Foreground="AliceBlue"/>
+                <TextBlock Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Text="{Binding Path=SelectedOffer.Configs.Margin_Admin, UpdateSourceTrigger=PropertyChanged}" FontSize="16"/>
+            </Grid>
         </GroupBox>
     </Grid>
 </UserControl>

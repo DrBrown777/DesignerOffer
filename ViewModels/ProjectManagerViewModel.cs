@@ -402,6 +402,11 @@ namespace Designer_Offer.ViewModels
                 Project?.Clear();
             }
 
+            if (SelectedBuild?.Projects.Offers.Count == 0 || SelectedClient.Builds?.Count == 0)
+            {
+                OfferPrice = null;
+            }
+
             if (SelectedBuild == null || SelectedBuild.Projects == null)
             {
                 if (Offers?.Count != 0)
