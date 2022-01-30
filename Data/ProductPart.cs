@@ -22,13 +22,26 @@ namespace Designer_Offer.Data
 
         public decimal? Entry_Price { get; set; }
 
-        public decimal? Entry_Summ { get; set; }
+        private decimal? _Entry_Summ;
+        public decimal? Entry_Summ
+        {
+            get => _Entry_Summ;
+            set => Set(ref _Entry_Summ, value);
+        }
 
         private decimal? _Out_Price;
-        public decimal? Out_Price { get => _Out_Price; set => Set(ref _Out_Price, value); }
+        public decimal? Out_Price 
+        { 
+            get => _Out_Price; 
+            set => Set(ref _Out_Price, value); 
+        }
 
         private decimal? _Out_Summ;
-        public decimal? Out_Summ { get => _Out_Summ; set => Set(ref _Out_Summ, value); }
+        public decimal? Out_Summ 
+        { 
+            get => _Out_Summ; 
+            set => Set(ref _Out_Summ, value); 
+        }
 
         public decimal? Amount { get; set; }
 

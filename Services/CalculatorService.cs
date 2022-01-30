@@ -25,7 +25,6 @@ namespace Designer_Offer.Services
 
             return offerPrice;
         }
-
         /// <summary>
         /// Расчет общей стоимости одной отдельной системы
         /// </summary>
@@ -37,9 +36,13 @@ namespace Designer_Offer.Services
 
             foreach (Parts item in parts)
             {
-               PartPrice partPrice = new PartPrice(item.Offers.Configs.Margin_Admin, item.Offers.Configs.Margin_Product,
-                    item.InstallPart.Sum(it => it.Entry_Summ), item.ProductPart.Sum(it => it.Entry_Summ),
-                    item.InstallPart.Sum(it => it.Out_Summ), item.ProductPart.Sum(it => it.Out_Summ)) { PartName = item.Name };
+                TotalProductPrice productPrice = CalculateTotalProductPrice(item.ProductPart);
+
+                TotalInstallPrice installPrice = CalculateTotalInstallPrice(item.InstallPart);
+
+                PartPrice partPrice = new PartPrice(item.Offers.Configs.Margin_Admin, item.Offers.Configs.Margin_Product,
+                    installPrice.EntryCost, productPrice.EntryCost, installPrice.OutCost, productPrice.OutCost)
+                { PartName = item.Name };
 
                 partPrices.Add(partPrice);
             }
@@ -53,6 +56,11 @@ namespace Designer_Offer.Services
         /// <returns></returns>
         public TotalProductPrice CalculateTotalProductPrice(ICollection<ProductPart> products)
         {
+            foreach (ProductPart product in products)
+            {
+                PriceOneItem(product);
+            }
+
             TotalProductPrice productPrice = new TotalProductPrice()
             {
                 EntryCost = products.Sum(it => it.Entry_Summ),
@@ -68,8 +76,18 @@ namespace Designer_Offer.Services
         /// <returns></returns>
         public TotalInstallPrice CalculateTotalInstallPrice(ICollection<InstallPart> installs)
         {
-            decimal mrgAdm = installs.First().Parts.Offers.Configs.Margin_Admin;
-            decimal mrgProd = installs.First().Parts.Offers.Configs.Margin_Product;
+            decimal mrgAdm = 0, mrgProd = 0;
+
+            if (installs.Count != 0)
+            { 
+                mrgAdm = installs.First().Parts.Offers.Configs.Margin_Admin;
+                mrgProd = installs.First().Parts.Offers.Configs.Margin_Product;
+            }
+
+            foreach (InstallPart install in installs)
+            {
+                PriceOneItem(install);
+            }
 
             TotalInstallPrice installPrice = new TotalInstallPrice(mrgAdm, mrgProd)
             {
@@ -78,6 +96,34 @@ namespace Designer_Offer.Services
             };
 
             return installPrice;
+        }
+        /// <summary>
+        /// Расчет цен одной позиции материалов или работ
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="item"></param>
+        public void PriceOneItem<T>(T item)
+        {
+            if (item == null)
+            {
+                return;
+            }
+            if (item is ProductPart product)
+            {
+                decimal margin_product = product.Parts.Offers.Configs.Margin_Product;
+
+                product.Out_Price = Price.RoundDecimal(product.Entry_Price * margin_product);
+                product.Entry_Summ = Price.RoundDecimal(product.Amount * product.Entry_Price);
+                product.Out_Summ = Price.RoundDecimal(product.Amount * product.Out_Price);
+            }
+            if (item is InstallPart install)
+            {
+                decimal margin_work = install.Parts.Offers.Configs.Margin_Work;
+
+                install.Out_Price = Price.RoundDecimal(install.Entry_Price * margin_work);
+                install.Entry_Summ = Price.RoundDecimal(install.Amount * install.Entry_Price);
+                install.Out_Summ = Price.RoundDecimal(install.Amount * install.Out_Price);
+            }
         }
     }
 }

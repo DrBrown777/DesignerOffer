@@ -29,9 +29,9 @@ namespace Designer_Offer.Models
         /// </summary>
         /// <param name="number"></param>
         /// <returns></returns>
-        public decimal RoundDecimal(decimal? number)
+        public static decimal RoundDecimal(decimal? number)
         {
-            return decimal.Round((decimal)number, 2, MidpointRounding.AwayFromZero);
+            return number != null ? decimal.Round((decimal)number, 2, MidpointRounding.AwayFromZero) : 0.00M;
         }
     }
 }

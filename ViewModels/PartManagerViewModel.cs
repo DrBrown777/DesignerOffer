@@ -273,13 +273,7 @@ namespace Designer_Offer.ViewModels
         {
             try
             {
-                decimal margin_product = RepositoryPart.Get(Id).Offers.Configs.Margin_Product;
-
-                SelectedProduct.Out_Price = RoundDecimal(SelectedProduct.Entry_Price * margin_product);
-                SelectedProduct.Entry_Summ = RoundDecimal(SelectedProduct.Amount * SelectedProduct.Entry_Price);
-                SelectedProduct.Out_Summ = RoundDecimal(SelectedProduct.Amount * SelectedProduct.Out_Price);
-
-                SelectedProduct = UpdateCollection(Products, SelectedProduct);
+                CalculatorService.PriceOneItem(SelectedProduct);
             }
             catch (Exception e)
             {
@@ -305,13 +299,7 @@ namespace Designer_Offer.ViewModels
         {
             try
             {
-                decimal margin_install = RepositoryPart.Get(Id).Offers.Configs.Margin_Work;
-
-                SelectedInstall.Out_Price = RoundDecimal(SelectedInstall.Entry_Price * margin_install);
-                SelectedInstall.Entry_Summ = RoundDecimal(SelectedInstall.Amount * SelectedInstall.Entry_Price);
-                SelectedInstall.Out_Summ = RoundDecimal(SelectedInstall.Amount * SelectedInstall.Out_Price);
-
-                SelectedInstall = UpdateCollection(Installs, SelectedInstall);
+                CalculatorService.PriceOneItem(SelectedInstall);
             }
             catch (Exception e)
             {
@@ -436,63 +424,25 @@ namespace Designer_Offer.ViewModels
 
         #region МЕТОДЫ
         /// <summary>
-        /// Обновление коллекции 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="collection"></param>
-        /// <param name="oldItem"></param>
-        /// <returns></returns>
-        private T UpdateCollection<T>(ObservableCollection<T> collection, T oldItem)
-        {
-            if (collection == null)
-            {
-                return oldItem;
-            }
-
-            T newItem = oldItem;
-
-            int indexNewItem = collection.IndexOf(oldItem);
-
-            if (collection.Remove(oldItem))
-            {
-                collection.Insert(indexNewItem, newItem);
-            }
-
-            return newItem;
-        }
-        /// <summary>
-        /// Округление цены
-        /// </summary>
-        /// <param name="number"></param>
-        /// <returns></returns>
-        private decimal RoundDecimal(decimal? number)
-        {
-            try
-            {
-                return decimal.Round((decimal)number, 2, MidpointRounding.AwayFromZero);
-            }
-            catch (Exception e)
-            {
-                UserDialog.ShowError(e.Message, "Ошибка");
-                return (decimal)number;
-            }
-        }
-        /// <summary>
         /// Обновление в коллекции индекса сортировки
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="collection"></param>
         private void UpdateSortOrder<T>(ObservableCollection<T> collection)
         {
-            foreach (var item in collection)
+            foreach (T item in collection)
             {
                 int index = collection.IndexOf(item);
 
                 if (item is ProductPart product)
+                {
                     product.Sort_Order = index;
+                }
 
                 if (item is InstallPart install)
+                {
                     install.Sort_Order = index;
+                }
             }
         }
         #endregion

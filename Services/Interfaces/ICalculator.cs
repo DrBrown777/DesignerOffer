@@ -13,5 +13,7 @@ namespace Designer_Offer.Services.Interfaces
         TotalProductPrice CalculateTotalProductPrice(ICollection<ProductPart> products);
 
         TotalInstallPrice CalculateTotalInstallPrice(ICollection<InstallPart> installs);
+
+        void PriceOneItem<T>(T item);
     }
 }

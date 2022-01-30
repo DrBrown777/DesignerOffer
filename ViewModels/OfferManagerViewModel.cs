@@ -34,6 +34,11 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         private readonly IUserDialog UserDialog;
 
+        /// <summary>
+        /// Сервис калькуляции цен
+        /// </summary>
+        private readonly ICalculator CalculatorService;
+
         #region репозитории
         /// <summary>
         /// Репозитории пользователей
@@ -340,7 +345,7 @@ namespace Designer_Offer.ViewModels
 
                 CurrentOffer.Parts.Add(new_part);
 
-                var partManagerView = App.Host.Services.GetRequiredService<PartManagerViewModel>();
+                PartManagerViewModel partManagerView = App.Host.Services.GetRequiredService<PartManagerViewModel>();
 
                 partManagerView.Id = new_part.Id;
 
@@ -403,7 +408,7 @@ namespace Designer_Offer.ViewModels
             Progress = true;
             try
             {
-                foreach (var item in Parts)
+                foreach (PartManagerViewModel item in Parts)
                 {
                     CurrentOffer.Parts.FirstOrDefault(part => part.Id == item.Id).Name = item.Name;
                 }
@@ -443,6 +448,10 @@ namespace Designer_Offer.ViewModels
             {
                 Part_Id = SelectedPart.Id,
                 Entry_Price = SelectedProduct.Entry_Price,
+                Entry_Summ = 0.00M,
+                Amount = 0.00M,
+                Out_Price = 0.00M,
+                Out_Summ = 0.00M,
                 Sort_Order = SelectedPart.Products.Count
             };
 
@@ -477,8 +486,11 @@ namespace Designer_Offer.ViewModels
             {
                 Part_Id = SelectedPart.Id,
                 Entry_Price = SelectedInstall.Entry_Price,
-                Sort_Order = SelectedPart.Installs.Count,
-                Amount = 0
+                Entry_Summ = 0.00M,
+                Amount = 0.00M,
+                Out_Price = 0.00M,
+                Out_Summ = 0.00M,
+                Sort_Order = SelectedPart.Installs.Count
             };
 
             /*проверка правильности перебора для формирования кол-ва услуг*/
@@ -515,76 +527,18 @@ namespace Designer_Offer.ViewModels
             {
                 foreach (ProductPart item in part.ProductPart)
                 {
-                    if (item.Out_Price != null)
-                    {
-                        item.Out_Price = RoundDecimal(item.Entry_Price * CurrentOffer.Configs.Margin_Product);
-                    }
-                    if (item.Entry_Summ != null)
-                    {
-                        item.Entry_Summ = RoundDecimal(item.Amount * item.Entry_Price);
-                    }
-                    if (item.Out_Summ != null)
-                    {
-                        item.Out_Summ = RoundDecimal(item.Amount * item.Out_Price);
-                    }
-                    //реализовать PropertyChanged
-                    var partView = Parts.First(it => it.Id == item.Part_Id);
+                    CalculatorService.PriceOneItem(item);
 
-                    var prPart = partView.Products.First(it => it.Part_Id == item.Part_Id);
-                   
-
-                    prPart.Out_Price = item.Out_Price;
-                    prPart.Out_Summ = item.Out_Summ;
-
-                    partView.CalculateGeneralPriceProduct.Execute(null);
-                    
+                    Parts.First(it => it.Id == item.Part_Id).CalculateGeneralPriceProduct.Execute(null);
                 }
                 foreach (InstallPart item in part.InstallPart)
                 {
-                    if (item.Out_Price != null)
-                    {
-                        item.Out_Price = RoundDecimal(item.Entry_Price * CurrentOffer.Configs.Margin_Work);
-                    }
-                    if (item.Entry_Summ != null)
-                    {
-                        item.Entry_Summ = RoundDecimal(item.Amount * item.Entry_Price);
-                    }
-                    if (item.Out_Summ != null)
-                    {
-                        item.Out_Summ = RoundDecimal(item.Amount * item.Out_Price);
-                    }
-                    //реализовать PropertyChanged
-                    var partView = Parts.First(it => it.Id == item.Part_Id);
+                    CalculatorService.PriceOneItem(item);
 
-                    var insPart = partView.Installs.First(it => it.Part_Id == item.Part_Id);
-
-                    insPart.Out_Price = item.Out_Price;
-                    insPart.Out_Summ = item.Out_Summ;
-
-                    partView.CalculateGeneralPriceInstall.Execute(null);
-                    
+                    Parts.First(it => it.Id == item.Part_Id).CalculateGeneralPriceInstall.Execute(null);
                 }
             }
-            //Этот перебор не нужен
-            /*
-            foreach (PartManagerViewModel item in Parts)
-            {
-                if (item.Products.Count != 0)
-                {
-                    item.Products.Clear();
-                }
 
-                if (item.Installs.Count != 0)
-                {
-                    item.Installs.Clear();
-                }
-
-                if (item.LoadDataFromRepositories.CanExecute(item.Id))
-                {
-                    item.LoadDataFromRepositories.Execute(item.Id);
-                }
-            }
-            */
             if (UpdateOffer.CanExecute(null))
             {
                 UpdateOffer.Execute(null);
@@ -625,21 +579,6 @@ namespace Designer_Offer.ViewModels
                 e.Accepted = false;
             }
         }
-        /// <summary>
-        /// Правила огругления цен
-        /// </summary>
-        private decimal RoundDecimal(decimal? number)
-        {
-            try
-            {
-                return decimal.Round((decimal)number, 2, MidpointRounding.AwayFromZero);
-            }
-            catch (Exception e)
-            {
-                UserDialog.ShowError(e.Message, "Ошибка");
-                return (decimal)number;
-            }
-        }
         #endregion
 
         #region КОНСТРУКТОРЫ
@@ -649,7 +588,7 @@ namespace Designer_Offer.ViewModels
            IRepository<Parts> repaPart,
            IRepository<Products> repaProduct,
            IRepository<Installs> repaInstall,
-           IUserDialog userDialog)
+           IUserDialog userDialog, ICalculator calcService)
         {
             Progress = true;
 
@@ -664,6 +603,7 @@ namespace Designer_Offer.ViewModels
             RepositoryInstall = repaInstall;
 
             UserDialog = userDialog;
+            CalculatorService = calcService;
 
             LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
 

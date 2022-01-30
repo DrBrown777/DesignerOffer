@@ -1,17 +1,14 @@
 ﻿using Designer_Offer.Data;
 using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.Models;
-using Designer_Offer.Services;
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
 
