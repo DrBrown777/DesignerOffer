@@ -239,9 +239,11 @@
     <Compile Include="Models\TotalProductPrice.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Services\CalculatorService.cs" />
+    <Compile Include="Services\ExportFileService.cs" />
     <Compile Include="Services\ILoginService.cs" />
     <Compile Include="Services\Interfaces\ICalculator.cs" />
     <Compile Include="Services\Interfaces\IEntity.cs" />
+    <Compile Include="Services\Interfaces\IExportService.cs" />
     <Compile Include="Services\Interfaces\IRepository.cs" />
     <Compile Include="Services\Interfaces\IUserDialog.cs" />
     <Compile Include="Services\IRegistrationService.cs" />
@@ -253,6 +255,7 @@
     <Compile Include="ViewModels\CompanyEditorViewModel.cs" />
     <Compile Include="ViewModels\CompanyManagerViewModel.cs" />
     <Compile Include="ViewModels\EmployeeEditorViewModel.cs" />
+    <Compile Include="ViewModels\ExportViewModel.cs" />
     <Compile Include="ViewModels\InstallEditorViewModel.cs" />
     <Compile Include="ViewModels\ManufacturerEditorViewModel.cs" />
     <Compile Include="ViewModels\OfferInitViewModel.cs" />
@@ -296,6 +299,9 @@
     </Compile>
     <Compile Include="Views\Windows\EmployeeEditorWindow.xaml.cs">
       <DependentUpon>EmployeeEditorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\ExportWindow.xaml.cs">
+      <DependentUpon>ExportWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\InstallEditorWindow.xaml.cs">
       <DependentUpon>InstallEditorWindow.xaml</DependentUpon>
@@ -369,6 +375,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Windows\EmployeeEditorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\ExportWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

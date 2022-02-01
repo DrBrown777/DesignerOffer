@@ -5,7 +5,7 @@ namespace Designer_Offer.ViewModels
 {
     internal class ViewModelLocator
     {
-        public MainWindowViewModel MainWindowView => 
+        public MainWindowViewModel MainWindowView =>
             App.Host.Services.GetRequiredService<MainWindowViewModel>();
 
         public WorkWindowViewModel WorkWindowView =>
@@ -67,5 +67,8 @@ namespace Designer_Offer.ViewModels
 
         public OfferInitViewModel OfferInitView =>
             App.Host.Services.GetRequiredService<OfferInitViewModel>();
+
+        public ExportViewModel ExportView =>
+            App.Host.Services.GetRequiredService<ExportViewModel>();
     }
 }

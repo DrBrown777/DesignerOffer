@@ -1,0 +1,109 @@
+﻿<Window x:Class="Designer_Offer.Views.Windows.ExportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:cmd="clr-namespace:Designer_Offer.Infrastructure.Commands"
+        mc:Ignorable="d"
+        Title="Экспорт КП в Excel"
+        Height="250" Width="400"
+        WindowStartupLocation="CenterScreen"
+        DataContext="{Binding ExportView, Source={StaticResource Locator}}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Aliased"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
+    <Window.Resources>
+        <cmd:DialogResultCommand x:Key="DialogResultCommand"/>
+        <Style x:Key="Button" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedDarkButton}">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Padding" Value="10,3"/>
+            <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth2"/>
+        </Style>
+        <Style x:Key="UniformGrid" TargetType="UniformGrid">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+        <Style TargetType="materialDesign:PackIcon">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Foreground" Value="#FF436EB1"/>
+        </Style>
+    </Window.Resources>
+    <DockPanel Margin="3">
+        <UniformGrid 
+            Style="{StaticResource UniformGrid}"
+            DockPanel.Dock="Bottom" Rows="1">
+            <Button Style="{StaticResource Button}"
+                        Content="Экспорт"
+                        Command="{StaticResource DialogResultCommand}"
+                        CommandParameter="True"/>
+            <Button Style="{StaticResource Button}"
+                        Content="Отмена"
+                        Command="{StaticResource DialogResultCommand}"
+                        CommandParameter="False"/>
+        </UniformGrid>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition Width="0.9*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.2*"/>
+                <RowDefinition Height="0.2*"/>
+                <RowDefinition Height="0.2*"/>
+                <RowDefinition Height="0.2*"/>
+            </Grid.RowDefinitions>
+            <materialDesign:PackIcon 
+                Kind="Wall"
+                Grid.Column="0" Grid.Row="0"/>
+            <TextBox Style="{StaticResource MaterialDesignTextBox}"
+                Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"
+                Text="{Binding Path=ProjectName}"
+                FontWeight="DemiBold" FontSize="16" IsReadOnly="True"/>
+            <materialDesign:PackIcon 
+                Kind="Offer"
+                Grid.Column="0" Grid.Row="1"/>
+            <TextBox Style="{StaticResource MaterialDesignTextBox}"
+                Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"
+                Text="{Binding Path=OfferName}"
+                FontWeight="Normal" FontSize="14" IsReadOnly="True"/>
+            <ToggleButton 
+                IsChecked="{Binding Path=SummarySheet, UpdateSourceTrigger=PropertyChanged}"
+                Grid.Column="0" Grid.Row="2"
+                Style="{StaticResource MaterialDesignSwitchToggleButton}">
+                <materialDesign:ToggleButtonAssist.SwitchTrackOnBackground>
+                    <SolidColorBrush Color="Green" />
+                </materialDesign:ToggleButtonAssist.SwitchTrackOnBackground>
+                <materialDesign:ToggleButtonAssist.SwitchTrackOffBackground>
+                    <SolidColorBrush Color="Red" />
+                </materialDesign:ToggleButtonAssist.SwitchTrackOffBackground>
+            </ToggleButton>
+            <Label Style="{StaticResource MaterialDesignLabel}"
+                Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"
+                Content="Экспортировать итоговый лист?"
+                FontWeight="Normal" FontSize="12" />
+            <ToggleButton 
+                IsChecked="{Binding Path=InternalUse, UpdateSourceTrigger=PropertyChanged}"
+                Grid.Column="0" Grid.Row="3"
+                Style="{StaticResource MaterialDesignSwitchToggleButton}">
+                <materialDesign:ToggleButtonAssist.SwitchTrackOnBackground>
+                    <SolidColorBrush Color="Green" />
+                </materialDesign:ToggleButtonAssist.SwitchTrackOnBackground>
+                <materialDesign:ToggleButtonAssist.SwitchTrackOffBackground>
+                    <SolidColorBrush Color="Red" />
+                </materialDesign:ToggleButtonAssist.SwitchTrackOffBackground>
+            </ToggleButton>
+            <Label Style="{StaticResource MaterialDesignLabel}"
+                Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"
+                Content="Отобразить входные цены?"
+                FontWeight="Normal" FontSize="12" />
+        </Grid>
+    </DockPanel>
+</Window>

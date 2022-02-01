@@ -88,6 +88,7 @@ namespace Designer_Offer
             services.AddTransient<InstallEditorWindow>();
             services.AddTransient<ManufacturerEditorWindow>();
             services.AddTransient<OfferInitWindow>();
+            services.AddTransient<ExportWindow>();
 
             /*Регистрация моделей представлений окон*/
             services.AddSingleton<MainWindowViewModel>();
@@ -107,6 +108,7 @@ namespace Designer_Offer
             services.AddTransient<InstallEditorViewModel>();
             services.AddTransient<ManufacturerEditorViewModel>();
             services.AddTransient<OfferInitViewModel>();
+            services.AddTransient<ExportViewModel>();
 
             /*Регистрация моделей представлений юзер контролов*/
             services.AddSingleton<ProjectManagerViewModel>();
@@ -130,6 +132,9 @@ namespace Designer_Offer
 
             /*Регистрация сервиса калькулятора*/
             services.AddTransient<ICalculator, CalculatorService>();
+
+            /*Регистрация сервиса экспорта отчетов*/
+            services.AddSingleton<IExportService, ExportFileService>();
 
             /*Регистрация репозиториев сущностей базы данных*/
             services.AddSingleton<PrimeContext>();

@@ -1,5 +1,6 @@
 ﻿using Designer_Offer.Data;
 using Designer_Offer.Infrastructure.Commands;
+using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows.Input;
@@ -8,6 +9,14 @@ namespace Designer_Offer.ViewModels
 {
     internal class WorkWindowViewModel : ViewModel
     {
+        #region ПОЛЯ
+        /// <summary>
+        /// Сервис экспорта в файл
+        /// </summary>
+        private readonly IExportService ExportService;
+
+        #endregion
+
         #region СВОЙСТВА
         private ViewModel _CurrentModel;
         /// <summary>
@@ -92,15 +101,40 @@ namespace Designer_Offer.ViewModels
         {
             return p is Offers && !ReferenceEquals(CurrentModel, App.Host.Services.GetRequiredService<OfferManagerViewModel>());
         }
+        /// <summary>
+        /// Команда экспорта в файл
+        /// </summary>
+        public ICommand ExportToExcel { get; }
+
+        private bool CanExportToExcel(object p)
+        {
+            return App.Host.Services.GetRequiredService<ProjectManagerViewModel>().SelectedOffer != null;
+        }
+
+        private void OnExportToExcel(object p)
+        {
+            Offers offer_to_export = App.Host.Services.GetRequiredService<ProjectManagerViewModel>().SelectedOffer;
+
+            if (!ExportService.ExportToExcel(offer_to_export))
+            {
+                return;
+            }
+
+            ///Экспорт удался
+        }
         #endregion
 
         #region КОНСТРУКТОРЫ
-        public WorkWindowViewModel()
+        public WorkWindowViewModel(IExportService _exportService)
         {
+            ExportService = _exportService;
+
             ShowProjectManager = new LambdaCommand(OnShowProjectManagerCommand, CanShowProjectManagerCommand);
             ShowCompanyManager = new LambdaCommand(OnShowCompanyManagerCommand, CanShowCompanyManagerCommand);
             ShowServiceManager = new LambdaCommand(OnShowServiceManagerCommand, CanShowServiceManagerCommand);
             ShowOfferManager = new LambdaCommand(OnShowOfferManagerCommand, CanShowOfferManagerCommand);
+
+            ExportToExcel = new LambdaCommand(OnExportToExcel, CanExportToExcel);
         }
         #endregion
     }

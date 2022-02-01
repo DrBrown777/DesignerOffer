@@ -51,11 +51,10 @@
                 </ItemsPanelTemplate>
             </Menu.ItemsPanel>
             <MenuItem Header="_Файл">
-                <MenuItem 
-                    Header="Сохранить"
-                    Icon="{materialDesign:PackIcon Kind=ContentSave}"/>
-                <MenuItem 
-                    Header="Сохранить как.." />
+                <MenuItem
+                    Header="Экспорт в Excel"
+                    Icon="{materialDesign:PackIcon Kind=MicrosoftExcel}" 
+                    Command="{Binding Path=ExportToExcel}"/>
                 <Separator />
                 <MenuItem 
                     Header="Выход"
