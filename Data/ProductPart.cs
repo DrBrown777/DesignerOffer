@@ -8,7 +8,7 @@ namespace Designer_Offer.Data
     using System.Data.Entity.Spatial;
 
     [Table("ProductPart")]
-    public partial class ProductPart : Model
+    public partial class ProductPart : Model, ICloneable
     {
         [Key]
         [Column(Order = 0)]
@@ -53,5 +53,20 @@ namespace Designer_Offer.Data
         public virtual Parts Parts { get; set; }
 
         public virtual Products Products { get; set; }
+
+        public object Clone()
+        {
+            return new ProductPart()
+            {
+                Product_Id = Product_Id,
+                Entry_Price = Entry_Price,
+                Entry_Summ = Entry_Summ,
+                Out_Price = Out_Price,
+                Out_Summ = Out_Summ,
+                Amount = Amount,
+                Note = Note,
+                Sort_Order = Sort_Order
+            };
+        }
     }
 }

@@ -339,6 +339,12 @@
                             <materialDesign:PackIcon Kind="PlusBold" />
                         </Button>
                         <Button
+                                ToolTip="Копировать" ToolTipService.Placement="Top"
+                                Command="{Binding Path=CopyOffer}"
+                                CommandParameter="{Binding Path=SelectedOffer}">
+                            <materialDesign:PackIcon Kind="ContentCopy" />
+                        </Button>
+                        <Button
                                 ToolTip="Настроить" ToolTipService.Placement="Top" 
                                 Command="{Binding Path=EditOffer}"
                                 CommandParameter="{Binding Path=SelectedOffer}">

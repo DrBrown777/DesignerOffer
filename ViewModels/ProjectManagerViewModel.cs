@@ -819,6 +819,74 @@ namespace Designer_Offer.ViewModels
             }
         }
         /// <summary>
+        /// Копирование КП
+        /// </summary>
+        public ICommand CopyOffer { get; }
+
+        private bool CanCopyOffer(object p)
+        {
+            return (Offers)p != null && SelectedBuild != null && SelectedOffer != null;
+        }
+
+        private async void OnCopyOffer(object p)
+        {
+            Progress = true;
+
+            Offers original_offer = (Offers)p ?? SelectedOffer;
+
+            Offers copy_offer = await RepositoryOffer.Items
+                .AsNoTracking()
+                .FirstOrDefaultAsync(off => off.Id == original_offer.Id);
+
+            try
+            {
+                copy_offer.Name = "(введите новое название КП)";
+                
+                copy_offer.Configs = new Configs()
+                {
+                    Margin_Product = original_offer.Configs.Margin_Product,
+                    Margin_Work = original_offer.Configs.Margin_Work,
+                    Margin_Admin = original_offer.Configs.Margin_Admin
+                };
+
+                copy_offer.Date = DateTime.Today;
+
+                Offers.Add(await RepositoryOffer.AddAsync(copy_offer));
+                
+                foreach (var part in original_offer.Parts)
+                {
+                    var copy_offer_part = copy_offer.Parts.First(it => string.Equals(it.Name, part.Name));
+
+                    foreach (var productPart in part.ProductPart)
+                    {
+                        copy_offer_part.ProductPart.Add((ProductPart)productPart.Clone());
+                    }
+
+                    foreach (var installPart in part.InstallPart)
+                    {
+                        copy_offer_part.InstallPart.Add((InstallPart)installPart.Clone());
+                    }
+                }
+
+                await RepositoryOffer.UpdateAsync(copy_offer);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                FilterBuild.Execute(null);
+
+                OnPropertyChanged(nameof(SelectedBuild.Projects.Offers));
+
+                SelectedOffer = copy_offer;
+
+                Progress = false;
+            }
+        }
+
+        /// <summary>
         /// Редактирование КП
         /// </summary>
         public ICommand EditOffer { get; }
@@ -968,6 +1036,7 @@ namespace Designer_Offer.ViewModels
             EditBuild = new LambdaCommand(OnEditBuild, CanEditBuild);
 
             AddOffer = new LambdaCommand(OnAddOffer, CanAddOffer);
+            CopyOffer = new LambdaCommand(OnCopyOffer, CanCopyOffer);
             EditOffer = new LambdaCommand(OnEditOffer, CanEditOffer);
             RemoveOffer = new LambdaCommand(OnRemoveOffer, CanRemoveOffer);
 
