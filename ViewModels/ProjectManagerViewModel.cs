@@ -830,45 +830,22 @@ namespace Designer_Offer.ViewModels
 
         private async void OnCopyOffer(object p)
         {
-            Progress = true;
-
             Offers original_offer = (Offers)p ?? SelectedOffer;
 
-            Offers copy_offer = await RepositoryOffer.Items
-                .AsNoTracking()
-                .FirstOrDefaultAsync(off => off.Id == original_offer.Id);
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите копировать {original_offer.Name}?", "Копирование КП"))
+            {
+                return;
+            }
+
+            Progress = true;
+
+            Offers copy_offer = null;
 
             try
             {
-                copy_offer.Name = "(введите новое название КП)";
-                
-                copy_offer.Configs = new Configs()
-                {
-                    Margin_Product = original_offer.Configs.Margin_Product,
-                    Margin_Work = original_offer.Configs.Margin_Work,
-                    Margin_Admin = original_offer.Configs.Margin_Admin
-                };
-
-                copy_offer.Date = DateTime.Today;
+                copy_offer = (Offers)original_offer.Clone();
 
                 Offers.Add(await RepositoryOffer.AddAsync(copy_offer));
-                
-                foreach (var part in original_offer.Parts)
-                {
-                    var copy_offer_part = copy_offer.Parts.First(it => string.Equals(it.Name, part.Name));
-
-                    foreach (var productPart in part.ProductPart)
-                    {
-                        copy_offer_part.ProductPart.Add((ProductPart)productPart.Clone());
-                    }
-
-                    foreach (var installPart in part.InstallPart)
-                    {
-                        copy_offer_part.InstallPart.Add((InstallPart)installPart.Clone());
-                    }
-                }
-
-                await RepositoryOffer.UpdateAsync(copy_offer);
             }
             catch (Exception e)
             {

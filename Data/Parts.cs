@@ -7,7 +7,7 @@ namespace Designer_Offer.Data
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Parts : IEntity
+    public partial class Parts : IEntity, ICloneable
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Parts()
@@ -31,5 +31,27 @@ namespace Designer_Offer.Data
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductPart> ProductPart { get; set; }
+
+        public object Clone()
+        {
+            Parts part = new Parts()
+            {
+                Name = Name,
+                ProductPart = new HashSet<ProductPart>(),
+                InstallPart = new HashSet<InstallPart>()
+            };
+
+            foreach (var item in ProductPart)
+            {
+                part.ProductPart.Add((ProductPart)item.Clone());
+            }
+
+            foreach (var item in InstallPart)
+            {
+                part.InstallPart.Add((InstallPart)item.Clone());
+            }
+
+            return part;
+        }
     }
 }
