@@ -159,6 +159,7 @@ namespace Designer_Offer.ViewModels
         }
         #endregion
 
+        #region добавление удаление данных
         /// <summary>
         /// Удаление товара из системы
         /// </summary>
@@ -259,6 +260,9 @@ namespace Designer_Offer.ViewModels
                 CalculateGeneralPriceInstall.Execute(null);
             }
         }
+        #endregion
+
+        #region калькуляция цен
         /// <summary>
         /// Расчет цены в строке по 1-й позиции товара
         /// </summary>
@@ -355,7 +359,9 @@ namespace Designer_Offer.ViewModels
                 UserDialog.ShowError(e.Message, "Ошибка");
             }
         }
+        #endregion
 
+        #region сортировка позиций
         /// <summary>
         /// Пользовательская сортировка товаров в системе
         /// </summary>
@@ -420,6 +426,8 @@ namespace Designer_Offer.ViewModels
             Installs.Move(index, index - 1);
             UpdateSortOrder(Installs);
         }
+        #endregion
+
         #endregion
 
         #region МЕТОДЫ

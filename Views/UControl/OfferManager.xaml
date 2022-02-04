@@ -294,6 +294,14 @@
                                              Height="18" Width="18"/>
                 </Button>
                 <Button
+                    ToolTip="Копировать" ToolTipService.Placement="Top"
+                    Command="{Binding Path=CopyPart}">
+                    <materialDesign:PackIcon Kind="ContentCopy"
+                                             Foreground="White" 
+                                             FontWeight="Light"
+                                             Height="18" Width="18"/>
+                </Button>
+                <Button
                     ToolTip="Удалить" ToolTipService.Placement="Top" 
                     Command="{Binding Path=RemovePart}">
                     <materialDesign:PackIcon Kind="Delete" 

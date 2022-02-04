@@ -333,6 +333,8 @@ namespace Designer_Offer.ViewModels
 
         private async void OnAddNewPart(object p)
         {
+            Progress = true;
+
             Parts new_part = new Parts()
             {
                 Name = "Система",
@@ -341,7 +343,7 @@ namespace Designer_Offer.ViewModels
 
             try
             {
-                new_part = await RepositoryPart.AddAsync(new_part);
+                await RepositoryPart.AddAsync(new_part);
 
                 CurrentOffer.Parts.Add(new_part);
 
@@ -359,8 +361,66 @@ namespace Designer_Offer.ViewModels
             {
                 UserDialog.ShowError(e.Message, "Ошибка");
             }
+            finally
+            {
+                Progress = false;
+            }
         }
+        /// <summary>
+        /// Копирование системы
+        /// </summary>
+        public ICommand CopyPart { get; }
 
+        private bool CanCopyPart(object p)
+        {
+            return SelectedPart != null && CurrentOffer != null;
+        }
+        private async void OnCopyPart(object p)
+        {
+            Parts original_part = await RepositoryPart.GetAsync(SelectedPart.Id);
+
+            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите копировать систему {original_part.Name}?", "Копирование системы"))
+            {
+                return;
+            }
+
+            Progress = true;
+
+            Parts copy_part = (Parts)original_part.Clone();
+
+            copy_part.Name = "Система";
+            copy_part.Offer_Id = CurrentOffer.Id;
+
+            try
+            {
+                await RepositoryPart.AddAsync(copy_part);
+
+                CurrentOffer.Parts.Add(copy_part);
+
+                PartManagerViewModel partManagerView = App.Host.Services.GetRequiredService<PartManagerViewModel>();
+
+                partManagerView.Id = copy_part.Id;
+
+                partManagerView.Name = copy_part.Name;
+
+                if (partManagerView.LoadDataFromRepositories.CanExecute(copy_part.Id))
+                {
+                    partManagerView.LoadDataFromRepositories.Execute(copy_part.Id);
+                }
+
+                Parts.Add(partManagerView);
+
+                SelectedPart = partManagerView;
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+            }
+            finally
+            {
+                Progress = false;
+            }
+        }
         /// <summary>
         /// Удаление системы из КП
         /// </summary>
@@ -608,6 +668,7 @@ namespace Designer_Offer.ViewModels
             LoadDataFromRepositories = new LambdaCommand(OnLoadDataFromRepositories, CanLoadDataFromRepositories);
 
             AddNewPart = new LambdaCommand(OnAddNewPart, CanAddNewPart);
+            CopyPart = new LambdaCommand(OnCopyPart, CanCopyPart);
             RemovePart = new LambdaCommand(OnRemovePart, CanRemovePart);
 
             UpdateOffer = new LambdaCommand(OnUpdateOffer, CanUpdateOffer);
