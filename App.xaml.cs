@@ -13,6 +13,7 @@ using Designer_Offer.Services.Interfaces;
 using Designer_Offer.Services.Repositories;
 using Designer_Offer.Views.UControl;
 using System.Linq;
+using ClosedXML.Excel;
 
 namespace Designer_Offer
 {
@@ -135,6 +136,9 @@ namespace Designer_Offer
 
             /*Регистрация сервиса экспорта отчетов*/
             services.AddSingleton<IExportService, ExportFileService>();
+
+            /*Регистрация сервиса библиотеки ClosedXML*/
+            services.AddSingleton<XLWorkbook>();
 
             /*Регистрация репозиториев сущностей базы данных*/
             services.AddSingleton<PrimeContext>();
