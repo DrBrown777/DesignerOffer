@@ -135,10 +135,10 @@ namespace Designer_Offer
             services.AddTransient<ICalculator, CalculatorService>();
 
             /*Регистрация сервиса экспорта отчетов*/
-            services.AddSingleton<IExportService, ExportFileService>();
+            services.AddTransient<IExportService, ExportFileService>();
 
             /*Регистрация сервиса библиотеки ClosedXML*/
-            services.AddSingleton<XLWorkbook>();
+            services.AddTransient<XLWorkbook>();
 
             /*Регистрация репозиториев сущностей базы данных*/
             services.AddSingleton<PrimeContext>();
