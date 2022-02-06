@@ -11,12 +11,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using Microsoft.Win32;
+using System.Data;
+using Designer_Offer.Models;
 
 namespace Designer_Offer.Services
 {
     internal class ExportFileService : IExportService
     {
         private XLWorkbook WorkBook;
+        private readonly ICalculator CalculatorService;
 
         public bool ExportToExcel(Offers offer, bool summarySheet = true, bool internalUse = true)
         {
@@ -131,6 +134,13 @@ namespace Designer_Offer.Services
                 rngNameOffer.Row(2).Value = "для обьекта: " + offer.Projects.Builds.Name;
                 rngNameOffer.Row(3).Value = "расположенного по адресу: " + offer.Projects.Builds.Adress;
                 #endregion
+
+                IXLTable summaryTable = ws.Cell(14, 1).InsertTable(GetTable(offer).AsEnumerable());
+                summaryTable.ShowAutoFilter = false;
+                summaryTable.ShowTotalsRow = true;
+                summaryTable.Rows().Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                summaryTable.Rows().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                summaryTable.Rows().Style.Font.FontSize = 12;
             }
 
             foreach (Parts item in offer.Parts)
@@ -142,6 +152,35 @@ namespace Designer_Offer.Services
                 WorkBook.SaveAs(saveFileDialog.FileName);
 
             return true;
+        }
+
+        private DataTable GetTable(Offers offer)
+        {
+            DataTable table = new DataTable();
+
+            table.Columns.Add("№", typeof(int));
+            table.Columns.Add("Наименование", typeof(string));
+            table.Columns.Add("Ед.изм.", typeof(string));
+            table.Columns.Add("Цена", typeof(decimal));
+            table.Columns.Add("Cумма", typeof(decimal));
+            table.Columns.Add("Кол-во", typeof(int));
+            table.Columns.Add("Цена, грн", typeof(decimal));
+            table.Columns.Add("Cумма, грн", typeof(decimal));
+            table.Columns.Add("Примечание", typeof(string));
+
+            List<PartPrice> parts = CalculatorService.CalculatePartPrice(offer.Parts);
+
+            for (int i = 0; i < parts.Count(); i++)
+            {
+                table.Rows.Add(i + 1, "Система " + parts[i].PartName, "сист.", parts[i].EntryCost, 0, 1, parts[i].OutCost, 0, "");
+            }
+
+            return table;
+        }
+
+        public ExportFileService(ICalculator _calcService)
+        {
+            CalculatorService = _calcService;
         }
     }
 }
