@@ -135,12 +135,48 @@ namespace Designer_Offer.Services
                 rngNameOffer.Row(3).Value = "расположенного по адресу: " + offer.Projects.Builds.Adress;
                 #endregion
 
+                #region итоговая таблица систем
                 IXLTable summaryTable = ws.Cell(14, 1).InsertTable(GetTable(offer).AsEnumerable());
                 summaryTable.ShowAutoFilter = false;
                 summaryTable.ShowTotalsRow = true;
                 summaryTable.Rows().Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                 summaryTable.Rows().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                 summaryTable.Rows().Style.Font.FontSize = 12;
+                
+
+                foreach (var row in summaryTable.Rows())
+                {
+                    ws.Row(row.RangeAddress.FirstAddress.RowNumber).Height = 30;
+
+                    if (row.Equals(summaryTable.HeadersRow())) continue;
+                    var sum_in = row.Cell(5).AsRange();
+                    var sum_out = row.Cell(8).AsRange();
+
+                    row.Cells(4, 5).Style.Fill.BackgroundColor = XLColor.Apricot;
+
+                    sum_in.FormulaA1 = $"={row.Cell(4).Address}*{row.Cell(6).Address}";
+                    sum_out.FormulaA1 = $"={row.Cell(6).Address}*{row.Cell(7).Address}";
+                }
+
+                ws.Row(summaryTable.TotalsRow().RowNumber()).Height = 25;
+
+                summaryTable.Field(4).TotalsRowFunction = XLTotalsRowFunction.Sum;
+                summaryTable.Field(7).TotalsRowFunction = XLTotalsRowFunction.Sum;
+                summaryTable.Field(7).TotalsRowFunction = XLTotalsRowFunction.Custom;
+                summaryTable.Field(1).TotalsRowLabel = "Итого грн с НДС:";
+                summaryTable.Field(3).TotalsRowFormulaA1 = $"=(" +
+                    $"{summaryTable.Field(7).TotalsCell.Address}-" +
+                    $"{summaryTable.Field(4).TotalsCell.Address})/" +
+                    $"{summaryTable.Field(7).TotalsCell.Address}";
+                
+                var percentCell = summaryTable.Field(3).TotalsCell;
+                percentCell.Style.NumberFormat.NumberFormatId = 10;
+
+                var entryCost = summaryTable.Field(4).TotalsCell;
+                entryCost.Style.NumberFormat.Format = "# ##0.00";
+                var outCost = summaryTable.Field(7).TotalsCell;
+                outCost.Style.NumberFormat.Format = "# ##0.00";
+                #endregion
             }
 
             foreach (Parts item in offer.Parts)
