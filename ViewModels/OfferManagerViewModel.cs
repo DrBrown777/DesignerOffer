@@ -512,7 +512,8 @@ namespace Designer_Offer.ViewModels
                 Amount = 0.00M,
                 Out_Price = 0.00M,
                 Out_Summ = 0.00M,
-                Sort_Order = SelectedPart.Products.Count
+                Sort_Order = SelectedPart.Products.Count,
+                Note = SelectedProduct.Manufacturers.Name
             };
 
             SelectedProduct.ProductPart.Add(new_productPart);
