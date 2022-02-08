@@ -25,7 +25,7 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _OfferName, value);
         }
 
-        private bool _SummarySheet;
+        private bool _SummarySheet = true;
         /// <summary>
         /// Выбор, генирировать ли итоговый лист КП
         /// </summary>
@@ -35,7 +35,7 @@ namespace Designer_Offer.ViewModels
             set => Set(ref _SummarySheet, value);
         }
 
-        private bool _InternalUse;
+        private bool _InternalUse = true;
         /// <summary>
         /// Выбор схемы экспорта (Внутр. использование / Заказчик)
         /// </summary>

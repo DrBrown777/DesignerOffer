@@ -18,11 +18,20 @@ namespace Designer_Offer.Services
 {
     internal class ExportFileService : IExportService
     {
+        /// <summary>
+        /// Обьект closedXML;
+        /// </summary>
         private XLWorkbook WorkBook;
+
+        /// <summary>
+        /// Сервис калькуляции цен
+        /// </summary>
         private readonly ICalculator CalculatorService;
 
-        public bool ExportToExcel(Offers offer, bool summarySheet = true, bool internalUse = true)
+        public bool ExportToExcel(Offers offer)
         {
+            bool isGenSumarySheet, isGenInternalUseColumns;
+
             if (offer == null)
             {
                 throw new ArgumentNullException(nameof(offer.Name));
@@ -37,13 +46,13 @@ namespace Designer_Offer.Services
 
             export_model.OfferName = offer.Name;
 
-            export_model.SummarySheet = summarySheet;
-
-            export_model.InternalUse = internalUse;
-
             export_window.DataContext = export_model;
 
             if (export_window.ShowDialog() != true) return false;
+
+            isGenSumarySheet = export_model.SummarySheet;
+
+            isGenInternalUseColumns = export_model.InternalUse;
 
             SaveFileDialog saveFileDialog = new SaveFileDialog()
             {
@@ -60,7 +69,7 @@ namespace Designer_Offer.Services
 
             WorkBook = App.Host.Services.GetRequiredService<XLWorkbook>();
 
-            if (summarySheet)
+            if (isGenSumarySheet)
             {
                 IXLWorksheet ws = WorkBook.AddWorksheet("ИТОГО");
 
@@ -68,13 +77,13 @@ namespace Designer_Offer.Services
                 ws.Column("C").Width = 11; ws.Column("D").Width = 15;
                 ws.Column("E").Width = 15; ws.Column("E").Width = 11;
                 ws.Column("G").Width = 15; ws.Column("H").Width = 15;
-                ws.Column("I").Width = 15;
+                ws.Column("I").Width = 19;
 
                 ws.Columns(4, 5).Group();
 
                 #region шапка
                 string logoPath = @"..\..\Resources\logo.png";
-                ws.AddPicture(logoPath).MoveTo(ws.Cell("H1")).Scale(0.21);
+                ws.AddPicture(logoPath).MoveTo(ws.Cell("I1")).Scale(0.21);
 
                 IXLRange rngBorder = ws.Range("A6:I6");
                 rngBorder.Style.Border.BottomBorder = XLBorderStyleValues.Double;
@@ -136,19 +145,19 @@ namespace Designer_Offer.Services
                 #endregion
 
                 #region итоговая таблица систем
-                IXLTable summaryTable = ws.Cell(14, 1).InsertTable(GetTable(offer).AsEnumerable());
-                summaryTable.ShowAutoFilter = false;
-                summaryTable.ShowTotalsRow = true;
-                summaryTable.Rows().Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                summaryTable.Rows().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                summaryTable.Rows().Style.Font.FontSize = 12;
+                IXLTable sumaryTable = ws.Cell(14, 1).InsertTable(GetSumaryTable(offer).AsEnumerable());
+                sumaryTable.ShowAutoFilter = false;
+                sumaryTable.ShowTotalsRow = true;
+                sumaryTable.Rows().Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                sumaryTable.Rows().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                sumaryTable.Rows().Style.Font.FontSize = 12;
                 
 
-                foreach (var row in summaryTable.Rows())
+                foreach (var row in sumaryTable.Rows())
                 {
                     ws.Row(row.RangeAddress.FirstAddress.RowNumber).Height = 30;
 
-                    if (row.Equals(summaryTable.HeadersRow())) continue;
+                    if (row.Equals(sumaryTable.HeadersRow())) continue;
                     var sum_in = row.Cell(5).AsRange();
                     var sum_out = row.Cell(8).AsRange();
 
@@ -158,27 +167,79 @@ namespace Designer_Offer.Services
                     sum_out.FormulaA1 = $"={row.Cell(6).Address}*{row.Cell(7).Address}";
                 }
 
-                ws.Row(summaryTable.TotalsRow().RowNumber()).Height = 25;
+                ws.Row(sumaryTable.TotalsRow().RowNumber()).Height = 25;
 
-                summaryTable.Field(4).TotalsRowFunction = XLTotalsRowFunction.Sum;
-                summaryTable.Field(7).TotalsRowFunction = XLTotalsRowFunction.Sum;
-                summaryTable.Field(7).TotalsRowFunction = XLTotalsRowFunction.Custom;
-                summaryTable.Field(1).TotalsRowLabel = "Итого грн с НДС:";
-                summaryTable.Field(3).TotalsRowFormulaA1 = $"=(" +
-                    $"{summaryTable.Field(7).TotalsCell.Address}-" +
-                    $"{summaryTable.Field(4).TotalsCell.Address})/" +
-                    $"{summaryTable.Field(7).TotalsCell.Address}";
+                sumaryTable.Field(4).TotalsRowFunction = XLTotalsRowFunction.Sum;
+                sumaryTable.Field(7).TotalsRowFunction = XLTotalsRowFunction.Sum;
+                sumaryTable.Field(7).TotalsRowFunction = XLTotalsRowFunction.Custom;
+                sumaryTable.Field(1).TotalsRowLabel = "Итого грн с НДС:";
+                sumaryTable.Field(3).TotalsRowFormulaA1 = $"=(" +
+                    $"{sumaryTable.Field(7).TotalsCell.Address}-" +
+                    $"{sumaryTable.Field(4).TotalsCell.Address})/" +
+                    $"{sumaryTable.Field(7).TotalsCell.Address}";
                 
-                var percentCell = summaryTable.Field(3).TotalsCell;
+                var percentCell = sumaryTable.Field(3).TotalsCell;
                 percentCell.Style.NumberFormat.NumberFormatId = 10;
 
-                var entryCost = summaryTable.Field(4).TotalsCell;
+                var entryCost = sumaryTable.Field(4).TotalsCell;
                 entryCost.Style.NumberFormat.Format = "# ##0.00";
-                var outCost = summaryTable.Field(7).TotalsCell;
+                var outCost = sumaryTable.Field(7).TotalsCell;
                 outCost.Style.NumberFormat.Format = "# ##0.00";
+                #endregion
+
+                #region примечания
+                IXLRangeRow rngLastRow = sumaryTable.LastRow();
+
+                var firstAddress = rngLastRow.RangeAddress.FirstAddress;
+                var lastAddress = rngLastRow.RangeAddress.LastAddress;
+
+                int firstCellRow = firstAddress.RowNumber;
+                int firstCellColumn = firstAddress.ColumnNumber;
+                int lastCellRow = lastAddress.RowNumber;
+                int lastCellColumn = lastAddress.ColumnNumber;
+
+                firstCellRow += 2; firstCellColumn++; lastCellRow += 4;
+
+                IXLRange rngNote = ws.Range(firstCellRow, firstCellColumn, lastCellRow, lastCellColumn);
+                rngNote.Style.Alignment.WrapText = true;
+                rngNote.Style.Font.FontSize = 12;
+                rngNote.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                rngNote.Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                rngNote.Row(1).Style.Font.Bold = true;
+                rngNote.Row(1).Style.Font.Underline = XLFontUnderlineValues.Single;
+                rngNote.Row(1).Merge();
+                rngNote.Row(1).Value = "Примечания:";
+                rngNote.Row(2).Merge();
+                rngNote.Row(2).Value = "1. Коммерческое предложение составлено для определения ценовой " +
+                    "политики и ориентировочной стоимости работ и материалов.";
+                rngNote.Row(3).Merge();
+                rngNote.Row(3).Value = "2. Выполнение монтажных работ производится при использовании энергоресурсов заказчика.";
+                ws.Row(firstCellRow).Height = 25;
+                ws.Row(++firstCellRow).Height = 28;
+                ws.Row(++firstCellRow).Height = 28;
+                #endregion
+
+                #region исполнитель
+                lastCellRow += 2;
+                int firstPosEmpRow = lastCellRow;
+                int PosEmpCol = lastCellColumn;
+                lastCellRow += 2;
+                int lastPosEmpRow = lastCellRow;
+
+                IXLRange rndEmploee = ws.Range(firstPosEmpRow, PosEmpCol, lastPosEmpRow, PosEmpCol);
+                rndEmploee.Style.Font.FontSize = 11;
+                rndEmploee.Style.Font.Italic = true;
+                rndEmploee.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
+                rndEmploee.Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                rndEmploee.Row(1).Value = $"Исполнитель: " +
+                    $"{offer.Projects.Employees.Last_Name} " +
+                    $"{offer.Projects.Employees.First_Name}";
+                rndEmploee.Row(2).Value = $"тел: {offer.Projects.Employees.Phone}";
+                rndEmploee.Row(3).Value = $"e-mail: {offer.Projects.Employees.Mail}";
                 #endregion
             }
 
+            
             foreach (Parts item in offer.Parts)
             {
                 WorkBook.AddWorksheet(item.Name);
@@ -186,11 +247,11 @@ namespace Designer_Offer.Services
 
             if (!string.IsNullOrWhiteSpace(saveFileDialog.FileName))
                 WorkBook.SaveAs(saveFileDialog.FileName);
-
+            
             return true;
         }
 
-        private DataTable GetTable(Offers offer)
+        private DataTable GetSumaryTable(Offers offer)
         {
             DataTable table = new DataTable();
 

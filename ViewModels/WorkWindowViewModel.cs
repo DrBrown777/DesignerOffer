@@ -108,7 +108,8 @@ namespace Designer_Offer.ViewModels
 
         private bool CanExportToExcel(object p)
         {
-            return App.Host.Services.GetRequiredService<ProjectManagerViewModel>().SelectedOffer != null;
+            return App.Host.Services.GetRequiredService<ProjectManagerViewModel>().SelectedOffer != null &&
+                ReferenceEquals(CurrentModel, App.Host.Services.GetRequiredService<ProjectManagerViewModel>());
         }
 
         private void OnExportToExcel(object p)
