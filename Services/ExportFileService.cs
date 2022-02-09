@@ -157,10 +157,13 @@ namespace Designer_Offer.Services
                     ws.Row(row.RangeAddress.FirstAddress.RowNumber).Height = 30;
 
                     if (row.Equals(sumaryTable.HeadersRow())) continue;
-                    var sum_in = row.Cell(5).AsRange();
-                    var sum_out = row.Cell(8).AsRange();
 
                     row.Cells(4, 5).Style.Fill.BackgroundColor = XLColor.Apricot;
+                    row.Cell(2).Style.Alignment.WrapText = true;
+                    row.Cell(2).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+
+                    var sum_in = row.Cell(5).AsRange();
+                    var sum_out = row.Cell(8).AsRange();
 
                     sum_in.FormulaA1 = $"={row.Cell(4).Address}*{row.Cell(6).Address}";
                     sum_out.FormulaA1 = $"={row.Cell(6).Address}*{row.Cell(7).Address}";
@@ -275,10 +278,13 @@ namespace Designer_Offer.Services
                     ss.Row(row.RangeAddress.FirstAddress.RowNumber).Height = 30;
 
                     if (row.Equals(productTable.HeadersRow())) continue;
-                    var sum_in = row.Cell(6).AsRange();
-                    var sum_out = row.Cell(9).AsRange();
 
                     row.Cells(5, 6).Style.Fill.BackgroundColor = XLColor.Apricot;
+                    row.Cell(2).Style.Alignment.WrapText = true;
+                    row.Cell(2).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+
+                    var sum_in = row.Cell(6).AsRange();
+                    var sum_out = row.Cell(9).AsRange();
 
                     sum_in.FormulaA1 = $"={row.Cell(5).Address}*{row.Cell(7).Address}";
                     sum_out.FormulaA1 = $"={row.Cell(7).Address}*{row.Cell(8).Address}";
@@ -302,6 +308,39 @@ namespace Designer_Offer.Services
                 entryCost.Style.NumberFormat.Format = "# ##0.00";
                 var outCost = productTable.Field(8).TotalsCell;
                 outCost.Style.NumberFormat.Format = "# ##0.00";
+                var lastCell = productTable.LastRow().FirstCell();
+                #endregion
+
+                #region таблица работ
+                var nextCell = lastCell.CellBelow().Address;
+
+                IXLTable installTable = ss.Cell(nextCell).InsertTable(GetInstallTable(item).AsEnumerable());
+                installTable.ShowAutoFilter = false;
+                installTable.ShowTotalsRow = true;
+                installTable.ShowHeaderRow = false;
+                installTable.Rows().Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                installTable.Rows().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                installTable.Rows().Style.Font.FontSize = 12;
+                /*
+                foreach (var row in installTable.Rows())
+                {
+                    ss.Row(row.RangeAddress.FirstAddress.RowNumber).Height = 30;
+
+                    if (row.Equals(installTable.HeadersRow())) continue;
+
+                    row.Cells(5, 6).Style.Fill.BackgroundColor = XLColor.Apricot;
+                    row.Cell(2).Style.Alignment.WrapText = true;
+                    row.Cell(2).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+
+                    var sum_in = row.Cell(6).AsRange();
+                    var sum_out = row.Cell(9).AsRange();
+
+                    sum_in.FormulaA1 = $"={row.Cell(5).Address}*{row.Cell(7).Address}";
+                    sum_out.FormulaA1 = $"={row.Cell(7).Address}*{row.Cell(8).Address}";
+                }
+                */
+                ss.Row(installTable.TotalsRow().RowNumber()).Height = 25;
+
 
                 #endregion
             }
@@ -362,6 +401,36 @@ namespace Designer_Offer.Services
                                     products[i].Amount,
                                     products[i].Out_Price, 0,
                                     products[i].Note);
+            }
+
+            return table;
+        }
+
+        private DataTable GetInstallTable(Parts part)
+        {
+            DataTable table = new DataTable();
+
+            table.Columns.Add("№", typeof(int));
+            table.Columns.Add("Наименование", typeof(string));
+            table.Columns.Add("Тип", typeof(string));
+            table.Columns.Add("Ед.изм.", typeof(string));
+            table.Columns.Add("Цена", typeof(decimal));
+            table.Columns.Add("Cумма", typeof(decimal));
+            table.Columns.Add("Кол-во", typeof(decimal));
+            table.Columns.Add("Цена, грн", typeof(decimal));
+            table.Columns.Add("Cумма, грн", typeof(decimal));
+            table.Columns.Add("Примечание", typeof(string));
+
+            List<InstallPart> installs = part.InstallPart.ToList();
+
+            for (int i = 0, j = part.ProductPart.Count(); i < installs.Count(); i++, j++)
+            {
+                table.Rows.Add(j + 1, installs[i].Installs.Name, "",
+                                    installs[i].Installs.Units.Name,
+                                    installs[i].Entry_Price, 0,
+                                    installs[i].Amount,
+                                    installs[i].Out_Price, 0,
+                                    installs[i].Note);
             }
 
             return table;
