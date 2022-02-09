@@ -152,7 +152,6 @@ namespace Designer_Offer.Services
                 sumaryTable.Rows().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                 sumaryTable.Rows().Style.Font.FontSize = 12;
                 
-
                 foreach (var row in sumaryTable.Rows())
                 {
                     ws.Row(row.RangeAddress.FirstAddress.RowNumber).Height = 30;
@@ -242,7 +241,69 @@ namespace Designer_Offer.Services
             
             foreach (Parts item in offer.Parts)
             {
-                WorkBook.AddWorksheet(item.Name);
+                IXLWorksheet ss = WorkBook.AddWorksheet(item.Name);
+
+                ss.Column("A").Width = 5; ss.Column("B").Width = 40;
+                ss.Column("C").Width = 18; ss.Column("D").Width = 11;
+                ss.Column("E").Width = 15; ss.Column("F").Width = 15;
+                ss.Column("G").Width = 9; ss.Column("H").Width = 15;
+                ss.Column("I").Width = 15; ss.Column("J").Width = 19;
+
+                ss.Columns(5, 6).Group();
+
+                #region шапка
+                IXLRange rngNameSys = ss.Range("A1:J1");
+                rngNameSys.Merge();
+                rngNameSys.DataType = XLDataType.Text;
+                rngNameSys.Style.Font.SetFontSize(12);
+                rngNameSys.Style.Font.Bold = true;
+                rngNameSys.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                rngNameSys.Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                rngNameSys.Row(1).Value = $"Система {item.Name}";
+                #endregion
+
+                #region таблица материалов
+                IXLTable productTable = ss.Cell(2, 1).InsertTable(GetProductTable(item).AsEnumerable());
+                productTable.ShowAutoFilter = false;
+                productTable.ShowTotalsRow = true;
+                productTable.Rows().Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                productTable.Rows().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                productTable.Rows().Style.Font.FontSize = 12;
+
+                foreach (var row in productTable.Rows())
+                {
+                    ss.Row(row.RangeAddress.FirstAddress.RowNumber).Height = 30;
+
+                    if (row.Equals(productTable.HeadersRow())) continue;
+                    var sum_in = row.Cell(6).AsRange();
+                    var sum_out = row.Cell(9).AsRange();
+
+                    row.Cells(5, 6).Style.Fill.BackgroundColor = XLColor.Apricot;
+
+                    sum_in.FormulaA1 = $"={row.Cell(5).Address}*{row.Cell(7).Address}";
+                    sum_out.FormulaA1 = $"={row.Cell(7).Address}*{row.Cell(8).Address}";
+                }
+
+                ss.Row(productTable.TotalsRow().RowNumber()).Height = 25;
+
+                productTable.Field(5).TotalsRowFunction = XLTotalsRowFunction.Sum;
+                productTable.Field(8).TotalsRowFunction = XLTotalsRowFunction.Sum;
+                productTable.Field(8).TotalsRowFunction = XLTotalsRowFunction.Custom;
+                productTable.Field(1).TotalsRowLabel = "Итого материалы грн с НДС:";
+                productTable.Field(4).TotalsRowFormulaA1 = $"=(" +
+                    $"{productTable.Field(8).TotalsCell.Address}-" +
+                    $"{productTable.Field(5).TotalsCell.Address})/" +
+                    $"{productTable.Field(8).TotalsCell.Address}";
+
+                var percentCell = productTable.Field(4).TotalsCell;
+                percentCell.Style.NumberFormat.NumberFormatId = 10;
+
+                var entryCost = productTable.Field(5).TotalsCell;
+                entryCost.Style.NumberFormat.Format = "# ##0.00";
+                var outCost = productTable.Field(8).TotalsCell;
+                outCost.Style.NumberFormat.Format = "# ##0.00";
+
+                #endregion
             }
 
             if (!string.IsNullOrWhiteSpace(saveFileDialog.FileName))
@@ -270,6 +331,37 @@ namespace Designer_Offer.Services
             for (int i = 0; i < parts.Count(); i++)
             {
                 table.Rows.Add(i + 1, "Система " + parts[i].PartName, "сист.", parts[i].EntryCost, 0, 1, parts[i].OutCost, 0, "");
+            }
+
+            return table;
+        }
+
+        private DataTable GetProductTable(Parts part)
+        {
+            DataTable table = new DataTable();
+
+            table.Columns.Add("№", typeof(int));
+            table.Columns.Add("Наименование", typeof(string));
+            table.Columns.Add("Тип", typeof(string));
+            table.Columns.Add("Ед.изм.", typeof(string));
+            table.Columns.Add("Цена", typeof(decimal));
+            table.Columns.Add("Cумма", typeof(decimal));
+            table.Columns.Add("Кол-во", typeof(decimal));
+            table.Columns.Add("Цена, грн", typeof(decimal));
+            table.Columns.Add("Cумма, грн", typeof(decimal));
+            table.Columns.Add("Примечание", typeof(string));
+
+            List<ProductPart> products = part.ProductPart.ToList();
+
+            for (int i = 0; i < products.Count(); i++)
+            {
+                table.Rows.Add(i+1, products[i].Products.Name, 
+                                    products[i].Products.Model,
+                                    products[i].Products.Units.Name,
+                                    products[i].Entry_Price, 0,
+                                    products[i].Amount,
+                                    products[i].Out_Price, 0,
+                                    products[i].Note);
             }
 
             return table;
