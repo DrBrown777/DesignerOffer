@@ -258,13 +258,13 @@
     <Compile Include="Program.cs" />
     <Compile Include="Services\CalculatorService.cs" />
     <Compile Include="Services\ExportFileService.cs" />
-    <Compile Include="Services\ILoginService.cs" />
+    <Compile Include="Services\Interfaces\ILoginService.cs" />
     <Compile Include="Services\Interfaces\ICalculator.cs" />
     <Compile Include="Services\Interfaces\IEntity.cs" />
     <Compile Include="Services\Interfaces\IExportService.cs" />
     <Compile Include="Services\Interfaces\IRepository.cs" />
     <Compile Include="Services\Interfaces\IUserDialog.cs" />
-    <Compile Include="Services\IRegistrationService.cs" />
+    <Compile Include="Services\Interfaces\IRegistrationService.cs" />
     <Compile Include="Services\Repositories\DbRepository.cs" />
     <Compile Include="Services\UserDialogService.cs" />
     <Compile Include="ViewModels\BuildEditorViewModel.cs" />
