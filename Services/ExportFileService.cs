@@ -79,10 +79,10 @@ namespace Designer_Offer.Services
 
             WorkBook = App.Host.Services.GetRequiredService<XLWorkbook>();
 
-            IXLWorksheet ws = null; IXLWorksheet ss = null;
-
             if (isGenSumarySheet)
             {
+                IXLWorksheet ws;
+
                 try
                 {
                    ws = WorkBook.AddWorksheet("ИТОГО");
@@ -259,10 +259,21 @@ namespace Designer_Offer.Services
                 rndEmploee.Row(2).Value = $"тел: {offer.Projects.Employees.Phone}";
                 rndEmploee.Row(3).Value = $"e-mail: {offer.Projects.Employees.Mail}";
                 #endregion
+
+                ws.PageSetup.PrintAreas.Add(ws.FirstCell().Address, ws.LastCell().Address);
+                ws.PageSetup.PageOrientation = XLPageOrientation.Portrait;
+                ws.PageSetup.FitToPages(1, 0);
+                
+                if (!isGenInternalUseColumns)
+                {
+                    ws.Columns(4, 5).Hide();
+                }
             }
             
             foreach (Parts item in offer.Parts)
             {
+                IXLWorksheet ss;
+
                 try
                 {
                     ss = WorkBook.AddWorksheet(item.Name);
@@ -444,6 +455,15 @@ namespace Designer_Offer.Services
                 sumSystemOut.FormulaA1 = $"={outCostProduct} + {outCostInstall} + {adminOut}";
                 sumSystemPerc.FormulaA1 = $"=({sumSystemOut} - {sumSystemIn}) / {sumSystemOut}";
                 #endregion
+
+                ss.PageSetup.PrintAreas.Add(ss.FirstCell().Address, ss.LastCell().Address);
+                ss.PageSetup.PageOrientation = XLPageOrientation.Portrait;
+                ss.PageSetup.FitToPages(1, 0);
+                
+                if (!isGenInternalUseColumns)
+                {
+                    ss.Columns(5, 6).Hide();
+                }
             }
 
             try

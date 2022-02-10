@@ -467,9 +467,9 @@ namespace Designer_Offer.ViewModels
         {
             try
             {
-                //CurrentUser = await RepositoryUsers.GetAsync(App.Host.Services.GetRequiredService<Employee>().Id);
+                CurrentUser = await RepositoryUsers.GetAsync(App.Host.Services.GetRequiredService<Employees>().Id);
 
-                CurrentUser = await RepositoryUsers.GetAsync(21);
+                //CurrentUser = await RepositoryUsers.GetAsync(21);
 
                 Status = CurrentUser.First_Name + " " + CurrentUser.Last_Name;
 

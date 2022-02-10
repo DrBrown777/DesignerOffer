@@ -188,9 +188,9 @@ namespace Designer_Offer.ViewModels
             {
                 Employees = new ObservableCollection<Employees>(await RepositoryUsers.Items.ToListAsync());
 
-                //CurrentUser = Employees.SingleOrDefault(e => e.Id == App.Host.Services.GetRequiredService<Employee>().Id);
+                CurrentUser = Employees.SingleOrDefault(e => e.Id == App.Host.Services.GetRequiredService<Employees>().Id);
 
-                CurrentUser = Employees.SingleOrDefault(e => e.Id == 21);
+                //CurrentUser = Employees.SingleOrDefault(e => e.Id == 21);
 
                 Status = CurrentUser.First_Name + " " + CurrentUser.Last_Name;
 

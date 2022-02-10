@@ -271,9 +271,9 @@ namespace Designer_Offer.ViewModels
         {
             try
             {
-                //CurrentUser = await RepositoryUsers.GetAsync(App.Host.Services.GetRequiredService<Employee>().Id);
+                CurrentUser = await RepositoryUsers.GetAsync(App.Host.Services.GetRequiredService<Employees>().Id);
 
-                CurrentUser = await RepositoryUsers.GetAsync(21);
+                //CurrentUser = await RepositoryUsers.GetAsync(21);
 
                 Status = CurrentUser.First_Name + " " + CurrentUser.Last_Name;
 
@@ -378,11 +378,6 @@ namespace Designer_Offer.ViewModels
         private async void OnCopyPart(object p)
         {
             Parts original_part = await RepositoryPart.GetAsync(SelectedPart.Id);
-
-            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите копировать систему {original_part.Name}?", "Копирование системы"))
-            {
-                return;
-            }
 
             Progress = true;
 

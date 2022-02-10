@@ -3,6 +3,7 @@ using Designer_Offer.Infrastructure.Commands;
 using Designer_Offer.Models;
 using Designer_Offer.Services.Interfaces;
 using Designer_Offer.ViewModels.Base;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -335,9 +336,9 @@ namespace Designer_Offer.ViewModels
             {
                 Employees = new ObservableCollection<Employees>(await RepositoryUsers.Items.ToListAsync());
 
-                //CurrentUser = Employees.SingleOrDefault(e => e.Id == App.Host.Services.GetRequiredService<Employee>().Id);
+                CurrentUser = Employees.SingleOrDefault(e => e.Id == App.Host.Services.GetRequiredService<Employees>().Id);
 
-                CurrentUser = Employees.SingleOrDefault(e => e.Id == 21);
+                //CurrentUser = Employees.SingleOrDefault(e => e.Id == 21);
 
                 Status = CurrentUser.First_Name + " " + CurrentUser.Last_Name;
 
@@ -831,11 +832,6 @@ namespace Designer_Offer.ViewModels
         private async void OnCopyOffer(object p)
         {
             Offers original_offer = (Offers)p ?? SelectedOffer;
-
-            if (!UserDialog.ConfirmWarning($"Вы уверены, что хотите копировать {original_offer.Name}?", "Копирование КП"))
-            {
-                return;
-            }
 
             Progress = true;
 
