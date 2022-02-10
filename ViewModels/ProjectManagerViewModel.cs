@@ -880,6 +880,13 @@ namespace Designer_Offer.ViewModels
 
             try
             {
+                offer_to_edit.Date = DateTime.Today;
+
+                if (offer_to_edit.Projects.Employees == null)
+                {
+                    offer_to_edit.Projects.Employee_Id = CurrentUser.Id;
+                }
+
                 RepositoryOffer.Update(offer_to_edit);
             }
             catch (Exception e)
@@ -888,8 +895,6 @@ namespace Designer_Offer.ViewModels
             }
             finally
             {
-                offer_to_edit.Date = DateTime.Today;
-
                 FilterBuild.Execute(null);
 
                 OnPropertyChanged(nameof(SelectedBuild.Projects.Offers));
