@@ -7,9 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
 using Microsoft.Win32;
 using System.Data;
 using Designer_Offer.Models;
@@ -18,6 +15,7 @@ namespace Designer_Offer.Services
 {
     internal class ExportFileService : IExportService
     {
+        #region ПОЛЯ
         /// <summary>
         /// Обьект closedXML;
         /// </summary>
@@ -28,6 +26,18 @@ namespace Designer_Offer.Services
         /// </summary>
         private readonly ICalculator CalculatorService;
 
+        /// <summary>
+        /// Сервис Диалогов
+        /// </summary>
+        private readonly IUserDialog UserDialog;
+        #endregion
+
+        #region МЕТОДЫ
+        /// <summary>
+        /// Генерация КП в xlcel
+        /// </summary>
+        /// <param name="offer"></param>
+        /// <returns></returns>
         public bool ExportToExcel(Offers offer)
         {
             bool isGenSumarySheet, isGenInternalUseColumns;
@@ -69,9 +79,19 @@ namespace Designer_Offer.Services
 
             WorkBook = App.Host.Services.GetRequiredService<XLWorkbook>();
 
+            IXLWorksheet ws = null; IXLWorksheet ss = null;
+
             if (isGenSumarySheet)
             {
-                IXLWorksheet ws = WorkBook.AddWorksheet("ИТОГО");
+                try
+                {
+                   ws = WorkBook.AddWorksheet("ИТОГО");
+                }
+                catch (Exception e)
+                {
+                    UserDialog.ShowError(e.Message, "Ошибка");
+                    return false;
+                }
 
                 ws.Column("A").Width = 5; ws.Column("B").Width = 40;
                 ws.Column("C").Width = 11; ws.Column("D").Width = 15;
@@ -240,13 +260,20 @@ namespace Designer_Offer.Services
                 rndEmploee.Row(3).Value = $"e-mail: {offer.Projects.Employees.Mail}";
                 #endregion
             }
-
             
             foreach (Parts item in offer.Parts)
             {
-                IXLWorksheet ss = WorkBook.AddWorksheet(item.Name);
-
-                ss.Column("A").Width = 5; ss.Column("B").Width = 40;
+                try
+                {
+                    ss = WorkBook.AddWorksheet(item.Name);
+                }
+                catch (Exception e)
+                {
+                    UserDialog.ShowError(e.Message, "Ошибка");
+                    return false;
+                }
+                
+                ss.Column("A").Width = 5; ss.Column("B").Width = 50;
                 ss.Column("C").Width = 18; ss.Column("D").Width = 11;
                 ss.Column("E").Width = 15; ss.Column("F").Width = 15;
                 ss.Column("G").Width = 9; ss.Column("H").Width = 15;
@@ -304,10 +331,10 @@ namespace Designer_Offer.Services
                 var percentCell = productTable.Field(4).TotalsCell;
                 percentCell.Style.NumberFormat.NumberFormatId = 10;
 
-                var entryCost = productTable.Field(5).TotalsCell;
-                entryCost.Style.NumberFormat.Format = "# ##0.00";
-                var outCost = productTable.Field(8).TotalsCell;
-                outCost.Style.NumberFormat.Format = "# ##0.00";
+                IXLCell entryCostProduct = productTable.Field(5).TotalsCell;
+                entryCostProduct.Style.NumberFormat.Format = "# ##0.00";
+                IXLCell outCostProduct = productTable.Field(8).TotalsCell;
+                outCostProduct.Style.NumberFormat.Format = "# ##0.00";
                 var lastCell = productTable.LastRow().FirstCell();
                 #endregion
 
@@ -321,12 +348,10 @@ namespace Designer_Offer.Services
                 installTable.Rows().Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                 installTable.Rows().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                 installTable.Rows().Style.Font.FontSize = 12;
-                /*
+                
                 foreach (var row in installTable.Rows())
                 {
                     ss.Row(row.RangeAddress.FirstAddress.RowNumber).Height = 30;
-
-                    if (row.Equals(installTable.HeadersRow())) continue;
 
                     row.Cells(5, 6).Style.Fill.BackgroundColor = XLColor.Apricot;
                     row.Cell(2).Style.Alignment.WrapText = true;
@@ -338,19 +363,107 @@ namespace Designer_Offer.Services
                     sum_in.FormulaA1 = $"={row.Cell(5).Address}*{row.Cell(7).Address}";
                     sum_out.FormulaA1 = $"={row.Cell(7).Address}*{row.Cell(8).Address}";
                 }
-                */
+                
                 ss.Row(installTable.TotalsRow().RowNumber()).Height = 25;
 
+                installTable.Field(5).TotalsRowFunction = XLTotalsRowFunction.Sum;
+                installTable.Field(8).TotalsRowFunction = XLTotalsRowFunction.Sum;
+                installTable.Field(8).TotalsRowFunction = XLTotalsRowFunction.Custom;
+                installTable.Field(1).TotalsRowLabel = "Итого работы грн с НДС:";
+                installTable.Field(4).TotalsRowFormulaA1 = $"=(" +
+                    $"{installTable.Field(8).TotalsCell.Address}-" +
+                    $"{installTable.Field(5).TotalsCell.Address})/" +
+                    $"{installTable.Field(8).TotalsCell.Address}";
 
+                percentCell = installTable.Field(4).TotalsCell;
+                percentCell.Style.NumberFormat.NumberFormatId = 10;
+
+                IXLCell entryCostInstall = installTable.Field(5).TotalsCell;
+                entryCostInstall.Style.NumberFormat.Format = "# ##0.00";
+                IXLCell outCostInstall = installTable.Field(8).TotalsCell;
+                outCostInstall.Style.NumberFormat.Format = "# ##0.00";
+                lastCell = installTable.LastRow().FirstCell().CellRight();
+                #endregion
+
+                #region вывод админ расходов и общей стоимости системы
+                nextCell = lastCell.CellBelow().Address;
+
+                IXLCell adminDesc = ss.Cell(nextCell);
+                adminDesc.Value = "Административные расходы:";
+
+                ss.Row(adminDesc.Address.RowNumber).Height = 25;
+                ss.Row(adminDesc.Address.RowNumber).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                ss.Row(adminDesc.Address.RowNumber).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                ss.Row(adminDesc.Address.RowNumber).Style.Font.FontSize = 12;
+
+                adminDesc.Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                adminDesc.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+
+                lastCell = nextCell.Worksheet.Cell(nextCell);
+
+                IXLCell sumSystemDesc = ss.Cell(lastCell.CellBelow().Address);
+                sumSystemDesc.Value = $"Всего по системе {item.Name}:";
+
+                ss.Row(sumSystemDesc.Address.RowNumber).Height = 25;
+                ss.Row(sumSystemDesc.Address.RowNumber).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                ss.Row(sumSystemDesc.Address.RowNumber).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                ss.Row(sumSystemDesc.Address.RowNumber).Style.Font.FontSize = 12;
+
+                sumSystemDesc.Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                sumSystemDesc.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                sumSystemDesc.Style.Font.Bold = true;
+
+                TotalInstallPrice totalInstallPrice = CalculatorService.CalculateTotalInstallPrice(item.InstallPart);
+
+                IXLCell adminIn = entryCostInstall.CellBelow();
+                adminIn.Style.Fill.BackgroundColor = XLColor.Apricot;
+                adminIn.CellLeft().Style.Fill.BackgroundColor = XLColor.Apricot;
+                adminIn.Style.NumberFormat.Format = "# ##0.00";
+
+                adminIn.Value = totalInstallPrice.AdminEntryCost;
+
+                IXLCell adminOut = outCostInstall.CellBelow();
+                adminOut.Style.NumberFormat.Format = "# ##0.00";
+
+                adminOut.Value = totalInstallPrice.AdminOutCost;
+
+                IXLCell sumSystemIn = adminIn.CellBelow();
+                sumSystemIn.Style.Fill.BackgroundColor = XLColor.Apricot;
+                sumSystemIn.Style.NumberFormat.Format = "# ##0.00";
+
+                IXLCell sumSystemPerc = sumSystemIn.CellLeft();
+                sumSystemPerc.Style.Fill.BackgroundColor = XLColor.Apricot;
+                sumSystemPerc.Style.NumberFormat.NumberFormatId = 10;
+                sumSystemPerc.Style.Font.Bold = true;
+
+                IXLCell sumSystemOut = adminOut.CellBelow();
+                sumSystemOut.Style.NumberFormat.Format = "# ##0.00";
+                sumSystemOut.Style.Font.Bold = true;
+
+                sumSystemIn.FormulaA1 = $"={entryCostProduct} + {entryCostInstall} + {adminIn}";
+                sumSystemOut.FormulaA1 = $"={outCostProduct} + {outCostInstall} + {adminOut}";
+                sumSystemPerc.FormulaA1 = $"=({sumSystemOut} - {sumSystemIn}) / {sumSystemOut}";
                 #endregion
             }
 
-            if (!string.IsNullOrWhiteSpace(saveFileDialog.FileName))
-                WorkBook.SaveAs(saveFileDialog.FileName);
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(saveFileDialog.FileName))
+                    WorkBook.SaveAs(saveFileDialog.FileName);
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+                return false;
+            }
             
             return true;
         }
-
+        /// <summary>
+        /// Генерация итоговой таблицы систем
+        /// </summary>
+        /// <param name="offer"></param>
+        /// <returns></returns>
         private DataTable GetSumaryTable(Offers offer)
         {
             DataTable table = new DataTable();
@@ -374,7 +487,11 @@ namespace Designer_Offer.Services
 
             return table;
         }
-
+        /// <summary>
+        /// Генерация таблицы материалов для систем
+        /// </summary>
+        /// <param name="part"></param>
+        /// <returns></returns>
         private DataTable GetProductTable(Parts part)
         {
             DataTable table = new DataTable();
@@ -405,7 +522,11 @@ namespace Designer_Offer.Services
 
             return table;
         }
-
+        /// <summary>
+        /// Генерация таблицы работ для систем
+        /// </summary>
+        /// <param name="part"></param>
+        /// <returns></returns>
         private DataTable GetInstallTable(Parts part)
         {
             DataTable table = new DataTable();
@@ -435,10 +556,14 @@ namespace Designer_Offer.Services
 
             return table;
         }
+        #endregion
 
-        public ExportFileService(ICalculator _calcService)
+        #region КОНСТРУКТОРЫ
+        public ExportFileService(ICalculator _calcService, IUserDialog _userDialog)
         {
             CalculatorService = _calcService;
+            UserDialog = _userDialog;
         }
+        #endregion
     }
 }

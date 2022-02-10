@@ -15,6 +15,10 @@ namespace Designer_Offer.ViewModels
         /// </summary>
         private readonly IExportService ExportService;
 
+        /// <summary>
+        /// Сервис Диалогов
+        /// </summary>
+        private readonly IUserDialog UserDialog;
         #endregion
 
         #region СВОЙСТВА
@@ -121,14 +125,15 @@ namespace Designer_Offer.ViewModels
                 return;
             }
 
-            ///Экспорт удался
+            UserDialog.ShowInformation($"Экспорт КП {offer_to_export.Name} выполнен успешно!", "Информация");
         }
         #endregion
 
         #region КОНСТРУКТОРЫ
-        public WorkWindowViewModel(IExportService _exportService)
+        public WorkWindowViewModel(IExportService _exportService, IUserDialog _userDialog)
         {
             ExportService = _exportService;
+            UserDialog = _userDialog;
 
             ShowProjectManager = new LambdaCommand(OnShowProjectManagerCommand, CanShowProjectManagerCommand);
             ShowCompanyManager = new LambdaCommand(OnShowCompanyManagerCommand, CanShowCompanyManagerCommand);
