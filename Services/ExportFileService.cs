@@ -10,6 +10,8 @@ using System.Linq;
 using Microsoft.Win32;
 using System.Data;
 using Designer_Offer.Models;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace Designer_Offer.Services
 {
@@ -20,12 +22,10 @@ namespace Designer_Offer.Services
         /// Обьект closedXML;
         /// </summary>
         private XLWorkbook WorkBook;
-
         /// <summary>
         /// Сервис калькуляции цен
         /// </summary>
         private readonly ICalculator CalculatorService;
-
         /// <summary>
         /// Сервис Диалогов
         /// </summary>
@@ -38,7 +38,7 @@ namespace Designer_Offer.Services
         /// </summary>
         /// <param name="offer"></param>
         /// <returns></returns>
-        public bool ExportToExcel(Offers offer)
+        public async Task<bool> ExportToExcelAsync(Offers offer, CancellationToken Cancel = default)
         {
             bool isGenSumarySheet, isGenInternalUseColumns;
 
@@ -64,6 +64,30 @@ namespace Designer_Offer.Services
 
             isGenInternalUseColumns = export_model.InternalUse;
 
+            try
+            {
+                return await Task.Run(() => CreateWorkBook(offer, isGenSumarySheet, isGenInternalUseColumns));
+            }
+            catch (Exception e)
+            {
+                UserDialog.ShowError(e.Message, "Ошибка");
+                return false;
+            }
+            finally
+            {
+                App.Host.Services.GetRequiredService<ProjectManagerViewModel>().Progress = false;
+            }
+        }
+        /// <summary>
+        /// Создание книги и сохранение файла
+        /// </summary>
+        /// <param name="offer"></param>
+        /// <param name="saveFileDialog"></param>
+        /// <param name="isGenSumarySheet"></param>
+        /// <param name="isGenInternalUseColumns"></param>
+        /// <returns></returns>
+        private bool CreateWorkBook(Offers offer, bool isGenSumarySheet, bool isGenInternalUseColumns)
+        {
             SaveFileDialog saveFileDialog = new SaveFileDialog()
             {
                 Title = "Сохранить как",
@@ -77,6 +101,8 @@ namespace Designer_Offer.Services
                 return false;
             }
 
+            App.Host.Services.GetRequiredService<ProjectManagerViewModel>().Progress = true;
+
             WorkBook = App.Host.Services.GetRequiredService<XLWorkbook>();
 
             if (isGenSumarySheet)
@@ -85,7 +111,7 @@ namespace Designer_Offer.Services
 
                 try
                 {
-                   ws = WorkBook.AddWorksheet("ИТОГО");
+                    ws = WorkBook.AddWorksheet("ИТОГО");
                 }
                 catch (Exception e)
                 {
@@ -171,7 +197,7 @@ namespace Designer_Offer.Services
                 sumaryTable.Rows().Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                 sumaryTable.Rows().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                 sumaryTable.Rows().Style.Font.FontSize = 12;
-                
+
                 foreach (var row in sumaryTable.Rows())
                 {
                     ws.Row(row.RangeAddress.FirstAddress.RowNumber).Height = 30;
@@ -199,7 +225,7 @@ namespace Designer_Offer.Services
                     $"{sumaryTable.Field(7).TotalsCell.Address}-" +
                     $"{sumaryTable.Field(4).TotalsCell.Address})/" +
                     $"{sumaryTable.Field(7).TotalsCell.Address}";
-                
+
                 var percentCell = sumaryTable.Field(3).TotalsCell;
                 percentCell.Style.NumberFormat.NumberFormatId = 10;
 
@@ -263,13 +289,13 @@ namespace Designer_Offer.Services
                 ws.PageSetup.PrintAreas.Add(ws.FirstCell().Address, ws.LastCell().Address);
                 ws.PageSetup.PageOrientation = XLPageOrientation.Portrait;
                 ws.PageSetup.FitToPages(1, 0);
-                
+
                 if (!isGenInternalUseColumns)
                 {
                     ws.Columns(4, 5).Hide();
                 }
             }
-            
+
             foreach (Parts item in offer.Parts)
             {
                 IXLWorksheet ss;
@@ -283,7 +309,7 @@ namespace Designer_Offer.Services
                     UserDialog.ShowError(e.Message, "Ошибка");
                     return false;
                 }
-                
+
                 ss.Column("A").Width = 5; ss.Column("B").Width = 50;
                 ss.Column("C").Width = 18; ss.Column("D").Width = 11;
                 ss.Column("E").Width = 15; ss.Column("F").Width = 15;
@@ -359,7 +385,7 @@ namespace Designer_Offer.Services
                 installTable.Rows().Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                 installTable.Rows().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                 installTable.Rows().Style.Font.FontSize = 12;
-                
+
                 foreach (var row in installTable.Rows())
                 {
                     ss.Row(row.RangeAddress.FirstAddress.RowNumber).Height = 30;
@@ -374,7 +400,7 @@ namespace Designer_Offer.Services
                     sum_in.FormulaA1 = $"={row.Cell(5).Address}*{row.Cell(7).Address}";
                     sum_out.FormulaA1 = $"={row.Cell(7).Address}*{row.Cell(8).Address}";
                 }
-                
+
                 ss.Row(installTable.TotalsRow().RowNumber()).Height = 25;
 
                 installTable.Field(5).TotalsRowFunction = XLTotalsRowFunction.Sum;
@@ -459,13 +485,12 @@ namespace Designer_Offer.Services
                 ss.PageSetup.PrintAreas.Add(ss.FirstCell().Address, ss.LastCell().Address);
                 ss.PageSetup.PageOrientation = XLPageOrientation.Portrait;
                 ss.PageSetup.FitToPages(1, 0);
-                
+
                 if (!isGenInternalUseColumns)
                 {
                     ss.Columns(5, 6).Hide();
                 }
             }
-
             try
             {
                 if (!string.IsNullOrWhiteSpace(saveFileDialog.FileName))
@@ -476,9 +501,10 @@ namespace Designer_Offer.Services
                 UserDialog.ShowError(e.Message, "Ошибка");
                 return false;
             }
-            
+
             return true;
         }
+
         /// <summary>
         /// Генерация итоговой таблицы систем
         /// </summary>

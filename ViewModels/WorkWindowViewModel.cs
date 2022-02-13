@@ -116,11 +116,11 @@ namespace Designer_Offer.ViewModels
                 ReferenceEquals(CurrentModel, App.Host.Services.GetRequiredService<ProjectManagerViewModel>());
         }
 
-        private void OnExportToExcel(object p)
+        private async void OnExportToExcel(object p)
         {
             Offers offer_to_export = App.Host.Services.GetRequiredService<ProjectManagerViewModel>().SelectedOffer;
 
-            if (!ExportService.ExportToExcel(offer_to_export))
+            if (await ExportService.ExportToExcelAsync(offer_to_export) == false)
             {
                 return;
             }
