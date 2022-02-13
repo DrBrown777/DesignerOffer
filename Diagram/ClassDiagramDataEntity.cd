@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Designer_Offer.Data.Builds" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAACAAAAQAAAgEAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Data\Builds.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.Data.Categories" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAIAAEAAAAAAAAQ=</HashCode>
+      <FileName>Data\Categories.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.Data.Clients" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\Clients.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.Data.Configs" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAQAAAAAAAAAAgAAAAAAAAAAAQAAAACABA=</HashCode>
+      <FileName>Data\Configs.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.152" />
+  </Class>
+  <Class Name="Designer_Offer.Data.Installs" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAASABAAAAAAAAAAAAAAAAQAAAAAEAQAEAAAAEAAAAA=</HashCode>
+      <FileName>Data\Installs.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.Data.Manufacturers" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Data\Manufacturers.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.Data.Offers" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAEAABAAAABAAAAQAAAAAAAABAEABAAAAARA=</HashCode>
+      <FileName>Data\Offers.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.Data.Parts" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAASAAAAAAAQAAIAAAAAAAQAAAAAAAAAAAgAAAAAABA=</HashCode>
+      <FileName>Data\Parts.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="Designer_Offer.Data.Products" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3.75" Y="6.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAACABAAAAAAAIAAAAAAAAQAAAAAEAQAFAgAAEAAAAA=</HashCode>
+      <FileName>Data\Products.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.Data.Projects" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAQAAAAAAAAAAQACAAEgAABAAAAAAAAAAA=</HashCode>
+      <FileName>Data\Projects.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.Data.Suppliers" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Data\Suppliers.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.Data.UsersData" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAACAAAAAACAAAQAAAAAAA=</HashCode>
+      <FileName>Data\UsersData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.Data.PrimeContext">
+    <Position X="1.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAEAQAYAgADAAAAAAGAAgkAIAFEgAAAAAAQQ=</HashCode>
+      <FileName>Data\PrimeContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Data.Entity.DbContext" Collapsed="true">
+    <Position X="1.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.Models.Base.Model">
+    <Position X="8.5" Y="1.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAIAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Base\Model.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.Data.Companies" Collapsed="true">
+    <Position X="3.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAwgAAAIAQACAgBAAAAAAAAIQAAAAA=</HashCode>
+      <FileName>Data\Companies.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.Data.Employees" Collapsed="true">
+    <Position X="5.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIACAAAAAAAAQQAwgAAAAAIBAAAgAABAAABAIQAAAQA=</HashCode>
+      <FileName>Data\Employees.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.Data.InstallPart" Collapsed="true">
+    <Position X="7.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAgAAAAAAAAABEACASAAAIAAAIAAAIAAEGAIBA=</HashCode>
+      <FileName>Data\InstallPart.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.Data.Positions" Collapsed="true">
+    <Position X="9.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAIAQACAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\Positions.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.Data.ProductPart" Collapsed="true">
+    <Position X="11.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAgAAAAAAAAABEACASAAAAAAAAAAAIAAEHAIBQ=</HashCode>
+      <FileName>Data\ProductPart.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.Data.Sections" Collapsed="true">
+    <Position X="13.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAQAAAAAAAAIAQAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\Sections.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.Data.Units" Collapsed="true">
+    <Position X="15.5" Y="4.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAIAQAAAAAAAIAAAAAAAAAAAQ=</HashCode>
+      <FileName>Data\Units.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Designer_Offer.Services.Interfaces.IEntity">
+    <Position X="6.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Interfaces\IEntity.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="System.ICloneable">
+    <Position X="4" Y="1.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="System.ComponentModel.INotifyPropertyChanged">
+    <Position X="11" Y="1.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

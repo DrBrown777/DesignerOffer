@@ -502,6 +502,13 @@
     <None Include="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Diagram\ClassDiagramApp.cd" />
+    <None Include="Diagram\ClassDiagramDbRepository.cd" />
+    <None Include="Diagram\ClassDiagramServices.cd" />
+    <None Include="Diagram\ClassDiagramPriceModel.cd" />
+    <None Include="Diagram\ClassDiagramInfrastructure.cd" />
+    <None Include="Diagram\ClassDiagramDataEntity.cd" />
+    <None Include="Diagram\ClassDiagramViewModel.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

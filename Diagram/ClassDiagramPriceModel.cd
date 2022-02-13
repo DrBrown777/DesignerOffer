@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Designer_Offer.Models.Price">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAQAAgABAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Base\Price.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.Models.OfferPrice">
+    <Position X="2" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAQAAAABAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\OfferPrice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.Models.PartPrice">
+    <Position X="4" Y="3.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAQAAAAACAAAAAQCAQABIAAQAAAEAAAAAAgAA=</HashCode>
+      <FileName>Models\PartPrice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.Models.TotalInstallPrice">
+    <Position X="6.25" Y="3.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAQAAAAACAAAAAQAAAABAAAQAAAAAAgCAAAAA=</HashCode>
+      <FileName>Models\TotalInstallPrice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.Models.TotalProductPrice">
+    <Position X="8.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAQAAAABAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\TotalProductPrice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

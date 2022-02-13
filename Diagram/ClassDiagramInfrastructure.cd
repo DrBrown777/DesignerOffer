@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Designer_Offer.Infrastructure.Commands.Base.Command">
+    <Position X="5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAQAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\Commands\Base\Command.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.Infrastructure.Commands.CloseApplicationCommand">
+    <Position X="2.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\Commands\CloseApplicationCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.Infrastructure.Commands.DialogResultCommand">
+    <Position X="5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAQAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\Commands\DialogResultCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.Infrastructure.Commands.LambdaCommand">
+    <Position X="7.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQCAAAAAAQAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\Commands\LambdaCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.Infrastructure.Converters.Base.Converter">
+    <Position X="0.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\Converters\Base\Converter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.Infrastructure.Converters.DecimalToStringConverter">
+    <Position X="0.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\Converters\DecimalToStringConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Windows.Controls.ValidationRule">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Designer_Offer.Infrastructure.Validations.UniqPhoneValidationRule">
+    <Position X="2.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAASAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\Validations\UniqPhoneValidationRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.Infrastructure.Validations.NotEmptyValidationRule">
+    <Position X="4.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\Validations\NotEmptyValidationRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.Infrastructure.Validations.NotNumberValidationRule">
+    <Position X="7" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\Validations\NotNumberValidationRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.Infrastructure.Validations.NotValidEmailValidationRule">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\Validations\NotValidEmailValidationRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.Infrastructure.Validations.NotValidPhoneValidationRule">
+    <Position X="11" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\Validations\NotValidPhoneValidationRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.Infrastructure.Validations.UniqEmailValidationRule">
+    <Position X="9.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAASAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\Validations\UniqEmailValidationRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.Infrastructure.Validations.UniqLoginValidationRule">
+    <Position X="4.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAASAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\Validations\UniqLoginValidationRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="System.Windows.Input.ICommand">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="System.Windows.Data.IValueConverter">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

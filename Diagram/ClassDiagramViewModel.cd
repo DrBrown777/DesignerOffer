@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Designer_Offer.ViewModels.Base.ViewModel">
+    <Position X="7.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAABABAIAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\Base\ViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.BuildEditorViewModel" Collapsed="true">
+    <Position X="0.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAIAAACQAKAQAAAgBAAAAAAAAAAAACAA=</HashCode>
+      <FileName>ViewModels\BuildEditorViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.CategoryEditorViewModel" Collapsed="true">
+    <Position X="2.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAACACAAAAAAAAEAAAIAQAACAAAAQAAEAEAAEIAAA=</HashCode>
+      <FileName>ViewModels\CategoryEditorViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.ClientEditorViewModel" Collapsed="true">
+    <Position X="5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\ClientEditorViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.CompanyEditorViewModel" Collapsed="true">
+    <Position X="7.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAACBAAAAwAAQAIEQAABEBAAACAAAAICACQAA=</HashCode>
+      <FileName>ViewModels\CompanyEditorViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.CompanyManagerViewModel" Collapsed="true">
+    <Position X="9.5" Y="6.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>B0EQBgAMIJAEAkQkCYGIKwATDKAgBKwAAeqiQACIFwA=</HashCode>
+      <FileName>ViewModels\CompanyManagerViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.EmployeeEditorViewModel" Collapsed="true">
+    <Position X="11.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EEAQIAAAgGAAIIAgCCIAAAAQAAAgAAAAAQoACBoAAAA=</HashCode>
+      <FileName>ViewModels\EmployeeEditorViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.ExportViewModel" Collapsed="true">
+    <Position X="14" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAACAAECAAAIBAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\ExportViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.InstallEditorViewModel" Collapsed="true">
+    <Position X="16.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAEAAACAQAhAAAIAQAACAAEAAAEAQAAAAAAAA=</HashCode>
+      <FileName>ViewModels\InstallEditorViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.LoginViewModel" Collapsed="true">
+    <Position X="0.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBBAAEAGAAAEQAAAAAAAAQAISgABAAAAAQBACAIAA=</HashCode>
+      <FileName>ViewModels\LoginViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.MainWindowViewModel">
+    <Position X="2.75" Y="8" Width="2" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAEFAAAAAAAAAAAAAAAACBAAAAAAAAAgAgAAYnAACA=</HashCode>
+      <FileName>ViewModels\MainWindowViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.ManufacturerEditorViewModel" Collapsed="true">
+    <Position X="5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\ManufacturerEditorViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.OfferInitViewModel" Collapsed="true">
+    <Position X="7.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIBAAAAAAAAAEQIAQAQAAAAAYAAGACAAAAAIA=</HashCode>
+      <FileName>ViewModels\OfferInitViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.OfferManagerViewModel" Collapsed="true">
+    <Position X="9.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIxgAVIJoGIEQAARCDygIis5gCgQMKAApAoQCACEQ=</HashCode>
+      <FileName>ViewModels\OfferManagerViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.PartManagerViewModel">
+    <Position X="11.5" Y="8" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAoCBWABJhABAAAAB0CIIgQAggECys8IAAIAAABMIAQ=</HashCode>
+      <FileName>ViewModels\PartManagerViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.PositionEditorViewModel" Collapsed="true">
+    <Position X="14" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\PositionEditorViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.ProductEditorViewModel">
+    <Position X="17.25" Y="8" Width="2" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ICAgAAAAEAAECIQAjAEAYAQAACAAEACAFAwAAQAQIMA=</HashCode>
+      <FileName>ViewModels\ProductEditorViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.ProjectManagerViewModel" Collapsed="true">
+    <Position X="0.5" Y="9.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>TBUlhgAEoqBW3dQmCbScCkSCi8CZoAQB1GtCBKCBKAI=</HashCode>
+      <FileName>ViewModels\ProjectManagerViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.RegistrationViewModel">
+    <Position X="6.75" Y="10.75" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <InheritanceLine Type="Designer_Offer.ViewModels.Base.ViewModel" ManuallyRouted="true">
+      <Path>
+        <Point X="8.75" Y="2.891" />
+        <Point X="8.75" Y="4.375" />
+        <Point X="7" Y="4.375" />
+        <Point X="7" Y="8.7" />
+        <Point X="8" Y="8.7" />
+        <Point X="8" Y="10.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>EEQQBEAEgGABIMQgCCIAAAAQAIAgAAQgAwoDCBgAAAA=</HashCode>
+      <FileName>ViewModels\RegistrationViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.SectionEditorViewModel">
+    <Position X="5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\SectionEditorViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.ServiceManagerViewModel" Collapsed="true">
+    <Position X="7.25" Y="9.5" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>LbAzxlBXKKg+KsQAjADJKgaasqgA07uaVAogwCGOIEQ=</HashCode>
+      <FileName>ViewModels\ServiceManagerViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.SupplierEditorViewModel">
+    <Position X="9.5" Y="9.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\SupplierEditorViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.UnitEditorViewModel">
+    <Position X="9.5" Y="11.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\UnitEditorViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.WorkWindowViewModel">
+    <Position X="14.25" Y="9.5" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAEAAAAAQgQAAAAeBIAAAEIAIIAAAUgAAA=</HashCode>
+      <FileName>ViewModels\WorkWindowViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Designer_Offer.ViewModels.ViewModelLocator">
+    <Position X="13.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAADAAgAAAIAABACoIoQAAIAASAAAAAAAQBEMAA=</HashCode>
+      <FileName>ViewModels\ViewModelLocator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Designer_Offer.Services.ILoginService">
+    <Position X="3" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAEAAAAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Interfaces\ILoginService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="System.IDisposable">
+    <Position X="11" Y="1" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="System.ComponentModel.INotifyPropertyChanged">
+    <Position X="11" Y="2.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="Designer_Offer.ViewModels.IRegistrationService">
+    <Position X="3" Y="3" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Services\Interfaces\IRegistrationService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
