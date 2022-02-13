@@ -1,16 +1,12 @@
+using Designer_Offer.Models.Base;
+using Designer_Offer.Services.Interfaces;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
 namespace Designer_Offer.Data
 {
-    using Designer_Offer.Models.Base;
-    using Designer_Offer.Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
-
     public partial class Employees : Model, IEntity
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Employees()
         {
             Projects = new HashSet<Projects>();
@@ -43,8 +39,8 @@ namespace Designer_Offer.Data
         private string _Phone;
         [Required]
         [StringLength(20)]
-        public string Phone 
-        { 
+        public string Phone
+        {
             get => _Phone; 
             set => Set(ref _Phone, value); 
         }
@@ -62,7 +58,6 @@ namespace Designer_Offer.Data
 
         public virtual Positions Positions { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Projects> Projects { get; set; }
 
         public virtual UsersData UsersData { get; set; }

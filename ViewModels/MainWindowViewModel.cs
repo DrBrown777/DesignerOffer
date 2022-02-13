@@ -118,7 +118,7 @@ namespace Designer_Offer.ViewModels
 
             UserDialog = userDialog;
 
-            LoginView = loginView; 
+            LoginView = loginView;
             RegistrationView = registrationView;
 
             LoadLoginPage = new LambdaCommand(OnLoadLoginPage, CanLoadLoginPage);

@@ -1,16 +1,12 @@
+using Designer_Offer.Models.Base;
+using Designer_Offer.Services.Interfaces;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
 namespace Designer_Offer.Data
 {
-    using Designer_Offer.Models.Base;
-    using Designer_Offer.Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
-
     public partial class Companies : Model, IEntity
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Companies()
         {
             Employees = new HashSet<Employees>();
@@ -39,10 +35,8 @@ namespace Designer_Offer.Data
         [StringLength(30)]
         public string Mail { get => _Mail; set => Set(ref _Mail, value); }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employees> Employees { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Positions> Positions { get; set; }
     }
 }

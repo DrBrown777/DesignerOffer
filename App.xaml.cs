@@ -143,30 +143,20 @@ namespace Designer_Offer
             /*Регистрация репозиториев сущностей базы данных*/
             services.AddSingleton<PrimeContext>();
 
-            //services.AddTransient<IRepository<Build>, DbRepository<Build>>();
             services.AddTransient<IRepository<Builds>, BuildRepository>();
             services.AddTransient<IRepository<Categories>, DbRepository<Categories>>();
-            //services.AddTransient<IRepository<Client>, DbRepository<Client>>();
             services.AddTransient<IRepository<Clients>, ClientRepository>();
             services.AddTransient<IRepository<Companies>, DbRepository<Companies>>();
             services.AddTransient<IRepository<Configs>, DbRepository<Configs>>();
-            //services.AddTransient<IRepository<Employee>, DbRepository<Employee>>();
             services.AddTransient<IRepository<Employees>, EmployeeRepository>();
             services.AddTransient<IRepository<Installs>, DbRepository<Installs>>();
-            //services.AddTransient<IRepository<InstallPart>, DbRepository<InstallPart>>();
-            //services.AddTransient<IRepository<Manufacturer>, DbRepository<Manufacturer>>();
             services.AddTransient<IRepository<Manufacturers>, ManufacturerRepository>();
-            //services.AddTransient<IRepository<Offer>, DbRepository<Offer>>();
             services.AddTransient<IRepository<Offers>, OfferRepository>();
-            //services.AddTransient<IRepository<Parts>, DbRepository<Parts>>();
             services.AddTransient<IRepository<Parts>, PartsRepository>();
             services.AddTransient<IRepository<Positions>, DbRepository<Positions>>();
-            //services.AddTransient<IRepository<Product>, DbRepository<Product>>();
             services.AddTransient<IRepository<Products>, ProductRepository>();
-            //services.AddTransient<IRepository<ProductPart>, DbRepository<ProductPart>>();
             services.AddTransient<IRepository<Projects>, DbRepository<Projects>>();
             services.AddTransient<IRepository<Sections>, DbRepository<Sections>>();
-            //services.AddTransient<IRepository<Supplier>, DbRepository<Supplier>>();
             services.AddTransient<IRepository<Suppliers>, SupplierRepository>();
             services.AddTransient<IRepository<Units>, DbRepository<Units>>();
             services.AddTransient<IRepository<UsersData>, DbRepository<UsersData>>();

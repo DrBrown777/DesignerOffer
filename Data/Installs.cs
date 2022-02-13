@@ -1,15 +1,11 @@
+using Designer_Offer.Services.Interfaces;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
 namespace Designer_Offer.Data
 {
-    using Designer_Offer.Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
-
     public partial class Installs : IEntity
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Installs()
         {
             InstallPart = new HashSet<InstallPart>();
@@ -29,7 +25,6 @@ namespace Designer_Offer.Data
 
         public virtual Categories Categories { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InstallPart> InstallPart { get; set; }
 
         public virtual Units Units { get; set; }

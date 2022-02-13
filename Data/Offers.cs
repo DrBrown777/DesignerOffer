@@ -1,16 +1,13 @@
+using Designer_Offer.Services.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Designer_Offer.Data
 {
-    using Designer_Offer.Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
-    using System.Linq;
-
     public partial class Offers : IEntity, ICloneable
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Offers()
         {
             Parts = new HashSet<Parts>();
@@ -34,7 +31,6 @@ namespace Designer_Offer.Data
 
         public virtual Sections Sections { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Parts> Parts { get; set; }
 
         public object Clone()

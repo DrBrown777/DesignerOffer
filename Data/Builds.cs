@@ -1,12 +1,8 @@
+using Designer_Offer.Services.Interfaces;
+using System.ComponentModel.DataAnnotations;
+
 namespace Designer_Offer.Data
 {
-    using Designer_Offer.Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
-
     public partial class Builds : IEntity
     {
         public int Id { get; set; }

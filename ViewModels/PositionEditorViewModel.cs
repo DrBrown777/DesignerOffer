@@ -4,6 +4,7 @@ namespace Designer_Offer.ViewModels
 {
     internal class PositionEditorViewModel : ViewModel
     {
+        #region СВОЙСТВА
         private string _Name;
         /// <summary>
         /// Название должности
@@ -13,5 +14,6 @@ namespace Designer_Offer.ViewModels
             get => _Name;
             set => Set(ref _Name, value);
         }
+        #endregion
     }
 }

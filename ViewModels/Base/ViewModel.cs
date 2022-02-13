@@ -23,11 +23,6 @@ namespace Designer_Offer.ViewModels.Base
             return true;
         }
 
-        //~ViewModel()
-        //{
-        //    Dispose(false);
-        //}
-
         public void Dispose()
         {
             Dispose(true);

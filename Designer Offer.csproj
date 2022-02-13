@@ -255,7 +255,7 @@
     <Compile Include="Models\Base\Model.cs" />
     <Compile Include="Models\OfferPrice.cs" />
     <Compile Include="Models\PartPrice.cs" />
-    <Compile Include="Models\Price.cs" />
+    <Compile Include="Models\Base\Price.cs" />
     <Compile Include="Models\TotalInstallPrice.cs" />
     <Compile Include="Models\TotalProductPrice.cs" />
     <Compile Include="Program.cs" />

@@ -64,7 +64,7 @@ namespace Designer_Offer.Services.Repositories
             var item = Get(id);
 
             if (item is null) return;
-            //_db.Entry(item).State = EntityState.Deleted;
+            
             _db.Set<T>().Remove(item);
 
             if (AutoSaveChanges)
@@ -76,7 +76,7 @@ namespace Designer_Offer.Services.Repositories
             var item = Get(id);
 
             if (item is null) return;
-            //_db.Entry(item).State = EntityState.Deleted;
+            
             _db.Set<T>().Remove(item);
 
             if (AutoSaveChanges)

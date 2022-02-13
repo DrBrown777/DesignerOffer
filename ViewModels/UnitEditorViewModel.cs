@@ -4,6 +4,7 @@ namespace Designer_Offer.ViewModels
 {
     internal class UnitEditorViewModel : ViewModel
     {
+        #region СВОЙСТВА
         private string _Name;
         /// <summary>
         /// Наименование ед.измерения
@@ -13,5 +14,6 @@ namespace Designer_Offer.ViewModels
             get => _Name;
             set => Set(ref _Name, value);
         }
+        #endregion
     }
 }

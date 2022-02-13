@@ -1,12 +1,10 @@
+using Designer_Offer.Models.Base;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Designer_Offer.Data
 {
-    using Designer_Offer.Models.Base;
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
-
     [Table("ProductPart")]
     public partial class ProductPart : Model, ICloneable
     {
