@@ -391,7 +391,7 @@ namespace Designer_Offer.ViewModels
 
         private bool CanRemoveUser(object p)
         {
-            return (Employees)p != null && SelectedEmployee != null;
+            return (Employees)p != null && SelectedEmployee != null && !SelectedEmployee.Equals(CurrentUser);
         }
 
         private void OnRemoveUser(object p)
