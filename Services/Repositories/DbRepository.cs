@@ -80,7 +80,7 @@ namespace Designer_Offer.Services.Repositories
             _db.Set<T>().Remove(item);
 
             if (AutoSaveChanges)
-                await _db.SaveChangesAsync().ConfigureAwait(false);
+                await _db.SaveChangesAsync(Cancel).ConfigureAwait(false);
         }
 
         public void Update(T item)

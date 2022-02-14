@@ -21,5 +21,7 @@ namespace Designer_Offer.Services.Interfaces
         Task UpdateAsync(T item, CancellationToken Cancel = default);
 
         void Remove(int id);
+
+        Task RemoveAsync(int id, CancellationToken Cancel = default);
     }
 }

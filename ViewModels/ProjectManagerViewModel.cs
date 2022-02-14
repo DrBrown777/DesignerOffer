@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -544,7 +545,7 @@ namespace Designer_Offer.ViewModels
 
         private bool CanAddClient(object p) => true;
 
-        private void OnAddClient(object p)
+        private async void OnAddClient(object p)
         {
             var new_client = new Clients();
 
@@ -552,10 +553,11 @@ namespace Designer_Offer.ViewModels
             {
                 return;
             }
+            Progress = true;
 
             try
             {
-                Clients.Add(RepositoryClients.Add(new_client));
+                Clients.Add(await RepositoryClients.AddAsync(new_client));
             }
             catch (Exception e)
             {
@@ -564,6 +566,7 @@ namespace Designer_Offer.ViewModels
             finally
             {
                 SelectedClient = new_client;
+                Progress = false;
             }
         }
         /// <summary>
@@ -576,7 +579,7 @@ namespace Designer_Offer.ViewModels
             return (Clients)p != null && SelectedClient != null;
         }
 
-        private void OnEditClient(object p)
+        private async void OnEditClient(object p)
         {
             Clients client_to_edit = (Clients)p ?? SelectedClient;
 
@@ -585,9 +588,11 @@ namespace Designer_Offer.ViewModels
                 return;
             }
 
+            Progress = true;
+
             try
             {
-                RepositoryClients.Update(client_to_edit);
+                await RepositoryClients.UpdateAsync(client_to_edit);
             }
             catch (Exception e)
             {
@@ -598,6 +603,8 @@ namespace Designer_Offer.ViewModels
                 ClientsViewSource.View.Refresh();
 
                 SelectedClient = client_to_edit;
+
+                Progress = false;
             }
         }
         /// <summary>
@@ -610,7 +617,7 @@ namespace Designer_Offer.ViewModels
             return (Clients)p != null && SelectedClient != null;
         }
 
-        private void OnRemoveClient(object p)
+        private async void OnRemoveClient(object p)
         {
             Clients client_to_remove = (Clients)p ?? SelectedClient;
 
@@ -619,9 +626,11 @@ namespace Designer_Offer.ViewModels
                 return;
             }
 
+            Progress = true;
+
             try
             {
-                RepositoryClients.Remove(client_to_remove.Id);
+                await RepositoryClients.RemoveAsync(client_to_remove.Id);
             }
             catch (Exception e)
             {
@@ -635,6 +644,8 @@ namespace Designer_Offer.ViewModels
                 {
                     SelectedClient = null;
                 }
+
+                Progress = false;
             }
         }
 
@@ -648,7 +659,7 @@ namespace Designer_Offer.ViewModels
             return (Clients)p != null && SelectedClient != null;
         }
 
-        private void OnAddBuild(object p)
+        private async void OnAddBuild(object p)
         {
             Projects new_project = new Projects
             {
@@ -667,11 +678,13 @@ namespace Designer_Offer.ViewModels
                 return;
             }
 
+            Progress = true;
+
             try
             {
                 SelectedClient.Builds.Add(new_build);
 
-                RepositoryClients.Update(SelectedClient);
+                await RepositoryClients.UpdateAsync(SelectedClient);
             }
             catch (Exception e)
             {
@@ -686,6 +699,8 @@ namespace Designer_Offer.ViewModels
                 OnPropertyChanged(nameof(ClientsView));
 
                 SelectedBuild = new_build;
+
+                Progress = false;
             }
         }
         /// <summary>
@@ -698,7 +713,7 @@ namespace Designer_Offer.ViewModels
             return (Builds)p != null && SelectedBuild != null && SelectedClient != null;
         }
 
-        private void OnEditBuild (object p)
+        private async void OnEditBuild (object p)
         {
             Builds build_to_edit = (Builds)p ?? SelectedBuild;
 
@@ -707,9 +722,11 @@ namespace Designer_Offer.ViewModels
                 return;
             }
 
+            Progress = true;
+
             try
             {
-                RepositoryClients.Update(build_to_edit.Clients);
+                 await RepositoryClients.UpdateAsync(build_to_edit.Clients);
             }
             catch (Exception e)
             {
@@ -725,6 +742,8 @@ namespace Designer_Offer.ViewModels
 
                 SelectedClient = build_to_edit.Clients;
                 SelectedBuild = build_to_edit;
+
+                Progress = false;
             }
         }
         /// <summary>
@@ -737,7 +756,7 @@ namespace Designer_Offer.ViewModels
             return (Builds)p != null && SelectedBuild != null && SelectedClient != null;
         }
 
-        private void OnRemoveBuild (object p)
+        private async void OnRemoveBuild (object p)
         {
             Builds build_to_remove = (Builds)p ?? SelectedBuild;
 
@@ -746,13 +765,13 @@ namespace Designer_Offer.ViewModels
                 return;
             }
 
+            Progress = true;
+
             try
             {
                 SelectedClient.Builds.Remove(build_to_remove);
 
-                RepositoryClients.Update(SelectedClient);
-
-                RepositoryBuilds.Remove(build_to_remove.Id);
+                await RepositoryBuilds.RemoveAsync(build_to_remove.Id);
             }
             catch (Exception e)
             {
@@ -770,6 +789,8 @@ namespace Designer_Offer.ViewModels
                 {
                     SelectedBuild = null;
                 }
+
+                Progress = false;
             }
         }
         /// <summary>
@@ -782,7 +803,7 @@ namespace Designer_Offer.ViewModels
             return (Builds)p != null && SelectedBuild != null;
         }
 
-        private void OnAddOffer(object p)
+        private async void OnAddOffer(object p)
         {
             Configs config = new Configs()
             {
@@ -802,9 +823,11 @@ namespace Designer_Offer.ViewModels
                 return;
             }
 
+            Progress = true;
+
             try
             {
-                Offers.Add(RepositoryOffer.Add(new_offer));
+                Offers.Add(await RepositoryOffer.AddAsync(new_offer));
             }
             catch (Exception e)
             {
@@ -817,6 +840,8 @@ namespace Designer_Offer.ViewModels
                 OnPropertyChanged(nameof(SelectedBuild.Projects.Offers));
 
                 SelectedOffer = new_offer;
+
+                Progress = false;
             }
         }
         /// <summary>
@@ -869,7 +894,7 @@ namespace Designer_Offer.ViewModels
             return (Offers)p != null && SelectedBuild != null && SelectedOffer != null;
         }
 
-        private void OnEditOffer(object p)
+        private async void OnEditOffer(object p)
         {
             Offers offer_to_edit = (Offers)p ?? SelectedOffer;
 
@@ -877,6 +902,8 @@ namespace Designer_Offer.ViewModels
             {
                 return;
             }
+
+            Progress = true;
 
             try
             {
@@ -887,7 +914,7 @@ namespace Designer_Offer.ViewModels
                     offer_to_edit.Projects.Employee_Id = CurrentUser.Id;
                 }
 
-                RepositoryOffer.Update(offer_to_edit);
+                await RepositoryOffer.UpdateAsync(offer_to_edit);
             }
             catch (Exception e)
             {
@@ -900,6 +927,8 @@ namespace Designer_Offer.ViewModels
                 OnPropertyChanged(nameof(SelectedBuild.Projects.Offers));
 
                 SelectedOffer = offer_to_edit;
+
+                Progress = false;
             }
         }
         /// <summary>
@@ -912,7 +941,7 @@ namespace Designer_Offer.ViewModels
             return (Offers)p != null && SelectedBuild != null && SelectedOffer != null;
         }
 
-        private void OnRemoveOffer(object p)
+        private async void OnRemoveOffer(object p)
         {
             Offers offer_to_remove = (Offers)p ?? SelectedOffer;
 
@@ -920,12 +949,13 @@ namespace Designer_Offer.ViewModels
             {
                 return;
             }
+            Progress = true;
 
             try
             {
-                RepositoryOffer.Remove(offer_to_remove.Id);
-
                 SelectedBuild.Projects.Offers.Remove(offer_to_remove);
+
+                await RepositoryOffer.RemoveAsync(offer_to_remove.Id);
             }
             catch (Exception e)
             {
@@ -941,6 +971,8 @@ namespace Designer_Offer.ViewModels
                 {
                     SelectedOffer = null;
                 }
+
+                Progress = false;
             }
         }
         #endregion
@@ -967,12 +999,12 @@ namespace Designer_Offer.ViewModels
             {
                 return;
             }
-
+                
             collection.Clear();
 
             foreach (T item in list)
             {
-                collection.Add(item);
+               collection.Add(item);
             }
         }
         #endregion
