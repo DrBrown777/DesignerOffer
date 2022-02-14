@@ -39,6 +39,9 @@
                 <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=NameBox}" Value="True">
                     <Setter Property="IsEnabled" Value="False"/>
                 </DataTrigger>
+                <DataTrigger Binding="{Binding Path=SelectedItem, ElementName=CategorySections}" Value="{x:Null}">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="UniformGrid" TargetType="UniformGrid">

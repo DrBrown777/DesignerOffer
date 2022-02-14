@@ -46,6 +46,12 @@
                 <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=ProductPrice}" Value="True">
                     <Setter Property="IsEnabled" Value="False"/>
                 </DataTrigger>
+                <DataTrigger Binding="{Binding Path=SelectedItem, ElementName=Unit}" Value="{x:Null}">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=SelectedItem, ElementName=Category}" Value="{x:Null}">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="UniformGrid" TargetType="UniformGrid">
@@ -164,7 +170,7 @@
             <materialDesign:PackIcon 
                 Kind="Ruler"
                 Grid.Column="0" Grid.Row="3"/>
-            <ComboBox Style="{Binding Source={StaticResource ComboBox}}"
+            <ComboBox x:Name="Unit" Style="{Binding Source={StaticResource ComboBox}}"
                 ItemsSource="{Binding Path=Units, UpdateSourceTrigger=PropertyChanged}"
                 SelectedItem="{Binding Path=SelectedUnit}"
                 Grid.Column="1" Grid.Row="3"
@@ -175,7 +181,7 @@
             <materialDesign:PackIcon 
                 Kind="SetCenter"
                 Grid.Column="0" Grid.Row="4"/>
-            <ComboBox Style="{Binding Source={StaticResource ComboBox}}"
+            <ComboBox x:Name="Category" Style="{Binding Source={StaticResource ComboBox}}"
                 ItemsSource="{Binding Path=Categories, UpdateSourceTrigger=PropertyChanged}"
                 SelectedItem="{Binding Path=SelectedCategory}"
                 Grid.Column="1" Grid.Row="4"

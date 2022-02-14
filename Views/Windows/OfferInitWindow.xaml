@@ -42,6 +42,9 @@
                 <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=MarginAdmin}" Value="True">
                     <Setter Property="IsEnabled" Value="False"/>
                 </DataTrigger>
+                <DataTrigger Binding="{Binding Path=SelectedItem, ElementName=Section}" Value="{x:Null}">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="UniformGrid" TargetType="UniformGrid">
@@ -176,7 +179,7 @@
             <materialDesign:PackIcon 
                 Kind="SetCenter"
                 Grid.Column="0" Grid.Row="3"/>
-            <ComboBox Style="{Binding Source={StaticResource ComboBox}}"
+            <ComboBox x:Name="Section" Style="{Binding Source={StaticResource ComboBox}}"
                 ItemsSource="{Binding Path=Sections, UpdateSourceTrigger=PropertyChanged}"
                 SelectedItem="{Binding Path=SelectedSection}"
                 Grid.Column="1" Grid.Row="3"
