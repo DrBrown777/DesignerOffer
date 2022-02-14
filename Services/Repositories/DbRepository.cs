@@ -122,7 +122,8 @@ namespace Designer_Offer.Services.Repositories
     internal class EmployeeRepository : DbRepository<Employees>
     {
         public override IQueryable<Employees> Items => base.Items
-            .Include(item => item.UsersData);
+            .Include(item => item.UsersData)
+            .Include(item => item.Companies);
 
         public EmployeeRepository(PrimeContext db) : base(db) { }
     }
