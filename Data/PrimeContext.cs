@@ -1,11 +1,12 @@
+using Microsoft.Extensions.Configuration;
 using System.Data.Entity;
 
 namespace Designer_Offer.Data
 {
     public partial class PrimeContext : DbContext
     {
-        public PrimeContext()
-            : base("name=PrimeContext")
+        public PrimeContext(IConfiguration configuration)
+            : base(configuration.GetConnectionString("PrimeBuild"))
         {
         }
 
